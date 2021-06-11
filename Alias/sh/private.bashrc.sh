@@ -2,19 +2,12 @@ cddev() {
   cd ~/src
 }
 
-ffind()
-{
+ffind() {
   sudo find / -type f -iname "$@"
 }
 
-dfind()
-{
+dfind() {
   sudo find / -type d -iname "$@"
-}
-
-cdsamba()
-{
-  cd ~/Desktop/samba-shares	
 }
 
 random() {
@@ -32,12 +25,12 @@ random() {
   echo $(($tempminvar + ($randomvalvar % $tempmaxvar)))
 }
 
-removecontainers() {
+remove-containers() {
   docker stop $(docker ps -aq)
   docker rm $(docker ps -aq)
 }
 
-armageddon() {
+full-docker-clear() {
   removecontainers
   docker network prune -f
   docker rmi -f $(docker images --filter dangling=true -qa)
