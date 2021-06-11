@@ -5,16 +5,14 @@ Set-Alias g git
 
 function start-cdl($target)
 {
-    if($target.EndsWith(".lnk"))
-    {
-        $sh = new-object -com wscript.shell
-        $fullpath = resolve-path $target
-        $targetpath = $sh.CreateShortcut($fullpath).TargetPath
-        set-location $targetpath
-    }
-    else {
-        set-location $target
-    }
+  if($target.EndsWith(".lnk")) {
+    $sh = new-object -com wscript.shell
+    $fullpath = resolve-path $target
+    $targetpath = $sh.CreateShortcut($fullpath).TargetPath
+    set-location $targetpath
+  } else {
+    set-location $target
+  }
 }
 Set-Alias cdl "start-cdl"
 
