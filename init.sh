@@ -21,6 +21,7 @@ sudo apt-get install gpg git -y
 git submodule update --recursive --remote
 
 if [ -z $(which code) ]; then
+  # pulled from https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
   wget https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
   sudo dpkg -i ./vs_code.deb
   rm vs_code.deb
@@ -32,6 +33,8 @@ if [ -z $(which nvm) ]; then
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
   export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+  nvm install node
+  nvm use node
 fi
 
 if [ -z $(which pwsh) ]; then
