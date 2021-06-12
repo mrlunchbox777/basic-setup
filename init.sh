@@ -22,7 +22,7 @@ git submodule update --recursive --remote
 
 if [ -z $(which code) ]; then
   # pulled from https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
-  wget https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
+  wget -q https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
   sudo dpkg -i ./vs_code.deb
   rm vs_code.deb
   sudo apt-get install -f
@@ -44,7 +44,7 @@ if [ -z $(which pwsh) ]; then
   # Install pre-requisite packages.
   sudo apt-get install -y wget apt-transport-https software-properties-common
   # Download the Microsoft repository GPG keys
-  wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+  wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft.deb
   # Register the Microsoft repository GPG keys
   sudo dpkg -i packages-microsoft-prod.deb
   # Update the list of products
@@ -54,7 +54,13 @@ if [ -z $(which pwsh) ]; then
   # Install PowerShell
   sudo apt-get install -y powershell
   # Start PowerShell
-  pwsh
+  # pwsh
+  # Remove package
+  rm packages-microsoft.deb
+fi
+
+if [ -z $(which dotnet) ]; then
+  wget -qO- https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh | bash
 fi
 
 if [ -z $(grep "path = .*gitconfig" ~/.gitconfig) ]; then
