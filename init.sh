@@ -19,7 +19,7 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 # install stuff from apt
-sudo apt-get install firefox gpg git kleopatra terraform wget zsh -y
+sudo apt-get install bat firefox gpg git kleopatra terraform tmux wget zsh -y
 
 # grab submodules
 git submodule update --recursive --remote
