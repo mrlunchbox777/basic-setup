@@ -1,10 +1,24 @@
 # Init script for worskstation
 
+# Pulled from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+INITIAL_DIR="$(pwd)"
+cd "$DIR"
+
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 sudo apt-get install gpg git -y
+
+git submodule update --recursive --remote
 
 if [ -z $(which code) ]; then
   wget https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
@@ -39,3 +53,10 @@ if [ -z $(which pwsh) ]; then
   # Start PowerShell
   pwsh
 fi
+
+if [ -z $(grep "path = .*gitconfig" ~/.gitconfig) ]; then
+  echo -e "\n[include]\n  path = \"$DIR/gitconfig\"" >> ~/.gitconfig
+fi
+
+cd "$INITIAL_DIR"
+echo "init script complete, you should probably restart your terminal and/or your computer"

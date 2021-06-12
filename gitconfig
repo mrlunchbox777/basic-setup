@@ -1,18 +1,4 @@
 [include]
-	path = ~/.ssh/Alias/gitalias.txt
-[user]
-	email = mrlunchbox777@gmail.com
-	name = Andrew Shoell
-	signingkey = 82616D6F97584C1D
-[merge]
-	tool = p4mergetool
-[mergetool "p4mergetool"]
-	trustExitCode = false
-	cmd = \"p4merge.exe\" \"$BASE\" \"$REMOTE\" \"$LOCAL\" \"$MERGED\"
-[mergetool]
-	keepBackup = false
-[core]
-	eol = lf
-	autocrlf = input
+	path = gitalias/gitalias.txt
 [commit]
         gpgsign = true
