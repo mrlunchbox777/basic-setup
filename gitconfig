@@ -1,4 +1,4 @@
 [include]
-	path = gitalias/gitalias.txt
+  path = gitalias/gitalias.txt
 [commit]
-        gpgsign = true
+  gpgsign = true
