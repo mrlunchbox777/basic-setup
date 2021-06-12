@@ -9,17 +9,22 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# track directories
 INITIAL_DIR="$(pwd)"
 cd "$DIR"
 
+# update everything
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
-sudo apt-get install gpg git -y
+# install stuff from apt
+sudo apt-get install firefox gpg git wget zsh -y
 
+# grab submodules
 git submodule update --recursive --remote
 
+# install vscode
 if [ -z $(which code) ]; then
   # pulled from https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
   wget -q https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
@@ -28,6 +33,7 @@ if [ -z $(which code) ]; then
   sudo apt-get install -f
 fi
 
+# install nvm
 if [ -z $(which nvm) ]; then
   # pulled from https://github.com/nvm-sh/nvm#installing-and-updating
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
@@ -37,6 +43,7 @@ if [ -z $(which nvm) ]; then
   nvm use node
 fi
 
+# install powershell
 if [ -z $(which pwsh) ]; then
   # pulled from https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1#ubuntu-2004
   # Update the list of packages
@@ -59,13 +66,29 @@ if [ -z $(which pwsh) ]; then
   rm packages-microsoft.deb
 fi
 
+# install dotnet
 if [ -z $(which dotnet) ]; then
-  wget -qO- https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh | bash
+  # pulled from https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+  wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  sudo dpkg -i packages-microsoft-prod.deb
+  sudo apt-get update
+  sudo apt-get install -y apt-transport-https
+  sudo apt-get update
+  sudo apt-get install -y dotnet-sdk-5.0
+  sudo apt-get install -y aspnetcore-runtime-5.0
+  rm packages-microsoft-prod.deb
 fi
 
+# update the gitconfig
 if [ -z $(grep "path = .*gitconfig" ~/.gitconfig) ]; then
   echo -e "\n[include]\n  path = \"$DIR/gitconfig\"" >> ~/.gitconfig
 fi
 
+# change the default shell to zsh
+if [[ ! "$SHELL" =~ .*"zsh" ]]; then
+  chsh -s $(which zsh)
+fi
+
+# move back to original dir and update user
 cd "$INITIAL_DIR"
 echo "init script complete, you should probably restart your terminal and/or your computer"
