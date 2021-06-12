@@ -19,7 +19,7 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 # install stuff from apt
-sudo apt-get install firefox gpg git wget zsh -y
+sudo apt-get install firefox gpg git kleopatra terraform wget zsh -y
 
 # grab submodules
 git submodule update --recursive --remote
@@ -74,8 +74,7 @@ if [ -z $(which dotnet) ]; then
   sudo apt-get update
   sudo apt-get install -y apt-transport-https
   sudo apt-get update
-  sudo apt-get install -y dotnet-sdk-5.0
-  sudo apt-get install -y aspnetcore-runtime-5.0
+  sudo apt-get install -y dotnet-sdk-5.0 aspnetcore-runtime-5.0
   rm packages-microsoft-prod.deb
 fi
 
