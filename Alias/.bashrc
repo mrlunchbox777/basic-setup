@@ -1,10 +1,13 @@
-# add this to your ~/.bashrc
-# source ~/.ssh/Alias/.bashrc
+# Run all the bash scripts in the sh folder
+# no crunch bang because this is a fairly agnostic script
 
-source ~/.ssh/Alias/sh/git.bashrc.sh
-source ~/.ssh/Alias/sh/primary.bash_aliases.sh
-source ~/.ssh/Alias/sh/private.bashrc.sh
-source ~/.ssh/Alias/sh/env-var.bashrc.sh
-source ~/.ssh/Alias/sh/mount.bashrc.sh
+# Pulled from
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# ls Alias/sh | sed "s/.*/~\/src\/tools\/basic-setup\/Alias\/sh\/&/" | xargs --no-run-if-empty -I _ source _
+for f in $(ls $DIR/sh/); do source $DIR/sh/$f; done
