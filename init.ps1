@@ -3,9 +3,9 @@
 # Powershell on Linux
 if ($IsLinux) {
   # ensure tooling
-  sudo apt update -y
-  sudo apt install wget -y
-  sudo apt autoremove -y
+  sudo apt-get update -y
+  sudo apt-get install wget -y
+  sudo apt-get autoremove -y
 
   # run init
   sh -c "wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
@@ -14,6 +14,9 @@ if ($IsLinux) {
 # Powershell on Windows
 if ($IsWindows) {
   wsl --install -d ubuntu
+
+  # maybe install choco and other stuff
+    # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
 
   # run the init.sh in wsl
 }
