@@ -1,11 +1,6 @@
 # basic-setup
-basic box setup
 
-## WIP
-
-Some of this is rather old and needs to be cleaned up and actually maintained.
-
-You have been warned.
+Basic box setup, it's fairly customizable using powershell and will work on gui-based and headless systems. Open a pr if you want something added.
 
 ## Installation
 
