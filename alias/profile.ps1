@@ -3,4 +3,4 @@
 $microsoftPowershellProfilePrivateAliasScriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 $microsoftPowershellProfilePrivateAliasScriptDir = "$microsoftPowershellProfilePrivateAliasScriptDir/powershell"
 
-. $microsoftPowershellProfilePrivateAliasScriptDir\profile.primary.ps1
+. $microsoftPowershellProfilePrivateAliasScriptDir/profile.primary.ps1
