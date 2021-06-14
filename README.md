@@ -11,7 +11,7 @@ All of these will clone the repo and run the init script
 Clones to ~/src/tools/basic-setup
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | bash
+wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
 
 ### Install Using PowerShell
