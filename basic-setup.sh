@@ -8,7 +8,7 @@ mkdir -p ~/src/tools
 cd ~/src/tools
 
 sudo apt update -y
-sudo apt install git -y
+sudo apt install git bash -y
 sudo apt autoremove -y
 
 git clone https://github.com/mrlunchbox777/basic-setup
