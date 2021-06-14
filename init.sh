@@ -79,13 +79,18 @@ if [ -z $(which dotnet) ]; then
 fi
 
 # update the gitconfig
-if [ -z $(grep "path = .*gitconfig" ~/.gitconfig) ]; then
+if [ -z "$(grep 'path = .*gitconfig' ~/.gitconfig)" ]; then
   echo -e "\n[include]\n  path = \"$DIR/gitconfig\"" >> ~/.gitconfig
 fi
 
 # change the default shell to zsh
 if [[ ! "$SHELL" =~ .*"zsh" ]]; then
-  chsh -s $(which zsh)
+  echo "********************************************************"
+  echo "To change to zsh run the following:"
+  echo ""
+  echo 'chsh -s $(which zsh)'
+  echo ""
+  echo "********************************************************"
 fi
 
 # move back to original dir and update user
