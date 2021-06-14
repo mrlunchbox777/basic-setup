@@ -15,6 +15,6 @@ git clone https://github.com/mrlunchbox777/basic-setup
 
 cd basic-setup
 
-bash ./init.sh
+bash ./install/init.sh
 
 cd "$currentDir"
