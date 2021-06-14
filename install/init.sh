@@ -9,62 +9,50 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# Set variables
+should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
+should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
+should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
+should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
+
 # track directories
 INITIAL_DIR="$(pwd)"
 cd "$DIR"
 
 # update everything
-sudo apt-get update -y
-sudo apt-get upgrade -y
-sudo apt-get autoremove -y
+if [ "$should_do_full_update" == "true" ]; then
+  sudo apt-get update -y
+  sudo apt-get upgrade -y
+  sudo apt-get autoremove -y
+fi
 
 # install stuff from apt
 sudo apt-get install bat firefox gpg git kleopatra terraform tmux wget zsh -y
 
 # grab submodules
-git submodule update --recursive --remote
+if [ "$should_do_submodule_update" == "true" ]; then
+  git submodule update --recursive --remote
+fi
 
 # install vscode
-if [ -z $(which code) ]; then
-  # pulled from https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
-  wget -q https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
-  sudo dpkg -i ./vs_code.deb
-  rm vs_code.deb
-  sudo apt-get install -f
+if [ $should_install_code == "true" ]; then
+  source bash-installs/run-code-install.sh
+  run-code-install-basic-setup
 fi
 
 # install nvm
-if [ -z $(which nvm) ]; then
-  # pulled from https://github.com/nvm-sh/nvm#installing-and-updating
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-  export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-  nvm install node
-  nvm use node
+if [ $should_install_nvm == "true" ]; then
+  source bash-installs/run-nvm-install.sh
+  run-nvm-install-basic-setup
 fi
 
 # install powershell
-if [ -z $(which pwsh) ]; then
-  # pulled from https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1#ubuntu-2004
-  # Update the list of packages
-  sudo apt-get update
-  # Install pre-requisite packages.
-  sudo apt-get install -y wget apt-transport-https software-properties-common
-  # Download the Microsoft repository GPG keys
-  wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft.deb
-  # Register the Microsoft repository GPG keys
-  sudo dpkg -i packages-microsoft-prod.deb
-  # Update the list of products
-  sudo apt-get update
-  # Enable the "universe" repositories
-  sudo add-apt-repository universe
-  # Install PowerShell
-  sudo apt-get install -y powershell
-  # Start PowerShell
-  # pwsh
-  # Remove package
-  rm packages-microsoft.deb
+if [ $should_install_pwsh == "true" ]; then
+  source bash-installs/run-pwsh-install.sh
+  run-pwsh-install-basic-setup
 fi
+
 
 # install dotnet
 if [ -z $(which dotnet) ]; then
