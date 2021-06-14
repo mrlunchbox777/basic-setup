@@ -11,7 +11,9 @@ sudo apt update -y
 sudo apt install git bash -y
 sudo apt autoremove -y
 
-git clone https://github.com/mrlunchbox777/basic-setup
+if [ ! -d basic-setup ]; then
+  git clone https://github.com/mrlunchbox777/basic-setup
+fi
 
 cd basic-setup
 
