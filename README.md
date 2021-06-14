@@ -6,7 +6,7 @@ Basic box setup, it's fairly customizable using powershell and will work on gui-
 
 All of these will clone the repo and run the init script
 
-### Install from bash
+### Install Using bash
 
 Clones to ~/src/tools/basic-setup
 
@@ -14,7 +14,7 @@ Clones to ~/src/tools/basic-setup
 wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | bash
 ```
 
-### Install from powershell
+### Install Using PowerShell
 
 Installs wsl and tries to run from there.
 
