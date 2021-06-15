@@ -19,4 +19,14 @@ cd basic-setup
 
 bash ./install/init.sh | tee basic-setup-output.txt
 
+## end of basic setup
+echo "********************************************************"
+echo ""
+echo "Finished Basic Setup"
+echo "  Check -"
+echo "    ~/src/tools/basic-setup/basic-setup-output.txt"
+echo "  It will have logs and outputs on everything installed."
+echo ""
+echo "********************************************************"
+
 cd "$currentDir"
