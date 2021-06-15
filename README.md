@@ -2,7 +2,7 @@
 
 Basic box setup, it's fairly customizable using bash/powershell and will work on gui-based and headless systems. Open a pr if you want something added.
 
-Currently only works on Windows and Linux.
+Currently only works on Windows(WIP) and Linux.
 
 ## Installation
 
