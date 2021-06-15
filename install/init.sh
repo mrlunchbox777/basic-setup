@@ -16,9 +16,9 @@ should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
-should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
@@ -37,13 +37,20 @@ sudo apt-get install bat firefox gpg git kleopatra terraform tmux wget zsh -y
 
 # grab submodules
 if [ "$should_do_submodule_update" == "true" ]; then
-  git submodule update --recursive --remote
+  source bash-installs/run-gitsubmodule-update.sh
+  run-gitsubmodule-update-basic-setup
 fi
 
 # install vscode
 if [ $should_install_code == "true" ]; then
   source bash-installs/run-code-install.sh
   run-code-install-basic-setup
+fi
+
+# install dotnet
+if [ $should_install_dotnet == "true" ]; then
+  source bash-installs/run-dotnet-install.sh
+  run-dotnet-install-basic-setup
 fi
 
 # install nvm
@@ -56,12 +63,6 @@ fi
 if [ $should_install_pwsh == "true" ]; then
   source bash-installs/run-pwsh-install.sh
   run-pwsh-install-basic-setup
-fi
-
-# install dotnet
-if [ $should_install_dotnet == "true" ]; then
-  source bash-installs/run-dotnet-install.sh
-  run-dotnet-install-basic-setup
 fi
 
 # update the gitconfig
