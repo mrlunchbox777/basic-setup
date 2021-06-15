@@ -12,6 +12,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 # Set variables
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
+should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-true}
 
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 
@@ -41,15 +42,21 @@ echo "********************************************************"
 
 source bash-installs/run-apt-install.sh
 
+if [ $should_install_ui_tools == "true" ]; then
+  run-apt-install-basic-setup firefox true
+  run-apt-install-basic-setup kleopatra true
+fi
+
 run-apt-install-basic-setup bat true
-run-apt-install-basic-setup firefox true
 run-apt-install-basic-setup git true
 run-apt-install-basic-setup gpg true
-run-apt-install-basic-setup kleopatra true
 run-apt-install-basic-setup terraform true
 run-apt-install-basic-setup tmux true
 run-apt-install-basic-setup wget true
-run-apt-install-basic-setup zsh true
+
+if [ $should_install_zsh == "true" ]; then
+  run-apt-install-basic-setup zsh true
+fi
 
 ## Manual Installs
 echo "********************************************************"
@@ -65,9 +72,11 @@ if [ "$should_do_submodule_update" == "true" ]; then
 fi
 
 # install vscode
-if [ $should_install_code == "true" ]; then
-  source bash-installs/run-code-install.sh
-  run-code-install-basic-setup
+if [ $should_install_ui_tools == "true" ]; then
+  if [ $should_install_code == "true" ]; then
+    source bash-installs/run-code-install.sh
+    run-code-install-basic-setup
+  fi
 fi
 
 # install dotnet
