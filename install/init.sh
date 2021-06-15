@@ -53,10 +53,7 @@ run-apt-install-basic-setup gpg true
 run-apt-install-basic-setup terraform true
 run-apt-install-basic-setup tmux true
 run-apt-install-basic-setup wget true
-
-if [ $should_install_zsh == "true" ]; then
-  run-apt-install-basic-setup zsh true
-fi
+run-apt-install-basic-setup zsh "$should_install_zsh"
 
 ## Manual Installs
 echo "********************************************************"
