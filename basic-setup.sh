@@ -17,6 +17,6 @@ fi
 
 cd basic-setup
 
-bash ./install/init.sh
+bash ./install/init.sh | tee basic-setup-output.txt
 
 cd "$currentDir"
