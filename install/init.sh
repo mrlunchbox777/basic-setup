@@ -12,9 +12,15 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 # Set variables
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
+
+should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
+
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
+should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
+
+should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
 # track directories
 INITIAL_DIR="$(pwd)"
@@ -22,9 +28,8 @@ cd "$DIR"
 
 # update everything
 if [ "$should_do_full_update" == "true" ]; then
-  sudo apt-get update -y
-  sudo apt-get upgrade -y
-  sudo apt-get autoremove -y
+  source bash-installs/run-full-update.sh
+  run-full-update-basic-setup
 fi
 
 # install stuff from apt
@@ -53,32 +58,22 @@ if [ $should_install_pwsh == "true" ]; then
   run-pwsh-install-basic-setup
 fi
 
-
 # install dotnet
-if [ -z $(which dotnet) ]; then
-  # pulled from https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
-  wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  sudo dpkg -i packages-microsoft-prod.deb
-  sudo apt-get update
-  sudo apt-get install -y apt-transport-https
-  sudo apt-get update
-  sudo apt-get install -y dotnet-sdk-5.0 aspnetcore-runtime-5.0
-  rm packages-microsoft-prod.deb
+if [ $should_install_dotnet == "true" ]; then
+  source bash-installs/run-dotnet-install.sh
+  run-dotnet-install-basic-setup
 fi
 
 # update the gitconfig
-if [ -z "$(grep 'path = .*gitconfig' ~/.gitconfig)" ]; then
-  echo -e "\n[include]\n  path = \"$DIR/gitconfig\"" >> ~/.gitconfig
+if [ $should_update_gitconfig == "true" ]; then
+  source bash-installs/run-gitconfig-update.sh
+  run-gitconfig-update-basic-setup
 fi
 
 # change the default shell to zsh
-if [[ ! "$SHELL" =~ .*"zsh" ]]; then
-  echo "********************************************************"
-  echo "To change to zsh run the following:"
-  echo ""
-  echo 'chsh -s $(which zsh)'
-  echo ""
-  echo "********************************************************"
+if [ $should_install_zsh == "true" ]; then
+  source bash-installs/run-zsh-installmessage.sh
+  run-zsh-installmessage-basic-setup
 fi
 
 # move back to original dir and update user
