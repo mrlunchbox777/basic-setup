@@ -1,3 +1,4 @@
 [submodule "gitalias"]
 	path = gitalias
 	url = https://github.com/GitAlias/gitalias
+	branch = main
