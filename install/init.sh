@@ -1,6 +1,6 @@
 # Init script for worskstation
 
-# Pulled from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
+## Pulled from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
@@ -10,17 +10,32 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 # Set variables
+## General variables
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
 should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-true}
 
+## Apt variables
+should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
+should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
+
+should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
+should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
+should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
+should_install_sshclient=${BASICSETUPSHOULDINSTALLSSHCLIENT:-true}
+should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
+should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
+should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-true}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 
+## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 
+## Config variables
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
 # track directories
@@ -33,7 +48,6 @@ if [ "$should_do_full_update" == "true" ]; then
   run-full-update-basic-setup
 fi
 
-## apt Installs
 echo "********************************************************"
 echo ""
 echo "Starting apt Installs"
@@ -43,19 +57,19 @@ echo "********************************************************"
 source bash-installs/run-apt-install.sh
 
 if [ $should_install_ui_tools == "true" ]; then
-  run-apt-install-basic-setup firefox true
-  run-apt-install-basic-setup kleopatra true
+  run-apt-install-basic-setup firefox "$should_install_firefox"
+  run-apt-install-basic-setup kleopatra "$should_install_kleopatra"
 fi
 
-run-apt-install-basic-setup bat true
-run-apt-install-basic-setup git true
-run-apt-install-basic-setup gpg true
-run-apt-install-basic-setup terraform true
-run-apt-install-basic-setup tmux true
-run-apt-install-basic-setup wget true
+run-apt-install-basic-setup bat "$should_install_bat"
+run-apt-install-basic-setup git "$should_install_git"
+run-apt-install-basic-setup gpg "$should_install_gpg"
+run-apt-install-basic-setup openssh-client "$should_install_sshclient"
+run-apt-install-basic-setup terraform "$should_install_terraform"
+run-apt-install-basic-setup tmux "$should_install_tmux"
+run-apt-install-basic-setup wget "$should_install_wget"
 run-apt-install-basic-setup zsh "$should_install_zsh"
 
-## Manual Installs
 echo "********************************************************"
 echo ""
 echo "Starting git submodule update"
@@ -68,7 +82,6 @@ if [ "$should_do_submodule_update" == "true" ]; then
   run-gitsubmodule-update-basic-setup
 fi
 
-## Manual Installs
 echo "********************************************************"
 echo ""
 echo "Starting Manual Installs"
@@ -76,35 +89,47 @@ echo ""
 echo "********************************************************"
 
 # install vscode
-if [ $should_install_ui_tools == "true" ]; then
-  if [ $should_install_code == "true" ]; then
+if [ "$should_install_ui_tools" == "true" ]; then
+  if [ "$should_install_code" == "true" ]; then
     source bash-installs/run-code-install.sh
     run-code-install-basic-setup
   fi
 fi
 
 # install dotnet
-if [ $should_install_dotnet == "true" ]; then
+if [ "$should_install_dotnet" == "true" ]; then
   source bash-installs/run-dotnet-install.sh
   run-dotnet-install-basic-setup
 fi
 
 # install nvm
-if [ $should_install_nvm == "true" ]; then
+if [ "$should_install_nvm" == "true" ]; then
   source bash-installs/run-nvm-install.sh
   run-nvm-install-basic-setup
 fi
 
 # install powershell
-if [ $should_install_pwsh == "true" ]; then
+if [ "$should_install_pwsh" == "true" ]; then
   source bash-installs/run-pwsh-install.sh
   run-pwsh-install-basic-setup
 fi
 
+echo "********************************************************"
+echo ""
+echo "Starting Config Updates"
+echo ""
+echo "********************************************************"
+
 # update the gitconfig
-if [ $should_update_gitconfig == "true" ]; then
+if [ "$should_update_gitconfig" == "true" ]; then
   source bash-installs/run-gitconfig-update.sh
   run-gitconfig-update-basic-setup
+fi
+
+## need to ln -s for batcat
+if [ "$should_install_bat" == "true" ]; then
+  source bash-installs/run-batcat-update.sh
+  run-batcat-update-basic-setup
 fi
 
 ## Post-install messages
@@ -115,7 +140,7 @@ echo ""
 echo "********************************************************"
 
 # change the default shell to zsh
-if [ $should_install_zsh == "true" ]; then
+if [ "$should_install_zsh" == "true" ]; then
   source bash-installs/run-zsh-installmessage.sh
   run-zsh-installmessage-basic-setup
 fi
