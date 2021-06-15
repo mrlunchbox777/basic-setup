@@ -61,7 +61,7 @@ fi
 ## Manual Installs
 echo "********************************************************"
 echo ""
-echo "Starting Manual Installs"
+echo "Starting git submodule update"
 echo ""
 echo "********************************************************"
 
@@ -70,6 +70,13 @@ if [ "$should_do_submodule_update" == "true" ]; then
   source bash-installs/run-gitsubmodule-update.sh
   run-gitsubmodule-update-basic-setup
 fi
+
+## Manual Installs
+echo "********************************************************"
+echo ""
+echo "Starting Manual Installs"
+echo ""
+echo "********************************************************"
 
 # install vscode
 if [ $should_install_ui_tools == "true" ]; then
