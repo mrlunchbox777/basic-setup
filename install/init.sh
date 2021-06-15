@@ -32,8 +32,21 @@ if [ "$should_do_full_update" == "true" ]; then
   run-full-update-basic-setup
 fi
 
-# install stuff from apt
+## apt Installs
+echo "********************************************************"
+echo ""
+echo "Starting apt Installs"
+echo ""
+echo "********************************************************"
+
 sudo apt-get install bat firefox gpg git kleopatra terraform tmux wget zsh -y
+
+## Manual Installs
+echo "********************************************************"
+echo ""
+echo "Starting Manual Installs"
+echo ""
+echo "********************************************************"
 
 # grab submodules
 if [ "$should_do_submodule_update" == "true" ]; then
@@ -70,6 +83,13 @@ if [ $should_update_gitconfig == "true" ]; then
   source bash-installs/run-gitconfig-update.sh
   run-gitconfig-update-basic-setup
 fi
+
+## Post-install messages
+echo "********************************************************"
+echo ""
+echo "Starting Post-install Messages"
+echo ""
+echo "********************************************************"
 
 # change the default shell to zsh
 if [ $should_install_zsh == "true" ]; then
