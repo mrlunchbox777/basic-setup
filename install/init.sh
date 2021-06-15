@@ -39,7 +39,17 @@ echo "Starting apt Installs"
 echo ""
 echo "********************************************************"
 
-sudo apt-get install bat firefox gpg git kleopatra terraform tmux wget zsh -y
+source bash-installs/run-apt-install.sh
+
+run-apt-install-basic-setup bat true
+run-apt-install-basic-setup firefox true
+run-apt-install-basic-setup git true
+run-apt-install-basic-setup gpg true
+run-apt-install-basic-setup kleopatra true
+run-apt-install-basic-setup terraform true
+run-apt-install-basic-setup tmux true
+run-apt-install-basic-setup wget true
+run-apt-install-basic-setup zsh true
 
 ## Manual Installs
 echo "********************************************************"
