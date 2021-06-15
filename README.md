@@ -23,3 +23,19 @@ If Windows Installs wsl and tries to run from there. If Linux installs as expect
 ```pwsh
 if ($IsWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
 ```
+
+## Headless Considerations
+
+Make sure to, at a minimum, turn off ui tools.
+
+### Turn off GUI Tools Using bash
+
+```bash
+export BASICSETUPSHOULDINSTALLUITOOLS=false
+```
+
+### Turn off GUI Tools Using bash
+
+```pwsh
+$env:BASICSETUPSHOULDINSTALLUITOOLS = $false
+```
