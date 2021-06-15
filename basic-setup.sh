@@ -7,9 +7,9 @@ currentDir="$(pwd)"
 mkdir -p ~/src/tools
 cd ~/src/tools
 
-sudo apt update -y
-sudo apt install git bash -y
-sudo apt autoremove -y
+sudo apt-get update -y
+sudo apt-get install git bash -y
+sudo apt-get autoremove -y
 
 if [ ! -d basic-setup ]; then
   git clone https://github.com/mrlunchbox777/basic-setup
