@@ -16,17 +16,15 @@ if [ ! -d basic-setup ]; then
 fi
 
 cd basic-setup
+for f in $(ls ./shared-scripts/sh/); do source ./shared-scripts/sh/$f; done
 
 bash ./install/init.sh | tee basic-setup-output.txt
 
 ## end of basic setup
-echo "********************************************************"
-echo ""
-echo "Finished Basic Setup"
-echo "  Check -"
-echo "    ~/src/tools/basic-setup/basic-setup-output.txt"
-echo "  It will have logs and outputs on everything installed."
-echo ""
-echo "********************************************************"
+send-message \
+"Finished Basic Setup" \
+"  Check -" \
+"    ~/src/tools/basic-setup/basic-setup-output.txt" \
+"  It will have logs and outputs on everything installed."
 
 cd "$currentDir"

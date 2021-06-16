@@ -20,8 +20,10 @@ should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
 should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
 
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
+should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
 should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
 should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
+should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-true}
 should_install_sshclient=${BASICSETUPSHOULDINSTALLSSHCLIENT:-true}
 should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
@@ -41,6 +43,7 @@ should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 # track directories
 INITIAL_DIR="$(pwd)"
 cd "$DIR"
+for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 
 # update everything
 if [ "$should_do_full_update" == "true" ]; then
@@ -48,11 +51,7 @@ if [ "$should_do_full_update" == "true" ]; then
   run-full-update-basic-setup
 fi
 
-echo "********************************************************"
-echo ""
-echo "Starting apt Installs"
-echo ""
-echo "********************************************************"
+send-message "Starting apt Installs"
 
 source bash-installs/run-apt-install.sh
 
@@ -62,19 +61,17 @@ if [ $should_install_ui_tools == "true" ]; then
 fi
 
 run-apt-install-basic-setup bat "$should_install_bat"
+run-apt-install-basic-setup calc "$should_install_calc"
 run-apt-install-basic-setup git "$should_install_git"
 run-apt-install-basic-setup gpg "$should_install_gpg"
+run-apt-install-basic-setup jq "$should_install_jq"
 run-apt-install-basic-setup openssh-client "$should_install_sshclient"
 run-apt-install-basic-setup terraform "$should_install_terraform"
 run-apt-install-basic-setup tmux "$should_install_tmux"
 run-apt-install-basic-setup wget "$should_install_wget"
 run-apt-install-basic-setup zsh "$should_install_zsh"
 
-echo "********************************************************"
-echo ""
-echo "Starting git submodule update"
-echo ""
-echo "********************************************************"
+send-message "Starting git submodule update"
 
 # grab submodules
 if [ "$should_do_submodule_update" == "true" ]; then
@@ -82,17 +79,14 @@ if [ "$should_do_submodule_update" == "true" ]; then
   run-gitsubmodule-update-basic-setup
 fi
 
-echo "********************************************************"
-echo ""
-echo "Starting Manual Installs"
-echo ""
-echo "********************************************************"
+send-message "Starting Manual Installs"
 
 # install vscode
 if [ "$should_install_ui_tools" == "true" ]; then
   if [ "$should_install_code" == "true" ]; then
     source bash-installs/run-code-install.sh
     run-code-install-basic-setup
+    # maybe look at installing vscode extensions here
   fi
 fi
 
@@ -114,11 +108,7 @@ if [ "$should_install_pwsh" == "true" ]; then
   run-pwsh-install-basic-setup
 fi
 
-echo "********************************************************"
-echo ""
-echo "Starting Config Updates"
-echo ""
-echo "********************************************************"
+send-message "Starting Config Updates"
 
 # update the gitconfig
 if [ "$should_update_gitconfig" == "true" ]; then
@@ -133,11 +123,7 @@ if [ "$should_install_bat" == "true" ]; then
 fi
 
 ## Post-install messages
-echo "********************************************************"
-echo ""
-echo "Starting Post-install Messages"
-echo ""
-echo "********************************************************"
+send-message "Starting Post-install Messages"
 
 # change the default shell to zsh
 if [ "$should_install_zsh" == "true" ]; then
