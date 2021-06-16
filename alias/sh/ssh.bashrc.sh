@@ -1,4 +1,5 @@
 # ssh bashrc
+# Adapted from https://stackoverflow.com/questions/18880024/start-ssh-agent-on-login
 
 SSH_ENV="$HOME/.ssh/agent-environment"
 
