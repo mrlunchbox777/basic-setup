@@ -60,16 +60,17 @@ if [ $should_install_ui_tools == "true" ]; then
   run-apt-install-basic-setup kleopatra "$should_install_kleopatra"
 fi
 
-run-apt-install-basic-setup bat "$should_install_bat"
-run-apt-install-basic-setup calc "$should_install_calc"
-run-apt-install-basic-setup git "$should_install_git"
-run-apt-install-basic-setup gpg "$should_install_gpg"
-run-apt-install-basic-setup jq "$should_install_jq"
-run-apt-install-basic-setup openssh-client "$should_install_sshclient"
-run-apt-install-basic-setup terraform "$should_install_terraform"
-run-apt-install-basic-setup tmux "$should_install_tmux"
-run-apt-install-basic-setup wget "$should_install_wget"
-run-apt-install-basic-setup zsh "$should_install_zsh"
+alias raibs=run-apt-install-basic-setup
+raibs bat "$should_install_bat"
+raibs calc "$should_install_calc"
+raibs git "$should_install_git"
+raibs gpg "$should_install_gpg"
+raibs jq "$should_install_jq"
+raibs openssh-client "$should_install_sshclient"
+raibs terraform "$should_install_terraform"
+raibs tmux "$should_install_tmux"
+raibs wget "$should_install_wget"
+raibs zsh "$should_install_zsh"
 
 send-message "Starting git submodule update"
 
