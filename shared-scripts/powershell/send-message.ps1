@@ -1,5 +1,5 @@
 #send-message.sh
-Send-Message {
+function Send-Message {
   Write-Output "********************************************************"
   Write-Output "*"
   Write-Output "* $(Get-Date)"
