@@ -54,13 +54,13 @@ fi
 send-message "Starting apt Installs"
 
 source bash-installs/run-apt-install.sh
+alias raibs=run-apt-install-basic-setup
 
 if [ $should_install_ui_tools == "true" ]; then
-  run-apt-install-basic-setup firefox "$should_install_firefox"
-  run-apt-install-basic-setup kleopatra "$should_install_kleopatra"
+  raibs firefox "$should_install_firefox"
+  raibs kleopatra "$should_install_kleopatra"
 fi
 
-alias raibs=run-apt-install-basic-setup
 raibs bat "$should_install_bat"
 raibs calc "$should_install_calc"
 raibs git "$should_install_git"
