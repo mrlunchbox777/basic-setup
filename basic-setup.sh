@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # clones and installs the basic setup
 

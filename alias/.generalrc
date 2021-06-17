@@ -1,4 +1,4 @@
-# Run all the bash scripts in the sh folder
+# Run all the shell scripts in the sh folder
 # no crunch bang because this is a fairly agnostic script
 
 # Pulled from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
