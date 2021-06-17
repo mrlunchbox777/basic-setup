@@ -61,13 +61,10 @@ send-message "Starting git submodule update"
 send-message "Starting Manual Installs"
 source ./bash-installs/run-manual-install.sh
 
-# install vscode
 [ "$should_install_ui_tools" == "true" ] && \
-  run-manual-install-basic-setup code
+  run-manual-install-many-basic-setup code
 
-run-manual-install-basic-setup dotnet
-run-manual-install-basic-setup nvm
-run-manual-install-basic-setup powershell
+run-manual-install-many-basic-setup dotnet nvm powershell
 
 send-message "Starting Config Updates"
 

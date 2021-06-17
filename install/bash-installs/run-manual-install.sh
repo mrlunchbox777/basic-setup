@@ -10,3 +10,10 @@ run-manual-install-basic-setup () {
     echo "Skipping install for $1..."
   fi
 }
+
+run-manual-install-many-basic-setup () {
+  for f in "$@"
+  do
+    run-manual-install-basic-setup "$f"
+  done
+}
