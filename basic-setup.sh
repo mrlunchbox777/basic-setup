@@ -18,7 +18,7 @@ fi
 cd basic-setup
 for f in $(ls ./shared-scripts/sh/); do source ./shared-scripts/sh/$f; done
 
-bash ./install/init.sh | tee basic-setup-output.txt
+bash ./install/init.sh | tee basic-setup-sh-output.txt
 
 ## end of basic setup
 send-message \

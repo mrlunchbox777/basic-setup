@@ -1,2 +1,4 @@
 test.sh
 basic-setup-output.txt
+basic-setup-sh-output.txt
+basic-setup-powershell-output.txt
