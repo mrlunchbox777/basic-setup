@@ -24,7 +24,7 @@ should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
 should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
 should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
 should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-true}
-should_install_sshclient=${BASICSETUPSHOULDINSTALLSSHCLIENT:-true}
+should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-true}
 should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
 should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-true}
@@ -56,20 +56,20 @@ send-message "Starting apt Installs"
 source bash-installs/run-apt-install.sh
 
 if [ $should_install_ui_tools == "true" ]; then
-  run-apt-install-basic-setup firefox "$should_install_firefox"
-  run-apt-install-basic-setup kleopatra "$should_install_kleopatra"
+  run-apt-install-basic-setup firefox
+  run-apt-install-basic-setup kleopatra
 fi
 
-run-apt-install-basic-setup bat "$should_install_bat"
-run-apt-install-basic-setup calc "$should_install_calc"
-run-apt-install-basic-setup git "$should_install_git"
-run-apt-install-basic-setup gpg "$should_install_gpg"
-run-apt-install-basic-setup jq "$should_install_jq"
-run-apt-install-basic-setup openssh-client "$should_install_sshclient"
-run-apt-install-basic-setup terraform "$should_install_terraform"
-run-apt-install-basic-setup tmux "$should_install_tmux"
-run-apt-install-basic-setup wget "$should_install_wget"
-run-apt-install-basic-setup zsh "$should_install_zsh"
+run-apt-install-basic-setup bat
+run-apt-install-basic-setup calc
+run-apt-install-basic-setup git
+run-apt-install-basic-setup gpg
+run-apt-install-basic-setup jq
+run-apt-install-basic-setup openssh-client
+run-apt-install-basic-setup terraform
+run-apt-install-basic-setup tmux
+run-apt-install-basic-setup wget
+run-apt-install-basic-setup zsh
 
 send-message "Starting git submodule update"
 
