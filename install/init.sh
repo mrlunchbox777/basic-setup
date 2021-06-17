@@ -54,7 +54,6 @@ fi
 send-message "Starting apt Installs"
 
 source bash-installs/run-apt-install.sh
-alias raibs=run-apt-install-basic-setup
 
 if [ $should_install_ui_tools == "true" ]; then
   raibs firefox "$should_install_firefox"
@@ -81,33 +80,16 @@ if [ "$should_do_submodule_update" == "true" ]; then
 fi
 
 send-message "Starting Manual Installs"
+source ./bash-installs/run-manual-install.sh
 
 # install vscode
 if [ "$should_install_ui_tools" == "true" ]; then
-  if [ "$should_install_code" == "true" ]; then
-    source bash-installs/run-code-install.sh
-    run-code-install-basic-setup
-    # maybe look at installing vscode extensions here
-  fi
+  rmibs code
 fi
 
-# install dotnet
-if [ "$should_install_dotnet" == "true" ]; then
-  source bash-installs/run-dotnet-install.sh
-  run-dotnet-install-basic-setup
-fi
-
-# install nvm
-if [ "$should_install_nvm" == "true" ]; then
-  source bash-installs/run-nvm-install.sh
-  run-nvm-install-basic-setup
-fi
-
-# install powershell
-if [ "$should_install_pwsh" == "true" ]; then
-  source bash-installs/run-pwsh-install.sh
-  run-pwsh-install-basic-setup
-fi
+rmibs dotnet
+rmibs nvm
+rmibs powershell
 
 send-message "Starting Config Updates"
 
@@ -127,6 +109,12 @@ fi
 send-message "Starting Post-install Messages"
 
 # change the default shell to zsh
+if [ "$should_install_ui_tools" == "true" ]; then
+  if [ "$should_install_code" == "true" ]; then
+    # maybe look at installing vscode extensions here
+  fi
+fi
+
 if [ "$should_install_zsh" == "true" ]; then
   source bash-installs/run-zsh-installmessage.sh
   run-zsh-installmessage-basic-setup
