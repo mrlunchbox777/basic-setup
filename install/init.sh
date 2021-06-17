@@ -56,8 +56,7 @@ send-message "Starting apt Installs"
 source bash-installs/run-apt-install.sh
 
 if [ $should_install_ui_tools == "true" ]; then
-  run-apt-install-basic-setup firefox
-  run-apt-install-basic-setup kleopatra
+  run-apt-install-many-basic-setup firefox kleopatra
 fi
 
 run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
