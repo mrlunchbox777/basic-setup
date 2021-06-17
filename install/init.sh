@@ -48,7 +48,6 @@ for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 [ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
 send-message "Starting apt Installs"
-
 source bash-installs/run-apt-install.sh
 
 [ $should_install_ui_tools == "true" ] && \
@@ -57,7 +56,6 @@ source bash-installs/run-apt-install.sh
 run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 
 send-message "Starting git submodule update"
-
 [ "$should_do_submodule_update" == "true" ] && run-gitsubmodule-update-basic-setup
 
 send-message "Starting Manual Installs"
