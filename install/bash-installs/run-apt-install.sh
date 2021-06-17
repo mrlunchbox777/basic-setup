@@ -13,8 +13,20 @@ run-apt-install-basic-setup () {
 }
 
 run-apt-install-many-basic-setup () {
+  apt_install_string=""
   for f in "$@"
   do
-    run-apt-install-basic-setup "$f"
+    check_for_run_variable_name="should_install_$(echo $f | sed -r 's/-/_/g')"
+    if [ "${!check_for_run_variable_name}" == true ]; then
+      if [ -z "$(dpkg -l | grep $f)" ]; then
+        apt_install_string+="$f "
+      else
+        echo "$f already installed, skipping."
+      fi
+    else
+      echo "Skipping install for $f..."
+    fi
   done
+
+  sudo apt-get install "$apt_install_string" -y
 }
