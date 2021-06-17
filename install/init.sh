@@ -60,16 +60,7 @@ if [ $should_install_ui_tools == "true" ]; then
   run-apt-install-basic-setup kleopatra
 fi
 
-run-apt-install-basic-setup bat
-run-apt-install-basic-setup calc
-run-apt-install-basic-setup git
-run-apt-install-basic-setup gpg
-run-apt-install-basic-setup jq
-run-apt-install-basic-setup openssh-client
-run-apt-install-basic-setup terraform
-run-apt-install-basic-setup tmux
-run-apt-install-basic-setup wget
-run-apt-install-basic-setup zsh
+run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 
 send-message "Starting git submodule update"
 

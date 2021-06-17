@@ -11,3 +11,10 @@ run-apt-install-basic-setup () {
     echo "Skipping install for $1..."
   fi
 }
+
+run-apt-install-many-basic-setup () {
+  for f in "$@"
+  do
+    run-apt-install-basic-setup "$f"
+  done
+}
