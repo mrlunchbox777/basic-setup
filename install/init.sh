@@ -60,18 +60,16 @@ run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tm
 send-message "Starting git submodule update"
 
 # grab submodules
-if [ "$should_do_submodule_update" == "true" ]; then
-  source bash-installs/run-gitsubmodule-update.sh
+[ "$should_do_submodule_update" == "true" ] && \
+  source bash-installs/run-gitsubmodule-update.sh && \
   run-gitsubmodule-update-basic-setup
-fi
 
 send-message "Starting Manual Installs"
 source ./bash-installs/run-manual-install.sh
 
 # install vscode
-if [ "$should_install_ui_tools" == "true" ]; then
+[ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-basic-setup code
-fi
 
 run-manual-install-basic-setup dotnet
 run-manual-install-basic-setup nvm
