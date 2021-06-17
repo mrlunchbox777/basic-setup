@@ -49,7 +49,7 @@ for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 [ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
 send-message "Starting apt Installs"
-source bash-installs/run-apt-install.sh
+source sh-installs/run-apt-install.sh
 
 [ $should_install_ui_tools == "true" ] && \
   run-apt-install-many-basic-setup firefox kleopatra
@@ -60,7 +60,7 @@ send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && run-gitsubmodule-update-basic-setup
 
 send-message "Starting Manual Installs"
-source ./bash-installs/run-manual-install.sh
+source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup code
@@ -71,13 +71,13 @@ send-message "Starting Config Updates"
 
 # update the gitconfig
 if [ "$should_update_gitconfig" == "true" ]; then
-  source bash-installs/run-gitconfig-update.sh
+  source sh-installs/run-gitconfig-update.sh
   run-gitconfig-update-basic-setup
 fi
 
 ## need to ln -s for batcat
 if [ "$should_install_bat" == "true" ]; then
-  source bash-installs/run-batcat-update.sh
+  source sh-installs/run-batcat-update.sh
   run-batcat-update-basic-setup
 fi
 
@@ -93,7 +93,7 @@ fi
 send-message "Starting Post-install Messages"
 
 if [ "$should_install_zsh" == "true" ]; then
-  source bash-installs/run-zsh-installmessage.sh
+  source sh-installs/run-zsh-installmessage.sh
   run-zsh-installmessage-basic-setup
 fi
 
