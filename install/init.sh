@@ -45,7 +45,6 @@ INITIAL_DIR="$(pwd)"
 cd "$DIR"
 for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 
-# update everything
 [ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
 send-message "Starting apt Installs"
@@ -59,10 +58,7 @@ run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tm
 
 send-message "Starting git submodule update"
 
-# grab submodules
-[ "$should_do_submodule_update" == "true" ] && \
-  source bash-installs/run-gitsubmodule-update.sh && \
-  run-gitsubmodule-update-basic-setup
+[ "$should_do_submodule_update" == "true" ] && run-gitsubmodule-update-basic-setup
 
 send-message "Starting Manual Installs"
 source ./bash-installs/run-manual-install.sh
