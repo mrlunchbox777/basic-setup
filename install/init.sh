@@ -46,18 +46,14 @@ cd "$DIR"
 for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 
 # update everything
-if [ "$should_do_full_update" == "true" ]; then
-  source bash-installs/run-full-update.sh
-  run-full-update-basic-setup
-fi
+[ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
 send-message "Starting apt Installs"
 
 source bash-installs/run-apt-install.sh
 
-if [ $should_install_ui_tools == "true" ]; then
+[ $should_install_ui_tools == "true" ] && \
   run-apt-install-many-basic-setup firefox kleopatra
-fi
 
 run-apt-install-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 
