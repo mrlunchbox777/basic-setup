@@ -56,20 +56,20 @@ send-message "Starting apt Installs"
 source bash-installs/run-apt-install.sh
 
 if [ $should_install_ui_tools == "true" ]; then
-  raibs firefox "$should_install_firefox"
-  raibs kleopatra "$should_install_kleopatra"
+  run-apt-install-basic-setup firefox "$should_install_firefox"
+  run-apt-install-basic-setup kleopatra "$should_install_kleopatra"
 fi
 
-raibs bat "$should_install_bat"
-raibs calc "$should_install_calc"
-raibs git "$should_install_git"
-raibs gpg "$should_install_gpg"
-raibs jq "$should_install_jq"
-raibs openssh-client "$should_install_sshclient"
-raibs terraform "$should_install_terraform"
-raibs tmux "$should_install_tmux"
-raibs wget "$should_install_wget"
-raibs zsh "$should_install_zsh"
+run-apt-install-basic-setup bat "$should_install_bat"
+run-apt-install-basic-setup calc "$should_install_calc"
+run-apt-install-basic-setup git "$should_install_git"
+run-apt-install-basic-setup gpg "$should_install_gpg"
+run-apt-install-basic-setup jq "$should_install_jq"
+run-apt-install-basic-setup openssh-client "$should_install_sshclient"
+run-apt-install-basic-setup terraform "$should_install_terraform"
+run-apt-install-basic-setup tmux "$should_install_tmux"
+run-apt-install-basic-setup wget "$should_install_wget"
+run-apt-install-basic-setup zsh "$should_install_zsh"
 
 send-message "Starting git submodule update"
 
@@ -84,12 +84,12 @@ source ./bash-installs/run-manual-install.sh
 
 # install vscode
 if [ "$should_install_ui_tools" == "true" ]; then
-  rmibs code
+  run-manual-install-basic-setup code
 fi
 
-rmibs dotnet
-rmibs nvm
-rmibs powershell
+run-manual-install-basic-setup dotnet
+run-manual-install-basic-setup nvm
+run-manual-install-basic-setup powershell
 
 send-message "Starting Config Updates"
 
@@ -112,6 +112,7 @@ send-message "Starting Post-install Messages"
 if [ "$should_install_ui_tools" == "true" ]; then
   if [ "$should_install_code" == "true" ]; then
     # maybe look at installing vscode extensions here
+    echo "WIP install vscode extensions"
   fi
 fi
 
@@ -122,4 +123,4 @@ fi
 
 # move back to original dir and update user
 cd "$INITIAL_DIR"
-echo "init script complete, you should probably restart your terminal and/or your computer"
+send-message "init script complete, you should probably restart your terminal and/or your computer"

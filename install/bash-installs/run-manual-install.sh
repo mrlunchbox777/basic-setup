@@ -10,5 +10,3 @@ run-manual-install-basic-setup () {
     echo "Skipping install for $1..."
   fi
 }
-
-alias rmibs="run-manual-install-basic-setup"

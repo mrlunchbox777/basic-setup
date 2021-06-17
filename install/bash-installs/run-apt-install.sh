@@ -10,5 +10,3 @@ run-apt-install-basic-setup () {
     echo "Skipping install for $1..."
   fi
 }
-
-alias raibs="run-apt-install-basic-setup"
