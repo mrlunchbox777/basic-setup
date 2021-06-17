@@ -105,9 +105,6 @@ if [ "$should_install_bat" == "true" ]; then
   run-batcat-update-basic-setup
 fi
 
-## Post-install messages
-send-message "Starting Post-install Messages"
-
 # change the default shell to zsh
 if [ "$should_install_ui_tools" == "true" ]; then
   if [ "$should_install_code" == "true" ]; then
@@ -115,6 +112,9 @@ if [ "$should_install_ui_tools" == "true" ]; then
     echo "WIP install vscode extensions"
   fi
 fi
+
+## Post-install messages
+send-message "Starting Post-install Messages"
 
 if [ "$should_install_zsh" == "true" ]; then
   source bash-installs/run-zsh-installmessage.sh
