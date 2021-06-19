@@ -69,26 +69,12 @@ source ./sh-installs/run-manual-install.sh
 run-manual-install-many-basic-setup dotnet nvm ohmyzsh pwsh
 
 send-message "Starting Config Updates"
+source ./sh-installs/run-update-install.sh
 
-# change the default shell to zsh
-if [ "$should_install_ui_tools" == "true" ]; then
-  if [ "$should_install_code" == "true" ]; then
-  source sh-installs/run-code-update.sh
-  run-code-update-basic-setup
-  fi
-fi
+[ "$should_install_ui_tools" == "true" ] && \
+  run-manual-update-many-basic-setup code
 
-## need to ln -s for batcat
-if [ "$should_install_bat" == "true" ]; then
-  source sh-installs/run-batcat-update.sh
-  run-batcat-update-basic-setup
-fi
-
-# update the gitconfig
-if [ "$should_update_gitconfig" == "true" ]; then
-  source sh-installs/run-gitconfig-update.sh
-  run-gitconfig-update-basic-setup
-fi
+run-manual-update-many-basic-setup batcat gitconfig
 
 ## Post-install messages
 send-message "Starting Post-install Messages"
