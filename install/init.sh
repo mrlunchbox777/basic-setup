@@ -69,10 +69,12 @@ run-manual-install-many-basic-setup dotnet nvm powershell
 
 send-message "Starting Config Updates"
 
-# update the gitconfig
-if [ "$should_update_gitconfig" == "true" ]; then
-  source sh-installs/run-gitconfig-update.sh
-  run-gitconfig-update-basic-setup
+# change the default shell to zsh
+if [ "$should_install_ui_tools" == "true" ]; then
+  if [ "$should_install_code" == "true" ]; then
+  source sh-installs/run-code-update.sh
+  run-code-update-basic-setup
+  fi
 fi
 
 ## need to ln -s for batcat
@@ -81,12 +83,10 @@ if [ "$should_install_bat" == "true" ]; then
   run-batcat-update-basic-setup
 fi
 
-# change the default shell to zsh
-if [ "$should_install_ui_tools" == "true" ]; then
-  if [ "$should_install_code" == "true" ]; then
-  source sh-installs/run-code-update.sh
-  run-code-update-basic-setup
-  fi
+# update the gitconfig
+if [ "$should_update_gitconfig" == "true" ]; then
+  source sh-installs/run-gitconfig-update.sh
+  run-gitconfig-update-basic-setup
 fi
 
 ## Post-install messages
