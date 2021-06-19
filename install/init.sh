@@ -52,7 +52,7 @@ for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 
 [ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
-send-message "Starting apt Installs"
+run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
 [ $should_install_ui_tools == "true" ] && \
@@ -60,10 +60,10 @@ source sh-installs/run-manual-install-apt.sh
 
 run-manual-install-apt-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 
-send-message "Starting git submodule update"
+run-send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && run-update-gitsubmodule-basic-setup
 
-send-message "Starting Manual Installs"
+run-send-message "Starting Manual Installs"
 source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
@@ -71,7 +71,7 @@ source ./sh-installs/run-manual-install.sh
 
 run-manual-install-many-basic-setup dotnet nvm ohmyzsh pwsh
 
-send-message "Starting Config Updates"
+run-send-message "Starting Config Updates"
 source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
@@ -83,7 +83,7 @@ run-manual-update-many-basic-setup batcat gitconfig
 #   https://github.com/romkatv/powerlevel10k#installation
 
 ## Post-install messages
-send-message "Starting Postmessages"
+run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
 # [ "$should_install_ui_tools" == "true" ] && \
@@ -93,4 +93,4 @@ run-manual-postmessage-many-basic-setup zsh
 
 # move back to original dir and update user
 cd "$INITIAL_DIR"
-send-message "init script complete, you should probably restart your terminal and/or your computer"
+run-send-message "init script complete, you should probably restart your terminal and/or your computer"

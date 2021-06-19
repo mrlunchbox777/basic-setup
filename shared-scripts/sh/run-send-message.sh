@@ -1,5 +1,5 @@
-#send-message.sh
-send-message () {
+#run-send-message.sh
+run-send-message () {
   echo "********************************************************"
   echo "*"
   echo "* $(date)"
