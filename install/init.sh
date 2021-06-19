@@ -84,8 +84,8 @@ fi
 # change the default shell to zsh
 if [ "$should_install_ui_tools" == "true" ]; then
   if [ "$should_install_code" == "true" ]; then
-    # maybe look at installing vscode extensions here
-    echo "WIP install vscode extensions"
+  source sh-installs/run-code-update.sh
+  run-code-update-basic-setup
   fi
 fi
 
