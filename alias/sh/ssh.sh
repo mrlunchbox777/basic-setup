@@ -23,3 +23,24 @@ if [ -f "${SSH_ENV}"]; then
 else
   start_ssh_agent;
 fi
+
+#######################################
+# Possible update from https://github.com/pawnstar/
+#######################################
+# SSH_AUTH_SOCK=$HOME/.ssh/agent.socket
+  
+# # If there's an old socket file that isn't in use, remove it
+# if [ -S $SSH_AUTH_SOCK ] && ! (ps x | grep ssh-agent | grep -v grep > /dev/null); then
+#   rm $SSH_AUTH_SOCK
+# fi
+# # If there's some other file (non-socket) exit with failure
+# if [ -e $SSH_AUTH_SOCK ] && [ ! -S $SSH_AUTH_SOCK ]; then
+#   echo "Cannot start SSH Agent - socket file exists but is not a socket"
+#   exit 1
+# fi
+# # If we don't have a socket file yet, start a new agent to make one
+# if [ ! -S $SSH_AUTH_SOCK ]; then
+#   ssh-agent -a $SSH_AUTH_SOCK > /dev/null;
+# fi
+# # Otherwise just set the env var so SSH client can connect to the socket
+# export SSH_AUTH_SOCK;
