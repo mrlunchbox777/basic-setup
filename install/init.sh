@@ -65,7 +65,7 @@ source ./sh-installs/run-manual-install.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup code
 
-run-manual-install-many-basic-setup dotnet nvm powershell
+run-manual-install-many-basic-setup dotnet nvm pwsh
 
 send-message "Starting Config Updates"
 
