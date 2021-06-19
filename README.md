@@ -31,7 +31,7 @@ Make sure to, at a minimum, turn off ui tools.
 ### Turn off GUI Tools Using bash
 
 ```bash
-export BASICSETUPSHOULDINSTALLUITOOLS=false
+export BASICSETUPSHOULDINSTALLUITOOLS="false"
 ```
 
 ### Turn off GUI Tools Using bash
