@@ -1,5 +1,5 @@
-# run code update function
-run-code-update-basic-setup () {
+# run update code function
+run-update-code-basic-setup () {
   # helpful commands to use to update this
   # file (pulled from https://stackoverflow.com/questions/35773299/how-can-you-export-the-visual-studio-code-extension-list):
   # code --list-extensions | xargs -L 1 echo code --install-extension

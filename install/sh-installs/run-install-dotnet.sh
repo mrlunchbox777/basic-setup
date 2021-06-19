@@ -1,5 +1,5 @@
-# run dotnet install function
-run-dotnet-install-basic-setup () {
+# run install dotnet function
+run-install-dotnet-basic-setup () {
   if [ -z $(which dotnet) ]; then
     # pulled from https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
     wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb

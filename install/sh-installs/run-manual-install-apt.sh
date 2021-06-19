@@ -1,5 +1,5 @@
-# run apt install function
-run-apt-install-basic-setup () {
+# run manual install apt function
+run-manual-install-apt-basic-setup () {
   check_for_run_variable_name="should_install_$(echo $1 | sed -r 's/-/_/g')"
   if [ "${!check_for_run_variable_name}" == true ]; then
     if [ -z "$(dpkg -l | grep $1)" ]; then
@@ -12,7 +12,7 @@ run-apt-install-basic-setup () {
   fi
 }
 
-run-apt-install-many-basic-setup () {
+run-manual-install-apt-many-basic-setup () {
   apt_install_string=""
   for f in "$@"
   do

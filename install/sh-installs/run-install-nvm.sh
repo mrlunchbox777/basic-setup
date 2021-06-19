@@ -1,5 +1,5 @@
-# run nvm install function
-run-nvm-install-basic-setup () {
+# run install nvm function
+run-install-nvm-basic-setup () {
   if [ -z $(which nvm) ]; then
     # pulled from https://github.com/nvm-sh/nvm#installing-and-updating
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash

@@ -1,5 +1,5 @@
-# run pwsh install function
-run-pwsh-install-basic-setup () {
+# run install pwsh function
+run-install-pwsh-basic-setup () {
   if [ -z $(which pwsh) ]; then
     # pulled from https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1#ubuntu-2004
     # Update the list of packages

@@ -1,5 +1,5 @@
-# run batcat update function
-run-batcat-update-basic-setup () {
+# run update batcat function
+run-update-batcat-basic-setup () {
   if [ -z $(which bat) ]; then
     if [ -z $(which batcat) ]; then
       ln -s "$(which batcat)" "$(dirname $(which batcat))/bat"

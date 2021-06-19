@@ -1,5 +1,5 @@
-# run code install function
-run-code-install-basic-setup () {
+# run install code function
+run-install-code-basic-setup () {
   if [ -z $(which code) ]; then
     # pulled from https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
     wget -q https://go.microsoft.com/fwlink/?LinkID=760868 -O vs_code.deb
