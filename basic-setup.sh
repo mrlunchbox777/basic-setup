@@ -21,11 +21,10 @@ for f in $(ls ./shared-scripts/sh/); do source ./shared-scripts/sh/$f; done
 bash ./install/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
-echo \
-"\n\n\n\n\n" \
-"Finished Basic Setup\n\n" \
-"  Check -\n\n" \
-"    ~/src/tools/basic-setup/basic-setup-sh-output.log\n\n" \
-"  It will have logs and outputs on everything installed.\n\n"
+echo "\n\n\n\n\n"
+echo "Finished Basic Setup" 
+echo "  Check -"
+echo "    ~/src/tools/basic-setup/basic-setup-sh-output.log"
+echo "  It will have logs and outputs on everything installed."
 
 cd "$currentDir"
