@@ -69,7 +69,7 @@ source ./sh-installs/run-manual-install.sh
 run-manual-install-many-basic-setup dotnet nvm ohmyzsh pwsh
 
 send-message "Starting Config Updates"
-source ./sh-installs/run-update-install.sh
+source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-update-many-basic-setup code
