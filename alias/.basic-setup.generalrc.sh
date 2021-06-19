@@ -4,11 +4,6 @@ for f in $(ls ../shared-scripts/sh/); do . ../shared-scripts/sh/$f; done
 source=""
 
 case run-identify-shell in
-  sh)
-    echo "using sh aliases"
-    source="$0"
-    extra_folder=""
-    ;;
   bash)
     echo "using bash aliases"
     source="${BASH_SOURCE[0]}"
@@ -18,6 +13,11 @@ case run-identify-shell in
     echo "using zsh aliases"
     source="${(%):-%x}"
     extra_folder="zsh"
+    ;;
+  *)
+    echo "using sh aliases"
+    source="$0"
+    extra_folder=""
     ;;
 esac
 
