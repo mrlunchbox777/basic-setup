@@ -43,7 +43,8 @@ should_postmessage_zsh=${should_install_zsh}
 ## Config variables
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
-[ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
+[ "$should_do_full_update" == "true" ] && \
+  run-full-update-basic-setup
 
 run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
@@ -54,7 +55,8 @@ source sh-installs/run-manual-install-apt.sh
 run-manual-install-apt-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 
 run-send-message "Starting git submodule update"
-[ "$should_do_submodule_update" == "true" ] && run-update-gitsubmodule-basic-setup
+[ "$should_do_submodule_update" == "true" ] && \
+  run-update-gitsubmodule-basic-setup
 
 run-send-message "Starting Manual Installs"
 source ./sh-installs/run-manual-install.sh

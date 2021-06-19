@@ -21,13 +21,15 @@ run-get-source-and-dir() {
 
   if [ -z "$source" ]; then
     echo -e "$run_get_source_and_dir_help_string" >&2
-    [[ $- == *i* ]] && echo '' || exit 1
+    [[ $- == *i* ]] && \
+      echo '' || exit 1
   fi
 
   while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
     dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
     source="$(readlink "$source")"
-    [[ $source != /* ]] && source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    [[ $source != /* ]] && \
+      source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
   done
   dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
   echo "source=\"$source\"; dir=\"$dir\""
