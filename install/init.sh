@@ -36,6 +36,7 @@ should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
+should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 
 ## Config variables
@@ -65,7 +66,7 @@ source ./sh-installs/run-manual-install.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup code
 
-run-manual-install-many-basic-setup dotnet nvm pwsh
+run-manual-install-many-basic-setup dotnet nvm ohmyzsh pwsh
 
 send-message "Starting Config Updates"
 
