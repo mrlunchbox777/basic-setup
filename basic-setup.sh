@@ -23,9 +23,9 @@ bash ./install/init.sh | tee basic-setup-sh-output.log
 ## end of basic setup
 echo \
 "\n\n\n\n\n" \
-"Finished Basic Setup" \
-"  Check -" \
-"    ~/src/tools/basic-setup/basic-setup-sh-output.log" \
-"  It will have logs and outputs on everything installed."
+"Finished Basic Setup\n" \
+"  Check -\n" \
+"    ~/src/tools/basic-setup/basic-setup-sh-output.log\n" \
+"  It will have logs and outputs on everything installed.\n"
 
 cd "$currentDir"
