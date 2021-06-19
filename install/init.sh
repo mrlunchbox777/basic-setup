@@ -1,14 +1,12 @@
+#!/bin/bash
 # Init script for worskstation
 
-## Pulled from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink,
-    # we need to resolve it relative to the path where the symlink file was located
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+# track directories
+initial_dir="$(pwd)"
+for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
+source="${BASH_SOURCE[0]}"
+eval $(run-get-source-and-dir "$source")
+cd "$dir"
 
 # Set variables
 ## General variables
@@ -44,11 +42,6 @@ should_postmessage_zsh=${should_install_zsh}
 
 ## Config variables
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
-
-# track directories
-INITIAL_DIR="$(pwd)"
-cd "$DIR"
-for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
 
 [ "$should_do_full_update" == "true" ] && run-full-update-basic-setup
 
@@ -92,5 +85,5 @@ source ./sh-installs/run-manual-postmessage.sh
 run-manual-postmessage-many-basic-setup zsh
 
 # move back to original dir and update user
-cd "$INITIAL_DIR"
+cd "$initial_dir"
 run-send-message "init script complete, you should probably restart your terminal and/or your computer"

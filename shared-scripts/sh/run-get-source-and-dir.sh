@@ -1,5 +1,6 @@
 # run-get-source-and-dir function
 run-get-source-and-dir() {
+  # Adapted from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
   local run_get_source_and_dir_help_string=""
   run_get_source_and_dir_help_string+="error - no source passed in\\n"
   run_get_source_and_dir_help_string+="pass in source using the following\\n"
