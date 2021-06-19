@@ -39,6 +39,9 @@ should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 
+## Postmessage variables
+should_postmessage_zsh=${should_install_zsh}
+
 ## Config variables
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
@@ -80,12 +83,13 @@ run-manual-update-many-basic-setup batcat gitconfig
 #   https://github.com/romkatv/powerlevel10k#installation
 
 ## Post-install messages
-send-message "Starting Post-install Messages"
+send-message "Starting Postmessages"
+source ./sh-installs/run-manual-postmessage.sh
 
-if [ "$should_install_zsh" == "true" ]; then
-  source sh-installs/run-zsh-installmessage.sh
-  run-zsh-installmessage-basic-setup
-fi
+# [ "$should_install_ui_tools" == "true" ] && \
+#   run-manual-postmessage-many-basic-setup the_first_ui_post_message
+
+run-manual-postmessage-many-basic-setup zsh
 
 # move back to original dir and update user
 cd "$INITIAL_DIR"
