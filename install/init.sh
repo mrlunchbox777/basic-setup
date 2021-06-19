@@ -76,6 +76,9 @@ source ./sh-installs/run-update-install.sh
 
 run-manual-update-many-basic-setup batcat gitconfig
 
+# TODO: consider adding the powerlevel 10k theme to oh my zsh -
+#   https://github.com/romkatv/powerlevel10k#installation
+
 ## Post-install messages
 send-message "Starting Post-install Messages"
 
