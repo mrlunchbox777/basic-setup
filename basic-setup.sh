@@ -21,7 +21,7 @@ for f in $(ls ./shared-scripts/sh/); do source ./shared-scripts/sh/$f; done
 bash ./install/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
-echo "\n\n\n\n\n"
+echo "\n\n"
 echo "Finished Basic Setup" 
 echo "  Check -"
 echo "    ~/src/tools/basic-setup/basic-setup-sh-output.log"
