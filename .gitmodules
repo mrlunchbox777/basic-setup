@@ -2,3 +2,6 @@
 	path = gitalias
 	url = https://github.com/GitAlias/gitalias
 	branch = main
+[submodule "posh-git-sh"]
+	path = posh-git-sh
+	url = git@github.com:lyze/posh-git-sh.git
