@@ -1,9 +1,9 @@
 # run manual install function
 run-manual-install-basic-setup () {
-  check_for_run_variable_name="should_install_$1"
+  local check_for_run_variable_name="should_install_$1"
   if [ "$check_for_run_variable_name" == "true" ]; then
-    source_variable_name="sh-installs/run-$1-install.sh"
-    function_variable_name="run-$1-install-basic-setup"
+    local source_variable_name="sh-installs/run-$1-install.sh"
+    local function_variable_name="run-$1-install-basic-setup"
     source "$source_variable_name"
     $function_variable_name
   else
