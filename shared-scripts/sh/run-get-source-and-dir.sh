@@ -24,8 +24,7 @@ run-get-source-and-dir() {
 
   if [ -z "$source" ]; then
     echo -e "$run_get_source_and_dir_help_string" >&2
-    [[ $- == *i* ]] && \
-      echo '' || exit 1
+    [[ $- == *i* ]] && exit 1
   fi
 
   while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
