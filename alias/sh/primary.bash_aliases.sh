@@ -44,3 +44,25 @@ full-docker-clear() {
   docker volume rm $(docker volume ls --filter dangling=true -q)
   docker rmi -f $(docker images -qa)
 }
+
+trim-string() {
+  local sed_string="s/.\{$2\}$//"
+  local trimmed_string=$(sed "$sed_string" <<<"$1")
+  echo "$trimmed_string"
+}
+
+find-files-ignore() {
+  local ignore_string=""
+  for f in "$@"; do
+    ignore_string+=" -name \"$f\" -prune -o "
+  done
+
+  ignore_string=$(trim-string "$ignore_string" 3)
+
+  run_trim_string="find ./ \\($ignore_string\\) -o -type f -print"
+  eval $run_trim_string
+}
+
+count-lines-ignore() {
+  find-files-ignore "$@" | xargs wc -l
+}
