@@ -14,6 +14,7 @@ run-get-source-and-dir() {
   run_get_source_and_dir_help_string+="  run-get-source-and-dir \"\$source\"\\n"
   run_get_source_and_dir_help_string+="    source=\"\$rgsd[0]\"\\n"
   run_get_source_and_dir_help_string+="    dir=\"\$rgsd[1]\"\\n"
+  run_get_source_and_dir_help_string+="  it seems that in some cases you'd need to access index 1 & 2 instead of 0 & 1\\n"
   run_get_source_and_dir_help_string+="\\n"
   run_get_source_and_dir_help_string+="after the eval statement\\n"
   run_get_source_and_dir_help_string+="* \$source will be set to source resolving symlinks\\n"

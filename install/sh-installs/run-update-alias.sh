@@ -1,21 +1,21 @@
-# run update sh function
-run-update-sh-basic-setup () {
-  if [ ! -f "~/.profile" ]; then
-    touch "~/.profile"
+# run update alias function
+run-update-alias-basic-setup () {
+  if [ ! -f "$HOME/.profile" ]; then
+    touch "$HOME/.profile"
   fi
 
-  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' ~/.profile)" ]; then
-    echo -e "\nsource \"$dir/../alias/basic-setup.generalrc.sh\"" >> ~/.profile
+  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.profile)" ]; then
+    echo -e "\nsource \"$dir/../alias/basic-setup.generalrc.sh\"" >> $HOME/.profile
   else
     echo "Skipping update for .profile..."
   fi
 
-  if [ ! -f "~/.zshrc" ]; then
-    touch "~/.zshrc"
+  if [ ! -f "$HOME/.zshrc" ]; then
+    touch "$HOME/.zshrc"
   fi
 
-  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' ~/.zshrc)" ]; then
-    echo -e "\nsource \"$dir/../alias/basic-setup.generalrc.sh\"" >> ~/.zshrc
+  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.zshrc)" ]; then
+    echo -e "\nsource \"$dir/../alias/basic-setup.generalrc.sh\"" >> $HOME/.zshrc
   else
     echo "Skipping update for .zshrc..."
   fi

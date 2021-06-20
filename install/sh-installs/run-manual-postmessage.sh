@@ -1,9 +1,9 @@
 # run manual postmessage function
 run-manual-postmessage-basic-setup () {
   local check_for_run_variable_name="should_postmessage_$1"
-  if [ "$check_for_run_variable_name" == "true" ]; then
-    local source_variable_name="sh-installs/run-$1-postmessage.sh"
-    local function_variable_name="run-$1-postmessage-basic-setup"
+  if [ "${!check_for_run_variable_name}" == "true" ]; then
+    local source_variable_name="sh-installs/run-postmessage-$1.sh"
+    local function_variable_name="run-postmessage-$1-basic-setup"
     source "$source_variable_name"
     $function_variable_name
   else

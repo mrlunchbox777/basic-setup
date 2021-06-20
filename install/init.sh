@@ -51,6 +51,10 @@ should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 should_postmessage_zsh=${should_install_zsh}
 
 ## Config variables
+should_update_code=${BASICSETUPSHOULDUPDATECODE:-true}
+
+should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
+should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
 [ "$should_do_full_update" == "true" ] && \
@@ -82,7 +86,7 @@ source ./sh-installs/run-manual-update.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-update-many-basic-setup code
 
-run-manual-update-many-basic-setup alias batcat gitconfig
+run-manual-update-many-basic-setup "alias" batcat gitconfig
 
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation
