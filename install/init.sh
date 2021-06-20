@@ -18,6 +18,10 @@ source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 cd "$dir"
 
+if [ -f "../.env" ]; then
+  source ../.env
+fi
+
 # Set variables
 ## General variables
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}

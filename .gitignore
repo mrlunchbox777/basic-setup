@@ -1,3 +1,4 @@
 /test.*
 **/basic-setup-*-output.log
 **/basic-setup-*-output.txt
+.env
