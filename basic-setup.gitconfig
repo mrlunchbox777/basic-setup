@@ -1,4 +1,6 @@
 [include]
   path = gitalias/gitalias.txt
+[include]
+  path = alias/basic-setup-extra.gitconfig
 [commit]
   gpgsign = true
