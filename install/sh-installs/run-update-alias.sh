@@ -11,13 +11,13 @@ run-update-alias-basic-setup () {
     echo "Skipping update for .profile..."
   fi
 
-  if [ ! -f "$HOME/.zshrc" ]; then
-    touch "$HOME/.zshrc"
+  if [ ! -f "$HOME/.zprofile" ]; then
+    touch "$HOME/.zprofile"
   fi
 
-  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.zshrc)" ]; then
-    echo -e "\nsource \"$target_dir\"" >> $HOME/.zshrc
+  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.zprofile)" ]; then
+    echo -e "\nsource \"$target_dir\"" >> $HOME/.zprofile
   else
-    echo "Skipping update for .zshrc..."
+    echo "Skipping update for .zprofile..."
   fi
 }
