@@ -1,5 +1,9 @@
 # run update sh function
 run-update-sh-basic-setup () {
+  if [ ! -f "~/.profile" ]; then
+    touch "~/.profile"
+  fi
+
   if [ -z "$(grep 'source .*basic-setup.generalrc.sh' ~/.profile)" ]; then
     echo -e "\nsource \"$dir/../alias/basic-setup.generalrc.sh\"" >> ~/.profile
   else
