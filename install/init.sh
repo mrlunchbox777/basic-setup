@@ -72,7 +72,7 @@ source ./sh-installs/run-manual-update.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-update-many-basic-setup code
 
-run-manual-update-many-basic-setup batcat gitconfig
+run-manual-update-many-basic-setup alias batcat gitconfig
 
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation

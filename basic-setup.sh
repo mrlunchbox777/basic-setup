@@ -15,7 +15,8 @@ if [ ! -d basic-setup ]; then
   git clone https://github.com/mrlunchbox777/basic-setup
 fi
 
-bash ./install/init.sh | tee basic-setup-sh-output.log
+echo "current dir - $(pwd)"
+bash ~/src/tools/basic-setup/install/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
 echo "\n\n"
