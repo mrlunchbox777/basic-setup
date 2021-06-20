@@ -9,8 +9,11 @@ run-get-source-and-dir() {
   run_get_source_and_dir_help_string+="* bash - source=\"\${BASH_SOURCE[0]}\"\\n"
   run_get_source_and_dir_help_string+="* zsh - source=\"\${(%):-%x}\"\\n"
   run_get_source_and_dir_help_string+="\\n"
-  run_get_source_and_dir_help_string+="output - \"source\" \"dir\"\\n"
-  run_get_source_and_dir_help_string+="to use run - eval \$(run-get-source-and-dir \"\$source\")\\n"
+  run_get_source_and_dir_help_string+="output - rgsd=(\"source\", \"dir\")\\n"
+  run_get_source_and_dir_help_string+="to use run -\\n"
+  run_get_source_and_dir_help_string+="  run-get-source-and-dir \"\$source\"\\n"
+  run_get_source_and_dir_help_string+="    source=\"\$rgsd[0]\"\\n"
+  run_get_source_and_dir_help_string+="    dir=\"\$rgsd[1]\"\\n"
   run_get_source_and_dir_help_string+="\\n"
   run_get_source_and_dir_help_string+="after the eval statement\\n"
   run_get_source_and_dir_help_string+="* \$source will be set to source resolving symlinks\\n"
@@ -32,5 +35,5 @@ run-get-source-and-dir() {
       source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
   done
   dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
-  echo "source=\"$source\"; dir=\"$dir\""
+  rgsd=("$source" "$dir")
 }

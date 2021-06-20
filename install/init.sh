@@ -3,9 +3,19 @@
 
 # track directories
 initial_dir="$(pwd)"
-for f in $(ls ../shared-scripts/sh/); do source ../shared-scripts/sh/$f; done
+shared_scripts_path="../shared-scripts"
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
+if [ ! -d "$shared_scripts_path" ]; then
+    echo -e "error finding shared-scripts..." >&2
+    exit 1
+fi
+for f in $(ls "$shared_scripts_path/sh/"); do source "$shared_scripts_path/sh/$f"; done
 source="${BASH_SOURCE[0]}"
-eval $(run-get-source-and-dir "$source")
+run-get-source-and-dir "$source"
+source="${rgsd[0]}"
+dir="${rgsd[1]}"
 cd "$dir"
 
 # Set variables
