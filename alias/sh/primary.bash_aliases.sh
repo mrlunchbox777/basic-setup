@@ -1,4 +1,5 @@
 alias guid='uuid'
+alias ll="ls -la"
 
 rgui() {
   killall plasmashell && kstart5 plasmashell

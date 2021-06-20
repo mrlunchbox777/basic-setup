@@ -1,23 +1,21 @@
 # run update alias function
+run-single-update-alias() {
+  if [ ! -f "$HOME/$1" ]; then
+    touch "$HOME/$1"
+  fi
+
+  if [ -z "$(grep '\. \".*basic-setup\.generalrc\.sh' $HOME/$1)" ]; then
+    echo -e "\n. \"$2\"" >> $HOME/$1
+  else
+    echo "Skipping update for $1..."
+  fi
+}
+
 run-update-alias-basic-setup () {
   local target_dir="$(readlink -f "$dir/../alias/basic-setup.generalrc.sh")"
-  if [ ! -f "$HOME/.profile" ]; then
-    touch "$HOME/.profile"
-  fi
 
-  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.profile)" ]; then
-    echo -e "\nsource \"$target_dir\"" >> $HOME/.profile
-  else
-    echo "Skipping update for .profile..."
-  fi
-
-  if [ ! -f "$HOME/.zprofile" ]; then
-    touch "$HOME/.zprofile"
-  fi
-
-  if [ -z "$(grep 'source .*basic-setup.generalrc.sh' $HOME/.zprofile)" ]; then
-    echo -e "\nsource \"$target_dir\"" >> $HOME/.zprofile
-  else
-    echo "Skipping update for .zprofile..."
-  fi
+  run-single-update-alias ".profile" "$target_dir"
+  run-single-update-alias ".zprofile" "$target_dir"
+  run-single-update-alias ".bashrc" "$target_dir"
+  run-single-update-alias ".zshrc" "$target_dir"
 }
