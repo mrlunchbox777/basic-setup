@@ -2,7 +2,7 @@
 
 # clones and installs the basic setup
 
-currentDir="$(pwd)"
+current_dir="$(pwd)"
 
 mkdir -p ~/src/tools
 cd ~/src/tools
@@ -24,4 +24,4 @@ echo "  Check -"
 echo "    ~/src/tools/basic-setup/basic-setup-sh-output.log"
 echo "  It will have logs and outputs on everything installed."
 
-cd "$currentDir"
+cd "$current_dir"
