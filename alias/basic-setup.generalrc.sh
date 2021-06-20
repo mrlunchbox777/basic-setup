@@ -11,8 +11,11 @@ fi
 for f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$f"; done
 source=""
 
-case "$(run-identify-shell-basic-setup)" in
-  "bash")
+export SHELL="$(run-identify-shell-basic-setup)"
+echo "shell - $SHELL"
+
+case "$SHELL" in
+  "bash"|"-bash"|" -bash")
     echo "using bash aliases"
     source="${BASH_SOURCE[0]}"
     extra_folder="bash"
@@ -30,8 +33,8 @@ case "$(run-identify-shell-basic-setup)" in
 esac
 
 run-get-source-and-dir "$source"
-source="${rgsd[1]}"
-dir="${rgsd[2]}"
+source="${rgsd[@]:0:1}"
+dir="${rgsd[@]:1:1}"
 
 for f in $(ls $dir/sh/); do . $dir/sh/$f; done
 if [ ! -z "$extrafolder" ]; then

@@ -14,8 +14,8 @@ fi
 for f in $(ls "$shared_scripts_path/sh/"); do source "$shared_scripts_path/sh/$f"; done
 source="${BASH_SOURCE[0]}"
 run-get-source-and-dir "$source"
-source="${rgsd[0]}"
-dir="${rgsd[1]}"
+source="${rgsd[@]:0:1}"
+dir="${rgsd[@]:1:1}"
 cd "$dir"
 
 # Set variables
