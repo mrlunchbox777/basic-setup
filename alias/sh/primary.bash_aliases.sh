@@ -53,8 +53,8 @@ trim-string() {
 
 find-files-ignore() {
   local ignore_string=""
-  for f in "$@"; do
-    ignore_string+=" -name \"$f\" -prune -o "
+  for find_files_ignore_f in "$@"; do
+    ignore_string+=" -name \"$find_files_ignore_f\" -prune -o "
   done
 
   ignore_string=$(trim-string "$ignore_string" 3)

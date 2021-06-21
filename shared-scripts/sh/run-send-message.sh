@@ -3,7 +3,7 @@ run-send-message () {
   echo "********************************************************"
   echo "*"
   echo "* $(date)"
-  for f in "$@"; do echo "* $f"; done
+  for run_send_message_f in "$@"; do echo "* $run_send_message_f"; done
   echo "*"
   echo "********************************************************"
 }

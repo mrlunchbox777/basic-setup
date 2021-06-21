@@ -12,8 +12,8 @@ run-manual-update-basic-setup () {
 }
 
 run-manual-update-many-basic-setup () {
-  for f in "$@"
+  for run_manual_update_many_basic_setup_f in "$@"
   do
-    run-manual-update-basic-setup "$f"
+    run-manual-update-basic-setup "$run_manual_update_many_basic_setup_f"
   done
 }

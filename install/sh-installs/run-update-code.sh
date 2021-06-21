@@ -26,7 +26,7 @@ run-update-code-basic-setup () {
     "yzane.markdown-pdf"
   )
 
-  for e in ${basic_setup_code_extensions[@]}; do
-    code --install-extension "$e"
+  for run_update_code_basic_setup_f in ${basic_setup_code_extensions[@]}; do
+    code --install-extension "$run_update_code_basic_setup_f"
   done
 }

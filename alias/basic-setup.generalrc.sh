@@ -8,7 +8,7 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
-for f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$f"; done
+for basic_setup_generalrc_sh_f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
 source=""
 
 export SHELL="$(run-identify-shell-basic-setup)"
@@ -36,7 +36,7 @@ run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 
-for f in $(ls $dir/sh/); do . $dir/sh/$f; done
+for basic_setup_generalrc_sh_f in $(ls $dir/sh/); do . $dir/sh/$basic_setup_generalrc_sh_f; done
 if [ ! -z "$extrafolder" ]; then
-  for f in $(ls $dir/$extra_folder/); do source $dir/$extra_folder/$f; done
+  for basic_setup_generalrc_sh_f in $(ls $dir/$extra_folder/); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
 fi

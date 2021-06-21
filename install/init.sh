@@ -11,7 +11,7 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
-for f in $(ls "$shared_scripts_path/sh/"); do source "$shared_scripts_path/sh/$f"; done
+for basic_setup_init_sh_f in $(ls "$shared_scripts_path/sh/"); do source "$shared_scripts_path/sh/$basic_setup_init_sh_f"; done
 source="${BASH_SOURCE[0]}"
 run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"

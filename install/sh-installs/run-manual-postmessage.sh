@@ -12,8 +12,8 @@ run-manual-postmessage-basic-setup () {
 }
 
 run-manual-postmessage-many-basic-setup () {
-  for f in "$@"
+  for run_manual_postmessage_many_basic_setup_f in "$@"
   do
-    run-manual-postmessage-basic-setup "$f"
+    run-manual-postmessage-basic-setup "$run_manual_postmessage_many_basic_setup_f"
   done
 }
