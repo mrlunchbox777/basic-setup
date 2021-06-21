@@ -7,6 +7,7 @@ run-update-code-basic-setup () {
   basic_setup_code_extensions=(
     "christianvoigt.argdown-vscode"
     "eamodio.gitlens"
+    "EditorConfig.EditorConfig"
     "golang.go"
     "hashicorp.terraform"
     "hediet.vscode-drawio"
