@@ -6,6 +6,7 @@ initial_dir="$(pwd)"
 shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
@@ -31,6 +32,7 @@ should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-true}
 ## Apt variables
 should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
 should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
+should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
 
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
@@ -68,7 +70,7 @@ run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
 [ $should_install_ui_tools == "true" ] && \
-  run-manual-install-apt-many-basic-setup firefox kleopatra
+  run-manual-install-apt-many-basic-setup firefox kleopatra virtualbox
 
 run-manual-install-apt-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
 

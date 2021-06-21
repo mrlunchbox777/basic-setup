@@ -25,6 +25,9 @@ if ($IsWindows) {
     $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
   }
   if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    $sharedScriptsPath=$(Get-ChildItem ~/ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+  }
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
     $sharedScriptsPath=$(Get-ChildItem / "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
   }
   if ( -not $(Test-Path "$sharedScriptsPath") ) {
