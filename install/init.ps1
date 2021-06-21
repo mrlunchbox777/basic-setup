@@ -18,14 +18,37 @@ if ($IsWindows) {
     throw "Please run in an admin terminal"
   }
 
+  $initialDir=$(Get-Location).Path
+  $sharedScriptsPath="../shared-scripts"
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {$sharedScriptsPath="./shared-scripts"}
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+  }
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    $sharedScriptsPath=$(Get-ChildItem / "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+  }
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    throw "error finding shared-scripts..."
+  }
+  
+  foreach ($currentScript in $(Get-ChildItem "$sharedScriptsPath/powershell/")) { . $currentScript.FullName }
+  $env:DIR="$PSScriptRoot"
+  Set-Location "$env:DIR"
+
+  $env:ShouldInstall_firefox="$(Get-EnvOrDefault "ShouldInstall_firefox" "$true")"
+  $env:ShouldInstall_git="$(Get-EnvOrDefault "ShouldInstall_git" "$true")"
+  $env:ShouldInstall_vim="$(Get-EnvOrDefault "ShouldInstall_vim" "$true")"
+  $env:ShouldInstall_vscode="$(Get-EnvOrDefault "ShouldInstall_vscode" "$true")"
+  $env:ShouldInstall_wsl_ubuntu_2004="$(Get-EnvOrDefault "ShouldInstall_wsl_ubuntu_2004" "$true")"
+
+  # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
   . powershell-installs/Install-Choco.ps1
   Install-ChocoBasicSetup
 
-  # wsl --install -d ubuntu
-  # TODO: all of this
+  . powershell-installs/Install-ChocoPackage.ps1
+  Install-ManyChocoPackageBasicSetup "firefox" "git" "vim" "vscode" "wsl-ubuntu-2004"
 
-  # maybe install choco and other stuff
-    # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
+  # TODO: run the init.sh in wsl
 
-  # run the init.sh in wsl
+  Set-Location "$initialDir"
 }
