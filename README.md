@@ -30,6 +30,15 @@ if ($IsWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.
 
 Make sure to, at a minimum, turn off ui tools.
 
+### Turn off GUI Tools Using .env
+
+This only works if you clone the repo first. It is also designed for use with sh/bash/zsh.
+
+```bash
+cp template.env .env
+```
+Modify the `.env` file using the instructions listed there.
+
 ### Turn off GUI Tools Using bash
 
 ```bash
