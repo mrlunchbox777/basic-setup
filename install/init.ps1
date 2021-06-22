@@ -49,7 +49,7 @@ if ($IsWindows) {
   Install-ChocoBasicSetup
 
   . powershell-installs/Install-ChocoPackage.ps1
-  Install-ManyChocoPackageBasicSetup "firefox" "git" "vim" "vscode" "wsl-ubuntu-2004"
+  Install-ManyChocoPackageBasicSetup "chocogui" "firefox" "git" "vim" "vscode" "wsl-ubuntu-2004"
 
   # TODO: run the init.sh in wsl
 
