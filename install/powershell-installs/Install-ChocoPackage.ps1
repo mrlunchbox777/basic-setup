@@ -1,6 +1,5 @@
 # Install-ChocoPackageBasicSetup
 function Install-ChocoPackageBasicSetup($package) {
-  # choco install $package -y
   Write-Output "choco install $package -y"
 }
 

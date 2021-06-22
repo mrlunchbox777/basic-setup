@@ -51,7 +51,7 @@ if ($IsWindows) {
   . powershell-installs/Install-ChocoPackage.ps1
   Install-ManyChocoPackageBasicSetup "chocogui" "firefox" "git" "vim" "vscode" "wsl-ubuntu-2004"
 
-  # TODO: run the init.sh in wsl
+  wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 
   Set-Location "$initialDir"
 }
