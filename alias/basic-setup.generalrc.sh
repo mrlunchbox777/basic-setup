@@ -12,10 +12,10 @@ fi
 for basic_setup_generalrc_sh_f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
 source=""
 
-export SHELL="$(run-identify-shell-basic-setup)"
-echo "shell - $SHELL"
+export CURRENT_SHELL="$(run-identify-shell-basic-setup)"
+echo "shell - $CURRENT_SHELL"
 
-case "$SHELL" in
+case "$CURRENT_SHELL" in
   "bash"|"-bash"|" -bash")
     echo "using bash aliases"
     source="${BASH_SOURCE[0]}"
