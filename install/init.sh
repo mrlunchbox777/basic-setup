@@ -70,9 +70,22 @@ run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
 [ $should_install_ui_tools == "true" ] && \
-  run-manual-install-apt-many-basic-setup firefox kleopatra virtualbox
+  run-manual-install-apt-many-basic-setup \
+    firefox \
+    kleopatra \
+    virtualbox
 
-run-manual-install-apt-many-basic-setup bat calc git gpg jq openssh-client terraform tmux wget zsh
+run-manual-install-apt-many-basic-setup \
+  bat \
+  calc \
+  git \
+  gpg \
+  jq \
+  openssh-client \
+  terraform \
+  tmux \
+  wget \
+  zsh
 
 run-send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && \
@@ -82,17 +95,26 @@ run-send-message "Starting Manual Installs"
 source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
-  run-manual-install-many-basic-setup code
+  run-manual-install-many-basic-setup \
+    code
 
-run-manual-install-many-basic-setup dotnet nvm ohmyzsh pwsh
+run-manual-install-many-basic-setup \
+  dotnet \
+  nvm \
+  ohmyzsh \
+  pwsh
 
 run-send-message "Starting Config Updates"
 source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
-  run-manual-update-many-basic-setup code
+  run-manual-update-many-basic-setup \
+    code
 
-run-manual-update-many-basic-setup "alias" batcat gitconfig
+run-manual-update-many-basic-setup \
+  "alias" \
+  batcat \
+  gitconfig
 
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation
@@ -102,9 +124,11 @@ run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
 # [ "$should_install_ui_tools" == "true" ] && \
-#   run-manual-postmessage-many-basic-setup the_first_ui_post_message
+#   run-manual-postmessage-many-basic-setup \
+#     the_first_ui_post_message
 
-run-manual-postmessage-many-basic-setup zsh
+run-manual-postmessage-many-basic-setup \
+  zsh
 
 # move back to original dir and update user
 cd "$initial_dir"
