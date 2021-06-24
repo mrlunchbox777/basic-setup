@@ -61,8 +61,6 @@ should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-true}
 should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-true}
 should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 
-# should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
-
 ## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
@@ -125,9 +123,6 @@ if [ $should_install_snap == "true" ]; then
       remmina \
       slack \
       teams
-  
-  # run-manual-install-snap-many-basic-setup \
-  #   first-cli-snap
 else
   run-send-message "Skipping snap Installs"
 fi
@@ -169,10 +164,6 @@ run-manual-update-many-basic-setup \
 ## Post-install messages
 run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
-
-# [ "$should_install_ui_tools" == "true" ] && \
-#   run-manual-postmessage-many-basic-setup \
-#     the_first_ui_post_message
 
 run-manual-postmessage-many-basic-setup \
   zsh
