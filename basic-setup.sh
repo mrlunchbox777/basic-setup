@@ -16,7 +16,7 @@ if [ ! -d basic-setup ]; then
 fi
 
 echo "current dir - $(pwd)"
-bash ~/src/tools/basic-setup/install/init.sh | tee basic-setup-sh-output.log
+bash ~/src/tools/basic-setup/install/init.sh | tee ~/src/tools/basic-setup/basic-setup-sh-output.log
 
 ## end of basic setup
 echo "\n\n"

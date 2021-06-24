@@ -37,6 +37,9 @@ should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
 should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-true}
 should_install_thunderbird=${BASICSETUPSHOULDINSTALLTHUNDERBIRD:-true}
 should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
+should_install_virtualbox_ext_pack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
+should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-true}
+should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-true}
 
 should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
@@ -80,8 +83,12 @@ should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
 should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
-[ "$should_do_full_update" == "true" ] && \
+if [ "$should_do_full_update" == "true" ]; then
+  run-send-message "Starting Full Update"
   run-full-update-basic-setup
+else
+  run-send-message "Skipping Full Update"
+fi
 
 run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
@@ -93,7 +100,10 @@ source sh-installs/run-manual-install-apt.sh
     kleopatra \
     libreoffice \
     thunderbird \
-    virtualbox
+    virtualbox \
+    virtualbox-ext-pack \
+    vlc \
+    wine
 
 run-manual-install-apt-many-basic-setup \
   bat \
@@ -146,7 +156,7 @@ run-manual-install-many-basic-setup \
   ohmyzsh \
   pwsh
 
-run-send-message "Starting Config Updates"
+run-send-message "Starting Updates"
 source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
@@ -161,7 +171,6 @@ run-manual-update-many-basic-setup \
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation
 
-## Post-install messages
 run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
