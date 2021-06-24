@@ -28,25 +28,44 @@ fi
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
 should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-true}
+should_install_snap=${BASICSETUPSHOULDINSTALLSNAP:-true}
 
 ## Apt variables
 should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
+should_install_gimp=${BASICSETUPSHOULDINSTALLGIMP:-true}
 should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
+should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-true}
+should_install_thunderbird=${BASICSETUPSHOULDINSTALLTHUNDERBIRD:-true}
 should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
 
+should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
+should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-true}
 should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
 should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
 should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-true}
+should_install_lynx=${BASICSETUPSHOULDINSTALLLYNX:-true}
 should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-true}
+should_install_openjdk=${BASICSETUPSHOULDINSTALLOPENJDK:-true}
+should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-true}
 should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
+should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-true}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
 should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-true}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 
+## Snap variables
+should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-true}
+should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-true}
+should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-true}
+should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
+
+# should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
+
 ## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
@@ -72,20 +91,46 @@ source sh-installs/run-manual-install-apt.sh
 [ $should_install_ui_tools == "true" ] && \
   run-manual-install-apt-many-basic-setup \
     firefox \
+    gimp \
     kleopatra \
+    libreoffice \
+    thunderbird \
     virtualbox
 
 run-manual-install-apt-many-basic-setup \
   bat \
   calc \
+  gcc \
   git \
   gpg \
   jq \
+  lynx \
+  openjdk \
   openssh-client \
+  python3 \
+  snap \
   terraform \
+  tldr \
   tmux \
   wget \
   zsh
+
+if [ $should_install_snap == "true" ]; then
+  run-send-message "Starting snap Installs"
+  source sh-installs/run-manual-install-snap.sh
+
+  [ $should_install_ui_tools == "true" ] && \
+    run-manual-install-snap-many-basic-setup \
+      discord \
+      remmina \
+      slack \
+      teams
+  
+  # run-manual-install-snap-many-basic-setup \
+  #   first-cli-snap
+else
+  run-send-message "Skipping snap Installs"
+fi
 
 run-send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && \
@@ -96,9 +141,11 @@ source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup \
-    code
+    code \
+    zoom
 
 run-manual-install-many-basic-setup \
+  azcli \
   dotnet \
   nvm \
   ohmyzsh \

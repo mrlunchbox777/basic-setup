@@ -11,6 +11,7 @@ run-update-code-basic-setup () {
     "golang.go"
     "hashicorp.terraform"
     "hediet.vscode-drawio"
+    "mads-hartmann.bash-ide-vscode"
     "mikestead.dotenv"
     "ms-azuretools.vscode-docker"
     "ms-dotnettools.csharp"
