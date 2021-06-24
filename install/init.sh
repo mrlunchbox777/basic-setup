@@ -37,7 +37,6 @@ should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
 should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-true}
 should_install_thunderbird=${BASICSETUPSHOULDINSTALLTHUNDERBIRD:-true}
 should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
-should_install_virtualbox_ext_pack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
 should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-true}
 should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-true}
 
@@ -66,6 +65,7 @@ should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 
 ## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
@@ -101,7 +101,6 @@ source sh-installs/run-manual-install-apt.sh
     libreoffice \
     thunderbird \
     virtualbox \
-    virtualbox-ext-pack \
     vlc \
     wine
 
@@ -147,6 +146,7 @@ source ./sh-installs/run-manual-install.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup \
     code \
+    virtualboxextpack \
     zoom
 
 run-manual-install-many-basic-setup \

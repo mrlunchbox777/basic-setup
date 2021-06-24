@@ -28,5 +28,5 @@ run-manual-install-snap-many-basic-setup () {
     fi
   done
 
-  sudo snap install "$snap_install_string"
+  sudo snap install $snap_install_string
 }
