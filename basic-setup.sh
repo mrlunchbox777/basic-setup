@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # clones and installs the basic setup
 
 current_dir="$(pwd)"
@@ -15,8 +14,17 @@ if [ ! -d basic-setup ]; then
   git clone https://github.com/mrlunchbox777/basic-setup
 fi
 
+cd basic-setup
 echo "current dir - $(pwd)"
-bash ~/src/tools/basic-setup/install/init.sh | tee ~/src/tools/basic-setup/basic-setup-sh-output.log
+bash install/init.sh | tee basic-setup-sh-output.log
+
+should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
+if "${should_install_pwsh}" ; then
+  echo "running pwsh for linux"
+  pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
+else
+  echo "not running pwsh for linux"
+fi
 
 ## end of basic setup
 echo "\n\n"

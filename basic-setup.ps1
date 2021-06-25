@@ -1,6 +1,46 @@
 # runs the powershell init script
 # adapted from https://chocolatey.org/install
 
-  # need a git clone here (how to require git before choco....)
+$currentDir = "$(Get-Location)"
 
-if ($IsWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/install/init.ps1'))# clones and installs the basic setup
+New-Item ~/src/tools -ItemType Directory
+Set-Location ~/src/tools
+
+if ($IsWindows) {
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  if (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    throw "Please run in an admin terminal"
+  }
+
+  # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
+  # Adapted from https://chocolatey.org/install
+  Set-ExecutionPolicy Bypass -Scope Process -Force;
+  [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+  refresh-env
+
+  choco install git -y
+  choco install powershell-core --pre -y
+
+  refresh-env
+}
+
+if ($IsLinux) {
+  sudo apt-get update -y
+  sudo apt-get install wget git -y
+  sudo apt-get autoremove -y
+}
+
+if ( Test-Path "basic-setup" ) {
+  git clone https://github.com/mrlunchbox777/basic-setup
+}
+
+Set-Location basic-setup
+Write-Output "current dir - $(Get-Location)"
+pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
+
+# if should install wsl
+wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+
+Set-Location "$currentDir"

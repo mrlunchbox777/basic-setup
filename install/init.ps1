@@ -1,14 +1,40 @@
 # Init script for worskstation
+#if haven't run init.ps1
+#init.ps1
+
+$initialDir=$(Get-Location).Path
+
+$env:DIR="$PSScriptRoot"
+Set-Location "$env:DIR"
+
+$sharedScriptsPath="../shared-scripts"
+if ( -not $(Test-Path "$sharedScriptsPath") ) {$sharedScriptsPath="./shared-scripts"}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  $sharedScriptsPath=$(Get-ChildItem ~/src/tools "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  $sharedScriptsPath=$(Get-ChildItem ~/src "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  $sharedScriptsPath=$(Get-ChildItem ~/ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  $sharedScriptsPath=$(Get-ChildItem / "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+}
+if ( -not $(Test-Path "$sharedScriptsPath") ) {
+  throw "error finding shared-scripts..."
+}
+  
+foreach ($currentScript in $(Get-ChildItem "$sharedScriptsPath/powershell/")) { . $currentScript.FullName }
 
 # Powershell on Linux
 if ($IsLinux) {
-  # ensure tooling
-  sudo apt-get update -y
-  sudo apt-get install wget -y
-  sudo apt-get autoremove -y
-
-  # run init
-  sh -c "wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
+  Write-Output "running for linux"
+  #install sh
+  #install pwsh
 }
 
 # Powershell on Windows
@@ -17,34 +43,6 @@ if ($IsWindows) {
   if (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     throw "Please run in an admin terminal"
   }
-
-  # add a return early here
-
-  $initialDir=$(Get-Location).Path
-  $sharedScriptsPath="../shared-scripts"
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {$sharedScriptsPath="./shared-scripts"}
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    $sharedScriptsPath=$(Get-ChildItem ~/src/tools "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
-  }
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
-  }
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    $sharedScriptsPath=$(Get-ChildItem ~/src "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
-  }
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    $sharedScriptsPath=$(Get-ChildItem ~/ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
-  }
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    $sharedScriptsPath=$(Get-ChildItem / "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
-  }
-  if ( -not $(Test-Path "$sharedScriptsPath") ) {
-    throw "error finding shared-scripts..."
-  }
-  
-  foreach ($currentScript in $(Get-ChildItem "$sharedScriptsPath/powershell/")) { . $currentScript.FullName }
-  $env:DIR="$PSScriptRoot"
-  Set-Location "$env:DIR"
 
   $env:ShouldInstall_7zip.install="$(Get-EnvOrDefault "SHOULDINSTALL7ZIPINSTALL" "$true")"
   $env:ShouldInstall_azure_functions_core_tools="$(Get-EnvOrDefault "SHOULDINSTALLAZUREFUNCTIONSCORETOOLS" "$true")"
@@ -66,10 +64,6 @@ if ($IsWindows) {
   $env:ShouldInstall_vim="$(Get-EnvOrDefault "SHOULDINSTALLVIM" "$true")"
   $env:ShouldInstall_vscode="$(Get-EnvOrDefault "SHOULDINSTALLVSCODE" "$true")"
   $env:ShouldInstall_wsl_ubuntu_2004="$(Get-EnvOrDefault "SHOULDINSTALLWSLUBUNTU2004" "$true")"
-
-  # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
-  . powershell-installs/Install-Choco.ps1
-  Install-ChocoBasicSetup
 
   . powershell-installs/Install-ChocoPackage.ps1
   Install-ManyChocoPackageBasicSetup `
@@ -93,8 +87,6 @@ if ($IsWindows) {
     "vim" `
     "vscode" `
     "wsl-ubuntu-2004"
-
-  wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
-
-  Set-Location "$initialDir"
 }
+
+Set-Location "$initialDir"
