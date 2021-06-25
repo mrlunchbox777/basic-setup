@@ -19,16 +19,16 @@ fi
 for basic_setup_generalrc_sh_f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
 source=""
 
-export CURRENT_SHELL="$(run-identify-shell-basic-setup)"
+export CURRENT_SHELL="$(run-identify-shell-basic-setup | sed -r 's/[\ -]//g' )"
 echo "shell - $CURRENT_SHELL"
 
 case "$CURRENT_SHELL" in
-  "bash"|"-bash"|" -bash")
+  "bash")
     echo "using bash aliases"
     source="${BASH_SOURCE[0]}"
     extra_folder="bash"
     ;;
-  "zsh"|"-zsh"|" -zsh")
+  "zsh")
     echo "using zsh aliases"
     source="${(%):-%x}"
     extra_folder="zsh"
