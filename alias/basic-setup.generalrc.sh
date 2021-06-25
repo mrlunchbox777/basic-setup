@@ -1,8 +1,15 @@
 # Run all the shell scripts in the sh folder
+basic_setup_generalrc_has_run="${BASICSETUPGENERALRCHASRUN:-false}"
+
+if $basic_setup_generalrc_has_run ; then
+  return
+fi
 
 shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src/tools -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
@@ -41,3 +48,5 @@ for basic_setup_generalrc_sh_f in $(ls $dir/sh/); do . $dir/sh/$basic_setup_gene
 if [ ! -z "$extrafolder" ]; then
   for basic_setup_generalrc_sh_f in $(ls $dir/$extra_folder/); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
 fi
+
+export BASICSETUPGENERALRCHASRUN=true

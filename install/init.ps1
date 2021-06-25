@@ -18,11 +18,19 @@ if ($IsWindows) {
     throw "Please run in an admin terminal"
   }
 
+  # add a return early here
+
   $initialDir=$(Get-Location).Path
   $sharedScriptsPath="../shared-scripts"
   if ( -not $(Test-Path "$sharedScriptsPath") ) {$sharedScriptsPath="./shared-scripts"}
   if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    $sharedScriptsPath=$(Get-ChildItem ~/src/tools "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+  }
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
     $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
+  }
+  if ( -not $(Test-Path "$sharedScriptsPath") ) {
+    $sharedScriptsPath=$(Get-ChildItem ~/src "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
   }
   if ( -not $(Test-Path "$sharedScriptsPath") ) {
     $sharedScriptsPath=$(Get-ChildItem ~/ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
