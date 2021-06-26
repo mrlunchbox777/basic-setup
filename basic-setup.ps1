@@ -38,8 +38,9 @@ if (-not (Test-Path "basic-setup")) {
 
 Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
-if (-not $env:BasicSetupHasRunShInit) {
+if (-not $env:BasicSetupHasRunPwshInit) {
   pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
+  $env:BasicSetupHasRunPwshInit="$true"
 }
 
 if ($IsWindows -and ("$true" -eq "$env:ShouldInstall_wsl_ubuntu_2004")) {
