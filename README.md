@@ -50,3 +50,9 @@ export BASICSETUPSHOULDINSTALLUITOOLS="false"
 ```pwsh
 $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 ```
+
+## Goal
+
+We aren't here yet necessarily, this is the aim.
+
+This will create a good basic setup for workstations. It should provide a pretty acceptable setup for a windows machine and debian derived linux machine. This is also supplies an ability to configure the applications/cron/etc to run on these systems.
