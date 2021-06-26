@@ -28,11 +28,11 @@ if ($IsWindows) {
 
 if ($IsLinux) {
   sudo apt-get update -y
-  sudo apt-get install wget git -y
+  sudo apt-get install wget git bash -y
   sudo apt-get autoremove -y
 }
 
-if ( Test-Path "basic-setup" ) {
+if (-not (Test-Path "basic-setup")) {
   git clone https://github.com/mrlunchbox777/basic-setup
 }
 
@@ -40,7 +40,14 @@ Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
 pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
-# if should install wsl
-wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+if ($IsWindows -and ("$true" -eq "$env:ShouldInstall_wsl_ubuntu_2004")) {
+  wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+}
+
+if ($IsLinux) {
+  if (-not $env:BasicSetupHasRunShInit) {
+    bash install/init.sh | tee basic-setup-sh-output.log
+  } 
+}
 
 Set-Location "$currentDir"

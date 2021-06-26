@@ -26,6 +26,8 @@ else
   echo "not running pwsh for linux"
 fi
 
+export BasicSetupHasRunShInit="true"
+
 ## end of basic setup
 echo "\n\n"
 echo "----------------------------------------------------------"
