@@ -1,7 +1,5 @@
 #!/bin/bash
 # Init script for worskstation
-#if haven't run init.sh
-#init.sh
 
 # track directories
 initial_dir="$(pwd)"

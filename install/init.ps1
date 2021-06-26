@@ -1,6 +1,4 @@
 # Init script for worskstation
-#if haven't run init.ps1
-#init.ps1
 
 $initialDir=$(Get-Location).Path
 
@@ -8,34 +6,27 @@ $env:DIR="$PSScriptRoot"
 Set-Location "$env:DIR"
 
 $sharedScriptsPath="../shared-scripts"
-if ( -not $(Test-Path "$sharedScriptsPath") ) {$sharedScriptsPath="./shared-scripts"}
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {$sharedScriptsPath="./shared-scripts"}
+if (-not (Test-Path "$sharedScriptsPath")) {
   $sharedScriptsPath=$(Get-ChildItem ~/src/tools "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
 }
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {
   $sharedScriptsPath=$(Get-ChildItem ./ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
 }
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {
   $sharedScriptsPath=$(Get-ChildItem ~/src "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
 }
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {
   $sharedScriptsPath=$(Get-ChildItem ~/ "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
 }
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {
   $sharedScriptsPath=$(Get-ChildItem / "*shared-scripts" -Recurse -Directory | Select-Object -ExpandProperty FullName)
 }
-if ( -not $(Test-Path "$sharedScriptsPath") ) {
+if (-not (Test-Path "$sharedScriptsPath")) {
   throw "error finding shared-scripts..."
 }
   
 foreach ($currentScript in $(Get-ChildItem "$sharedScriptsPath/powershell/")) { . $currentScript.FullName }
-
-# Powershell on Linux
-if ($IsLinux) {
-  Write-Output "running for linux"
-  #install sh
-  #install pwsh
-}
 
 # Powershell on Windows
 if ($IsWindows) {
@@ -87,6 +78,11 @@ if ($IsWindows) {
     "vim" `
     "vscode" `
     "wsl-ubuntu-2004"
+}
+
+# Powershell on Linux
+if ($IsLinux) {
+  Write-Output "running for linux"
 }
 
 Set-Location "$initialDir"
