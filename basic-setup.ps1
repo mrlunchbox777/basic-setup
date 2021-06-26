@@ -38,19 +38,14 @@ if (-not (Test-Path "basic-setup")) {
 
 Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
-if (-not $env:BasicSetupHasRunPwshInit) {
-  pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
-  $env:BasicSetupHasRunPwshInit="$true"
-}
+pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
 if ($IsWindows -and ("$true" -eq "$env:ShouldInstall_wsl_ubuntu_2004")) {
   wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 }
 
 if ($IsLinux) {
-  if (-not $env:BasicSetupHasRunShInit) {
-    bash install/init.sh | tee basic-setup-sh-output.log
-  } 
+  bash install/init.sh | tee basic-setup-sh-output.log
 }
 
 Set-Location "$currentDir"
