@@ -26,6 +26,7 @@ else
   echo "not running pwsh for linux"
 fi
 
+# for the powershell basic-setup
 export BasicSetupHasRunShInit="true"
 
 ## end of basic setup
