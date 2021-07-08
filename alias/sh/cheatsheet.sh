@@ -73,6 +73,7 @@ cheatsheet() {
     jobs - list current jobs
     script - record shell session to file
     vim - text editor (https://vim-adventures.com/)
+    xargs - text-based \"foreach\"
 
     https://github.com/kamranahmedse/developer-roadmap
   "
