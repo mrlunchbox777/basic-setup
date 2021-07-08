@@ -66,3 +66,7 @@ find-files-ignore() {
 count-lines-ignore() {
   find-files-ignore "$@" | xargs wc -l
 }
+
+myip() {
+  dig +short myip.opendns.com @resolver1.opendns.com
+}
