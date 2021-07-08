@@ -3,6 +3,7 @@ cheatsheet() {
     ***Cheatsheet***
     
     * basic command line tutorial https://ubuntu.com/tutorials/command-line-for-beginners#1-overview
+    * developer roadmap - https://github.com/kamranahmedse/developer-roadmap
 
     **Command Info**
     tldr - get simple info on command
@@ -74,7 +75,12 @@ cheatsheet() {
     script - record shell session to file
     vim - text editor (https://vim-adventures.com/)
     xargs - text-based \"foreach\"
+    
+    * basic command line tutorial https://ubuntu.com/tutorials/command-line-for-beginners#1-overview
+    * developer roadmap - https://github.com/kamranahmedse/developer-roadmap
 
-    https://github.com/kamranahmedse/developer-roadmap
+    **Command Info**
+    tldr - get simple info on command
+    man - get detailed info on command
   "
 }
