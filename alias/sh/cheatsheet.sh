@@ -1,3 +1,9 @@
+# TODO: add more cheatsheat stuff
+# for alias cheatsheet names
+# echo temp file name
+# write to temp file
+# this needs to check if that files exists, and if not recreate it
+
 cheatsheet() {
   echo "
     ***Cheatsheet***
