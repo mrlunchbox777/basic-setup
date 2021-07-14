@@ -32,5 +32,5 @@ run-add-cron-basic-setup() {
   fi
 }
 
-run-add-cron-basic-setup "*/5 * * * * \"$dir/jobs/run-write-temp-file.sh\""
+run-add-cron-basic-setup "* * * * * $dir/jobs/run-write-temp-file.sh"
 # */5 * * * * /path/to/job -with args
