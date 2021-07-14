@@ -127,6 +127,8 @@ run-manual-install-apt-many-basic-setup \
   wget \
   zsh
 
+# TODO: consider this - https://help.ubuntu.com/community/AutomaticSecurityUpdates
+
 if [ $should_install_snap == "true" ]; then
   run-send-message "Starting snap Installs"
   source sh-installs/run-manual-install-snap.sh
