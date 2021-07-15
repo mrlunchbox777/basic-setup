@@ -129,9 +129,6 @@ run-manual-install-apt-many-basic-setup \
   wget \
   zsh
 
-# postfix (how to pick localhost config) and mailutils
-# hostname - domainname -A | awk '{print $1}'
-
 # TODO: consider this - https://help.ubuntu.com/community/AutomaticSecurityUpdates
 
 if [ $should_install_snap == "true" ]; then
