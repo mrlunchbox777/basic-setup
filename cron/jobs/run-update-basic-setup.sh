@@ -1,5 +1,4 @@
 #!/bin/bash
-#run-add-cron.sh
 
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find /home/ -type d -wholename "*basic-setup/shared-scripts")
@@ -19,18 +18,8 @@ run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 
-run-add-cron-basic-setup() {
-  if [ -z "$1" ]; then
-    run-send-message "Empty cron... skipping"
-    return 0;
-  fi
-
-  local found_cron_entry="false"
-  crontab -l 2>/dev/null | grep -v -q "$1" && found_cron_entry="true"
-  if [ "${found_cron_entry}" != "true" ]; then
-    (crontab -l 2>/dev/null; echo "$1") | crontab -
-  fi
-}
-
-# run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-write-temp-file.sh\""
-run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-update-basic-setup.sh\""
+orig_dir="$(pwd)"
+cd "$dir"
+git fetch origin main:main
+# do the merge
+cd "$orig_dir"
