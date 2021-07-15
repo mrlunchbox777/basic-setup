@@ -19,12 +19,6 @@ source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 orig_dir="$(pwd)"
 
-cd "$dir"
-stash_name="$(uuid)"
-orig_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-git stash push -m "$stash_name"
-git checkout main
-git pull
-git checkout "$orig_branch_name"
-git stash list | grep "$stash_name" && git stash pop
+cd "$dir/.."
+./run-add-cron.sh
 cd "$orig_dir"
