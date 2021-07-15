@@ -79,15 +79,15 @@ should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
 should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 
-## Postmessage variables
-should_postmessage_zsh=${should_install_zsh}
-
 ## Config variables
 should_update_code=${BASICSETUPSHOULDUPDATECODE:-true}
 
 should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
 should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
+
+## Postmessage variables
+should_postmessage_zsh=${should_install_zsh}
 
 if [ "$should_do_full_update" == "true" ]; then
   run-send-message "Starting Full Update"
