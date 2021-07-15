@@ -55,7 +55,7 @@ run-add-cron-basic-setup() {
 
   local found_cron_entry="false"
   local file_name="$1"
-  local var_name="$(echo $1 | sed -r 's/-/_/g')"
+  local var_name="$(echo $file_name | sed -r 's/-/_/g')"
 
   local check_for_run_variable_name="should_install_$(echo $var_name)"
   if [ "${!check_for_run_variable_name}" == true ]; then
@@ -78,9 +78,9 @@ run-add-cron-basic-setup() {
     local cron_dow=$(echo $cron_dow | sed 's/^$/*/')""
 
     local cron_script_string="$cron_min $cron_hour $cron_dom $cron_month $cron_dow '$dir/jobs/$file_name.sh'"
-    echo "basic-setup-run-add-cron for '$cron_script_string'"
     crontab -l 2>/dev/null | grep -F -q "$cron_script_string" && found_cron_entry="true"
     if [ "${found_cron_entry}" != "true" ]; then
+      echo "basic-setup-run-add-cron for '$cron_script_string'"
       (crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'"; echo "$cron_script_string") | crontab -
     else
       echo "already found and skipping - $cron_script_string"
