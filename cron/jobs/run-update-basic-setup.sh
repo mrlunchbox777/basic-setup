@@ -17,8 +17,8 @@ source="${BASH_SOURCE[0]}"
 run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
-
 orig_dir="$(pwd)"
+
 cd "$dir"
 stash_name="$(uuid)"
 orig_branch_name="$(git rev-parse --abbrev-ref HEAD)"
@@ -27,5 +27,4 @@ git co main
 git pull
 git co "$orig_branch_name"
 git stash list | grep "$stash_name" && git stash pop
-# do the merge
 cd "$orig_dir"
