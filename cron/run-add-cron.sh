@@ -81,12 +81,13 @@ run-add-cron-basic-setup() {
     echo "basic-setup-run-add-cron for '$cron_script_string'"
     crontab -l 2>/dev/null | grep -F -q "$cron_script_string" && found_cron_entry="true"
     if [ "${found_cron_entry}" != "true" ]; then
-      (crontab -l 2>/dev/null; echo "$cron_script_string") | crontab -
+      (crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'"; echo "$cron_script_string") | crontab -
     else
       echo "already found and skipping - $cron_script_string"
     fi
   else
-    echo "skipping, env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
+    echo "ensuring the script isn't in crontab, env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
+    (crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'";) | crontab -
   fi
 }
 
