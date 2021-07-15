@@ -33,4 +33,4 @@ run-add-cron-basic-setup() {
 }
 
 # run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-write-temp-file.sh\""
-run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-update-basic-setup.sh\""
+run-add-cron-basic-setup "0 0 * * * \"$dir/jobs/run-update-basic-setup.sh\""
