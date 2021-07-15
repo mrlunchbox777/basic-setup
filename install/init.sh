@@ -73,8 +73,10 @@ should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-tru
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
+should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
+should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-true}
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 
 ## Postmessage variables
@@ -162,8 +164,10 @@ source ./sh-installs/run-manual-install.sh
 run-manual-install-many-basic-setup \
   azcli \
   dotnet \
+  mailutils \
   nvm \
   ohmyzsh \
+  postfix \
   pwsh
 
 run-send-message "Starting Updates"
