@@ -26,12 +26,14 @@ run-add-cron-basic-setup() {
   fi
 
   local found_cron_entry="false"
-  crontab -l 2>/dev/null | grep -v -q "$1" && found_cron_entry="true"
+  crontab -l 2>/dev/null | grep -F -q "$1" && found_cron_entry="true"
   if [ "${found_cron_entry}" != "true" ]; then
     (crontab -l 2>/dev/null; echo "$1") | crontab -
+  else
+    echo "already found and skipping - $1"
   fi
 }
 
 # run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-write-temp-file.sh\""
-run-add-cron-basic-setup "0 0 * * * \"$dir/jobs/run-update-basic-setup.sh\""
-run-add-cron-basic-setup "5 0 * * * \"$dir/jobs/run-update-basic-setup-cron.sh\""
+run-add-cron-basic-setup "0 0 * * * '$dir/jobs/run-update-basic-setup.sh'"
+run-add-cron-basic-setup "5 0 * * * '$dir/jobs/run-update-cron-basic-setup.sh'"
