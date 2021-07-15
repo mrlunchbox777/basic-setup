@@ -23,8 +23,8 @@ cd "$dir"
 stash_name="$(uuid)"
 orig_branch_name="$(git rev-parse --abbrev-ref HEAD)"
 git stash push -m "$stash_name"
-git co main
+git checkout main
 git pull
-git co "$orig_branch_name"
+git checkout "$orig_branch_name"
 git stash list | grep "$stash_name" && git stash pop
 cd "$orig_dir"
