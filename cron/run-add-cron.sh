@@ -56,8 +56,6 @@ run-add-cron-basic-setup() {
   local found_cron_entry="false"
   local file_name="$1"
   local var_name="$(echo $1 | sed -r 's/-/_/g')"
-  echo "file_name=$file_name"
-  echo "var_name=$var_name"
 
   local check_for_run_variable_name="should_install_$(echo $var_name)"
   if [ "${!check_for_run_variable_name}" == true ]; then
@@ -88,7 +86,7 @@ run-add-cron-basic-setup() {
       echo "already found and skipping - $cron_script_string"
     fi
   else
-    echo "env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
+    echo "skipping, env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
   fi
 }
 
