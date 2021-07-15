@@ -1,5 +1,4 @@
 #!/bin/bash
-#run-add-cron.sh
 
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find /home/ -type d -wholename "*basic-setup/shared-scripts")
@@ -18,20 +17,14 @@ source="${BASH_SOURCE[0]}"
 run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
+orig_dir="$(pwd)"
 
-run-add-cron-basic-setup() {
-  if [ -z "$1" ]; then
-    run-send-message "Empty cron... skipping"
-    return 0;
-  fi
-
-  local found_cron_entry="false"
-  crontab -l 2>/dev/null | grep -v -q "$1" && found_cron_entry="true"
-  if [ "${found_cron_entry}" != "true" ]; then
-    (crontab -l 2>/dev/null; echo "$1") | crontab -
-  fi
-}
-
-# run-add-cron-basic-setup "* * * * * \"$dir/jobs/run-write-temp-file.sh\""
-run-add-cron-basic-setup "0 0 * * * \"$dir/jobs/run-update-basic-setup.sh\""
-run-add-cron-basic-setup "5 0 * * * \"$dir/jobs/run-update-basic-setup-cron.sh\""
+cd "$dir"
+stash_name="$(uuid)"
+orig_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+git stash push -m "$stash_name"
+git checkout main
+git pull
+git checkout "$orig_branch_name"
+git stash list | grep "$stash_name" && git stash pop
+cd "$orig_dir"
