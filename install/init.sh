@@ -86,8 +86,14 @@ should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
 should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
 
+## CRON variables
+# Check ../cron/run-add-cron.sh
+# All variables will be set there as they need to be set when running that script
+should_add_cron=${BASICSETUPSHOULDADDCRON:-true}
+
 ## Postmessage variables
 should_postmessage_zsh=${should_install_zsh}
+should_postmessage_cron=${should_add_cron}
 
 if [ "$should_do_full_update" == "true" ]; then
   run-send-message "Starting Full Update"
@@ -181,6 +187,13 @@ run-manual-update-many-basic-setup \
 
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation
+
+if [ "$should_add_cron" == "true" ]; then
+  run-send-message "Starting CRON"
+  source ./../cron/run-add-cron.sh
+else
+  run-send-message "Skipping CRON"
+fi
 
 run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
