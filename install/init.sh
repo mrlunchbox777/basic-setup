@@ -58,6 +58,7 @@ should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-true}
 should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
 should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-true}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
+should_install_unattended_upgrades=${BASICSETUPSHOULDINSTALLUNATTENDEDUPGRADES:-true}
 should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-true}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 
@@ -85,6 +86,7 @@ should_update_code=${BASICSETUPSHOULDUPDATECODE:-true}
 should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
 should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
 should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
+should_update_unattended_upgrades=${should_install_unattended_upgrades}
 
 ## CRON variables
 # Check ../cron/run-add-cron.sh
@@ -132,10 +134,9 @@ run-manual-install-apt-many-basic-setup \
   terraform \
   tldr \
   tmux \
+  unattended-upgrades \
   wget \
   zsh
-
-# TODO: consider this - https://help.ubuntu.com/community/AutomaticSecurityUpdates
 
 if [ $should_install_snap == "true" ]; then
   run-send-message "Starting snap Installs"
@@ -183,7 +184,8 @@ source ./sh-installs/run-manual-update.sh
 run-manual-update-many-basic-setup \
   "alias" \
   batcat \
-  gitconfig
+  gitconfig \
+  unattended-upgrades
 
 # TODO: consider adding the powerlevel 10k theme to oh my zsh -
 #   https://github.com/romkatv/powerlevel10k#installation
