@@ -1,6 +1,6 @@
 # run manual update function
 run-manual-update-basic-setup () {
-  local check_for_run_variable_name="should_update_$1"
+  local check_for_run_variable_name="should_update_$(echo $1 | sed -r 's/-/_/g')"
   if [ "${!check_for_run_variable_name}" == "true" ]; then
     local source_variable_name="sh-installs/run-update-$1.sh"
     local function_variable_name="run-update-$1-basic-setup"
