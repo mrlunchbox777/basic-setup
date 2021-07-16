@@ -1,10 +1,4 @@
 # Run all the shell scripts in the sh folder
-basic_setup_generalrc_has_run="${BASICSETUPGENERALRCHASRUN:-false}"
-
-if $basic_setup_generalrc_has_run ; then
-  return
-fi
-
 shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src/tools -type d -wholename "*basic-setup/shared-scripts")
