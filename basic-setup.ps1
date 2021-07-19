@@ -3,7 +3,9 @@
 
 $currentDir = "$(Get-Location)"
 
-New-Item ~/src/tools -ItemType Directory
+if ( -not (Test-Path ~/src/tools) ) {
+  New-Item ~/src/tools -ItemType Directory
+}
 Set-Location ~/src/tools
 
 $onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux)))
@@ -21,12 +23,12 @@ if ($onWindows) {
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-  refresh-env
+  RefreshEnv.cmd
 
   choco install git -y
   choco install powershell-core --pre -y
 
-  refresh-env
+  RefreshEnv.cmd
 }
 
 if ($onLinux) {
