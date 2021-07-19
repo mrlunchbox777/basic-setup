@@ -54,6 +54,8 @@ if([System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004)) {$should
 if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
   if ($(Get-Command wsl)) {
     wsl --set-default-version 2
+    # TODO there were failures here
+    # TODO make sure that gui installs are turned off first
     bash -c "wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
   } else {
     Write-Output "If you want WSL to run, please note that currently WSL has to be installed manually from the Windows Store"
