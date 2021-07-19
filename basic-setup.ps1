@@ -53,6 +53,7 @@ if([System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004)) {$should
 
 if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
   wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+  Write-Output "If WSL failed, please note that currently WSL has to be installed manually from the Windows Store"
 }
 
 if ($onLinux) {

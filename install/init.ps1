@@ -28,6 +28,7 @@ if (-not (Test-Path "$sharedScriptsPath")) {
   
 foreach ($currentScript in $(Get-ChildItem "$sharedScriptsPath/powershell/")) { . $currentScript.FullName }
 
+# make sure these get-envordefault are actually pulling values and do proper defaults
 $env:ShouldInstall_7zip:install="$(Get-EnvOrDefault "SHOULDINSTALL7ZIPINSTALL" "$true")"
 $env:ShouldInstall_azure_functions_core_tools="$(Get-EnvOrDefault "SHOULDINSTALLAZUREFUNCTIONSCORETOOLS" "$true")"
 $env:ShouldInstall_chocolatey="$(Get-EnvOrDefault "SHOULDINSTALLCHOCOLATEY" "$true")"
@@ -82,8 +83,8 @@ if ($IsWindows) {
     "postman",
     "terraform",
     "vim",
-    "vscode",
-    "wsl-ubuntu-2004"
+    "vscode"
+    # "wsl-ubuntu-2004"
   )
 }
 
