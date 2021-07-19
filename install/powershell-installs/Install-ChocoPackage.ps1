@@ -21,7 +21,11 @@ function Install-ManyChocoPackageBasicSetup() {
     Write-Output "current package - $package"
     $checkForRunVariableName="ShouldInstall_$($1 -replace '-','_')"
     if ($true -eq [System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")) {
+      Write-Output "adding package - $package"
       $packages+="$package "
+    } else {
+      $currentRunVal=[System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")
+      Write-Output "skipping package - $package - $checkForRunVariableName - $currentRunVal"
     }
   }
   Write-Output "choco install $packages -y"
