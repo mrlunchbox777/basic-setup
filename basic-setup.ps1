@@ -29,7 +29,7 @@ if ($onWindows) {
   refreshenv
 
   choco install git -y
-  choco install powershell-core --pre -y
+  choco install powershell-core -y
 
   refreshenv
 }
@@ -46,7 +46,7 @@ if (-not (Test-Path "basic-setup")) {
 
 Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
-pwsh-preview -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
+pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
 $shouldInstall_wsl_ubuntu_2004=[System.Environment]::GetEnvironmentVariable($SHOULDINSTALLWSLUBUNTU2004)
 if([System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004)) {$shouldInstall_wsl_ubuntu_2004="$true"}
