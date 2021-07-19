@@ -23,12 +23,15 @@ if ($onWindows) {
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-  RefreshEnv.cmd
+  # https://stackoverflow.com/questions/46758437/how-to-refresh-the-environment-of-a-powershell-session-after-a-chocolatey-instal
+  $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."   
+  Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+  refreshenv
 
   choco install git -y
   choco install powershell-core --pre -y
 
-  RefreshEnv.cmd
+  refreshenv
 }
 
 if ($onLinux) {
