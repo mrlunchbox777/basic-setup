@@ -50,7 +50,7 @@ $env:ShouldInstall_vscode="$(Get-EnvOrDefault "SHOULDINSTALLVSCODE" "$true")"
 $env:ShouldInstall_wsl_ubuntu_2004="$(Get-EnvOrDefault "SHOULDINSTALLWSLUBUNTU2004" "$true")"
 $env:ShouldUpdateBasicSetupProfile="$(Get-EnvOrDefault "SHOULDUPDATEBASICSETUPPROFILE" "$true")"
 
-Update-Help
+Update-Help -UICulture en-US
 
 if ($IsWindows) {
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -59,27 +59,28 @@ if ($IsWindows) {
   }
 
   . powershell-installs/Install-ChocoPackage.ps1
-  Install-ManyChocoPackageBasicSetup `
-    "7zip.install" `
-    "azure-functions-core-tools" `
-    "chocolatey" `
-    "chocolatey-core.extension" `
-    "chocolatey-dotnetfx.extension" `
-    "chocolatey-windowsupdate.extension" `
-    "chocogui" `
-    "docker-desktop" `
-    "dotnetcore-sdk" `
-    "filezilla" `
-    "firefox" `
-    "git.install" `
-    "nuget.commandline" `
-    "nvm" `
-    "poshgit" `
-    "postman" `
-    "terraform" `
-    "vim" `
-    "vscode" `
+  Install-ManyChocoPackageBasicSetup @(
+    "7zip.install"
+    "azure-functions-core-tools"
+    "chocolatey"
+    "chocolatey-core.extension"
+    "chocolatey-dotnetfx.extension"
+    "chocolatey-windowsupdate.extension"
+    "chocogui"
+    "docker-desktop"
+    "dotnetcore-sdk"
+    "filezilla"
+    "firefox"
+    "git.install"
+    "nuget.commandline"
+    "nvm"
+    "poshgit"
+    "postman"
+    "terraform"
+    "vim"
+    "vscode"
     "wsl-ubuntu-2004"
+  )
 }
 
 if ($IsLinux) {
