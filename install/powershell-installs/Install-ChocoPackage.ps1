@@ -16,14 +16,14 @@ function Install-ManyChocoPackageBasicSetup() {
     $packagesArray
   )
 
-  $packages=""
+  $packages="choco "
   foreach ($package in $packagesArray) {
     $checkForRunVariableName="ShouldInstall_$($package -replace '-','_')"
     if ($true -eq [System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")) {
-      $packages+="$package "
+      $packages="$packages $package "
     }
   }
 
-  choco install $packages -y
+  choco install -y $packages
   refreshenv
 }
