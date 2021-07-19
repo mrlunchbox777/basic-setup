@@ -60,25 +60,25 @@ if ($IsWindows) {
 
   . powershell-installs/Install-ChocoPackage.ps1
   Install-ManyChocoPackageBasicSetup @(
-    "7zip.install"
-    "azure-functions-core-tools"
-    "chocolatey"
-    "chocolatey-core.extension"
-    "chocolatey-dotnetfx.extension"
-    "chocolatey-windowsupdate.extension"
-    "chocogui"
-    "docker-desktop"
-    "dotnetcore-sdk"
-    "filezilla"
-    "firefox"
-    "git.install"
-    "nuget.commandline"
-    "nvm"
-    "poshgit"
-    "postman"
-    "terraform"
-    "vim"
-    "vscode"
+    "7zip.install",
+    "azure-functions-core-tools",
+    "chocolatey",
+    "chocolatey-core.extension",
+    "chocolatey-dotnetfx.extension",
+    "chocolatey-windowsupdate.extension",
+    "chocogui",
+    "docker-desktop",
+    "dotnetcore-sdk",
+    "filezilla",
+    "firefox",
+    "git.install",
+    "nuget.commandline",
+    "nvm",
+    "poshgit",
+    "postman",
+    "terraform",
+    "vim",
+    "vscode",
     "wsl-ubuntu-2004"
   )
 }
