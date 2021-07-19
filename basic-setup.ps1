@@ -6,7 +6,10 @@ $currentDir = "$(Get-Location)"
 New-Item ~/src/tools -ItemType Directory
 Set-Location ~/src/tools
 
-if (($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))) {
+$onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux)))
+$onLinux=(-not $onWindows)
+
+if ($onWindows) {
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
   if (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     throw "Please run in an admin terminal"
@@ -26,7 +29,7 @@ if (($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [Syst
   refresh-env
 }
 
-if ($IsLinux) {
+if ($onLinux) {
   sudo apt-get update -y
   sudo apt-get install wget git bash -y
   sudo apt-get autoremove -y
@@ -40,11 +43,14 @@ Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
 pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
-if ($IsWindows -and ("$true" -eq "$env:ShouldInstall_wsl_ubuntu_2004")) {
+$shouldInstall_wsl_ubuntu_2004=[System.Environment]::GetEnvironmentVariable($SHOULDINSTALLWSLUBUNTU2004)
+$shouldInstall_wsl_ubuntu_2004=[System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004) ? "$true": "$shouldInstall_wsl_ubuntu_2004"
+
+if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
   wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 }
 
-if ($IsLinux) {
+if ($onLinux) {
   bash install/init.sh | tee basic-setup-sh-output.log
 }
 
