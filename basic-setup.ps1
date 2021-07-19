@@ -6,7 +6,7 @@ $currentDir = "$(Get-Location)"
 New-Item ~/src/tools -ItemType Directory
 Set-Location ~/src/tools
 
-if ($IsWindows) {
+if (($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))) {
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
   if (!$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     throw "Please run in an admin terminal"
