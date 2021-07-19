@@ -70,7 +70,7 @@ if ($IsWindows) {
     "chocolatey-core.extension",
     "chocolatey-dotnetfx.extension",
     "chocolatey-windowsupdate.extension",
-    "chocogui",
+    "chocolateygui",
     "docker-desktop",
     "dotnetcore-sdk",
     "filezilla",
