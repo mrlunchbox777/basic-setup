@@ -23,7 +23,7 @@ If Windows Installs wsl and tries to run from there. If Linux installs as expect
 **If Windows Run As Administrator**
 
 ```pwsh
-if ($IsWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
+$onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
 ```
 
 ## Headless Considerations
