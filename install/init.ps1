@@ -49,8 +49,12 @@ $env:ShouldInstall_vim="$(Get-EnvOrDefault "SHOULDINSTALLVIM" "$true")"
 $env:ShouldInstall_vscode="$(Get-EnvOrDefault "SHOULDINSTALLVSCODE" "$true")"
 $env:ShouldInstall_wsl_ubuntu_2004="$(Get-EnvOrDefault "SHOULDINSTALLWSLUBUNTU2004" "$true")"
 $env:ShouldUpdateBasicSetupProfile="$(Get-EnvOrDefault "SHOULDUPDATEBASICSETUPPROFILE" "$true")"
+# TODO this should be set to true after testing
+$env:ShouldUpdateBasicSetupUpdateHelp="$(Get-EnvOrDefault "SHOULDUPDATEBASICSETUPUPDATEHELP" "$false")"
 
-Update-Help -UICulture en-US
+if ($true -eq "$env:ShouldUpdateBasicSetupUpdateHelp") {
+  Update-Help -UICulture en-US
+}
 
 if ($IsWindows) {
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
