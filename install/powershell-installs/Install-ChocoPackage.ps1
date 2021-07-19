@@ -9,7 +9,13 @@ function Install-ChocoPackageBasicSetup($package) {
   }
 }
 
-function Install-ManyChocoPackageBasicSetup($packagesArray) {
+function Install-ManyChocoPackageBasicSetup() {
+  Param(
+    [Parameter(Mandatory=$true,
+    ValueFromPipeline=$true)]
+    [String[]]
+    $packagesArray
+  )
   $packages=""
   foreach ($package in $packagesArray) {
     Write-Output "current package - $package"
