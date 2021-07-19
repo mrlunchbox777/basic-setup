@@ -17,7 +17,7 @@ function Install-ManyChocoPackageBasicSetup() {
   )
 
   $packages="choco "
-  $newArray=@("choco")
+  $newArray=[System.Collections.ArrayList]@("choco")
   foreach ($package in $packagesArray) {
     $checkForRunVariableName="ShouldInstall_$($package -replace '-','_')"
     if ($true -eq [System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")) {
