@@ -44,7 +44,7 @@ Write-Output "current dir - $(Get-Location)"
 pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
 $shouldInstall_wsl_ubuntu_2004=[System.Environment]::GetEnvironmentVariable($SHOULDINSTALLWSLUBUNTU2004)
-$shouldInstall_wsl_ubuntu_2004=[System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004) ? "$true": "$shouldInstall_wsl_ubuntu_2004"
+if([System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004)) {$shouldInstall_wsl_ubuntu_2004="$true"}
 
 if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
   wsl wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
