@@ -9,9 +9,9 @@ function Install-ChocoPackageBasicSetup($package) {
   }
 }
 
-function Install-ManyChocoPackageBasicSetup() {
+function Install-ManyChocoPackageBasicSetup($packagesArray) {
   $packages=""
-  foreach ($package in $args) {
+  foreach ($package in $packagesArray) {
     $checkForRunVariableName="ShouldInstall_$($1 -replace '-','_')"
     if ($true -eq [System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")) {
       $packages+="$package "
