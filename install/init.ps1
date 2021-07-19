@@ -86,6 +86,8 @@ if ($IsWindows) {
     "vscode"
     # "wsl-ubuntu-2004"
   )
+
+  # TODO add scheduled tasks - https://active-directory-wp.com/docs/Usage/How_to_add_a_cron_job_on_Windows/Scheduled_tasks_and_cron_jobs_on_Windows/index.html
 }
 
 if ($IsLinux) {
