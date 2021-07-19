@@ -52,7 +52,8 @@ $shouldInstall_wsl_ubuntu_2004=[System.Environment]::GetEnvironmentVariable($SHO
 if([System.String]::IsNullOrWhiteSpace($shouldInstall_wsl_ubuntu_2004)) {$shouldInstall_wsl_ubuntu_2004="$true"}
 
 if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
-  wsl -e "wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
+  wsl --set-default-version 2
+  bash -c "wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
   Write-Output "If WSL failed, please note that currently WSL has to be installed manually from the Windows Store"
 }
 
