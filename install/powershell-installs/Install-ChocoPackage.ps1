@@ -5,7 +5,7 @@ function Install-ChocoPackageBasicSetup($package) {
   if ($true -eq [System.Environment]::GetEnvironmentVariable("$checkForRunVariableName")) {
     Write-Output "choco install $package -y"
 
-    refresh-env
+    refreshenv
   }
 }
 
@@ -19,5 +19,5 @@ function Install-ManyChocoPackageBasicSetup() {
   }
   Write-Output "choco install $packages -y"
 
-  refresh-env
+  refreshenv
 }
