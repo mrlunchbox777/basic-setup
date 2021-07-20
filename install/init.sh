@@ -104,6 +104,7 @@ else
   run-send-message "Skipping Full Update"
 fi
 
+# TODO support yum, pacman, and apk as well
 run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
@@ -118,6 +119,7 @@ source sh-installs/run-manual-install-apt.sh
     virtualbox \
     vlc \
     wine
+# TODO spotify, grpn
 
 run-manual-install-apt-many-basic-setup \
   bat \
