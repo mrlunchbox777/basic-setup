@@ -55,6 +55,7 @@ should_install_lynx=${BASICSETUPSHOULDINSTALLLYNX:-true}
 should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-true}
 should_install_openjdk=${BASICSETUPSHOULDINSTALLOPENJDK:-true}
 should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-true}
+should_install_ranger=${BASICSETUPSHOULDINSTALLRANGER:-true}
 should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
 should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-true}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
@@ -104,7 +105,6 @@ else
   run-send-message "Skipping Full Update"
 fi
 
-# TODO support yum, pacman, and apk as well
 run-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
@@ -119,7 +119,6 @@ source sh-installs/run-manual-install-apt.sh
     virtualbox \
     vlc \
     wine
-# TODO spotify, grpn
 
 run-manual-install-apt-many-basic-setup \
   bat \
@@ -132,6 +131,7 @@ run-manual-install-apt-many-basic-setup \
   openjdk \
   openssh-client \
   python3 \
+  ranger \
   snap \
   terraform \
   tldr \
