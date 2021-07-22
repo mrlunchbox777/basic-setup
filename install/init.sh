@@ -44,8 +44,6 @@ should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
 should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-true}
 should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-true}
 
-should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
-should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
 should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-true}
@@ -75,8 +73,11 @@ should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
+should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
+should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-true}
+should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
 should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-true}
@@ -170,9 +171,10 @@ source ./sh-installs/run-manual-install.sh
 
 run-manual-install-many-basic-setup \
   azcli \
-  kubectl \
   dotnet \
   mailutils \
+  minikube \
+  kubectl \
   nvm \
   ohmyzsh \
   postfix \
