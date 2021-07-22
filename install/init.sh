@@ -36,6 +36,7 @@ should_install_snap=${BASICSETUPSHOULDINSTALLSNAP:-true}
 ## Apt variables
 should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
 should_install_gimp=${BASICSETUPSHOULDINSTALLGIMP:-true}
+should_install_grpn=${BASICSETUPSHOULDINSTALLGRPN:-false}
 should_install_kdeconnect=${BASICSETUPSHOULDINSTALLKDECONNECT:-true}
 should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
 should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-true}
@@ -118,6 +119,7 @@ source sh-installs/run-manual-install-apt.sh
   run-manual-install-apt-many-basic-setup \
     firefox \
     gimp \
+    grpn \
     kdeconnect \
     kleopatra \
     libreoffice \
