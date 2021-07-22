@@ -48,9 +48,11 @@ should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
 should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-true}
 should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
+should_install_golang=${BASICSETUPSHOULDINSTALLGOLANG:-true}
 should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
 should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-true}
 should_install_lynx=${BASICSETUPSHOULDINSTALLLYNX:-true}
+should_install_make=${BASICSETUPSHOULDINSTALLMAKE:-true}
 should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-true}
 should_install_openjdk=${BASICSETUPSHOULDINSTALLOPENJDK:-true}
 should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-true}
@@ -77,6 +79,7 @@ should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
 should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
 should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-true}
+should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-true}
 should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
@@ -127,9 +130,11 @@ run-manual-install-apt-many-basic-setup \
   calc \
   gcc \
   git \
+  golang \
   gpg \
   jq \
   lynx \
+  make \
   openjdk \
   openssh-client \
   python3 \
@@ -174,6 +179,7 @@ run-manual-install-many-basic-setup \
   dotnet \
   mailutils \
   minikube \
+  k9s \
   kubectl \
   nvm \
   ohmyzsh \

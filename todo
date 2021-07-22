@@ -1,7 +1,8 @@
-TODO add k9s
 TODO add lens (k8s ide)
 
 TODO spotify, grpn
 
 TODO upgrade minikube regularly as cron
+TODO upgrade k9s regularly as cron
+TODO automatic update issues (yes/no prompt)
 TODO support yum, pacman, and apk as well
