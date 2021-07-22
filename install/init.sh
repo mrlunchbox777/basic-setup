@@ -72,6 +72,7 @@ should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 
 ## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
+should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-true}
 should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
@@ -171,6 +172,7 @@ source ./sh-installs/run-manual-install.sh
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup \
     code \
+    lens \
     virtualboxextpack \
     zoom
 
