@@ -45,6 +45,7 @@ should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-true}
 should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-true}
 
 should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
+should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
 should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-true}
@@ -169,6 +170,7 @@ source ./sh-installs/run-manual-install.sh
 
 run-manual-install-many-basic-setup \
   azcli \
+  kubectl \
   dotnet \
   mailutils \
   nvm \
