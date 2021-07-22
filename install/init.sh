@@ -77,10 +77,10 @@ should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
 
 should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
-should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
-should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-true}
 should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-true}
 should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
+should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
+should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-true}
 should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
 should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
 should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-true}
@@ -177,10 +177,10 @@ source ./sh-installs/run-manual-install.sh
 run-manual-install-many-basic-setup \
   azcli \
   dotnet \
-  mailutils \
-  minikube \
   k9s \
   kubectl \
+  mailutils \
+  minikube \
   nvm \
   ohmyzsh \
   postfix \
