@@ -74,12 +74,13 @@ cheatsheet() {
     history - commandline history
 
     **Personal Recommendations**
-    watch - repeat command on interval
-    tmux|screen - terminal multiplexer
     <command> & - run command as background job
     jobs - list current jobs
     script - record shell session to file
+    strings - find strings in an object or binary
+    tmux|screen - terminal multiplexer
     vim - text editor (https://vim-adventures.com/)
+    watch - repeat command on interval
     xargs - text-based \"foreach\"
     
     * basic command line tutorial https://ubuntu.com/tutorials/command-line-for-beginners#1-overview
