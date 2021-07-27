@@ -1,4 +1,4 @@
-# Pulled from https://github.com/nvm-sh/nvm#git-install
+# pulled from https://github.com/nvm-sh/nvm#git-install
 export NVM_DIR="$HOME/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

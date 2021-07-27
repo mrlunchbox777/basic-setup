@@ -1,9 +1,9 @@
-TODO install calibre
 TODO add kubectl aliases
 
 TODO upgrade minikube regularly as cron
 TODO upgrade k9s regularly as cron
 TODO upgrade Lens regularly as cron
+TODO upgrade calibre regularly as cron
 TODO automatic update issues (yes/no prompt)
 TODO support yum, pacman, and apk as well
 

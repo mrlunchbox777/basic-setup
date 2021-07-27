@@ -74,6 +74,7 @@ should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 
 ## Manual Install variables
 should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-true}
+should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-true}
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-true}
 should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-true}
@@ -178,8 +179,9 @@ source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup \
-    code \
     azuredatastudio \
+    calibre \
+    code \
     lens \
     lutris \
     steam \
