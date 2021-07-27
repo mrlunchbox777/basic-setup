@@ -69,6 +69,7 @@ should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
 should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-true}
 should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-true}
 should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-true}
+should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-true}
 should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 
 ## Manual Install variables
@@ -159,6 +160,7 @@ if [ $should_install_snap == "true" ]; then
       discord \
       remmina \
       slack \
+      spotify \
       teams
 else
   run-send-message "Skipping snap Installs"
