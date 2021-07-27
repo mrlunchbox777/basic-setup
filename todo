@@ -1,4 +1,4 @@
-TODO install azure data studio, calibre
+TODO install calibre
 TODO add kubectl aliases
 
 TODO upgrade minikube regularly as cron
@@ -6,3 +6,5 @@ TODO upgrade k9s regularly as cron
 TODO upgrade Lens regularly as cron
 TODO automatic update issues (yes/no prompt)
 TODO support yum, pacman, and apk as well
+
+TODO update azure data studio like code with extensions
