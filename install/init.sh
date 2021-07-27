@@ -75,6 +75,7 @@ should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
 ## Manual Install variables
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
 should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-true}
+should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-true}
 should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-true}
 should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
@@ -178,6 +179,7 @@ source ./sh-installs/run-manual-install.sh
   run-manual-install-many-basic-setup \
     code \
     lens \
+    lutris \
     steam \
     virtualboxextpack \
     zoom
