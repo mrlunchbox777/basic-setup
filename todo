@@ -1,10 +1,15 @@
-TODO add kubectl aliases
+TODO
 
-TODO upgrade minikube regularly as cron
-TODO upgrade k9s regularly as cron
-TODO upgrade Lens regularly as cron
-TODO upgrade calibre regularly as cron
-TODO automatic update issues (yes/no prompt)
-TODO support yum, pacman, and apk as well
+add kubectl aliases
+add the ability to copy a .env to the right location on initial wget call
 
-TODO update azure data studio like code with extensions
+upgrade minikube regularly as cron
+upgrade k9s regularly as cron
+upgrade Lens regularly as cron
+upgrade calibre regularly as cron
+automatic update issues (yes/no prompt)
+update azure data studio like code with extensions
+
+consider adding a cron job to copy the ~/.kube/config to the windows ~/.kube/config so that they are normalized
+
+support yum, pacman, and apk as well
