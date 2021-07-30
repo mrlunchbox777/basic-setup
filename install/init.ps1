@@ -72,6 +72,7 @@ if ($IsWindows) {
     "chocolatey-dotnetfx.extension",
     "chocolatey-windowsupdate.extension",
     "chocolateygui",
+    # TODO if WSL is going to be installed only install this after WSL
     "docker-desktop",
     "dotnetcore-sdk",
     "filezilla",
@@ -85,6 +86,7 @@ if ($IsWindows) {
     "vim",
     "vscode",
     "wsl2",
+    # TODO only install this when you are sure WSL is installed
     "wsl-ubuntu-2004"
   )
 
