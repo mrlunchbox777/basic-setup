@@ -29,9 +29,7 @@ alias kcv="kc view"
 
 function get-pod-by-name() {
   local label_name="$2"
-  if [ -z "$label_name" ]; then
-    local label_name="app"
-  fi
+  [ -z "$label_name" ] && local label_name="app"
   local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
   echo "$pod_id"
 }
@@ -54,4 +52,12 @@ function get-pod-logs() {
 function get-deploy-image() {
   local image=$(kubectl get deployment "$1" -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
   echo "$image"
+}
+
+function forward-pod() {
+  local pod_id=$(get-pod-by-name "$1" "$2")
+  local pod_port="$3"
+  [ -z "$pod_port" ] && local pod_port="80"
+  local external_port="$4"
+  kubectl port-forward "$pod_id" $external_port:$pod_port
 }
