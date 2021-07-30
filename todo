@@ -1,6 +1,7 @@
 TODO
 
 add the ability to copy a .env to the right location on initial wget call
+support an alias only call in the readme
 
 upgrade minikube regularly as cron
 upgrade k9s regularly as cron
@@ -8,7 +9,6 @@ upgrade Lens regularly as cron
 upgrade calibre regularly as cron
 automatic update issues (yes/no prompt)
 update azure data studio like code with extensions
-support an alias only call in the readme
 
 fix the windows install (including a .env that ignores gui)
 auto do wsl stuff with /mnt/c/ and an env with a default whoami
