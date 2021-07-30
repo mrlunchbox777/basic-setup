@@ -2,7 +2,9 @@
 # TODO finish k8s aliases
 alias k=kubectl
 
+# kubectl get
 alias kg="k get"
+alias kga="kg --all-namespaces all"
 alias kgc="kg cronjobs"
 alias kgds="kg daemonsets"
 alias kgd="kg deployment"
@@ -12,6 +14,7 @@ alias kgp="kg pod"
 alias kgr="kg replicasets"
 alias kgs="kg service"
 
+# kubectl describe
 alias kd="k describe"
 alias kdc="kd cronjobs"
 alias kdds="kd daemonsets"
@@ -22,10 +25,17 @@ alias kdp="kd pod"
 alias kdr="kd replicasets"
 alias kds="kd service"
 
+# kubectl config
 alias kc="k config"
 alias kcc="kc current-context"
 alias kcsc="kc set-context"
 alias kcv="kc view"
+
+# kubectl misc
+alias ka='k apply'
+alias kd='k delete'
+alias kl='k logs'
+alias ke='k exec'
 
 function get-pod-by-name() {
   local label_name="$2"
