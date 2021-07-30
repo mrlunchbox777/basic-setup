@@ -18,7 +18,9 @@ wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic
 
 ### Install Using PowerShell
 
-If Windows, runs powershell and choco installs. WSL has to be installed seperately and before hand if you want it to install the basic setup on wsl.
+If Windows, runs powershell and choco installs.
+To install WSL you'll need to run once, restart, and then run the command again.
+If you are on a restricted computer, or have issues with WSL try `wsl --set-default-version 1` or to set your specific WSL Distro to version 1 with something like `wsl --set-version {{Distro Name}} 1` and you can get the distro name with `wsl -l -v`
 
 If Linux installs as expected.
 
