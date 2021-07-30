@@ -10,7 +10,7 @@ upgrade calibre regularly as cron
 automatic update issues (yes/no prompt)
 update azure data studio like code with extensions
 
-fix the windows install (including a .env that ignores gui)
+fix the windows install
 auto do wsl stuff with /mnt/c/ and an env with a default whoami
   consider adding a cron job to copy the ~/.kube/config to the windows ~/.kube/config so that they are normalized
 
