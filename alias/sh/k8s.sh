@@ -30,7 +30,7 @@ alias kcv="kc view"
 function get-pod-by-name() {
   local label_name="$2"
   if [ -z "$label_name" ]; then
-    label_name="app"
+    local label_name="app"
   fi
   local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
   echo "$pod_id"
