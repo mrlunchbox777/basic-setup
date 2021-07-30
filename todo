@@ -1,6 +1,5 @@
 TODO
 
-add kubectl aliases
 add the ability to copy a .env to the right location on initial wget call
 
 upgrade minikube regularly as cron
