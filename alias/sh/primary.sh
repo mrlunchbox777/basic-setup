@@ -66,3 +66,11 @@ find-files-ignore() {
 count-lines-ignore() {
   find-files-ignore "$@" | xargs wc -l
 }
+
+grep-sed-xargs() {
+  local current_command=$2
+  if [ -z "$current_command" ]; then
+    local current_command="code"
+  fi
+  grep -r "$1" | sed 's/:.*//' | xargs -I % sh -c "$current_command \"%\""
+}
