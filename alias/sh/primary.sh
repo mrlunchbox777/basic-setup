@@ -67,7 +67,7 @@ count-lines-ignore() {
   find-files-ignore "$@" | xargs wc -l
 }
 
-grep-sed-xargs() {
+grepx() {
   local current_command=$2
   if [ -z "$current_command" ]; then
     local current_command="code"
