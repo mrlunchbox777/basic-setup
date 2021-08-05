@@ -50,6 +50,11 @@ trim-end-of-string() {
   echo "$trimmed_string"
 }
 
+trim-whitespace() {
+  local trimmed_string=$(echo "$1" | xargs)
+  echo "$trimmed_string"
+}
+
 find-files-ignore() {
   local ignore_string=""
   for find_files_ignore_f in "$@"; do
