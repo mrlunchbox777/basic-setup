@@ -84,5 +84,7 @@ how() {
   if [ -z "$context_after_to_grab" ]; then
     local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
   fi
-  type -a "$1" | awk -F " " '{print $NF}' | xargs -I % sh -c "grep -B \"$context_before_to_grab\" -A \"$context_after_to_grab\" \"$1\" \"%\" && echo \"--\\nPulled from - %\\n\""
+  type -a "$1" | awk -F " " '{print $NF}' | \
+    xargs -I % sh -c "echo \"\n--\" && grep -B \"$context_before_to_grab\" \
+    -A \"$context_after_to_grab\" \"$1\" \"%\" && echo \"--\\nPulled from - %\\n\""
 }
