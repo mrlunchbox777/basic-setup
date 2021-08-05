@@ -72,5 +72,5 @@ grep-sed-xargs() {
   if [ -z "$current_command" ]; then
     local current_command="code"
   fi
-  grep -r "$1" | sed 's/:.*//' | xargs -I % sh -c "$current_command \"%\""
+  grep -r "$1" | sed 's/:.*//' | sort -u | xargs -I % sh -c "$current_command \"%\""
 }
