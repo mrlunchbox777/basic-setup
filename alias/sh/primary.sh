@@ -74,3 +74,15 @@ grepx() {
   fi
   grep -r "$1" | sed 's/:.*//' | sort -u | xargs -I % sh -c "$current_command \"%\""
 }
+
+how() {
+  local context_before_to_grab=$2
+  local context_after_to_grab=$3
+  if [ -z "$context_before_to_grab" ]; then
+    local context_before_to_grab="3"
+  fi
+  if [ -z "$context_after_to_grab" ]; then
+    local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
+  fi
+  type -a "$1" | awk -F " " '{print $NF}' | xargs -I % sh -c "grep -B \"$context_before_to_grab\" -A \"$context_after_to_grab\" \"$1\" \"%\" && echo \"--\\nPulled from - %\\n\""
+}
