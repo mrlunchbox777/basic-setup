@@ -20,15 +20,14 @@ dfind() {
 random() {
   local tempminvar=$1
   if [ -z "$tempminvar" ]; then
-    tempminvar=0
+    local tempminvar=0
   fi
   local tempmaxvar=$2
   if [ -z "$tempmaxvar" ]; then
-    tempmaxvar=10
+    local tempmaxvar=10
   fi
-  tempmaxvar=$(($tempmaxvar-$tempminvar+1))
+  local tempmaxvar=$(($tempmaxvar-$tempminvar+1))
   local randomvalvar=$((RANDOM))
-  # echo "$tempminvar + ( $randomvalvar % $tempmaxvar )"
   echo $(($tempminvar + ($randomvalvar % $tempmaxvar)))
 }
 
@@ -45,7 +44,7 @@ full-docker-clear() {
   docker rmi -f $(docker images -qa)
 }
 
-trim-string() {
+trim-end-of-string() {
   local sed_string="s/.\{$2\}$//"
   local trimmed_string=$(sed "$sed_string" <<<"$1")
   echo "$trimmed_string"
@@ -54,13 +53,13 @@ trim-string() {
 find-files-ignore() {
   local ignore_string=""
   for find_files_ignore_f in "$@"; do
-    ignore_string+=" -name \"$find_files_ignore_f\" -prune -o "
+    local ignore_string+=" -name \"$find_files_ignore_f\" -prune -o "
   done
 
-  ignore_string=$(trim-string "$ignore_string" 3)
+  local ignore_string=$(trim-end-of-string "$ignore_string" 3)
 
-  run_trim_string="find ./ \\($ignore_string\\) -o -type f -print"
-  eval $run_trim_string
+  local run_trim_end_of_string="find ./ \\($ignore_string\\) -o -type f -print"
+  eval $run_trim_end_of_string
 }
 
 count-lines-ignore() {
