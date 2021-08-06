@@ -1,8 +1,9 @@
 TODO
 
 add the ability to copy a .env to the right location on initial wget call
-support an alias only call in the readme
+support an alias only call, and add instructions for it in the readme
 
+add alias notes to the cheatsheet
 upgrade minikube regularly as cron
 upgrade k9s regularly as cron
 upgrade Lens regularly as cron
