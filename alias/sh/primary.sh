@@ -92,3 +92,7 @@ how() {
     xargs -I % sh -c "echo \"\n--\" && grep -B \"$context_before_to_grab\" \
     -A \"$context_after_to_grab\" \"$1\" \"%\" && echo \"--\\nPulled from - %\\n\""
 }
+
+read-script() {
+  cat "$1" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"
+}
