@@ -2,9 +2,13 @@
 # adapted from https://chocolatey.org/install
 
 $currentDir = "$(Get-Location)"
+$envPath=""
 
 if ( -not (Test-Path ~/src/tools) ) {
   New-Item ~/src/tools -ItemType Directory
+}
+if ( Test-Path ./.env ) {
+  $envPath=$(Get-ChildItem -Force -Filter .env | Select-Object -ExpandProperty FullName)
 }
 Set-Location ~/src/tools
 
@@ -46,6 +50,13 @@ if (-not (Test-Path "basic-setup")) {
 
 Set-Location basic-setup
 Write-Output "current dir - $(Get-Location)"
+if (-not (Test-Path "./env")) {
+  if (Test-Path "$envPath") {
+    cp "$envPath" ./.env
+  } else {
+    Write-Output "" > ./.env
+  }
+}
 pwsh -c ./install/init.ps1 | Tee-Object ./basic-setup-pwsh-output.log
 
 $shouldInstall_wsl_ubuntu_2004=[System.Environment]::GetEnvironmentVariable($SHOULDINSTALLWSLUBUNTU2004)
@@ -55,9 +66,10 @@ if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
   # TODO make sure that wsl and ubuntu is installed
   if ($(Get-Command wsl)) {
     wsl --set-default-version 2
-    # TODO there were failures here
-    # TODO make sure that gui installs are turned off first
+    bash -c "echo '$(Get-Content ./.env)' > ./.env"
+    # TODO there were failures here (This seemed to be mostly with the gui stuff)
     bash -c "export BASICSETUPSHOULDINSTALLUITOOLS=`"false`" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
+    bash -c "rm ./.env"
   } else {
     Write-Output "If you want WSL to run, please note that currently WSL has to be installed manually from the Windows Store"
   }

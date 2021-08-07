@@ -22,9 +22,8 @@ source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 cd "$dir"
 
-if [ -f "../.env" ]; then
-  source ../.env
-fi
+[ -f ../.env ] && \
+  export $(cat ../.env | sed 's/#.*//g' | xargs)
 
 # Set variables
 ## General variables

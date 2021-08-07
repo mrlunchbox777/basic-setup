@@ -2,8 +2,10 @@
 # clones and installs the basic setup
 
 current_dir="$(pwd)"
+env_path=""
 
 mkdir -p ~/src/tools
+[ -f .env ] && env_path="$(pwd)/.env"
 cd ~/src/tools
 
 sudo apt-get update -y
@@ -16,6 +18,7 @@ fi
 
 cd basic-setup
 echo "current dir - $(pwd)"
+[ ! -z "$env_path" ] && cp "$env_path" ./.env
 bash install/init.sh | tee basic-setup-sh-output.log
 
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}

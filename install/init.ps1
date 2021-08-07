@@ -5,6 +5,15 @@ $initialDir=$(Get-Location).Path
 $env:DIR="$PSScriptRoot"
 Set-Location "$env:DIR"
 
+if (Test-Path .env) {
+  foreach ($line in $(Get-Content .env)) {
+    if ([System.String]::IsNullOrWhiteSpace($line)) { continue; }
+    if ($line.StartsWith("#")) { continue; }
+    $envFileLineValues=$($line -split '=', 2)
+    [System.Environment]::SetEnvironmentVariable("$($envFileLineValues[0])", "$($envFileLineValues[1])")
+  }
+}
+
 $sharedScriptsPath="../shared-scripts"
 if (-not (Test-Path "$sharedScriptsPath")) {$sharedScriptsPath="./shared-scripts"}
 if (-not (Test-Path "$sharedScriptsPath")) {

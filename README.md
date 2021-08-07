@@ -10,7 +10,7 @@ All of these will clone the repo and run the init script
 
 ### Install Using bash
 
-Clones to ~/src/tools/basic-setup
+Clones to `~/src/tools/basic-setup`
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
@@ -30,28 +30,44 @@ If Linux installs as expected.
 $onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
 ```
 
+## Environment Variables
+
+### Manage Using .env
+
+This is the best way to manage environment variables for this tool.
+
+If you've already cloned the repo you can just copy the `.env`
+```bash
+cp template.env .env
+```
+
+Modify the `.env` file using the instructions listed there.
+
 ## Headless Considerations
 
 Make sure to, at a minimum, turn off ui tools.
 
 ### Turn off GUI Tools Using .env
 
-This only works if you clone the repo first. It is also designed for use with sh/bash/zsh.
+Create a `.env` at `./` before running [Installation](#installation) as it'll be copied over as described in [Environment Variables](#environment-variables). In that `.env` have at least the below line.
 
-```bash
-cp template.env .env
+```dotenv
+BASICSETUPSHOULDINSTALLUITOOLS="false"
 ```
-Modify the `.env` file using the instructions listed there.
 
 ### Turn off GUI Tools Using bash
+
+This will only last while the terminal is open, consider using the `.env`.
 
 ```bash
 export BASICSETUPSHOULDINSTALLUITOOLS="false"
 ```
 
-### Turn off GUI Tools Using bash
+### Turn off GUI Tools Using powershell 
 
-```pwsh
+This will only last while the terminal is open, consider using the `.env`.
+
+```powershell
 $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 ```
 
