@@ -5,91 +5,105 @@
 # this needs to check if that files exists, and if not recreate it
 
 cheatsheet() {
-  echo "
-    ***Cheatsheet***
-    
-    * basic command line tutorial https://ubuntu.com/tutorials/command-line-for-beginners#1-overview
-    * developer roadmap - https://github.com/kamranahmedse/developer-roadmap
+  local cheatsheet_text="
+# Cheatsheet
 
-    **Command Info**
-    tldr - get simple info on command
-    man - get detailed info on command
+*[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
+*[developer roadmap](https://github.com/kamranahmedse/developer-roadmap)*
 
-    **Backend Commands**
-    lsof - find process that has file
-    wget|curl - make network request
-    tail - display the last part of the file
-    head - read first part of content
-    less - interactive read content
-    find - find in directory structure
-    ssh - secure shell, for remoting
-    kill - terminate a process/job
+## Command Info
 
-    **Text manipulation**
-    awk - find per line
-    sed - edit text with regex
-    grep - match regex
-    sort - sort thing per line
-    uniq - uniq string per line
-    cat|bat - prints file
-    cut - cut string per line
-    echo - prints text
-    fmt - formats text to 75 char
-    tr - text & replace
-    nl - number lines
-    egrep - extended grep, using ?, +, {, }, |, (, )
-    fgrep - egrep in file
-    wc - count lines (-l), words (-w), characters (-c), in file
+* tldr - get simple info on command
+* man - get detailed info on command
 
-    **Compilation**
-    gcc - compile C & C++
-    make - run Makefiles
+## Backend Commands
 
-    **Process Manipulation**
-    ps - info on running processes
-    top|htop|atop - real-time info on running processes
+* lsof - find process that has file
+* wget|curl - make network request
+* tail - display the last part of the file
+* head - read first part of content
+* less - interactive read content
+* find - find in directory structure
+* ssh - secure shell, for remoting
+* kill - terminate a process/job
 
-    **Performance and Telemetry**
-    nmon - benchmarking, tuning, admin
-    iostat - stats for devices and partitions
-    sar - stats on Linux subsystems
-    vmstat - hardware telemetry reporting
+## Text manipulation
 
-    **Networking**
-    nmap - network mapping
-    tcpdump - dump network traffic
-    ping - send ICMP request
-    mtr - ping/traceroute
-    traceroute - prints route to host
-    dig - dns lookup
-    airmon-ng - monitor wireless devices
-    airodump-ng - packet capturing
-    iptables - configuration of tables, chains, and rules
-    netstat - display network info
+* awk - find per line
+* sed - edit text with regex
+* grep - match regex
+* sort - sort thing per line
+* uniq - uniq string per line
+* cat|bat - prints file
+* cut - cut string per line
+* echo - prints text
+* fmt - formats text to 75 char
+* tr - text & replace
+* nl - number lines
+* egrep - extended grep, using ?, +, {, }, |, (, )
+* fgrep - egrep in file
+* wc - count lines (-l), words (-w), characters (-c), in file
 
-    **Debugging**
-    strace|dtrace|systemtap - trace processes
-    uname - info about current system
-    df - filesystem usage
-    history - commandline history
+##Compilation
 
-    **Personal Recommendations**
-    <command> & - run command as background job
-    jobs - list current jobs
-    script - record shell session to file
-    strings - find strings in an object or binary
-    tmux|screen - terminal multiplexer
-    vim - text editor (https://vim-adventures.com/)
-    watch - repeat command on interval
-    xargs - text-based \"foreach\"
-    
-    * basic command line tutorial https://ubuntu.com/tutorials/command-line-for-beginners#1-overview
-    * developer roadmap - https://github.com/kamranahmedse/developer-roadmap
+* gcc - compile C & C++
+* make - run Makefiles
 
-    **Command Info**
-    tldr - get simple info on command
-    man - get detailed info on command
+## Process Manipulation
+
+* ps - info on running processes
+* top|htop|atop - real-time info on running processes
+
+## Performance and Telemetry
+
+* nmon - benchmarking, tuning, admin
+* iostat - stats for devices and partitions
+* sar - stats on Linux subsystems
+* vmstat - hardware telemetry reporting
+
+## Networking
+
+* nmap - network mapping
+* tcpdump - dump network traffic
+* ping - send ICMP request
+* mtr - ping/traceroute
+* traceroute - prints route to host
+* dig - dns lookup
+* airmon-ng - monitor wireless devices
+* airodump-ng - packet capturing
+* iptables - configuration of tables, chains, and rules
+* netstat - display network info
+
+## Debugging
+
+* strace|dtrace|systemtap - trace processes
+* uname - info about current system
+* df - filesystem usage
+* history - commandline history
+
+## Personal Recommendations
+
+* <command> & - run command as background job
+* jobs - list current jobs
+* script - record shell session to file
+* strings - find strings in an object or binary
+* tmux|screen - terminal multiplexer
+* vim - text editor (https://vim-adventures.com/)
+* watch - repeat command on interval
+* xargs - text-based \"foreach\"
+
+*[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
+*[developer roadmap](https://github.com/kamranahmedse/developer-roadmap)*
+
+## Command Info
+* tldr - get simple info on command
+* man - get detailed info on command
   "
+  if [ -z $(which bat) ]; then
+    echo "$cheatsheet_text"
+  else
+    echo "$cheatsheet_text" | bat -l md
+  fi
 }
 
 alias cs=cheatsheet
