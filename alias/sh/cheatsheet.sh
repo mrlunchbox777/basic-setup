@@ -91,3 +91,5 @@ cheatsheet() {
     man - get detailed info on command
   "
 }
+
+alias cs=cheatsheet
