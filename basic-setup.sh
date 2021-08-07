@@ -24,6 +24,8 @@ bash install/init.sh | tee basic-setup-sh-output.log
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 if "${should_install_pwsh}" ; then
   echo "running pwsh for linux"
+  # copy .env
+  # include the alias only env var
   pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
 else
   echo "not running pwsh for linux"

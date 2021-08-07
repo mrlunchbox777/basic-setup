@@ -8,6 +8,6 @@ run-update-gitconfig-basic-setup () {
     local target_dir=$(readlink -f "$dir/../basic-setup.gitconfig")
     echo -e "\n[include]\n  path = \"$target_dir\"" >> ~/.gitconfig
   else
-    echo "Skipping update for .gitconfig..."
+    echo "Update redundant. Skipping update for .gitconfig..."
   fi
 }

@@ -7,7 +7,7 @@ run-single-update-alias-basic-setup() {
   if [ -z "$(grep '\. \".*basic-setup\.generalrc\.sh' $HOME/$1)" ]; then
     echo -e "\n. \"$2\"" >> $HOME/$1
   else
-    echo "Skipping update for $1..."
+    echo "Update redundant. Skipping update for $1..."
   fi
 }
 
