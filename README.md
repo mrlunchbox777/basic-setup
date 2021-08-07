@@ -34,7 +34,7 @@ export BASICSETUPSHOULDDOALIASONLY="true" && wget -qO- https://raw.githubusercon
 
 If Windows, runs powershell and choco installs.
 To install WSL you'll need to run once, restart, and then run the command again.
-If you are on a restricted computer, or have issues with WSL try `wsl --set-default-version 1` or to set your specific WSL Distro to version 1 with something like `wsl --set-version {{Distro Name}} 1` and you can get the distro name with `wsl -l -v`
+If you are on a restricted computer, or have issues with WSL try `wsl --set-default-version 1` or to set your specific WSL Distro to version 1 with something like `wsl --set-version {{Distro Name}} 1` and you can get the distro name with `wsl -l -v`. You also need to make sure the [LXSS](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/cmdline/wsl-architectural-overview) service is running.
 
 If Linux installs as expected.
 
