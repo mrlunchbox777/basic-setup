@@ -96,6 +96,7 @@ cheatsheet() {
 *[developer roadmap](https://github.com/kamranahmedse/developer-roadmap)*
 
 ## Command Info
+
 * tldr - get simple info on command
 * man - get detailed info on command
   "
