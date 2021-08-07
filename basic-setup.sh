@@ -33,11 +33,11 @@ fi
 
 ## end of basic setup
 echo "\n\n"
-echo "----------------------------------------------------------"
-echo "- Finished Basic Setup" 
-echo "-   Check -"
-echo "-     ~/src/tools/basic-setup/basic-setup-sh-output.log"
-echo "-   It will have logs and outputs on everything installed."
-echo "----------------------------------------------------------"
+echo "**********************************************************"
+echo "* Finished Basic Setup" 
+echo "*   Check -"
+echo "*     ~/src/tools/basic-setup/basic-setup-sh-output.log"
+echo "*   It will have logs and outputs on everything installed."
+echo "**********************************************************"
 
 cd "$current_dir"
