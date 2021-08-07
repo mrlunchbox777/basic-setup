@@ -96,3 +96,10 @@ how() {
 read-script() {
   cat "$1" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"
 }
+
+diff-date() {
+  local date1=$(date +%s -d $1)
+  local date2=$(date +%s -d $2)
+  local DIFF=$(( $date1-$date2 ))
+  echo $DIFF
+}
