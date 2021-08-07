@@ -1,6 +1,7 @@
 TODO
 
 add alias notes to the cheatsheet
+add the ability to copy wsl ~/.kube to windows .kube using whoami
 upgrade minikube regularly as cron
 upgrade k9s regularly as cron
 upgrade Lens regularly as cron
