@@ -4,6 +4,12 @@ Basic box setup, it's fairly customizable using bash/powershell and will work on
 
 Currently only works on Windows(WIP) and Linux.
 
+## Goal
+
+We aren't here yet necessarily, this is the aim.
+
+This will create a good basic setup for workstations. It should provide a pretty acceptable setup for a windows machine and debian derived linux machine. This is also supplies an ability to configure the applications/cron/etc to run on these systems.
+
 ## Installation
 
 All of these will clone the repo and run the init script
@@ -14,6 +20,14 @@ Clones to `~/src/tools/basic-setup`
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+```
+
+#### Install Alias Only Using bash
+
+This will still respect the .env, but will default everything that isn't alias related to false.
+
+```bash
+export BASICSETUPSHOULDDOALIASONLY="true" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
 
 ### Install Using PowerShell
@@ -28,6 +42,18 @@ If Linux installs as expected.
 
 ```pwsh
 $onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
+```
+
+#### Install Alias Only Using PowerShell
+
+This will still respect the .env, but will default everything that isn't alias related to false.
+
+See [above](#install-using-powershell) for notes on OS variation installs.
+
+**If Windows Run As Administrator**
+
+```pwsh
+$env:BASICSETUPWINSHOULDDOALIASONLY="$true"; BASICSETUPSHOULDDOALIASONLY="$true" ;$onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
 ```
 
 ## Environment Variables
@@ -70,9 +96,3 @@ This will only last while the terminal is open, consider using the `.env`.
 ```powershell
 $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 ```
-
-## Goal
-
-We aren't here yet necessarily, this is the aim.
-
-This will create a good basic setup for workstations. It should provide a pretty acceptable setup for a windows machine and debian derived linux machine. This is also supplies an ability to configure the applications/cron/etc to run on these systems.

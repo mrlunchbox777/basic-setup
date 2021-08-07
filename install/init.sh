@@ -27,77 +27,80 @@ cd "$dir"
 
 # Set variables
 ## General variables
-should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-true}
-should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-true}
-should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-true}
-should_install_snap=${BASICSETUPSHOULDINSTALLSNAP:-true}
+should_do_alias_only=${BASICSETUPSHOULDDOALIASONLY:-false}
+negate_should_do_alias_only="true"
+[ "$should_do_alias_only" == "true" ] && negate_should_do_alias_only="false"
+should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-$negate_should_do_alias_only}
+should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-$negate_should_do_alias_only}
+should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-$negate_should_do_alias_only}
+should_install_snap=${BASICSETUPSHOULDINSTALLSNAP:-$negate_should_do_alias_only}
 
 ## Apt variables
-should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-true}
-should_install_gimp=${BASICSETUPSHOULDINSTALLGIMP:-true}
-should_install_grpn=${BASICSETUPSHOULDINSTALLGRPN:-false}
-should_install_kdeconnect=${BASICSETUPSHOULDINSTALLKDECONNECT:-true}
-should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-true}
-should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-true}
-should_install_thunderbird=${BASICSETUPSHOULDINSTALLTHUNDERBIRD:-true}
-should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-true}
-should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-true}
-should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-true}
+should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-$negate_should_do_alias_only}
+should_install_gimp=${BASICSETUPSHOULDINSTALLGIMP:-$negate_should_do_alias_only}
+should_install_grpn=${BASICSETUPSHOULDINSTALLGRPN:-"false"}
+should_install_kdeconnect=${BASICSETUPSHOULDINSTALLKDECONNECT:-$negate_should_do_alias_only}
+should_install_kleopatra=${BASICSETUPSHOULDINSTALLKLEOPATRA:-$negate_should_do_alias_only}
+should_install_libreoffice=${BASICSETUPSHOULDINSTALLLIBREOFFICE:-$negate_should_do_alias_only}
+should_install_thunderbird=${BASICSETUPSHOULDINSTALLTHUNDERBIRD:-$negate_should_do_alias_only}
+should_install_virtualbox=${BASICSETUPSHOULDINSTALLVIRTUALBOX:-$negate_should_do_alias_only}
+should_install_vlc=${BASICSETUPSHOULDINSTALLVLC:-$negate_should_do_alias_only}
+should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-$negate_should_do_alias_only}
 
-should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-true}
-should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-true}
-should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-true}
-should_install_git=${BASICSETUPSHOULDINSTALLGIT:-true}
-should_install_golang=${BASICSETUPSHOULDINSTALLGOLANG:-true}
-should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-true}
-should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-true}
-should_install_lynx=${BASICSETUPSHOULDINSTALLLYNX:-true}
-should_install_make=${BASICSETUPSHOULDINSTALLMAKE:-true}
-should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-true}
-should_install_openjdk=${BASICSETUPSHOULDINSTALLOPENJDK:-true}
-should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-true}
-should_install_ranger=${BASICSETUPSHOULDINSTALLRANGER:-true}
-should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-true}
-should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-true}
-should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-true}
-should_install_unattended_upgrades=${BASICSETUPSHOULDINSTALLUNATTENDEDUPGRADES:-true}
-should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-true}
-should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-true}
+should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-$negate_should_do_alias_only}
+should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-$negate_should_do_alias_only}
+should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-$negate_should_do_alias_only}
+should_install_git=${BASICSETUPSHOULDINSTALLGIT:-$negate_should_do_alias_only}
+should_install_golang=${BASICSETUPSHOULDINSTALLGOLANG:-$negate_should_do_alias_only}
+should_install_gpg=${BASICSETUPSHOULDINSTALLGPG:-$negate_should_do_alias_only}
+should_install_jq=${BASICSETUPSHOULDINSTALLJQ:-$negate_should_do_alias_only}
+should_install_lynx=${BASICSETUPSHOULDINSTALLLYNX:-$negate_should_do_alias_only}
+should_install_make=${BASICSETUPSHOULDINSTALLMAKE:-$negate_should_do_alias_only}
+should_install_openssh_client=${BASICSETUPSHOULDINSTALLOPENSSHCLIENT:-$negate_should_do_alias_only}
+should_install_openjdk=${BASICSETUPSHOULDINSTALLOPENJDK:-$negate_should_do_alias_only}
+should_install_python3=${BASICSETUPSHOULDINSTALLPYTHON3:-$negate_should_do_alias_only}
+should_install_ranger=${BASICSETUPSHOULDINSTALLRANGER:-$negate_should_do_alias_only}
+should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-$negate_should_do_alias_only}
+should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-$negate_should_do_alias_only}
+should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-$negate_should_do_alias_only}
+should_install_unattended_upgrades=${BASICSETUPSHOULDINSTALLUNATTENDEDUPGRADES:-$negate_should_do_alias_only}
+should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-$negate_should_do_alias_only}
+should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-$negate_should_do_alias_only}
 
 ## Snap variables
-should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-true}
-should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-true}
-should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-true}
-should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-true}
-should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-true}
+should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-$negate_should_do_alias_only}
+should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-$negate_should_do_alias_only}
+should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-$negate_should_do_alias_only}
+should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-$negate_should_do_alias_only}
+should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-"false"}
 
 ## Manual Install variables
-should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-true}
-should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-true}
-should_install_code=${BASICSETUPSHOULDINSTALLCODE:-true}
-should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-true}
-should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-true}
-should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-true}
-should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-true}
-should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-true}
+should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-$negate_should_do_alias_only}
+should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-$negate_should_do_alias_only}
+should_install_code=${BASICSETUPSHOULDINSTALLCODE:-$negate_should_do_alias_only}
+should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-$negate_should_do_alias_only}
+should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-$negate_should_do_alias_only}
+should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-$negate_should_do_alias_only}
+should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-$negate_should_do_alias_only}
+should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-$negate_should_do_alias_only}
 
-should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-true}
-should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-true}
-should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-true}
-should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-true}
-should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-true}
-should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-true}
-should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-true}
-should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-true}
-should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-true}
-should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
+should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-$negate_should_do_alias_only}
+should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-$negate_should_do_alias_only}
+should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-$negate_should_do_alias_only}
+should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-$negate_should_do_alias_only}
+should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-$negate_should_do_alias_only}
+should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-$negate_should_do_alias_only}
+should_install_nvm=${BASICSETUPSHOULDINSTALLNVM:-$negate_should_do_alias_only}
+should_install_ohmyzsh=${BASICSETUPSHOULDINSTALLOHMYZSH:-$negate_should_do_alias_only}
+should_install_postfix=${BASICSETUPSHOULDINSTALLPOSTFIX:-$negate_should_do_alias_only}
+should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-$negate_should_do_alias_only}
 
 ## Config variables
-should_update_code=${BASICSETUPSHOULDUPDATECODE:-true}
+should_update_code=${BASICSETUPSHOULDUPDATECODE:-$negate_should_do_alias_only}
 
-should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-true}
-should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-true}
-should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-true}
+should_update_alias=${BASICSETUPSHOULDUPDATEALIAS:-"true"}
+should_update_batcat=${BASICSETUPSHOULDUPDATEBATCAT:-$negate_should_do_alias_only}
+should_update_gitconfig=${BASICSETUPSHOULDUPDATEGITCONFIG:-"true"}
 should_update_unattended_upgrades=${should_install_unattended_upgrades}
 
 ## CRON variables
