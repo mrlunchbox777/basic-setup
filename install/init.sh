@@ -106,7 +106,7 @@ should_update_unattended_upgrades=${should_install_unattended_upgrades}
 ## CRON variables
 # Check ../cron/run-add-cron.sh
 # All variables will be set there as they need to be set when running that script
-should_add_cron=${BASICSETUPSHOULDADDCRON:-true}
+should_add_cron=${BASICSETUPSHOULDADDCRON:-$negate_should_do_alias_only}
 
 ## Postmessage variables
 should_postmessage_zsh=${should_install_zsh}
