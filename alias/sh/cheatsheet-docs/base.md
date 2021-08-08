@@ -1,4 +1,4 @@
-# Cheatsheet
+# Cheatsheet Base
 
 ## Command Info
 
@@ -76,7 +76,7 @@
 
 ## Personal Recommendations
 
-* <command> & - run command as background job
+* {{command}} & - run command as background job
 * jobs - list current jobs
 * script - record shell session to file
 * strings - find strings in an object or binary
