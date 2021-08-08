@@ -11,7 +11,7 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
-for basic_setup_generalrc_sh_f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
+for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
 source=""
 
 export CURRENT_SHELL="$(run-identify-shell-basic-setup | sed -r 's/[\ -]//g' )"
@@ -39,9 +39,10 @@ run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 
-for basic_setup_generalrc_sh_f in $(ls $dir/sh/); do . $dir/sh/$basic_setup_generalrc_sh_f; done
+for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do . $dir/sh/$basic_setup_generalrc_sh_f; done
 if [ ! -z "$extrafolder" ]; then
-  for basic_setup_generalrc_sh_f in $(ls $dir/$extra_folder/); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
+  for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
 fi
 
+export BASICSETUPGENERALRCDIR="$dir"
 export BASICSETUPGENERALRCHASRUN=true

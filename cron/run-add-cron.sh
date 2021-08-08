@@ -12,7 +12,7 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
-for basic_setup_generalrc_sh_f in $(ls "$shared_scripts_path/sh/"); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
+for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"; done
 
 orig_dir="$(pwd)"
 source="${BASH_SOURCE[0]}"
