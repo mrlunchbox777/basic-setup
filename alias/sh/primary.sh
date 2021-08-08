@@ -80,17 +80,27 @@ grepx() {
 }
 
 how() {
+  local command_to_search=$1
   local context_before_to_grab=$2
-  local context_after_to_grab=$3
+  local bat_lanuage_to_use=$3
+  local context_after_to_grab=$4
+  if [ -z "$bat_lanuage_to_use" ]; then
+    local bat_lanuage_to_use="sh"
+  fi
   if [ -z "$context_before_to_grab" ]; then
     local context_before_to_grab="3"
   fi
   if [ -z "$context_after_to_grab" ]; then
     local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
   fi
-  type -a "$1" | awk -F " " '{print $NF}' | \
-    xargs -I % sh -c "echo \"\n--\" && grep -B \"$context_before_to_grab\" \
-    -A \"$context_after_to_grab\" \"$1\" \"%\" && echo \"--\\nPulled from - %\\n\""
+  local how_output=$(type -a "$command_to_search" | awk -F " " '{print $NF}' | \
+    xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
+    -A \"$context_after_to_grab\" \"$command_to_search\" \"%\" && echo \"--\\nPulled from - %\\n\"")
+  if [ -z "$(which bat)" ]; then
+    echo "$how_output"
+  else
+    echo "$how_output" | bat -l "$bat_lanuage_to_use"
+  fi
 }
 
 read-script() {

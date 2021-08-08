@@ -116,7 +116,8 @@ Other Aliases
 * `how()`
   * arg 1 - command to get source for
   * arg 2 - context before command (defaults to 3)
-  * arg 3 - context after command (defaults to arg2 + 2)
+  * arg 3 - bat language to use (defaults to sh)
+  * arg 4 - context after command (defaults to arg2 + 2)
 * `read-script()`
   * arg 1 - location of `script` output to read
 * `diff-date()`
