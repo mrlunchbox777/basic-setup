@@ -6,11 +6,12 @@
 
 These can be composited as a single string argument.
 
-* `cs bi` will show cheatsheet base and then cheatsheet index
-* `cs ib` will show cheatsheet index and then cheatsheet base
+* `cs ai` will show cheatsheet alias and then cheatsheet index
+* `cs ia` will show cheatsheet index and then cheatsheet alias
 
 The default command (when no string is provided) is index
 
+* `a` - alias
 * `b` - base
 * `i` - index
 

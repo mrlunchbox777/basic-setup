@@ -1,6 +1,5 @@
 TODO
 
-add alias notes to the cheatsheet
 add the ability to copy wsl ~/.kube to windows .kube using whoami
 upgrade minikube regularly as cron
 upgrade k9s regularly as cron
@@ -8,6 +7,8 @@ upgrade Lens regularly as cron
 upgrade calibre regularly as cron
 automatic update issues (yes/no prompt)
 update azure data studio like code with extensions
+split up the base into different cheatsheets
+split up the primary aliases
 
 fix the windows install
 auto do wsl stuff with /mnt/c/ and an env with a default whoami
