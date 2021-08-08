@@ -5,7 +5,7 @@ run-write-a-cheatsheet() {
     echo "Only One character is allowed when running run-write-a-cheatsheet" >&2
     exit 1
   fi
-  local cheatsheet_file_name=$(ls $BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/ | grep ^$1)
+  local cheatsheet_file_name=$(ls "$BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/" | grep ^$1)
   local cheatsheet_file_location="$BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/$cheatsheet_file_name"
   if [ -z $(which bat) ]; then
     cat "$cheatsheet_file_location"
