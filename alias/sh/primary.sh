@@ -113,3 +113,11 @@ diff-date() {
   local DIFF=$(( $date1-$date2 ))
   echo $DIFF
 }
+
+is_on_wsl() {
+  if [ -d "/mnt/c/Windows" ]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
