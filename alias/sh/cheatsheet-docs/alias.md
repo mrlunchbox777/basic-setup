@@ -123,3 +123,4 @@ Other Aliases
 * `diff-date()`
   * arg 1 - `date` minuend
   * arg 2 - `date` subrahend
+* `is_on_wsl()` - check with `how()`
