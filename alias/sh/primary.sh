@@ -114,10 +114,47 @@ diff-date() {
   echo $DIFF
 }
 
-is_on_wsl() {
+is-on-wsl() {
   if [ -d "/mnt/c/Windows" ]; then
     echo "true"
   else
     echo "false"
+  fi
+}
+
+copy-kube-to-windows() {
+  local is_on_wsl=is-on-wsl
+  if [[ "$is_on_wsl" == "true" ]]; then
+    local windows_username="$1"
+    if [ -z "$windows_username" ]; then
+      local windows_username="$(whoami)"
+    fi
+    local target_dir="/mnt/c/Windows/Users/$windows_username"
+    local source_dir="~"
+    if [[ "$2" == "true" ]]; then
+      local temp_dir="$target_dir"
+      local target_dir="$source_dir"
+      local source_dir="$temp_dir"
+    fi
+    if [ -d "$target_dir" ]; then
+      if [ -d "$target_dir/.kube.bak" ]; then
+        read -p "\"$target_dir/.kube.bak\" exists, would you like to remove it? [y/n]: " -n 1 -r
+        echo
+        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+          rm -rf "$target_dir/.kube.bak"
+        else
+          echo "Didn't remove \"$target_dir/.kube.bak\", exiting.." >&2
+          return
+        fi
+      fi
+      mv "$target_dir/.kube" "$target_dir/.kube.bak"
+      cp -r "~/.kube" "$target_dir/"
+    else
+      echo "\"$target_dir\" doesn't seem to exist" >&2
+      return
+    fi
+  else
+    echo "This system doesn't seem to be on WSL" >&2
+    return
   fi
 }
