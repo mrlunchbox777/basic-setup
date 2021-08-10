@@ -1,6 +1,5 @@
 TODO
 
-upgrade calibre regularly as cron
 automatic update issues (yes/no prompt)
 update azure data studio like code with extensions
 split up the base into different cheatsheets
