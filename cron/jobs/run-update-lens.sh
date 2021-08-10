@@ -26,5 +26,4 @@ dir="$dir/.."
 BASICSETUPSHOULDFORCEUPDATELENS="true"
 . ./sh-installs/run-install-lens.sh
 run-install-lens-basic-setup
-echo "this link has to be manually updated"
 cd "$orig_dir"
