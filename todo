@@ -1,6 +1,5 @@
 TODO
 
-upgrade minikube regularly as cron
 upgrade k9s regularly as cron
 upgrade Lens regularly as cron
 upgrade calibre regularly as cron

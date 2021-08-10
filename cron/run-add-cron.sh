@@ -29,15 +29,18 @@ cd "$dir"
 # Should Install
 should_install_run_update_basic_setup=${BASICSETUPCRONSHOULDINSTALLRUNUPDATEBASICSETUP:-true}
 should_install_run_update_cron_basic_setup=${BASICSETUPCRONSHOULDINSTALLRUNUPDATECRONBASICSETUP:-true}
+should_install_run_update_minikube=${BASICSETUPCRONSHOULDINSTALLRUNUPDATEMINIKUBE:-true}
 should_install_run_write_temp_file=${BASICSETUPCRONSHOULDINSTALLRUNWRITETEMPFILE:-false}
 
 # Minute
 run_update_basic_setup_min=${BASICSETUPCRONRUNUPDATEBASICSETUPMIN:-0}
 run_update_cron_basic_setup_min=${BASICSETUPCRONRUNUPDATECRONBASICSETUPMIN:-5}
+run_update_minikube_min=${BASICSETUPCRONRUNUPDATEMINIKUBEMIN:-10}
 
 # Hour
 run_update_basic_setup_hour=${BASICSETUPCRONRUNUPDATEBASICSETUPHOUR:-0}
 run_update_cron_basic_setup_hour=${BASICSETUPCRONRUNUPDATECRONBASICSETUPHOUR:-0}
+run_update_minikube_hour=${BASICSETUPCRONRUNUPDATEMINIKUBEHOUR:-0}
 
 # Day of Month (dom)
 # run_update_basic_setup_dom=${BASICSETUPCRONRUNUPDATEBASICSETUPDOM:-"0"}
@@ -46,7 +49,7 @@ run_update_cron_basic_setup_hour=${BASICSETUPCRONRUNUPDATECRONBASICSETUPHOUR:-0}
 # run_update_basic_setup_mon=${BASICSETUPCRONRUNUPDATEBASICSETUPMON:-"0"}
 
 # Day of Week (dow)
-# run_update_basic_setup_dow=${BASICSETUPCRONRUNUPDATEBASICSETUPDOW:-"0"}
+run_update_minikube_dow=${BASICSETUPCRONRUNUPDATEMINIKUBEDOW:-0}
 
 run-add-cron-basic-setup() {
   if [ -z "$1" ]; then
@@ -94,6 +97,7 @@ run-add-cron-basic-setup() {
 
 run-add-cron-basic-setup "run-update-basic-setup"
 run-add-cron-basic-setup "run-update-cron-basic-setup"
+run-add-cron-basic-setup "run-update-minikube"
 run-add-cron-basic-setup "run-write-temp-file"
 
 cd "$orig_dir"

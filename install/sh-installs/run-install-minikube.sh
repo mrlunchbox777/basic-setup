@@ -1,6 +1,13 @@
 # run install minikube function
 run-install-minikube-basic-setup () {
+  local should_install_minikube="false"
   if [ -z $(which minikube) ]; then
+    local should_install_minikube="true"
+  fi
+  if [[ "$BASICSETUPSHOULDFORCEINSTALLMINIKUBE" == "true" ]]; then
+    local should_install_minikube="true"
+  fi
+  if [[ "$should_install_minikube" == "true" ]]; then
     # https://v1-18.docs.kubernetes.io/docs/tasks/tools/install-minikube/
     if [ -z $(grep -E --color 'vmx|svm' /proc/cpuinfo) ]; then
       echo "System doesn't support virtualization" >&2
