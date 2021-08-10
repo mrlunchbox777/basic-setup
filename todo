@@ -9,8 +9,6 @@ split up the base into different cheatsheets
 split up the primary aliases
 
 fix the windows install
-auto do wsl stuff with /mnt/c/ and an env with a default whoami
-  consider adding a cron job to copy the ~/.kube/config to the windows ~/.kube/config so that they are normalized
 
 support yum, pacman, and apk
 
