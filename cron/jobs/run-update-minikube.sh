@@ -22,7 +22,7 @@ dir="${rgsd[@]:1:1}"
 orig_dir="$(pwd)"
 
 cd "$dir/../../install"
-BASICSETUPSHOULDFORCEINSTALLMINIKUBE="true"
+BASICSETUPSHOULDFORCEUPDATEMINIKUBE="true"
 . ./sh-installs/run-install-minikube.sh
 run-install-minikube-basic-setup
 cd "$orig_dir"

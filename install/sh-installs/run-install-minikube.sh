@@ -3,9 +3,10 @@ run-install-minikube-basic-setup () {
   local should_install_minikube="false"
   if [ -z $(which minikube) ]; then
     local should_install_minikube="true"
-  fi
-  if [[ "$BASICSETUPSHOULDFORCEINSTALLMINIKUBE" == "true" ]]; then
-    local should_install_minikube="true"
+  else
+    if [[ "$BASICSETUPSHOULDFORCEUPDATEMINIKUBE" == "true" ]]; then
+      local should_install_minikube="true"
+    fi
   fi
   if [[ "$should_install_minikube" == "true" ]]; then
     # https://v1-18.docs.kubernetes.io/docs/tasks/tools/install-minikube/
