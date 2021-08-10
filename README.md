@@ -107,7 +107,9 @@ You can run headless tests with the following:
 
 then run
 
-```apt update && apt install wget sudo tzdata -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && echo "Europe/Zurich" > /etc/timezone && dpkg-reconfigure -f noniteractive tzdata && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh```
+```bash
+apt update && apt install wget sudo tzdata -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && echo "Europe/Zurich" > /etc/timezone && dpkg-reconfigure -f noniteractive tzdata && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+```
 
 ### Testing GUI
 
