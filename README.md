@@ -101,6 +101,14 @@ $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 
 You can run headless tests with the following:
 
-```docker run -it ubuntu`, then run `apt update && apt install wget sudo -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh```
+### Testing Headless
+
+`docker run -it ubuntu`
+
+then run
+
+```apt update && apt install wget sudo tzdata -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && echo "Europe/Zurich" > /etc/timezone && dpkg-reconfigure -f noniteractive tzdata && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh```
+
+### Testing GUI
 
 You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
