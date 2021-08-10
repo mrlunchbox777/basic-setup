@@ -99,6 +99,8 @@ $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 
 ## Testing
 
-You can run headless tests with `docker run -it ubuntu`, then run `apt install wget sudo`, then run [Installation](#installation)
+You can run headless tests with the following:
 
-You can run gui test with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+```docker run -it ubuntu`, then run `apt update && apt install wget sudo -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh```
+
+You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
