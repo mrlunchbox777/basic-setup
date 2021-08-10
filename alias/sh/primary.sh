@@ -144,17 +144,17 @@ copy-kube-to-windows() {
           rm -rf "$target_dir/.kube.bak"
         else
           echo "Didn't remove \"$target_dir/.kube.bak\", exiting.." >&2
-          return
+          return 1
         fi
       fi
       mv "$target_dir/.kube" "$target_dir/.kube.bak"
       cp -r "~/.kube" "$target_dir/"
     else
       echo "\"$target_dir\" doesn't seem to exist" >&2
-      return
+      return 1
     fi
   else
     echo "This system doesn't seem to be on WSL" >&2
-    return
+    return 1
   fi
 }
