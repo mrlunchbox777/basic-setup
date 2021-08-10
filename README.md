@@ -96,3 +96,9 @@ This will only last while the terminal is open, consider using the `.env`.
 ```powershell
 $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 ```
+
+## Testing
+
+You can run headless tests with `docker run -it ubuntu`, then run `apt install wget sudo`, then run [Installation](#installation)
+
+You can run gui test with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)

@@ -227,6 +227,8 @@ else
   run-send-message "Skipping CRON"
 fi
 
+apt-get --fix-broken install -y
+
 run-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
