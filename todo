@@ -1,6 +1,5 @@
 TODO
 
-upgrade k9s regularly as cron
 upgrade Lens regularly as cron
 upgrade calibre regularly as cron
 automatic update issues (yes/no prompt)
