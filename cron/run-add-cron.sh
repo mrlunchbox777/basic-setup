@@ -27,6 +27,7 @@ cd "$dir"
   export $(cat ../.env | sed 's/#.*//g' | xargs)
 
 # Should Install
+should_install_run_update_azuredatastudio=${BASICSETUPSHOULDINSTALLRUNUPDATEAZUREDATASTUDIO:-true}
 should_install_run_update_basic_setup=${BASICSETUPCRONSHOULDINSTALLRUNUPDATEBASICSETUP:-true}
 should_install_run_update_calibre=${BASICSETUPCRONSHOULDINSTALLRUNUPDATECALIBRE:-true}
 should_install_run_update_cron_basic_setup=${BASICSETUPCRONSHOULDINSTALLRUNUPDATECRONBASICSETUP:-true}
@@ -36,6 +37,7 @@ should_install_run_update_lens=${BASICSETUPCRONSHOULDINSTALLRUNUPDATELENS:-true}
 should_install_run_write_temp_file=${BASICSETUPCRONSHOULDINSTALLRUNWRITETEMPFILE:-false}
 
 # Minute
+run_update_azuredatastudio_min=${BASICSETUPCRONRUNUPDATEAZUREDATASTUDIOMIN:-30}
 run_update_basic_setup_min=${BASICSETUPCRONRUNUPDATEBASICSETUPMIN:-0}
 run_update_calibre_min=${BASICSETUPCRONRUNUPDATECALIBREMIN:-25}
 run_update_cron_basic_setup_min=${BASICSETUPCRONRUNUPDATECRONBASICSETUPMIN:-5}
@@ -44,6 +46,7 @@ run_update_lens_min=${BASICSETUPCRONRUNUPDATELENSMIN:-20}
 run_update_minikube_min=${BASICSETUPCRONRUNUPDATEMINIKUBEMIN:-10}
 
 # Hour
+run_update_azuredatastudio_hour=${BASICSETUPCRONRUNUPDATEAZUREDATASTUDIOMIN:-0}
 run_update_basic_setup_hour=${BASICSETUPCRONRUNUPDATEBASICSETUPHOUR:-0}
 run_update_calibre_hour=${BASICSETUPCRONRUNUPDATECALIBREHOUR:-0}
 run_update_cron_basic_setup_hour=${BASICSETUPCRONRUNUPDATECRONBASICSETUPHOUR:-0}
@@ -58,6 +61,7 @@ run_update_minikube_hour=${BASICSETUPCRONRUNUPDATEMINIKUBEHOUR:-0}
 # run_update_basic_setup_mon=${BASICSETUPCRONRUNUPDATEBASICSETUPMON:-"0"}
 
 # Day of Week (dow)
+run_update_azuredatastudio_dow=${BASICSETUPCRONRUNUPDATEAZUREDATASTUDIOMIN:-0}
 run_update_calibre_dow=${BASICSETUPCRONRUNUPDATECALIBREDOW:-0}
 run_update_minikube_dow=${BASICSETUPCRONRUNUPDATEMINIKUBEDOW:-0}
 run_update_k9s_dow=${BASICSETUPCRONRUNUPDATEK9SDOW:-0}
@@ -107,6 +111,7 @@ run-add-cron-basic-setup() {
   fi
 }
 
+run-add-cron-basic-setup "run-update-azuredatastudio"
 run-add-cron-basic-setup "run-update-basic-setup"
 run-add-cron-basic-setup "run-update-calibre"
 run-add-cron-basic-setup "run-update-cron-basic-setup"
