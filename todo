@@ -1,7 +1,6 @@
 TODO
 
 automatic update issues (yes/no prompt)
-split up the base into different cheatsheets
 split up the primary aliases
 write a different repo to check for new updates of packages bot
   lens needs to be in there (check version and alert when found)

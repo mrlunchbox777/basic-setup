@@ -10,6 +10,15 @@ We aren't here yet necessarily, this is the aim.
 
 This will create a good basic setup for workstations. It should provide a pretty acceptable setup for a windows machine and debian derived linux machine. This is also supplies an ability to configure the applications/cron/etc to run on these systems.
 
+## If You Are New
+
+Run your OS Install
+
+* [Windows](#install-using-powershell)
+* [Linux](#install-using-bash)
+
+After installing use the command (from WSL if Windows, from `cmd` or `powershell` type `wsl` or `bash`) `cs` and try the commands listed there. It contains links to documents, roadmaps, tutorials, and other cheatsheet commands. The developer roadmaps listed there can be very helpful, as can the suggestions on what they are used for.
+
 ## Installation
 
 All of these will clone the repo and run the init script
@@ -99,7 +108,7 @@ $env:BASICSETUPSHOULDINSTALLUITOOLS = $false
 
 ## Testing
 
-You can run headless tests with the following:
+You can run headless tests with the following
 
 ### Testing Headless
 
