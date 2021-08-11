@@ -79,4 +79,13 @@ if ($onLinux) {
   bash install/init.sh | tee basic-setup-sh-output.log
 }
 
+## end of basic setup
+Write-Output "\n\n"
+Write-Output "**********************************************************"
+Write-Output "* Finished Basic Setup" 
+Write-Output "*   Check -"
+Write-Output "*     ~/src/tools/basic-setup/basic-setup-pwsh-output.log"
+Write-Output "*   It will have logs and outputs on everything installed."
+Write-Output "**********************************************************"
+
 Set-Location "$currentDir"
