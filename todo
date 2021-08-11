@@ -10,9 +10,7 @@ consider moving the submodules outside of the repo
 posh-git-sh isn't working right now
 make a general update app for cron
 allow azure data studio like code with extensions
-
 fix the windows install
-
+support other "basic-setup" style repos (for private secrets)
 support yum, pacman, and apk
-
 create a versioning system
