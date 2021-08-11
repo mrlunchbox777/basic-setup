@@ -6,6 +6,8 @@ If you are new, everything in these cheatsheets is worth learning at atleast a s
 
 ## `cs` commands
 
+There is a reserved command to get all of the cheatsheets as a single doc - `cs all`.
+
 These can be composited as a single string argument.
 
 * `cs bi` will show cheatsheet base and then cheatsheet index

@@ -13,6 +13,10 @@
 
 ### add the best info from each here
 
+Run `cs all` to get everything.
+
+* alias
+  * `cs a`
 * compilation
   * `cs c`
 * docker (todo)
