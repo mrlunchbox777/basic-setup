@@ -2,7 +2,7 @@
 
 `cs` is an alias for `cheatsheet`
 
-If you are new, everything in these cheatsheets is worth learning at atleast a surface level. Use `tldr` and `man` to help along the way.
+If you are new, everything in these cheatsheets is worth learning at at least a surface level. Use `tldr` and `man` to help along the way.
 
 ## `cs` commands
 
