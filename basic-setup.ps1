@@ -1,6 +1,4 @@
-# runs the powershell init script
-# adapted from https://chocolatey.org/install
-
+# Runs the powershell init script
 $currentDir = "$(Get-Location)"
 $envPath=""
 
@@ -21,7 +19,7 @@ if ($onWindows) {
     throw "Please run in an admin terminal"
   }
 
-  # eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
+  # TODO eventually probably change this to winget - https://docs.microsoft.com/en-us/windows/package-manager/winget/
   # Adapted from https://chocolatey.org/install
   Set-ExecutionPolicy Bypass -Scope Process -Force;
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
