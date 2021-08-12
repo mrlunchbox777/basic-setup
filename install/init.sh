@@ -217,9 +217,6 @@ run-manual-update-many-basic-setup \
   gitconfig \
   unattended-upgrades
 
-# TODO: consider adding the powerlevel 10k theme to oh my zsh -
-#   https://github.com/romkatv/powerlevel10k#installation
-
 if [ "$should_add_cron" == "true" ]; then
   run-send-message "Starting CRON"
   source ./../cron/run-add-cron.sh

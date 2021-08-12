@@ -18,9 +18,9 @@ The default command (when no string is provided) is index
 * `a` - alias
 * `b` - base
 * `c` - complication
-* `d` - docker (todo)
+* `d` - docker
 * `i` - index
-* `k` - kubernetes (todo)
+* `k` - kubernetes
 * `m` - metrics -- performance & telemetry
 * `n` - networking
 * `p` - process manipulation

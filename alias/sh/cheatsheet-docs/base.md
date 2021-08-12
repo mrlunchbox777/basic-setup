@@ -19,9 +19,9 @@ Run `cs all` to get everything.
   * `cs a`
 * compilation
   * `cs c`
-* docker (todo)
+* docker
   * `cs d`
-* kubernetes (todo)
+* kubernetes
   * `cs k`
 * metrics -- performance & telemetry
   * `cs m`
