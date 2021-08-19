@@ -138,7 +138,7 @@ copy-kube-to-windows() {
     fi
     if [ -d "$target_dir" ]; then
       if [ -d "$target_dir/.kube.bak/" ]; then
-        read -p "\"$target_dir/.kube.bak\" exists, would you like to remove it? [y/n]: " -n 1 -r
+        echo "\"$target_dir/.kube.bak\" exists, would you like to remove it? [y/n]: " && read
         echo
         if [[ "$REPLY" =~ ^[Yy]$ ]]; then
           rm -rf "$target_dir/.kube.bak"
