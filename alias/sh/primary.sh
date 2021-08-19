@@ -129,7 +129,7 @@ copy-kube-to-windows() {
     if [ -z "$windows_username" ]; then
       local windows_username="$(whoami)"
     fi
-    local target_dir="/mnt/c/Windows/Users/$windows_username"
+    local target_dir="/mnt/c/Users/$windows_username"
     local source_dir="~"
     if [[ "$2" == "true" ]]; then
       local temp_dir="$target_dir"
