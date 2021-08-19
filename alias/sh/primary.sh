@@ -147,8 +147,10 @@ copy-kube-to-windows() {
           return 1
         fi
       fi
-      mv "$target_dir/.kube" "$target_dir/.kube.bak"
-      cp -r "~/.kube" "$target_dir/"
+      if [ -d "$target_dir/.kube" ]; then
+        mv "$target_dir/.kube" "$target_dir/.kube.bak"
+      fi
+      cp -r "~/.kube/" "$target_dir/"
     else
       echo "\"$target_dir\" doesn't seem to exist" >&2
       return 1
