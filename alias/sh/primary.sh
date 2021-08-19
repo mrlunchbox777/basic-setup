@@ -123,7 +123,7 @@ is-on-wsl() {
 }
 
 copy-kube-to-windows() {
-  local is_on_wsl=is-on-wsl
+  local is_on_wsl=$(is-on-wsl)
   if [[ "$is_on_wsl" == "true" ]]; then
     local windows_username="$1"
     if [ -z "$windows_username" ]; then
