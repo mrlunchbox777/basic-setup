@@ -28,6 +28,7 @@ alias kds="kd service"
 alias kc="k config"
 alias kcc="kc current-context"
 alias kcsc="kc set-context"
+alias kcuc="kc use-context"
 alias kcv="kc view"
 
 # kubectl misc
