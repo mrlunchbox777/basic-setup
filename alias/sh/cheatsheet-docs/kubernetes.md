@@ -37,6 +37,7 @@ Other Aliases
 
 * `alias kc=kubectl config`
   * `c=current-context`
+  * `gc=get-contexts`
   * `sc=set-context`
   * `uc=use-context`
   * `v=view`
