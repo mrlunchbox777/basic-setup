@@ -36,6 +36,7 @@ should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-$negate_should_do_alias_on
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-$negate_should_do_alias_only}
 should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-$negate_should_do_alias_only}
 should_install_snap=${BASICSETUPSHOULDINSTALLSNAP:-$negate_should_do_alias_only}
+should_add_github_key=${BASICSETUPSHOULDADDGITHUBKEY:-"true"}
 
 ## Apt variables
 should_install_firefox=${BASICSETUPSHOULDINSTALLFIREFOX:-$negate_should_do_alias_only}
@@ -113,6 +114,10 @@ should_add_cron=${BASICSETUPSHOULDADDCRON:-$negate_should_do_alias_only}
 ## Postmessage variables
 should_postmessage_zsh=${should_install_zsh}
 should_postmessage_cron=${should_add_cron}
+
+if [ "$should_add_github_key" == "true" ]; then
+  ssh-keyscan -t rsa github.com | ssh-keygen -lf -
+fi
 
 if [ "$should_do_full_update" == "true" ]; then
   run-send-message "Starting Full Update"
