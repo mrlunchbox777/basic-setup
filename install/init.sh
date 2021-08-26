@@ -71,21 +71,21 @@ should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-$negate_should_do_alias_only}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-$negate_should_do_alias_only}
 
 ## Snap variables
-should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-$negate_should_do_alias_only}
-should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-$negate_should_do_alias_only}
-should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-$negate_should_do_alias_only}
-should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-$negate_should_do_alias_only}
+should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-"false"}
+should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-"false"}
+should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-"false"}
+should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-"false"}
 should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-"false"}
 
 ## Manual Install variables
-should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-$negate_should_do_alias_only}
+should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-"false"}
 should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-$negate_should_do_alias_only}
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-$negate_should_do_alias_only}
 should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-$negate_should_do_alias_only}
-should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-$negate_should_do_alias_only}
-should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-$negate_should_do_alias_only}
-should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-$negate_should_do_alias_only}
-should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-$negate_should_do_alias_only}
+should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-"false"}
+should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-"false"}
+should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-"false"}
+should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-"false"}
 
 should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-$negate_should_do_alias_only}
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-$negate_should_do_alias_only}
