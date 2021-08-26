@@ -78,6 +78,7 @@ should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-"false"}
 should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-"false"}
 
 ## Manual Install variables
+should_install_asbru=${BASICSETUPSHOULDINSTALLASBRU:-$negate_should_do_alias_only}
 should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-"false"}
 should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-$negate_should_do_alias_only}
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-$negate_should_do_alias_only}
@@ -188,6 +189,7 @@ source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
   run-manual-install-many-basic-setup \
+    asbru \
     azuredatastudio \
     calibre \
     code \
