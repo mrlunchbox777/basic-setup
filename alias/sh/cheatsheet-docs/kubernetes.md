@@ -45,6 +45,8 @@ Other Aliases
 * `alias kd=kubectl delete`
 * `alias kl=kubectl logs`
 * `alias ke=kubectl exec`
+* `alias ksc=kubectl-select-context` see below
+* `alias ksn=kubectl-select-namespace` see below
 
 ### K8s Functions
 
@@ -67,3 +69,7 @@ Other Aliases
   * arg2 - label name (defaults to `"app"`)
   * arg3 - pod port (defaults to `80`)
   * arg4 - external port (defaults to k8s decides)
+* `kubectl-select-context()`
+  * Interactive select context using kubectl
+* `kubectl-select-namespace()`
+  * Interactive select namespace using kubectl

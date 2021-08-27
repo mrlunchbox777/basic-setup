@@ -72,3 +72,43 @@ function forward-pod() {
   local external_port="$4"
   kubectl port-forward "$pod_id" $external_port:$pod_port
 }
+
+# Thanks to Matthew Anderson for the powershell function that this was adapted from
+function kubectl-select-context {
+  local contexts=$(kubectl config get-contexts -o name)
+  local current_context=$(kubectl config current-context)
+  local context_count=$(echo "$contexts" | wc -l)
+  echo "Select Kubernetes Context"
+  for i in {1..$context_count}; do
+    echo $i $(echo "$contexts" | sed -n "$i"p)
+  done
+  echo "Which context to use (current - $current_context)?: " && read
+  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
+    local target_context=$(echo $contexts | sed -n "$REPLY"p)
+    kcuc $target_context
+  else
+    echo "Entry invalid, exiting.." >&2
+    return 1
+  fi
+}
+alias ksc=kubectl-select-context
+
+# Thanks to Matthew Anderson for the powershell function that this was adapted from
+function kubectl-select-namespace {
+  local namespaces=$(kubectl get namespaces -o json | jq '.items | .[].metadata.name' | sed 's/\"//g')
+  local current_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)
+  local namespace_count=$(echo "$namespaces" | wc -l)
+  echo "Select Kubernetes Namespace"
+  for i in {1..$namespace_count}; do
+    echo $i $(echo "$namespaces" | sed -n "$i"p)
+  done
+  echo "Which namespace to use (current - $current_namespace)?: " && read
+  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
+    local target_context=$(echo $contexts | sed -n "$REPLY"p)
+    kcsc --current --namespace="$current_namespace"
+  else
+    echo "Entry invalid, exiting.." >&2
+    return 1
+  fi
+}
+alias ksn=kubectl-select-namespace
