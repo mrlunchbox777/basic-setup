@@ -32,6 +32,9 @@ cd "$dir"
 should_do_alias_only=${BASICSETUPSHOULDDOALIASONLY:-false}
 negate_should_do_alias_only="true"
 [ "$should_do_alias_only" == "true" ] && negate_should_do_alias_only="false"
+should_skip_entertainment_apps=${SHOULDSKIPENTERTAINMENTAPPS:-true}
+negate_should_skip_entertainment_apps="true"
+[ "$should_skip_entertainment_apps" == "true" ] && negate_should_skip_entertainment_apps="false"
 should_do_full_update=${BASICSETUPSHOULDDOFULLUPDATE:-$negate_should_do_alias_only}
 should_do_submodule_update=${BASICSETUPSHOULDDOSUBMODULEUPDATE:-$negate_should_do_alias_only}
 should_install_ui_tools=${BASICSETUPSHOULDINSTALLUITOOLS:-$negate_should_do_alias_only}
@@ -71,10 +74,10 @@ should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-$negate_should_do_alias_only}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-$negate_should_do_alias_only}
 
 ## Snap variables
-should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-"false"}
+should_install_discord=${BASICSETUPSHOULDINSTALLDISCORD:-$should_skip_entertainment_apps}
 should_install_remmina=${BASICSETUPSHOULDINSTALLREMMINA:-"false"}
 should_install_slack=${BASICSETUPSHOULDINSTALLSLACK:-"false"}
-should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-"false"}
+should_install_spotify=${BASICSETUPSHOULDINSTALLSPOTIFY:-$should_skip_entertainment_apps}
 should_install_teams=${BASICSETUPSHOULDINSTALLTEAMS:-"false"}
 
 ## Manual Install variables
@@ -83,8 +86,8 @@ should_install_azuredatastudio=${BASICSETUPSHOULDINSTALLAZUREDATASTUDIO:-"false"
 should_install_calibre=${BASICSETUPSHOULDINSTALLCALIBRE:-$negate_should_do_alias_only}
 should_install_code=${BASICSETUPSHOULDINSTALLCODE:-$negate_should_do_alias_only}
 should_install_lens=${BASICSETUPSHOULDINSTALLLENS:-$negate_should_do_alias_only}
-should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-"false"}
-should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-"false"}
+should_install_lutris=${BASICSETUPSHOULDINSTALLLUTRIS:-$should_skip_entertainment_apps}
+should_install_steam=${BASICSETUPSHOULDINSTALLSTEAM:-$should_skip_entertainment_apps}
 should_install_virtualboxextpack=${BASICSETUPSHOULDINSTALLVIRTUALBOXEXTPACK:-"false"}
 should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-"false"}
 
