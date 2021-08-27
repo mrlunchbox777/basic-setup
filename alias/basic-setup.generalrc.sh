@@ -42,7 +42,7 @@ source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
 
 for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do . $dir/sh/$basic_setup_generalrc_sh_f; done
-if [ ! -z "$extrafolder" ]; then
+if [ -d "$dir/$extra_folder/" ]; then
   for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
 fi
 

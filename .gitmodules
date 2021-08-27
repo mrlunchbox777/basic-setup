@@ -5,3 +5,6 @@
 [submodule "posh-git-sh"]
 	path = posh-git-sh
 	url = git@github.com:lyze/posh-git-sh.git
+[submodule "zsh-kubectl-prompt"]
+	path = zsh-kubectl-prompt
+	url = git@github.com:superbrothers/zsh-kubectl-prompt.git

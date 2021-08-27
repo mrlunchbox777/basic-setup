@@ -38,3 +38,17 @@
 
 # zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+autoload -U colors; colors
+source "$BASICSETUPGENERALRCDIR/../zsh-kubectl-prompt/kubectl.zsh"
+function right_prompt() {
+  local color="blue"
+
+  if [[ "$ZSH_KUBECTL_USER" =~ "admin" ]]; then
+    color=red
+  fi
+
+  echo "%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}"
+}
+RPROMPT='$(date) - $(right_prompt)'
+echo "ran custom profile"
