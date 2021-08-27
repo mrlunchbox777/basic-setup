@@ -22,7 +22,7 @@
 * cut - cut string per line
 * echo - prints text
 * fmt - formats text to 75 char
-* tr - text & replace
+* tr - character & replace
 * nl - number lines
 * egrep - extended grep, using ?, +, {, }, |, (, )
 * fgrep - egrep in file
