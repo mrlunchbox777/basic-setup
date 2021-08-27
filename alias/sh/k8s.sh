@@ -83,7 +83,7 @@ function kubectl-select-context {
     echo $i $(echo "$contexts" | sed -n "$i"p)
   done
   echo "Which context to use (current - $current_context)?: " && read
-  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
+  if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
     local target_context=$(echo $contexts | sed -n "$REPLY"p)
     kcuc $target_context
   else
@@ -103,7 +103,7 @@ function kubectl-select-namespace {
     echo $i $(echo "$namespaces" | sed -n "$i"p)
   done
   echo "Which namespace to use (current - $current_namespace)?: " && read
-  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$namespace_count" ] && [ "$REPLY" -gt "0" ]; then
+  if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$namespace_count" ] && [ "$REPLY" -gt "0" ]; then
     local target_namespace=$(echo $namespaces | sed -n "$REPLY"p)
     kcsc --current --namespace="$target_namespace"
   else
