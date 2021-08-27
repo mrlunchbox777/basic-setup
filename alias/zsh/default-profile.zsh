@@ -51,4 +51,3 @@ function right_prompt() {
   echo "%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}"
 }
 RPROMPT='$(date) - $(right_prompt)'
-echo "ran custom profile"
