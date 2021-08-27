@@ -6,7 +6,6 @@ write a different repo to check for new updates of packages bot
   lens needs to be in there (check version and alert when found)
   add for the submodules as well
 posh-git-sh isn't working right now
-add a flag for skipping entertainment gui apps
 make a general update app for cron
 fix the windows install
 support other "basic-setup" style repos (for private secrets)
