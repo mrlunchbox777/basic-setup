@@ -103,9 +103,9 @@ function kubectl-select-namespace {
     echo $i $(echo "$namespaces" | sed -n "$i"p)
   done
   echo "Which namespace to use (current - $current_namespace)?: " && read
-  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
-    local target_context=$(echo $contexts | sed -n "$REPLY"p)
-    kcsc --current --namespace="$current_namespace"
+  if [[ "$REPLY" =~ ^[0-9]$ ]] && [ "$REPLY" -le "$namespace_count" ] && [ "$REPLY" -gt "0" ]; then
+    local target_namespace=$(echo $namespaces | sed -n "$REPLY"p)
+    kcsc --current --namespace="$target_namespace"
   else
     echo "Entry invalid, exiting.." >&2
     return 1
