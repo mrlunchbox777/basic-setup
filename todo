@@ -2,7 +2,6 @@ TODO
 
 automatic update issues (yes/no prompt)
 install helm
-refresh .*rc after installation
 write a different repo to check for new updates of packages bot
   lens needs to be in there (check version and alert when found)
   add for the submodules as well
