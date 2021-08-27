@@ -40,6 +40,7 @@ esac
 run-get-source-and-dir "$source"
 source="${rgsd[@]:0:1}"
 dir="${rgsd[@]:1:1}"
+export BASICSETUPGENERALRCDIR="$dir"
 
 for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do . $dir/sh/$basic_setup_generalrc_sh_f; done
 if [ -d "$dir/$extra_folder/" ]; then
