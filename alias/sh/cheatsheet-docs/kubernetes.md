@@ -63,16 +63,19 @@ Other Aliases
 * `get-deploy-image()`
   * arg1 - name of deployment
   * `alias kgdi='get-deploy-image'`
-* `get-pod-shell()`
-  * arg1 - value of label
-  * arg2 - label name (defaults to `"app"`)
-  * `alias kgps=get-pod-shell`
 * `forward-pod()`
   * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
   * arg3 - pod port (defaults to `80`)
   * arg4 - external port (defaults to k8s decides)
   * `alias kfp='forward-pod'`
+* `get-pod-shell()`
+  * arg1 - value of label
+  * arg2 - label name (defaults to `"app"`)
+  * `alias kgps=get-pod-shell`
+* `get-node-shell()`
+  * arg1 - name of node
+  * `alias kgns='get-node-shell'`
 * `get-labels-by-name()`
   * arg1 - value of label
   * arg2 - resource kind (defaults to `pod`)

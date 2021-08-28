@@ -78,6 +78,92 @@ function get-pod-shell() {
 }
 alias kgps='get-pod-shell'
 
+function get-node-shell() {
+  # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
+  local node_name="$1"
+  [ -z "$node_name" ] && echo "No node name provided, exiting..." && return 1
+  local nodes=$(kubectl get nodes -o=json | jq '.items | .[].metadata.name' | sed 's/"//g')
+  local node_exists=$(echo "$nodes" | grep "$node_name")
+  [ -z "$node_exists" ] && echo "No node with the name provided, check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
+  echo "Node found, creating pod to get shell"
+  local pod_name=$(echo "node-shell-$(uuid)")
+  local pod_yaml="
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: $pod_name
+  name: $pod_name
+  namespace: \"kube-system\"
+spec:
+  containers:
+  - args:
+      - \"-t\"
+      - \"1\"
+      - \"-m\"
+      - \"-u\"
+      - \"-i\"
+      - \"-n\"
+      - \"sleep\"
+      - \"14000\"
+    command:
+      - \"nsenter\"
+    image: docker.io/alpine:3.9
+    name: $pod_name
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+    securityContext:
+      privileged: true
+  dnsPolicy: ClusterFirst
+  hostPID: true
+  hostIPC: true
+  hostNetwork: true
+  nodeSelector:
+    \"kubernetes.io/hostname\": \"$node_name\"
+  restartPolicy: \"Never\"
+  terminationGracePeriodSeconds: 0
+  tolerations:
+    - operator: \"Exists\"
+  "
+  local failed="false"
+  {
+    echo "$pod_yaml" | kubectl apply -f -
+    echo "Pod scheduled, waiting for running"
+    local node_shell_ready="false"
+    while [[ "$node_shell_ready" == "false" ]]; do
+      local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+      if [ -z "$pod_exists" ]; then
+        sleep 1
+      else
+        local current_phase=$(kgp $pod_name -n kube-system -o=jsonpath="{$.status.phase}")
+        if [[ "$current_phase" == "Running" ]]; then
+          node_shell_ready="true"
+        else
+          sleep 1
+        fi
+      fi
+    done
+    ke $pod_name -n kube-system -it -- sh
+  } || {
+    local failed="true"
+  }
+
+  local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+  if [[ ! -z "$pod_exists" ]]; then
+    echo "Cleaning up node-shell pod"
+    krm pod $pod_name -n kube-system
+  fi
+
+  if [[ "$failed" == "true" ]]; then
+    echo "Failure detected, check logs, exiting..."
+    return 1
+  fi
+}
+alias kgns='get-node-shell'
+
+
 function get-labels-by-name() {
   local resource_kind="$2"
   [ -z "$resource_kind" ] && local resource_kind="pod"
@@ -100,7 +186,7 @@ function kubectl-select-context {
     local target_context=$(echo $contexts | sed -n "$REPLY"p)
     kcuc $target_context
   else
-    echo "Entry invalid, exiting.." >&2
+    echo "Entry invalid, exiting..." >&2
     return 1
   fi
 }
@@ -120,7 +206,7 @@ function kubectl-select-namespace {
     local target_namespace=$(echo $namespaces | sed -n "$REPLY"p)
     kcsc --current --namespace="$target_namespace"
   else
-    echo "Entry invalid, exiting.." >&2
+    echo "Entry invalid, exiting..." >&2
     return 1
   fi
 }

@@ -143,7 +143,7 @@ copy-kube-to-windows() {
         if [[ "$REPLY" =~ ^[Yy]$ ]]; then
           rm -rf "$target_dir/.kube.bak"
         else
-          echo "Didn't remove \"$target_dir/.kube.bak\", exiting.." >&2
+          echo "Didn't remove \"$target_dir/.kube.bak\", exiting..." >&2
           return 1
         fi
       fi
