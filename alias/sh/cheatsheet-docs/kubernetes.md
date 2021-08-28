@@ -45,31 +45,41 @@ Other Aliases
 * `alias krm=kubectl delete`
 * `alias kl=kubectl logs`
 * `alias ke=kubectl exec`
-* `alias ksc=kubectl-select-context` see below
-* `alias ksn=kubectl-select-namespace` see below
 
 ### K8s Functions
 
 * `get-pod-by-label()`
-  * arg1 - name of pod
+  * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
+  * `alias kgpbl='get-pod-by-label'`
 * `delete-pod()`
-  * arg1 - name of pod
+  * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
+  * no alias
 * `get-pod-logs()`
-  * arg1 - name of pod
+  * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
+  * `alias kgpl='get-pod-logs'`
 * `get-deploy-image()`
   * arg1 - name of deployment
+  * `alias kgdi='get-deploy-image'`
 * `get-pod-shell()`
-  * arg1 - name of pod
+  * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
+  * `alias kgps=get-pod-shell`
 * `forward-pod()`
-  * arg1 - name of pod
+  * arg1 - value of label
   * arg2 - label name (defaults to `"app"`)
   * arg3 - pod port (defaults to `80`)
   * arg4 - external port (defaults to k8s decides)
+  * `alias kfp='forward-pod'`
+* `get-labels-by-name()`
+  * arg1 - value of label
+  * arg2 - resource kind (defaults to `pod`)
+  * alias kglbn='get-labels-by-name'
 * `kubectl-select-context()`
   * Interactive select context using kubectl
+  * `alias ksc=kubectl-select-context`
 * `kubectl-select-namespace()`
   * Interactive select namespace using kubectl
+  * `alias ksn=kubectl-select-namespace`

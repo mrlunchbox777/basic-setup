@@ -44,6 +44,7 @@ function get-pod-by-label() {
   local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
   echo "$pod_id"
 }
+alias kgpbl='get-pod-by-label'
 
 function delete-pod() {
   local pod_id=$(get-pod-by-label "$1" "$2")
@@ -54,11 +55,13 @@ function get-pod-logs() {
   local pod_id=$(get-pod-by-label "$1" "$2")
   kubectl logs -f "$pod_id"
 }
+alias kgpl='get-pod-by-label'
 
 function get-deploy-image() {
   local image=$(kubectl get deployment "$1" -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
   echo "$image"
 }
+alias kgdi='get-deploy-image'
 
 function forward-pod() {
   local pod_id=$(get-pod-by-label "$1" "$2")
@@ -67,11 +70,21 @@ function forward-pod() {
   local external_port="$4"
   kubectl port-forward "$pod_id" $external_port:$pod_port
 }
+alias kfp='forward-pod'
 
 function get-pod-shell() {
   local pod_id=$(get-pod-by-label "$1" "$2")
   kubectl exec "$pod_id" -it -- sh
 }
+alias kgps='get-pod-shell'
+
+function get-labels-by-name() {
+  local resource_kind="$2"
+  [ -z "$resource_kind" ] && local resource_kind="pod"
+  local pod_labels=$(kubectl get $resource_kind "$1" -o=jsonpath='{$.metadata.labels}')
+  echo "$pod_labels" | jq
+}
+alias kglbn='get-labels-by-name'
 
 # Thanks to Matthew Anderson for the powershell function that this was adapted from
 function kubectl-select-context {
