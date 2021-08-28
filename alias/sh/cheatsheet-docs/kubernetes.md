@@ -42,7 +42,7 @@ Other Aliases
   * `uc=use-context`
   * `v=view`
 * `alias ka=kubectl apply`
-* `alias kd=kubectl delete`
+* `alias krm=kubectl delete`
 * `alias kl=kubectl logs`
 * `alias ke=kubectl exec`
 * `alias ksc=kubectl-select-context` see below
@@ -53,9 +53,6 @@ Other Aliases
 * `get-pod-by-name()`
   * arg1 - name of pod
   * arg2 - label name (defaults to `"app"`)
-* `exec-pod()`
-  * arg1 - name of pod
-  * arg2 - label name (defaults to `"app"`)
 * `delete-pod()`
   * arg1 - name of pod
   * arg2 - label name (defaults to `"app"`)
@@ -64,6 +61,9 @@ Other Aliases
   * arg2 - label name (defaults to `"app"`)
 * `get-deploy-image()`
   * arg1 - name of deployment
+* `get-pod-shell()`
+  * arg1 - name of pod
+  * arg2 - label name (defaults to `"app"`)
 * `forward-pod()`
   * arg1 - name of pod
   * arg2 - label name (defaults to `"app"`)

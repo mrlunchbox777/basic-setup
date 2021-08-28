@@ -34,7 +34,7 @@ alias kcv="kc view"
 
 # kubectl misc
 alias ka='k apply'
-alias kd='k delete'
+alias krm='k delete'
 alias kl='k logs'
 alias ke='k exec'
 
@@ -43,11 +43,6 @@ function get-pod-by-name() {
   [ -z "$label_name" ] && local label_name="app"
   local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
   echo "$pod_id"
-}
-
-function exec-pod() {
-  local pod_id=$(get-pod-by-name "$1" "$2")
-  kubectl exec "$pod_id" -it -- sh
 }
 
 function delete-pod() {
@@ -71,6 +66,11 @@ function forward-pod() {
   [ -z "$pod_port" ] && local pod_port="80"
   local external_port="$4"
   kubectl port-forward "$pod_id" $external_port:$pod_port
+}
+
+function get-pod-shell() {
+  local pod_id=$(get-pod-by-name "$1" "$2")
+  kubectl exec "$pod_id" -it -- sh
 }
 
 # Thanks to Matthew Anderson for the powershell function that this was adapted from
