@@ -97,6 +97,72 @@ function get-pod-shell() {
 }
 alias kgps='get-pod-shell'
 
+function create-pod-shell() {
+  local pod_name=$(echo "pod-shell-$(uuid)")
+  local pod_yaml="
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: $pod_name
+  name: $pod_name
+  namespace: \"kube-system\"
+spec:
+  containers:
+  - args:
+      - \"-f\"
+      - \"/dev/null\"
+    command:
+      - \"tail\"
+    image: docker.io/bash:5
+    name: $pod_name
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+    securityContext:
+      privileged: true
+  restartPolicy: \"Never\"
+  terminationGracePeriodSeconds: 0
+  tolerations:
+    - operator: \"Exists\"
+  "
+  local failed="false"
+  {
+    echo "$pod_yaml" | kubectl apply -f -
+    echo "Pod scheduled, waiting for running"
+    local pod_shell_ready="false"
+    while [[ "$pod_shell_ready" == "false" ]]; do
+      local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+      if [ -z "$pod_exists" ]; then
+        sleep 1
+      else
+        local current_phase=$(kgp $pod_name -n kube-system -o=jsonpath="{$.status.phase}")
+        if [[ "$current_phase" == "Running" ]]; then
+          pod_shell_ready="true"
+        else
+          sleep 1
+        fi
+      fi
+    done
+    ke $pod_name -n kube-system -it -- bash
+  } || {
+    local failed="true"
+  }
+
+  local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+  if [[ ! -z "$pod_exists" ]]; then
+    echo "Cleaning up pod-shell pod"
+    krm pod $pod_name -n kube-system
+  fi
+
+  if [[ "$failed" == "true" ]]; then
+    echo "Failure detected, check logs, exiting..."
+    return 1
+  fi
+}
+alias kcps='create-pod-shell'
+
 function get-node-shell() {
   # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
   local node_name="$1"
