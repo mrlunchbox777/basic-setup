@@ -50,22 +50,22 @@ Other Aliases
 ### K8s Functions
 
 * `get-pod-by-label()`
-  * arg1 - value of label
+  * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias kgpbl='get-pod-by-label'`
 * `delete-pod()`
-  * arg1 - value of label
+  * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * no alias
+  * `alias krmp='delete-pod'`
 * `get-pod-logs()`
-  * arg1 - value of label
+  * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias kgpl='get-pod-logs'`
 * `get-deploy-image()`
   * arg1 - name of deployment
   * `alias kgdi='get-deploy-image'`
 * `forward-pod()`
-  * arg1 - value of label
+  * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * arg3 - pod port (defaults to `80`)
   * arg4 - external port (defaults to k8s decides)

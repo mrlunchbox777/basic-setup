@@ -40,40 +40,6 @@ alias ke='k exec'
 alias kr='k run'
 
 function get-pod-by-label() {
-  local label_name="$2"
-  [ -z "$label_name" ] && local label_name="app"
-  local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
-  echo "$pod_id"
-}
-alias kgpbl='get-pod-by-label'
-
-function delete-pod() {
-  local pod_id=$(get-pod-by-label "$1" "$2")
-  kubectl delete pod "$pod_id"
-}
-
-function get-pod-logs() {
-  local pod_id=$(get-pod-by-label "$1" "$2")
-  kubectl logs -f "$pod_id"
-}
-alias kgpl='get-pod-by-label'
-
-function get-deploy-image() {
-  local image=$(kubectl get deployment "$1" -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
-  echo "$image"
-}
-alias kgdi='get-deploy-image'
-
-function forward-pod() {
-  local pod_id=$(get-pod-by-label "$1" "$2")
-  local pod_port="$3"
-  [ -z "$pod_port" ] && local pod_port="80"
-  local external_port="$4"
-  kubectl port-forward "$pod_id" $external_port:$pod_port
-}
-alias kfp='forward-pod'
-
-function get-pod-shell() {
   local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
   local pod_label_value="$1"
   if [ -z "$pod_label_value" ]; then
@@ -84,15 +50,57 @@ function get-pod-shell() {
     done
     echo "Which pod to use?: " && read
     if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$pod_count" ] && [ "$REPLY" -gt "0" ]; then
-      local target_pod=$(echo $pods | sed -n "$REPLY"p)
+      local pod_id=$(echo $pods | sed -n "$REPLY"p)
     else
       echo "Entry invalid, exiting..." >&2
       return 1
     fi
   else
-    local target_pod=$(get-pod-by-label "$1" "$2")
+    local label_name="$2"
+    [ -z "$label_name" ] && local label_name="app"
+    local pod_id=$(kubectl get pods -l "$label_name"="$pod_label_value" -o custom-columns=":metadata.name" | grep .)
   fi
-  local pod_exists=$(echo "$pods" | grep "$pod_name")
+  local pod_exists=$(echo "$pods" | grep "$pod_id")
+  [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
+  BASIC_SETUP_GET_POD_BY_LABEL_POD_ID="$pod_id"
+  echo "$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+}
+alias kgpbl='get-pod-by-label'
+
+function delete-pod() {
+  get-pod-by-label "$1" "$2"
+  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  kubectl delete pod "$pod_id"
+}
+alias krmp='delete-pod'
+
+function get-pod-logs() {
+  get-pod-by-label "$1" "$2"
+  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  kubectl logs -f "$pod_id"
+}
+alias kgpl='get-pod-logs'
+
+function get-deploy-image() {
+  local image=$(kubectl get deployment "$1" -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
+  echo "$image"
+}
+alias kgdi='get-deploy-image'
+
+function forward-pod() {
+  get-pod-by-label "$1" "$2"
+  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  local pod_port="$3"
+  [ -z "$pod_port" ] && local pod_port="80"
+  local external_port="$4"
+  kubectl port-forward "$pod_id" $external_port:$pod_port
+}
+alias kfp='forward-pod'
+
+function get-pod-shell() {
+  get-pod-by-label "$1" "$2"
+  local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  local pod_exists=$(echo "$pods" | grep "$target_pod")
   [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
   kubectl exec "$target_pod" -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
 }
