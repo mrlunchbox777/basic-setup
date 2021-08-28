@@ -93,7 +93,7 @@ function get-pod-shell() {
   fi
   local pod_exists=$(echo "$pods" | grep "$pod_name")
   [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
-  kubectl exec "$target_pod" -it -- sh
+  kubectl exec "$target_pod" -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
 }
 alias kgps='get-pod-shell'
 
@@ -243,7 +243,7 @@ spec:
         fi
       fi
     done
-    ke $pod_name -n kube-system -it -- sh
+    ke $pod_name -n kube-system -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
   } || {
     local failed="true"
   }
