@@ -81,8 +81,8 @@ Other Aliases
   * arg2 - resource kind (defaults to `pod`)
   * alias kglbn='get-labels-by-name'
 * `kubectl-select-context()`
-  * Interactive select context using kubectl
+  * arg1 - name of context (default interactive)
   * `alias ksc=kubectl-select-context`
 * `kubectl-select-namespace()`
-  * Interactive select namespace using kubectl
+  * arg1 - name of namespace (default interactive)
   * `alias ksn=kubectl-select-namespace`

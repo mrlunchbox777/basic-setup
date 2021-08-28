@@ -188,39 +188,57 @@ alias kglbn='get-labels-by-name'
 # Thanks to Matthew Anderson for the powershell function that this was adapted from
 function kubectl-select-context {
   local contexts=$(kubectl config get-contexts -o name)
-  local current_context=$(kubectl config current-context)
-  local context_count=$(echo "$contexts" | wc -l)
-  echo "Select Kubernetes Context"
-  for i in {1..$context_count}; do
-    echo $i $(echo "$contexts" | sed -n "$i"p)
-  done
-  echo "Which context to use (current - $current_context)?: " && read
-  if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
-    local target_context=$(echo $contexts | sed -n "$REPLY"p)
-    kcuc $target_context
+  local target_context="$1"
+  if [ -z "$target_context" ]; then
+    local current_context=$(kubectl config current-context)
+    local context_count=$(echo "$contexts" | wc -l)
+    echo "Select Kubernetes Context"
+    for i in {1..$context_count}; do
+      echo $i $(echo "$contexts" | sed -n "$i"p)
+    done
+    echo "Which context to use (current - $current_context)?: " && read
+    if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$context_count" ] && [ "$REPLY" -gt "0" ]; then
+      local target_context=$(echo $contexts | sed -n "$REPLY"p)
+    else
+      echo "Entry invalid, exiting..." >&2
+      return 1
+    fi
   else
-    echo "Entry invalid, exiting..." >&2
-    return 1
+    local target_context_exists=$(kcgc -o name | grep $target_context)
+    if [ -z "$target_context_exists" ]; then
+      echo "Context name invalid, exiting..." >&2
+      return 1
+    fi
   fi
+  kcuc $target_context
 }
 alias ksc=kubectl-select-context
 
 # Thanks to Matthew Anderson for the powershell function that this was adapted from
 function kubectl-select-namespace {
   local namespaces=$(kubectl get namespaces -o json | jq '.items | .[].metadata.name' | sed 's/\"//g')
-  local current_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)
-  local namespace_count=$(echo "$namespaces" | wc -l)
-  echo "Select Kubernetes Namespace"
-  for i in {1..$namespace_count}; do
-    echo $i $(echo "$namespaces" | sed -n "$i"p)
-  done
-  echo "Which namespace to use (current - $current_namespace)?: " && read
-  if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$namespace_count" ] && [ "$REPLY" -gt "0" ]; then
-    local target_namespace=$(echo $namespaces | sed -n "$REPLY"p)
-    kcsc --current --namespace="$target_namespace"
+  local target_namespace="$1"
+  if [ -z "$target_namespace" ]; then
+    local current_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)
+    local namespace_count=$(echo "$namespaces" | wc -l)
+    echo "Select Kubernetes Namespace"
+    for i in {1..$namespace_count}; do
+      echo $i $(echo "$namespaces" | sed -n "$i"p)
+    done
+    echo "Which namespace to use (current - $current_namespace)?: " && read
+    if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$namespace_count" ] && [ "$REPLY" -gt "0" ]; then
+      local target_namespace=$(echo $namespaces | sed -n "$REPLY"p)
+    else
+      echo "Entry invalid, exiting..." >&2
+      return 1
+    fi
   else
-    echo "Entry invalid, exiting..." >&2
-    return 1
+    local target_namespace_exists=$(kg ns $target_namespace --no-headers --ignore-not-found)
+    if [ -z "$target_namespace_exists" ]; then
+      echo "Namespace invalid, exiting..." >&2
+      return 1
+    fi
   fi
+  kcsc --current --namespace="$target_namespace"
 }
 alias ksn=kubectl-select-namespace
