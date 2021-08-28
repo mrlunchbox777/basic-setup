@@ -73,8 +73,27 @@ function forward-pod() {
 alias kfp='forward-pod'
 
 function get-pod-shell() {
-  local pod_id=$(get-pod-by-label "$1" "$2")
-  kubectl exec "$pod_id" -it -- sh
+  local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
+  local pod_label_value="$1"
+  if [ -z "$pod_label_value" ]; then
+    local pod_count=$(echo "$pods" | wc -l)
+    echo "Select Kubernetes Pod"
+    for i in {1..$pod_count}; do
+      echo $i $(echo "$pods" | sed -n "$i"p)
+    done
+    echo "Which pod to use?: " && read
+    if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$pod_count" ] && [ "$REPLY" -gt "0" ]; then
+      local target_pod=$(echo $pods | sed -n "$REPLY"p)
+    else
+      echo "Entry invalid, exiting..." >&2
+      return 1
+    fi
+  else
+    local target_pod=$(get-pod-by-label "$1" "$2")
+  fi
+  local pod_exists=$(echo "$pods" | grep "$pod_name")
+  [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
+  kubectl exec "$target_pod" -it -- sh
 }
 alias kgps='get-pod-shell'
 

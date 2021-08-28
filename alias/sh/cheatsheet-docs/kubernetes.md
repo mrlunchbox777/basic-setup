@@ -70,7 +70,7 @@ Other Aliases
   * arg4 - external port (defaults to k8s decides)
   * `alias kfp='forward-pod'`
 * `get-pod-shell()`
-  * arg1 - value of label
+  * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias kgps=get-pod-shell`
 * `get-node-shell()`
