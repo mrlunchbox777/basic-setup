@@ -50,7 +50,7 @@ Other Aliases
 
 ### K8s Functions
 
-* `get-pod-by-name()`
+* `get-pod-by-label()`
   * arg1 - name of pod
   * arg2 - label name (defaults to `"app"`)
 * `delete-pod()`
