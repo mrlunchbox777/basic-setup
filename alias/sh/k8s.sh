@@ -81,8 +81,21 @@ alias kgps='get-pod-shell'
 function get-node-shell() {
   # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
   local node_name="$1"
-  [ -z "$node_name" ] && echo "No node name provided, exiting..." && return 1
   local nodes=$(kubectl get nodes -o=json | jq '.items | .[].metadata.name' | sed 's/"//g')
+  if [ -z "$node_name" ]; then
+    local node_count=$(echo "$nodes" | wc -l)
+    echo "Select Kubernetes Node"
+    for i in {1..$node_count}; do
+      echo $i $(echo "$nodes" | sed -n "$i"p)
+    done
+    echo "Which node to use?: " && read
+    if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$node_count" ] && [ "$REPLY" -gt "0" ]; then
+      local node_name=$(echo $nodes | sed -n "$REPLY"p)
+    else
+      echo "Entry invalid, exiting..." >&2
+      return 1
+    fi
+  fi
   local node_exists=$(echo "$nodes" | grep "$node_name")
   [ -z "$node_exists" ] && echo "No node with the name provided, check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
   echo "Node found, creating pod to get shell"

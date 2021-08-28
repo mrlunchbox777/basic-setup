@@ -74,7 +74,7 @@ Other Aliases
   * arg2 - label name (defaults to `"app"`)
   * `alias kgps=get-pod-shell`
 * `get-node-shell()`
-  * arg1 - name of node
+  * arg1 - name of node (default interactive)
   * `alias kgns='get-node-shell'`
 * `get-labels-by-name()`
   * arg1 - value of label
