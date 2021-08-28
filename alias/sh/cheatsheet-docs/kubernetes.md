@@ -45,6 +45,7 @@ Other Aliases
 * `alias krm=kubectl delete`
 * `alias kl=kubectl logs`
 * `alias ke=kubectl exec`
+* `alias kr=kubectl run`
 
 ### K8s Functions
 

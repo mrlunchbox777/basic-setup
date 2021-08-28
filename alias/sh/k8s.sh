@@ -37,6 +37,7 @@ alias ka='k apply'
 alias krm='k delete'
 alias kl='k logs'
 alias ke='k exec'
+alias kr='k run'
 
 function get-pod-by-label() {
   local label_name="$2"
