@@ -38,7 +38,7 @@ alias krm='k delete'
 alias kl='k logs'
 alias ke='k exec'
 
-function get-pod-by-name() {
+function get-pod-by-label() {
   local label_name="$2"
   [ -z "$label_name" ] && local label_name="app"
   local pod_id=$(kubectl get pods -l "$label_name"="$1" -o custom-columns=":metadata.name" | grep .)
@@ -46,12 +46,12 @@ function get-pod-by-name() {
 }
 
 function delete-pod() {
-  local pod_id=$(get-pod-by-name "$1" "$2")
+  local pod_id=$(get-pod-by-label "$1" "$2")
   kubectl delete pod "$pod_id"
 }
 
 function get-pod-logs() {
-  local pod_id=$(get-pod-by-name "$1" "$2")
+  local pod_id=$(get-pod-by-label "$1" "$2")
   kubectl logs -f "$pod_id"
 }
 
@@ -61,7 +61,7 @@ function get-deploy-image() {
 }
 
 function forward-pod() {
-  local pod_id=$(get-pod-by-name "$1" "$2")
+  local pod_id=$(get-pod-by-label "$1" "$2")
   local pod_port="$3"
   [ -z "$pod_port" ] && local pod_port="80"
   local external_port="$4"
@@ -69,7 +69,7 @@ function forward-pod() {
 }
 
 function get-pod-shell() {
-  local pod_id=$(get-pod-by-name "$1" "$2")
+  local pod_id=$(get-pod-by-label "$1" "$2")
   kubectl exec "$pod_id" -it -- sh
 }
 
