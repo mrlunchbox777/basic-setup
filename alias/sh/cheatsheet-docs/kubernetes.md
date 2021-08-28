@@ -61,6 +61,10 @@ Other Aliases
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias kgpl='get-pod-logs'`
+* `get-pod-image()`
+  * arg1 - value of label (defaults to interactive)
+  * arg2 - label name (defaults to `"app"`)
+  * `alias kgpi='get-pod-image'`
 * `get-deploy-image()`
   * arg1 - name of deployment
   * `alias kgdi='get-deploy-image'`

@@ -81,6 +81,14 @@ function get-pod-logs() {
 }
 alias kgpl='get-pod-logs'
 
+function get-pod-image() {
+  get-pod-by-label "$1" "$2"
+  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  local image=$(kubectl get pod "$pod_id" -o=jsonpath='{$.spec.containers[:1].image}')
+  echo "$image"
+}
+alias kgpi='get-pod-image'
+
 function get-deploy-image() {
   local image=$(kubectl get deployment "$1" -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
   echo "$image"
