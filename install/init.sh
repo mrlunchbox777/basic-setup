@@ -93,6 +93,7 @@ should_install_zoom=${BASICSETUPSHOULDINSTALLZOOM:-"false"}
 
 should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-$negate_should_do_alias_only}
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-$negate_should_do_alias_only}
+should_install_helm=${BASICSETUPSHOULDINSTALLHELM:-$negate_should_do_alias_only}
 should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-$negate_should_do_alias_only}
 should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-$negate_should_do_alias_only}
 should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-$negate_should_do_alias_only}
@@ -205,6 +206,7 @@ source ./sh-installs/run-manual-install.sh
 run-manual-install-many-basic-setup \
   azcli \
   dotnet \
+  helm \
   k9s \
   kubectl \
   mailutils \
