@@ -84,6 +84,10 @@ Other Aliases
 * `get-node-shell()`
   * arg1 - name of node (default interactive)
   * `alias kgns='get-node-shell'`
+* `get-pod-ports()`
+  * arg1 - value of label (defaults to interactive)
+  * arg2 - label name (defaults to `"app"`)
+  * `alias kgpp='get-pod-ports'`
 * `get-labels-by-name()`
   * arg1 - value of label
   * arg2 - resource kind (defaults to `pod`)

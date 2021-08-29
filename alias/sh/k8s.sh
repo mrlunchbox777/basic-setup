@@ -282,7 +282,11 @@ spec:
         fi
       fi
     done
-    ke $pod_name -n kube-system -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
+    local command_to_run="$2"
+    if [ -z "$command_to_run" ]; then
+      local command_to_run="[ -z \"$(which bash)\" ] && sh || bash"
+    fi
+    ke $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } || {
     local failed="true"
   }
@@ -299,6 +303,16 @@ spec:
   fi
 }
 alias kgns='get-node-shell'
+
+function get-pod-ports() {
+  get-pod-by-label "$1" "$2"
+  local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
+  local pod_description=$(kgp $target_pod -o json)
+  local pod_image=$(echo "$pod_description" | jq '.spec.containers | .[0].image' | sed 's/"//g')
+  local pod_node=$(echo "$pod_description" | jq '.spec.nodeName' | sed 's/"//g')
+  kgns "$pod_node" "echo '' && echo 'Ports:' && docker inspect --format='{{.Config.ExposedPorts}}' $pod_image && echo ''"
+}
+alias kgpp='get-pod-ports'
 
 function get-labels-by-name() {
   local resource_kind="$2"
