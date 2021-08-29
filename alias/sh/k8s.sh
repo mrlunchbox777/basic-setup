@@ -100,9 +100,9 @@ function get-deploy-image() {
 alias kgdi='get-deploy-image'
 
 function forward-pod() {
-  get-pod-by-label "$1" "$2"
+  get-pod-by-label "$2" "$3"
   local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-  local pod_port="$3"
+  local pod_port="$1"
   [ -z "$pod_port" ] && local pod_port="80"
   local external_port="$4"
   local forward_pod_command="kubectl port-forward \"$pod_id\" $external_port:$pod_port"

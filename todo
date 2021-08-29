@@ -1,6 +1,5 @@
 TODO
 
-update k8s port forward to make it easier to select a port
 automatic update issues (yes/no prompt)
 write a different repo to check for new updates of packages bot
   lens needs to be in there (check version and alert when found)

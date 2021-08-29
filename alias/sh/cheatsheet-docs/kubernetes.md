@@ -70,9 +70,9 @@ Other Aliases
   * arg1 - name of deployment
   * `alias kgdi='get-deploy-image'`
 * `forward-pod()`
-  * arg1 - value of label (defaults to interactive)
-  * arg2 - label name (defaults to `"app"`)
-  * arg3 - pod port (defaults to `80`)
+  * arg1 - pod port (defaults to `80`)
+  * arg2 - value of label (defaults to interactive)
+  * arg3 - label name (defaults to `"app"`)
   * arg4 - external port (defaults to k8s decides)
   * `alias kfp='forward-pod'`
 * `get-pod-shell()`
