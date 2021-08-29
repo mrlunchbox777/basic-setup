@@ -10,3 +10,5 @@ fix the windows install
 support other "basic-setup" style repos (for private secrets)
 support yum, pacman, and apk
 create a versioning system
+write selector for get deployment image
+write helm aliases like k8s aliases
