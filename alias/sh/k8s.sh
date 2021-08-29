@@ -132,8 +132,6 @@ alias kfp='forward-pod'
 function get-pod-shell() {
   get-pod-by-label "$1" "$2"
   local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-  local pod_exists=$(echo "$pods" | grep "$target_pod")
-  [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
   kubectl exec "$target_pod" -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
 }
 alias kgps='get-pod-shell'
