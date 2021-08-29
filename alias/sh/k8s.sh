@@ -41,6 +41,7 @@ alias krm='k delete'
 alias kl='k logs'
 alias ke='k exec'
 alias kr='k run'
+alias kmk='k create'
 
 function get-pod-by-label() {
   local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
