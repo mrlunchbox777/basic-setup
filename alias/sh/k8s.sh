@@ -105,7 +105,27 @@ function forward-pod() {
   local pod_port="$3"
   [ -z "$pod_port" ] && local pod_port="80"
   local external_port="$4"
-  kubectl port-forward "$pod_id" $external_port:$pod_port
+  local forward_pod_command="kubectl port-forward \"$pod_id\" $external_port:$pod_port"
+  local failed="false"
+  {
+    local temp_file_name="/tmp/basic-setup-forward-pod-$(uuid).log"
+    sh -c "$forward_pod_command" &> $temp_file_name &
+    local port_forward_job=$(jobs | grep "sh -c \"\$forward_pod_command\" &> \$temp_file_name" | awk '{print $1}' | sed 's/\[*\]*//g')
+    sleep 1
+    local forwarding_output=$(cat $temp_file_name)
+    local bound_port=$(echo "$forwarding_output" | awk '{print $3}' | sed -n 1p | awk -F: '{print $2}')
+    echo "$forwarding_output"
+    sensible-browser http://localhost:$bound_port </dev/null >/dev/null 2>&1 & disown
+    echo "Bringing portforward back to foreground"
+    fg %$port_forward_job
+  } || {
+    local failed="true"
+  }
+
+  if [[ "$failed" == "true" ]]; then
+    echo "Failure detected, check logs, exiting..."
+    return 1
+  fi
 }
 alias kfp='forward-pod'
 
