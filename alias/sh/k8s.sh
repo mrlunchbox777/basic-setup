@@ -1,4 +1,7 @@
 # adapted from https://betterprogramming.pub/useful-kubectl-aliases-that-will-speed-up-your-coding-54960185d10
+export BASIC_SETUP_APLINE_IMAGE_TO_USE="docker.io/alpine:3.9"
+export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
+
 alias k=kubectl
 
 # kubectl get
@@ -131,7 +134,7 @@ spec:
       - \"/dev/null\"
     command:
       - \"tail\"
-    image: docker.io/bash:5
+    image: $BASIC_SETUP_BASH_IMAGE_TO_USE
     name: $pod_name
     resources:
       limits:
@@ -223,7 +226,7 @@ spec:
       - \"14000\"
     command:
       - \"nsenter\"
-    image: docker.io/alpine:3.9
+    image: $BASIC_SETUP_APLINE_IMAGE_TO_USE
     name: $pod_name
     resources:
       limits:
