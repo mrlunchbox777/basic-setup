@@ -281,7 +281,6 @@ spec:
 }
 alias kgns='get-node-shell'
 
-
 function get-labels-by-name() {
   local resource_kind="$2"
   [ -z "$resource_kind" ] && local resource_kind="pod"
