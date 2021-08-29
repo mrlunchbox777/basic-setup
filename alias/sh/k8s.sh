@@ -115,7 +115,7 @@ function forward-pod() {
     local forwarding_output=$(cat $temp_file_name)
     local bound_port=$(echo "$forwarding_output" | awk '{print $3}' | sed -n 1p | awk -F: '{print $2}')
     echo "$forwarding_output"
-    sensible-browser http://localhost:$bound_port </dev/null >/dev/null 2>&1 & disown
+    xdg-open http://localhost:$bound_port </dev/null >/dev/null 2>&1 & disown
     echo "Bringing portforward back to foreground"
     fg %$port_forward_job
   } || {
