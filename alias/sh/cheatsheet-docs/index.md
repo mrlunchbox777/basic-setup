@@ -6,7 +6,7 @@ If you are new, everything in these cheatsheets is worth learning at at least a 
 
 ## `cs` commands
 
-There is a reserved command to get all of the cheatsheets as a single doc - `cs all`.
+There is a reserved command to get all of the cheatsheets as a single doc - `cs all`, it can also be called by `csa`.
 
 These can be composited as a single string argument.
 
