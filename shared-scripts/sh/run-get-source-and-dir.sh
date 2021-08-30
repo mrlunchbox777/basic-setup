@@ -18,8 +18,8 @@ run-get-source-and-dir() {
   run_get_source_and_dir_help_string+="    check https://newbedev.com/behavior-of-arrays-in-bash-scripting-and-zsh-shell-start-index-0-or-1\\n"
   run_get_source_and_dir_help_string+="\\n"
   run_get_source_and_dir_help_string+="after the eval statement\\n"
-  run_get_source_and_dir_help_string+="* \$source will be set to source resolving symlinks\\n"
-  run_get_source_and_dir_help_string+="* \$dir will be set to the parent dir of \$source\\n"
+  run_get_source_and_dir_help_string+="* \$source will be set to source resolving symlinks relative to calling pwd\\n"
+  run_get_source_and_dir_help_string+="* \$dir will be set to the absolute parent dir of \$source\\n"
 
   local source="$1"
   local dir=""

@@ -19,6 +19,7 @@ The default command (when no string is provided) is index
 * `b` - base
 * `c` - complication
 * `d` - docker
+* `g` - general -- shared scripts
 * `i` - index
 * `k` - kubernetes
 * `m` - metrics -- performance & telemetry

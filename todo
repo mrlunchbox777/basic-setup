@@ -3,7 +3,7 @@ TODO
 automatic update issues (yes/no prompt)
 write a different repo to check for new updates of packages bot
   lens needs to be in there (check version and alert when found)
-  add for the submodules as well
+  add for the submodules as well (https://riptutorial.com/git/example/1186/updating-a-submodule)
 make a general update app for cron
 fix the windows install
 support other "basic-setup" style repos (for private secrets)
