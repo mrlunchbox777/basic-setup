@@ -314,7 +314,7 @@ function get-pod-ports() {
   {
     kgns "$pod_node" "echo '' && echo 'Ports:' && $docker_inspect_command && echo ''"
   } || {
-    echo "Failed to docker inspect on the node, exiting..."
+    echo "Failed to 'docker inspect' on the node, exiting..."
     return 1
   }
 }
