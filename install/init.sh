@@ -70,6 +70,7 @@ should_install_terraform=${BASICSETUPSHOULDINSTALLTERRAFORM:-$negate_should_do_a
 should_install_tldr=${BASICSETUPSHOULDINSTALLTLDR:-$negate_should_do_alias_only}
 should_install_tmux=${BASICSETUPSHOULDINSTALLTMUX:-$negate_should_do_alias_only}
 should_install_unattended_upgrades=${BASICSETUPSHOULDINSTALLUNATTENDEDUPGRADES:-$negate_should_do_alias_only}
+should_install_uuid=${BASICSETUPSHOULDINSTALLUUID:-$negate_should_do_alias_only}
 should_install_wget=${BASICSETUPSHOULDINSTALLWGET:-$negate_should_do_alias_only}
 should_install_zsh=${BASICSETUPSHOULDINSTALLZSH:-$negate_should_do_alias_only}
 
@@ -166,6 +167,7 @@ run-manual-install-apt-many-basic-setup \
   tldr \
   tmux \
   unattended-upgrades \
+  uuid \
   wget \
   zsh
 
