@@ -310,7 +310,13 @@ function get-pod-ports() {
   local pod_description=$(kgp $target_pod -o json)
   local pod_image=$(echo "$pod_description" | jq '.spec.containers | .[0].image' | sed 's/"//g')
   local pod_node=$(echo "$pod_description" | jq '.spec.nodeName' | sed 's/"//g')
-  kgns "$pod_node" "echo '' && echo 'Ports:' && docker inspect --format='{{.Config.ExposedPorts}}' $pod_image && echo ''"
+  local docker_inspect_command="docker inspect --format='{{.Config.ExposedPorts}}' $pod_image"
+  {
+    kgns "$pod_node" "echo '' && echo 'Ports:' && $docker_inspect_command && echo ''"
+  } || {
+    echo "Failed to docker inspect on the node, exiting..."
+    return 1
+  }
 }
 alias kgpp='get-pod-ports'
 
