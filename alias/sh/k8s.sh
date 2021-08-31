@@ -44,6 +44,7 @@ alias kr='k run'
 alias kmk='k create'
 
 function get-pod-by-label() {
+  BASIC_SETUP_GET_POD_BY_LABEL_POD_ID=""
   local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
   local pod_label_value="$1"
   if [ -z "$pod_label_value" ]; then
@@ -305,17 +306,30 @@ spec:
 alias kgns='get-node-shell'
 
 function get-pod-ports() {
-  get-pod-by-label "$1" "$2"
+  # get-pod-by-label "$1" "$2"
   local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-  local pod_description=$(kgp $target_pod -o json)
-  local pod_image=$(echo "$pod_description" | jq '.spec.containers | .[0].image' | sed 's/"//g')
-  local pod_node=$(echo "$pod_description" | jq '.spec.nodeName' | sed 's/"//g')
-  local docker_inspect_command="docker inspect --format='{{.Config.ExposedPorts}}' $pod_image"
+  local found_target_pod="false"
+  if [[ -z "$target_pod" ]]; then
+    local pod_description=$(kgp $target_pod -o json)
+    local pod_image=$(echo "$pod_description" | jq '.spec.containers | .[0].image' | sed 's/"//g')
+    local pod_node=$(echo "$pod_description" | jq '.spec.nodeName' | sed 's/"//g')
+    local docker_inspect_command_extra=""
+    local docker_inspect_command="docker$docker_inspect_command_extra inspect --format='{{.Config.ExposedPorts}}' $pod_image"
+    local full_inspect_command="echo '' && echo 'Ports:' && $docker_inspect_command && echo ''"
+    local found_target_pod="true"
+  fi
   {
-    kgns "$pod_node" "echo '' && echo 'Ports:' && $docker_inspect_command && echo ''"
+    [[ "$found_target_pod" == "true" ]] && \
+      kgns "$pod_node" "$full_inspect_command"
   } || {
-    echo "Failed to 'docker inspect' on the node, exiting..."
-    return 1
+    echo "Failed to 'docker inspect' on the node, trying locally..."
+    [ -z "$pod_image" ] && [[ ! -z "$1" ]] && local pod_image="$1"
+    local docker_inspect_command_extra=" image"
+    local docker_inspect_command="docker$docker_inspect_command_extra inspect --format='{{.Config.ExposedPorts}}' $pod_image"
+    local full_inspect_command="echo '' && echo 'Ports:' && $docker_inspect_command && echo ''"
+    docker pull "$pod_image"
+    sh -c "$full_inspect_command"
+    echo "Ran local 'local docker inspect'"
   }
 }
 alias kgpp='get-pod-ports'
