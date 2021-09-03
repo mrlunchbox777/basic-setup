@@ -12,3 +12,4 @@ support yum, pacman, and apk
 create a versioning system
 write selector for get deployment image
 write helm aliases like k8s aliases
+consider doing something with this - https://code.visualstudio.com/docs/remote/containers
