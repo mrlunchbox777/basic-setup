@@ -306,10 +306,10 @@ spec:
 alias kgns='get-node-shell'
 
 function get-pod-ports() {
-  # get-pod-by-label "$1" "$2"
+  get-pod-by-label "$1" "$2"
   local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   local found_target_pod="false"
-  if [[ -z "$target_pod" ]]; then
+  if [[ ! -z "$target_pod" ]]; then
     local pod_description=$(kgp $target_pod -o json)
     local pod_image=$(echo "$pod_description" | jq '.spec.containers | .[0].image' | sed 's/"//g')
     local pod_node=$(echo "$pod_description" | jq '.spec.nodeName' | sed 's/"//g')
