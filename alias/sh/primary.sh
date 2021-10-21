@@ -93,9 +93,15 @@ how() {
   if [ -z "$context_after_to_grab" ]; then
     local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
   fi
-  local how_output=$(type -a "$command_to_search" | awk -F " " '{print $NF}' | \
-    xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
-    -A \"$context_after_to_grab\" \"$command_to_search\" \"%\" && echo \"--\\nPulled from - %\\n\"")
+  local type_output=$(type -a "$command_to_search")
+  local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
+  if [ ! -z "$alias_output" ]; then
+    local how_output="$type_output"
+  else
+    local how_output=$(echo "$type_output" | awk -F " " '{print $NF}' | \
+      xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
+      -A \"$context_after_to_grab\" \"$command_to_search\" \"%\" && echo \"--\\nPulled from - %\\n\"")
+  fi
   if [ -z "$(which bat)" ]; then
     echo "$how_output"
   else
