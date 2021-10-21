@@ -84,6 +84,7 @@ how() {
   local context_before_to_grab=$2
   local bat_lanuage_to_use=$3
   local context_after_to_grab=$4
+  local reverse_how_recursion=$5
   if [ -z "$bat_lanuage_to_use" ]; then
     local bat_lanuage_to_use="sh"
   fi
@@ -104,6 +105,9 @@ how() {
   if [ ! -z "$alias_output" ]; then
     local how_output="$type_output"
     local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | sed 's/\s.*//g')"
+    if [ -z "$reverse_how_recursion" ]; then
+      run-how-after-script "$how_after"
+    fi
   else
     local how_output=$(echo "$type_output" | awk -F " " '{print $NF}' | \
       xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
@@ -114,13 +118,34 @@ how() {
   else
     echo "$how_output" | bat -l "$bat_lanuage_to_use"
   fi
+  if [ ! -z "$reverse_how_recursion" ]; then
+    run-how-after-script "$how_after"
+  fi
+}
+
+run-how-after-script-notification() {
+  local how_after="$1"
+  echo ""
+  echo "--"
+  echo "- running 'how $how_after'"
+  echo "--"
+  echo ""
+}
+
+run-how-after-script() {
+  local how_after="$1"
+  local context_before_to_grab=$2
+  local bat_lanuage_to_use=$3
+  local context_after_to_grab=$4
+  local reverse_how_recursion=$5
   if [ ! -z "$how_after" ]; then
-    echo ""
-    echo "--"
-    echo "- running 'how $how_after'"
-    echo "--"
-    echo ""
-    how $how_after
+    if [ ! -z "$reverse_how_recursion" ]; then
+      run-how-after-script-notification $how_after
+    fi
+    how "$how_after" "$2" "$3" "$4" "$5"
+    if [ -z "$reverse_how_recursion" ]; then
+      run-how-after-script-notification $how_after
+    fi
   fi
 }
 

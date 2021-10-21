@@ -1,5 +1,6 @@
 TODO
 
+switch the aliases to use flags and everything else to make it closer to POSIX compliant
 fix the cron minikube install (sudo issues with cron)
 automatic update issues (yes/no prompt)
 kgpp get it to run faster if nodes don't have docker
