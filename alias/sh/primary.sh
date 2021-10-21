@@ -103,7 +103,7 @@ how() {
   local how_after=""
   if [ ! -z "$alias_output" ]; then
     local how_output="$type_output"
-    local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | sed 's/\s.*//g')"
+    local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
   else
     local how_output=$(echo "$type_output" | awk -F " " '{print $NF}' | \
       xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
@@ -114,14 +114,6 @@ how() {
   else
     echo "$how_output" | bat -l "$bat_lanuage_to_use"
   fi
-  run-how-after-script "$how_after"
-}
-
-run-how-after-script() {
-  local how_after="$1"
-  local context_before_to_grab=$2
-  local bat_lanuage_to_use=$3
-  local context_after_to_grab=$4
   if [ ! -z "$how_after" ]; then
     echo ""
     echo "--"
