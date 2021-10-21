@@ -94,6 +94,11 @@ how() {
     local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
   fi
   local type_output=$(type -a "$command_to_search")
+  local error_output=$(echo "$type_output" | grep '^\w* not found$')
+  if [ ! -z "$error_output" ]; then
+    echo "$error_output" >&2
+    return 1
+  fi
   local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
   local how_after=""
   if [ ! -z "$alias_output" ]; then
@@ -110,9 +115,11 @@ how() {
     echo "$how_output" | bat -l "$bat_lanuage_to_use"
   fi
   if [ ! -z "$how_after" ]; then
-    echo "---"
+    echo ""
+    echo "--"
     echo "- running 'how $how_after'"
-    echo "---"
+    echo "--"
+    echo ""
     how $how_after
   fi
 }
