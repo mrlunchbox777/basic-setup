@@ -95,8 +95,10 @@ how() {
   fi
   local type_output=$(type -a "$command_to_search")
   local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
+  local how_after=""
   if [ ! -z "$alias_output" ]; then
     local how_output="$type_output"
+    local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | sed 's/\s.*//g')"
   else
     local how_output=$(echo "$type_output" | awk -F " " '{print $NF}' | \
       xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
@@ -106,6 +108,12 @@ how() {
     echo "$how_output"
   else
     echo "$how_output" | bat -l "$bat_lanuage_to_use"
+  fi
+  if [ ! -z "$how_after" ]; then
+    echo "---"
+    echo "- running 'how $how_after'"
+    echo "---"
+    how $how_after
   fi
 }
 
