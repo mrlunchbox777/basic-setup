@@ -42,8 +42,7 @@ alias kl='k logs'
 alias ke='k exec'
 alias kr='k run'
 alias kmk='k create'
-
-function get-pod-by-label() {
+$(echo $nodes | sed -n "$REPLY"p) {
   BASIC_SETUP_GET_POD_BY_LABEL_POD_ID=""
   local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
   local pod_label_value="$1"
@@ -222,7 +221,7 @@ function get-node-shell() {
     fi
   fi
   local node_exists=$(echo "$nodes" | grep "$node_name")
-  [ -z "$node_exists" ] && echo "No node with the name provided, check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
+  [ -z "$node_exists" ] && echo "No node with the name provided ($node_name), check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
   echo "Node found, creating pod to get shell"
   local pod_name=$(echo "node-shell-$(uuid)")
   local pod_yaml="
@@ -285,8 +284,10 @@ spec:
     done
     local command_to_run="$2"
     if [ -z "$command_to_run" ]; then
+      # TODO make this make sense for windows
       local command_to_run="[ -z \"$(which bash)\" ] && sh || bash"
     fi
+    # TODO make this make sense for windows
     ke $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } || {
     local failed="true"
