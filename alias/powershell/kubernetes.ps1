@@ -1,6 +1,45 @@
 $env:BASIC_SETUP_APLINE_IMAGE_TO_USE="docker.io/alpine:3.9"
 set-alias k kubectl
 
+# kubectl get
+set-alias kg "kubectl get"
+set-alias kga "kubectl get --all-namespaces all"
+set-alias kgc "kubectl get cronjobs"
+set-alias kgds "kubectl get daemonsets"
+set-alias kgd "kubectl get deployment"
+set-alias kgj "kubectl get job"
+set-alias kgn "kubectl get node"
+set-alias kgp "kubectl get pod"
+set-alias kgr "kubectl get replicasets"
+set-alias kgs "kubectl get service"
+
+# kubectl describe
+set-alias kd "kubectl describe"
+set-alias kdc "kubectl describe cronjobs"
+set-alias kdds "kubectl describe daemonsets"
+set-alias kdd "kubectl describe deployment"
+set-alias kdj "kubectl describe job"
+set-alias kdn "kubectl describe node"
+set-alias kdp "kubectl describe pod"
+set-alias kdr "kubectl describe replicasets"
+set-alias kds "kubectl describe service"
+
+# kubectl config
+set-alias kc "kubectl config"
+set-alias kcc "kubectl config current-context"
+set-alias kcgc "kubectl config get-contexts"
+set-alias kcsc "kubectl config set-context"
+set-alias kcuc "kubectl config use-context"
+set-alias kcv "kubectl config view"
+
+# kubectl misc
+set-alias ka "kubectl apply"
+set-alias krm "kubectl delete"
+set-alias kl "kubectl logs"
+set-alias ke "kubectl exec"
+set-alias kr "kubectl run"
+set-alias kmk "kubectl create"
+
 function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
   $node_name="$inputNodeName"
