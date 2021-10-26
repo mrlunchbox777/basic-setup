@@ -24,49 +24,15 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   }
   echo "Node found, creating pod to get shell"
   $pod_name=$(echo "node-shell-$([GUID]::NewGuid().Guid)")
-  $pod_yaml="
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: $pod_name
-  name: $pod_name
-  namespace: ""kube-system""
-spec:
-  containers:
-  - args:
-      - ""-t""
-      - ""1""
-      - ""-m""
-      - ""-u""
-      - ""-i""
-      - ""-n""
-      - ""sleep""
-      - ""14000""
-    command:
-      - ""nsenter""
-    image: $env:BASIC_SETUP_APLINE_IMAGE_TO_USE
-    name: $pod_name
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    securityContext:
-      privileged: true
-  dnsPolicy: ClusterFirst
-  hostPID: true
-  hostIPC: true
-  hostNetwork: true
-  nodeSelector:
-    ""kubernetes.io/hostname"": ""$node_name""
-  restartPolicy: ""Never""
-  terminationGracePeriodSeconds: 0
-  tolerations:
-    - operator: ""Exists""
-  "
+  $pod_yaml="/tmp/${pod_name}.yaml"
+  $(Get-Content "$env:microsoftPowershellProfilePrivateAliasScriptDir/../k8s-yaml/node-shell.yaml") `
+    -replace 'BASIC_SETUP_APLINE_IMAGE_TO_USE',$env:BASIC_SETUP_APLINE_IMAGE_TO_USE`
+    -replace 'pod_name',"$pod_name"`
+    -replace 'node_name',$node_name`
+    > "$pod_yaml"
   $failed="$false"
   try {
-    echo "$pod_yaml" | kubectl apply -f -
+    kubectl apply -f "$pod_yaml"
     echo "Pod scheduled, waiting for running"
     $node_shell_ready="false"
     while("$node_shell_ready" -eq "$false") {

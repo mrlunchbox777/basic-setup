@@ -2,6 +2,7 @@ Set-Alias g git
 
 . $microsoftPowershellProfilePrivateAliasScriptDir\profile.powershell.ps1
 . $microsoftPowershellProfilePrivateAliasScriptDir\profile.service.ps1
+. $microsoftPowershellProfilePrivateAliasScriptDir\kubernetes.ps1
 
 function start-cdl($target)
 {
