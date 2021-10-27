@@ -42,33 +42,6 @@ alias kl='k logs'
 alias ke='k exec'
 alias kr='k run'
 alias kmk='k create'
-$(echo $nodes | sed -n "$REPLY"p) {
-  BASIC_SETUP_GET_POD_BY_LABEL_POD_ID=""
-  local pods=$(kgp -o=jsonpath='{$}' | jq '.items | .[].metadata.name' | sed 's/"//g')
-  local pod_label_value="$1"
-  if [ -z "$pod_label_value" ]; then
-    local pod_count=$(echo "$pods" | wc -l)
-    echo "Select Kubernetes Pod"
-    for i in {1..$pod_count}; do
-      echo $i $(echo "$pods" | sed -n "$i"p)
-    done
-    echo "Which pod to use?: " && read
-    if [[ "$REPLY" =~ ^[0-9]*$ ]] && [ "$REPLY" -le "$pod_count" ] && [ "$REPLY" -gt "0" ]; then
-      local pod_id=$(echo $pods | sed -n "$REPLY"p)
-    else
-      echo "Entry invalid, exiting..." >&2
-      return 1
-    fi
-  else
-    local label_name="$2"
-    [ -z "$label_name" ] && local label_name="app"
-    local pod_id=$(kubectl get pods -l "$label_name"="$pod_label_value" -o custom-columns=":metadata.name" | grep .)
-  fi
-  local pod_exists=$(echo "$pods" | grep "$pod_id")
-  [ -z "$pod_exists" ] && echo "No pod with the name provided, check below for pods\n\n--\n$pods\n--\n\nexiting..." && return 1
-  BASIC_SETUP_GET_POD_BY_LABEL_POD_ID="$pod_id"
-  echo "$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-}
 alias kgpbl='get-pod-by-label'
 
 function delete-pod() {
@@ -224,49 +197,15 @@ function get-node-shell() {
   [ -z "$node_exists" ] && echo "No node with the name provided ($node_name), check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
   echo "Node found, creating pod to get shell"
   local pod_name=$(echo "node-shell-$(uuid)")
-  local pod_yaml="
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: $pod_name
-  name: $pod_name
-  namespace: \"kube-system\"
-spec:
-  containers:
-  - args:
-      - \"-t\"
-      - \"1\"
-      - \"-m\"
-      - \"-u\"
-      - \"-i\"
-      - \"-n\"
-      - \"sleep\"
-      - \"14000\"
-    command:
-      - \"nsenter\"
-    image: $BASIC_SETUP_APLINE_IMAGE_TO_USE
-    name: $pod_name
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    securityContext:
-      privileged: true
-  dnsPolicy: ClusterFirst
-  hostPID: true
-  hostIPC: true
-  hostNetwork: true
-  nodeSelector:
-    \"kubernetes.io/hostname\": \"$node_name\"
-  restartPolicy: \"Never\"
-  terminationGracePeriodSeconds: 0
-  tolerations:
-    - operator: \"Exists\"
-  "
+  local pod_yaml="/tmp/$pod_name.yaml"
+  sed \
+    -e "s|\$BASIC_SETUP_APLINE_IMAGE_TO_USE|$BASIC_SETUP_APLINE_IMAGE_TO_USE|g" \
+    -e "s|\$pod_name|$pod_name|g" \
+    -e "s|\$node_name|$node_name|g" \
+    "$BASICSETUPGENERALRCDIR/k8s-yaml/node-shell.yaml" > "$pod_yaml"
   local failed="false"
   {
-    echo "$pod_yaml" | kubectl apply -f -
+    kubectl apply -f "$pod_yaml"
     echo "Pod scheduled, waiting for running"
     local node_shell_ready="false"
     while [[ "$node_shell_ready" == "false" ]]; do
@@ -298,6 +237,8 @@ spec:
     echo "Cleaning up node-shell pod"
     krm pod $pod_name -n kube-system
   fi
+
+  rm "$pod_yaml"
 
   if [[ "$failed" == "true" ]]; then
     echo "Failure detected, check logs, exiting..."
