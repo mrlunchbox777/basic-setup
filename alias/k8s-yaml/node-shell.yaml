@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: pod_name
-  name: pod_name
+    app: $pod_name
+  name: $pod_name
   namespace: "kube-system"
 spec:
   containers:
@@ -18,8 +18,8 @@ spec:
       - "14000"
     command:
       - "nsenter"
-    image: BASIC_SETUP_APLINE_IMAGE_TO_USE
-    name: pod_name
+    image: $BASIC_SETUP_APLINE_IMAGE_TO_USE
+    name: $pod_name
     resources:
       limits:
         cpu: 500m
@@ -31,7 +31,7 @@ spec:
   hostIPC: true
   hostNetwork: true
   nodeSelector:
-    "kubernetes.io/hostname": "node_name"
+    "kubernetes.io/hostname": "$node_name"
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:

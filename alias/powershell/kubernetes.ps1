@@ -26,9 +26,9 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   $pod_name=$(echo "node-shell-$([GUID]::NewGuid().Guid)")
   $pod_yaml="/tmp/${pod_name}.yaml"
   $(Get-Content "$env:microsoftPowershellProfilePrivateAliasScriptDir/../k8s-yaml/node-shell.yaml") `
-    -replace 'BASIC_SETUP_APLINE_IMAGE_TO_USE',$env:BASIC_SETUP_APLINE_IMAGE_TO_USE`
-    -replace 'pod_name',"$pod_name"`
-    -replace 'node_name',$node_name`
+    -replace "\`$BASIC_SETUP_APLINE_IMAGE_TO_USE",$env:BASIC_SETUP_APLINE_IMAGE_TO_USE`
+    -replace "\`$pod_name","$pod_name"`
+    -replace "\`$node_name",$node_name`
     > "$pod_yaml"
   $failed="$false"
   try {
@@ -64,6 +64,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
     echo "Cleaning up node-shell pod"
     kubectl delete pod $pod_name -n kube-system
   }
+  rm "$pod_yaml"
 
   if ("$failed" -eq "$true") {
     throw "Failure detected, check logs, exiting..."
