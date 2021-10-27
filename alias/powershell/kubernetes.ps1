@@ -25,6 +25,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   echo "Node found, creating pod to get shell"
   $pod_name=$(echo "node-shell-$([GUID]::NewGuid().Guid)")
   $pod_yaml="/tmp/${pod_name}.yaml"
+  # TODO make this make sense for windows nodes
   $(Get-Content "$env:microsoftPowershellProfilePrivateAliasScriptDir/../k8s-yaml/node-shell.yaml") `
     -replace "\`$BASIC_SETUP_APLINE_IMAGE_TO_USE",$env:BASIC_SETUP_APLINE_IMAGE_TO_USE`
     -replace "\`$pod_name","$pod_name"`
@@ -50,10 +51,10 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
     }
     $command_to_run="$inputCommandToRun"
     if([System.String]::IsNullOrWhiteSpace($command_to_run)) {
-      # TODO make this make sense for windows
+      # TODO make this make sense for windows nodes
       $command_to_run='[ -z \"$(which bash)\" ] && sh || bash'
     }
-    # TODO make this make sense for windows
+    # TODO make this make sense for windows nodes
     kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } catch {
     $failed="$true"

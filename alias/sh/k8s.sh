@@ -198,6 +198,7 @@ function get-node-shell() {
   echo "Node found, creating pod to get shell"
   local pod_name=$(echo "node-shell-$(uuid)")
   local pod_yaml="/tmp/$pod_name.yaml"
+  # TODO make this make sense for windows nodes
   sed \
     -e "s|\$BASIC_SETUP_APLINE_IMAGE_TO_USE|$BASIC_SETUP_APLINE_IMAGE_TO_USE|g" \
     -e "s|\$pod_name|$pod_name|g" \
@@ -209,11 +210,11 @@ function get-node-shell() {
     echo "Pod scheduled, waiting for running"
     local node_shell_ready="false"
     while [[ "$node_shell_ready" == "false" ]]; do
-      local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+      local pod_exists=$(kubectl get pod $pod_name -n kube-system --no-headers --ignore-not-found)
       if [ -z "$pod_exists" ]; then
         sleep 1
       else
-        local current_phase=$(kgp $pod_name -n kube-system -o=jsonpath="{$.status.phase}")
+        local current_phase=$(kubectl get pod $pod_name -n kube-system -o=jsonpath="{$.status.phase}")
         if [[ "$current_phase" == "Running" ]]; then
           node_shell_ready="true"
         else
@@ -223,19 +224,19 @@ function get-node-shell() {
     done
     local command_to_run="$2"
     if [ -z "$command_to_run" ]; then
-      # TODO make this make sense for windows
+      # TODO make this make sense for windows nodes
       local command_to_run="[ -z \"$(which bash)\" ] && sh || bash"
     fi
-    # TODO make this make sense for windows
-    ke $pod_name -n kube-system -it -- sh -c "$command_to_run"
+    # TODO make this make sense for windows nodes
+    kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } || {
     local failed="true"
   }
 
-  local pod_exists=$(kgp $pod_name -n kube-system --no-headers --ignore-not-found)
+  local pod_exists=$(kubectl get pods $pod_name -n kube-system --no-headers --ignore-not-found)
   if [[ ! -z "$pod_exists" ]]; then
     echo "Cleaning up node-shell pod"
-    krm pod $pod_name -n kube-system
+    kubectl delete pod $pod_name -n kube-system
   fi
 
   rm "$pod_yaml"
