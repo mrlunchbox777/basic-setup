@@ -29,7 +29,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   $(Get-Content "$env:microsoftPowershellProfilePrivateAliasScriptDir/../k8s-yaml/node-shell.yaml") `
     -replace "\`$BASIC_SETUP_APLINE_IMAGE_TO_USE",$env:BASIC_SETUP_APLINE_IMAGE_TO_USE`
     -replace "\`$pod_name","$pod_name"`
-    -replace "\`$node_name",$node_name`
+    -replace "\`$node_name","$node_name"`
     > "$pod_yaml"
   $failed="$false"
   try {
