@@ -205,6 +205,7 @@ function get-node-shell() {
     -e "s|\$node_name|$node_name|g" \
     "$BASICSETUPGENERALRCDIR/k8s-yaml/node-shell.yaml" > "$pod_yaml"
   local failed="false"
+  local exception=""
   {
     kubectl apply -f "$pod_yaml"
     echo "Pod scheduled, waiting for running"
@@ -230,6 +231,7 @@ function get-node-shell() {
     # TODO make this make sense for windows nodes
     kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } || {
+    local exception="$?"
     local failed="true"
   }
 
@@ -242,7 +244,8 @@ function get-node-shell() {
   rm "$pod_yaml"
 
   if [[ "$failed" == "true" ]]; then
-    echo "Failure detected, check logs, exiting..."
+    echo "Failure detected, check logs, exiting...">&2
+    echo "exception code - $exception">&2
     return 1
   fi
 }
