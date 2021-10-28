@@ -246,7 +246,7 @@ function get-node-shell() {
   if [[ "$failed" == "true" ]]; then
     echo "Failure detected, check logs, exiting...">&2
     echo "exception code - $exception">&2
-    return 1
+    return $exception
   fi
 }
 alias kgns='get-node-shell'
