@@ -12,7 +12,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
       echo "$i - $currentNode"
     }
     $nodeToUse=Read-Host -Prompt "Which node to use?"
-    if (("$nodeToUse" -match "^[0-9]*$") -and ("$nodeToUse" -lt $nodes.Length) -and ("$nodeToUse" -gt 0)) {
+    if (("$nodeToUse" -match "^[0-9]*$") -and ("$nodeToUse" -le $nodes.Length) -and ("$nodeToUse" -gt 0)) {
       $node_name=$nodes[$nodeToUse-1]
     } else {
       throw "Entry invalid, exiting..."
@@ -32,6 +32,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
     -replace "\`$node_name","$node_name"`
     > "$pod_yaml"
   $failed="$false"
+  $exception=$null
   try {
     kubectl apply -f "$pod_yaml"
     echo "Pod scheduled, waiting for running"
@@ -58,6 +59,7 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
     kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"
   } catch {
     $failed="$true"
+    $exception=$_
   }
 
   $pod_exists=$(kubectl get pod $pod_name -n kube-system --no-headers --ignore-not-found)
@@ -68,7 +70,8 @@ function get-node-shell($inputNodeName = "", $inputCommandToRun = "") {
   rm "$pod_yaml"
 
   if ("$failed" -eq "$true") {
-    throw "Failure detected, check logs, exiting..."
+    echo "Failure detected, check logs, exiting..."
+    throw $exception
   }
 }
 set-alias kgns 'get-node-shell'
