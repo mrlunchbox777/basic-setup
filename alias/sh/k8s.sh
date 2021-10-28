@@ -294,7 +294,7 @@ function kubectl-select-context {
   fi
   kcuc $target_context
 }
-alias ksc=kubectl-select-context
+alias ksc='kubectl-select-context'
 
 # Thanks to Matthew Anderson for the powershell function that this was adapted from
 function kubectl-select-namespace {
@@ -323,4 +323,4 @@ function kubectl-select-namespace {
   fi
   kcsc --current --namespace="$target_namespace"
 }
-alias ksn=kubectl-select-namespace
+alias ksn='kubectl-select-namespace'
