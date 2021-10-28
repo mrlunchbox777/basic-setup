@@ -9,17 +9,11 @@ metadata:
 spec:
   containers:
   - args:
-      - "-t"
-      - "1"
-      - "-m"
-      - "-u"
-      - "-i"
-      - "-n"
-      - "sleep"
-      - "14000"
+      - "-f"
+      - "/dev/null"
     command:
-      - "nsenter"
-    image: $BASIC_SETUP_ALPINE_IMAGE_TO_USE
+      - "tail"
+    image: $BASIC_SETUP_BASH_IMAGE_TO_USE
     name: $pod_name
     resources:
       limits:
@@ -27,12 +21,6 @@ spec:
         memory: 128Mi
     securityContext:
       privileged: true
-  dnsPolicy: ClusterFirst
-  hostPID: true
-  hostIPC: true
-  hostNetwork: true
-  nodeSelector:
-    "kubernetes.io/hostname": "$node_name"
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:

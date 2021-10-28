@@ -1,5 +1,5 @@
 # adapted from https://betterprogramming.pub/useful-kubectl-aliases-that-will-speed-up-your-coding-54960185d10
-export BASIC_SETUP_APLINE_IMAGE_TO_USE="docker.io/alpine:3.9"
+export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3.9"
 export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
 
 alias k=kubectl
@@ -111,37 +111,15 @@ alias kgps='get-pod-shell'
 
 function create-pod-shell() {
   local pod_name=$(echo "pod-shell-$(uuid)")
-  local pod_yaml="
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: $pod_name
-  name: $pod_name
-  namespace: \"kube-system\"
-spec:
-  containers:
-  - args:
-      - \"-f\"
-      - \"/dev/null\"
-    command:
-      - \"tail\"
-    image: $BASIC_SETUP_BASH_IMAGE_TO_USE
-    name: $pod_name
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    securityContext:
-      privileged: true
-  restartPolicy: \"Never\"
-  terminationGracePeriodSeconds: 0
-  tolerations:
-    - operator: \"Exists\"
-  "
+  local pod_yaml="/tmp/$pod_name.yaml"
+  # TODO make this make sense for windows nodes
+  sed \
+    -e "s|\$BASIC_SETUP_BASH_IMAGE_TO_USE|$BASIC_SETUP_BASH_IMAGE_TO_USE|g" \
+    -e "s|\$pod_name|$pod_name|g" \
+    "$BASICSETUPGENERALRCDIR/k8s-yaml/pod-shell.yaml" > "$pod_yaml"
   local failed="false"
   {
-    echo "$pod_yaml" | kubectl apply -f -
+    kubectl apply -f "$pod_yaml"
     echo "Pod scheduled, waiting for running"
     local pod_shell_ready="false"
     while [[ "$pod_shell_ready" == "false" ]]; do
@@ -167,6 +145,7 @@ spec:
     echo "Cleaning up pod-shell pod"
     krm pod $pod_name -n kube-system
   fi
+  rm "$pod_yaml"
 
   if [[ "$failed" == "true" ]]; then
     echo "Failure detected, check logs, exiting..."
@@ -200,7 +179,7 @@ function get-node-shell() {
   local pod_yaml="/tmp/$pod_name.yaml"
   # TODO make this make sense for windows nodes
   sed \
-    -e "s|\$BASIC_SETUP_APLINE_IMAGE_TO_USE|$BASIC_SETUP_APLINE_IMAGE_TO_USE|g" \
+    -e "s|\$BASIC_SETUP_ALPINE_IMAGE_TO_USE|$BASIC_SETUP_ALPINE_IMAGE_TO_USE|g" \
     -e "s|\$pod_name|$pod_name|g" \
     -e "s|\$node_name|$node_name|g" \
     "$BASICSETUPGENERALRCDIR/k8s-yaml/node-shell.yaml" > "$pod_yaml"
