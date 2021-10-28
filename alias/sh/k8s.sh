@@ -154,7 +154,7 @@ function create-pod-shell() {
 }
 alias kcps='create-pod-shell'
 
-function get-node-shell() {
+function create-node-shell() {
   # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
   local node_name="$1"
   local nodes=$(kubectl get nodes -o=json | jq '.items | .[].metadata.name' | sed 's/"//g')
@@ -228,7 +228,7 @@ function get-node-shell() {
     return $exception
   fi
 }
-alias kgns='get-node-shell'
+alias kcns='create-node-shell'
 
 function get-pod-ports() {
   get-pod-by-label "$1" "$2"
