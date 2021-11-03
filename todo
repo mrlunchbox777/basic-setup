@@ -1,5 +1,6 @@
 TODO
 
+add kind to the install (maybe remove minikube?)
 switch the aliases to use flags and everything else to make it closer to POSIX compliant
 fix the cron minikube install (sudo issues with cron)
 automatic update issues (yes/no prompt)
