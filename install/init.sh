@@ -96,6 +96,7 @@ should_install_azcli=${BASICSETUPSHOULDINSTALLAZCLI:-$negate_should_do_alias_onl
 should_install_dotnet=${BASICSETUPSHOULDINSTALLDOTNET:-$negate_should_do_alias_only}
 should_install_helm=${BASICSETUPSHOULDINSTALLHELM:-$negate_should_do_alias_only}
 should_install_k9s=${BASICSETUPSHOULDINSTALLK9S:-$negate_should_do_alias_only}
+should_install_kind=${BASICSETUPSHOULDINSTALLKIND:-$negate_should_do_alias_only}
 should_install_kubectl=${BASICSETUPSHOULDINSTALLKUBECTL:-$negate_should_do_alias_only}
 should_install_mailutils=${BASICSETUPSHOULDINSTALLMAILUTILS:-$negate_should_do_alias_only}
 should_install_minikube=${BASICSETUPSHOULDINSTALLMINIKUBE:-"false"}
@@ -210,6 +211,7 @@ run-manual-install-many-basic-setup \
   dotnet \
   helm \
   k9s \
+  kind \
   kubectl \
   mailutils \
   minikube \
