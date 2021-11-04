@@ -1,8 +1,7 @@
 TODO
 
-add kind to the install (maybe remove minikube?)
+add kind to the install
 switch the aliases to use flags and everything else to make it closer to POSIX compliant
-fix the cron minikube install (sudo issues with cron)
 automatic update issues (yes/no prompt)
 kgpp get it to run faster if nodes don't have docker
 write a different repo to check for new updates of packages bot
