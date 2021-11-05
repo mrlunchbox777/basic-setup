@@ -5,7 +5,6 @@ switch the aliases to use flags and everything else to make it closer to POSIX c
 automatic update issues (yes/no prompt)
 kgpp get it to run faster if nodes don't have docker
 write a different repo to check for new updates of packages bot
-  lens needs to be in there (check version and alert when found)
   add for the submodules as well (https://riptutorial.com/git/example/1186/updating-a-submodule)
 fix the windows install
 support other "basic-setup" style repos (for private secrets)
@@ -13,3 +12,4 @@ support yum, rpm, pacman, and apk
 create a versioning system
 write selector for get deployment image
 consider doing something with this - https://code.visualstudio.com/docs/remote/containers
+consider adding kgns to k9s
