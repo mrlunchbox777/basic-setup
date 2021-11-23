@@ -28,7 +28,7 @@ All of these will clone the repo and run the init script
 Clones to `~/src/tools/basic-setup`
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
 
 #### Install Alias Only Using bash
@@ -36,7 +36,7 @@ wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic
 This will still respect the .env, but will default everything that isn't alias related to false.
 
 ```bash
-export BASICSETUPSHOULDDOALIASONLY="true" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+export BASICSETUPSHOULDDOALIASONLY="true" && curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
 
 ### Install Using PowerShell
@@ -117,7 +117,7 @@ You can run headless tests with the following
 then run
 
 ```bash
-apt update && apt install wget sudo tzdata -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && echo "Europe/Zurich" > /etc/timezone && dpkg-reconfigure -f noniteractive tzdata && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
+apt update && apt install curl sudo tzdata -y && export BASICSETUPSHOULDINSTALLUITOOLS="false" && echo "Europe/Zurich" > /etc/timezone && dpkg-reconfigure -f noniteractive tzdata && curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
 
 ### Testing GUI

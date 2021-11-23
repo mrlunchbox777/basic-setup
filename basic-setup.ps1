@@ -38,7 +38,7 @@ if ($onWindows) {
 
 if ($onLinux) {
   sudo apt-get update -y
-  sudo apt-get install wget git bash -y
+  sudo apt-get install curl wget git bash -y
   sudo apt-get autoremove -y
 }
 
@@ -66,7 +66,7 @@ if ($onWindows -and ("$true" -eq "$shouldInstall_wsl_ubuntu_2004")) {
     wsl --set-default-version 2
     bash -c "echo '$(Get-Content ./.env)' > ./.env"
     # TODO there were failures here (This seemed to be mostly with the gui stuff)
-    bash -c "export BASICSETUPSHOULDINSTALLUITOOLS=`"false`" && wget -qO- https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
+    bash -c "export BASICSETUPSHOULDINSTALLUITOOLS=`"false`" && curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh"
     bash -c "rm ./.env"
   } else {
     Write-Output "If you want WSL to run, please note that currently WSL has to be installed manually from the Windows Store"

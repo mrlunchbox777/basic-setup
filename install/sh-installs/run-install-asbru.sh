@@ -6,7 +6,7 @@ run-install-asbru-basic-setup () {
   fi
   if [[ "$should_install_azuredatastudio" == "true" ]]; then
     # pulled from https://www.asbru-cm.net/
-    wget -qO- 'https://dl.cloudsmith.io/public/asbru-cm/release/cfg/setup/bash.deb.sh' | sudo -E bash
+    curl -1fLs 'https://dl.cloudsmith.io/public/asbru-cm/release/cfg/setup/bash.deb.sh' | sudo -E bash
     sudo apt-get install asbru-cm 
   fi
 }

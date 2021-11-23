@@ -55,6 +55,7 @@ should_install_wine=${BASICSETUPSHOULDINSTALLWINE:-$negate_should_do_alias_only}
 
 should_install_bat=${BASICSETUPSHOULDINSTALLBAT:-$negate_should_do_alias_only}
 should_install_calc=${BASICSETUPSHOULDINSTALLCALC:-$negate_should_do_alias_only}
+should_install_curl=${BASICSETUPSHOULDINSTALLCURL:-$negate_should_do_alias_only}
 should_install_gcc=${BASICSETUPSHOULDINSTALLGCC:-$negate_should_do_alias_only}
 should_install_git=${BASICSETUPSHOULDINSTALLGIT:-$negate_should_do_alias_only}
 should_install_golang=${BASICSETUPSHOULDINSTALLGOLANG:-$negate_should_do_alias_only}
@@ -152,6 +153,7 @@ source sh-installs/run-manual-install-apt.sh
 run-manual-install-apt-many-basic-setup \
   bat \
   calc \
+  curl \
   gcc \
   git \
   golang \
