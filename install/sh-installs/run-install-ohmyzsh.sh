@@ -2,5 +2,5 @@
 run-install-ohmyzsh-basic-setup () {
   # this checks for installed things already
   # pulled from - https://github.com/ohmyzsh/ohmyzsh#basic-installation
-  sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
