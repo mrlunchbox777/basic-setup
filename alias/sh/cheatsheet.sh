@@ -18,16 +18,18 @@ cheatsheet() {
   if [ -z "$cheatsheets_to_show" ]; then
     local cheatsheets_to_show="i"
   fi
-  local cheatsheet_content=""
+  cs_tmp_name="/tmp/cheatsheet_$(uuid).md"
+  echo "" > "$cs_tmp_name"
   for cheatsheet_to_show in $(echo $cheatsheets_to_show | grep -o .); do
     local current_content=$(run-write-a-cheatsheet $cheatsheet_to_show)
-    local cheatsheet_content="$cheatsheet_content\n$current_content\n"
+    echo "\n$current_content\n" >> "$cs_tmp_name"
   done
   if [ -z $(which bat) ]; then
-    echo "$cheatsheet_content"
+    cat "$cs_tmp_name"
   else
-    echo "$cheatsheet_content" | bat -l md
+    bat -l md "$cs_tmp_name"
   fi
+  rm $cs_tmp_name
 }
 
 alias cs=cheatsheet
