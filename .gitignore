@@ -3,3 +3,4 @@
 **/basic-setup-*-output.txt
 install/minikube*
 .env
+*.deb
