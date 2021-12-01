@@ -11,7 +11,7 @@ run-install-lens-basic-setup () {
   if [[ "$should_install_lens" == "true" ]]; then
     # https://k8slens.dev/
     local deb_url="https://api.k8slens.dev/binaries/Lens-5.2.7-latest.20211110.1.amd64.deb"
-    curl -1fLsq "$deb_url" -O Lens.deb
+    curl -1fLsq "$deb_url" -o Lens.deb
     sudo dpkg --install Lens.deb
     rm Lens.deb
   fi
