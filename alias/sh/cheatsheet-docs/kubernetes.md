@@ -98,3 +98,5 @@ Other Aliases
 * `kubectl-select-namespace()`
   * arg1 - name of namespace (default interactive)
   * `alias ksn=kubectl-select-namespace`
+* `kubectl-reset-all-deployments()`
+* `kubectl-reset-all-deamonsets()`

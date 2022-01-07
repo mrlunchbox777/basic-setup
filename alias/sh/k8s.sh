@@ -324,3 +324,11 @@ function kubectl-select-namespace {
   kcsc --current --namespace="$target_namespace"
 }
 alias ksn='kubectl-select-namespace'
+
+function kubectl-reset-all-deployments {
+  bash <(kubectl get deploy -A -o json | jq -c -r '.items | .[] | "kubectl rollout restart deploy -n \(.metadata.namespace|@sh) \(.metadata.name|@sh)"')
+}
+
+function kubectl-reset-all-daemonsets {
+  bash <(kubectl get daemonset -A -o json | jq -c -r '.items | .[] | "kubectl rollout restart daemonset -n \(.metadata.namespace|@sh) \(.metadata.name|@sh)"')
+}
