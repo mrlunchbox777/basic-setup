@@ -1,5 +1,6 @@
 alias guid='uuid'
 alias ll="ls -la"
+alias tf="terraform"
 
 rgui() {
   killall plasmashell && kstart5 plasmashell
