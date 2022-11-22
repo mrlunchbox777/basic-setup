@@ -157,11 +157,11 @@ alias kcps='create-pod-shell'
 function create-node-shell() {
   # Adapted from https://stackoverflow.com/questions/67976705/how-does-lens-kubernetes-ide-get-direct-shell-access-to-kubernetes-nodes-witho
   local node_name="$1"
-  local nodes=$(kubectl get nodes -o=json | jq '.items | .[].metadata.name' | sed 's/"//g')
+  local nodes=$(kubectl get nodes -o=json | jq -r '.items | .[].metadata.name')
   if [ -z "$node_name" ]; then
     local node_count=$(echo "$nodes" | wc -l)
     echo "Select Kubernetes Node"
-    for i in {1..$node_count}; do
+    for i in $(seq 1 $node_count); do
       echo $i $(echo "$nodes" | sed -n "$i"p)
     done
     echo "Which node to use?: " && read
