@@ -40,6 +40,8 @@
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 autoload -U colors; colors
+autoload -Uz compinit
+compinit
 source "$BASICSETUPGENERALRCDIR/../zsh-kubectl-prompt/kubectl.zsh"
 function right_prompt() {
   local color="blue"
