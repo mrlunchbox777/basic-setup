@@ -11,6 +11,8 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
+
+# Include the shared_scripts/bin in the PATH
 export PATH="$shared_scripts_path/bin:$PATH"
 
 for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do

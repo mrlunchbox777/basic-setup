@@ -67,10 +67,6 @@ Please see the kubernetes cheatsheet - `cs k`
 * `full-docker-clear()` - check with `how()`
 * `trim-end-of-string()` - check with `how()`
 * `trim-whitespace()` - check with `how()`
-* `find-files-ignore()` - check with `how()`
-  * takes any number of args as ignore strings
-* `count-lines-ignore()` - check with `how()`
-  * takes any number of args as ignore strings
 * `grepx()` - check with `how()`
   * grep | sed | xargs
   * arg 1 - regex for grep
