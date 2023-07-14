@@ -29,6 +29,7 @@ Example - kubectl = k, get = g, pod = p -- kgp == kubectl get pods
   * `d=deployment`
   * `j=job`
   * `n=node`
+  * `ns=namespace`
   * `p=pod`
   * `r=replicasets`
   * `s=service`
@@ -66,41 +67,43 @@ Note: Once these are migrated to using options, -h on all of them will give you 
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias kgpl='k8s-get-pod-logs'`
-* `get-pod-image()`
+* `get-pod-image.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias kgpi='get-pod-image'`
-* `get-deploy-image()`
+  * `alias kgpi='k8s-get-pod-image'`
+* `get-deploy-image.sh`
   * arg1 - name of deployment
-  * `alias kgdi='get-deploy-image'`
-* `forward-pod()`
+  * `alias kgdi='k8s-get-deploy-image'`
+* `forward-pod.sh`
   * arg1 - pod port (defaults to `80`)
   * arg2 - value of label (defaults to interactive)
   * arg3 - label name (defaults to `"app"`)
   * arg4 - external port (defaults to k8s decides)
-  * `alias kfp='forward-pod'`
-* `get-pod-shell()`
+  * `alias kfp='k8s-forward-pod'`
+* `get-pod-shell.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias kgps=get-pod-shell`
-* `create-pod-shell()`
-  * `alias kcps='create-pod-shell'`
-* `get-node-shell()`
+  * `alias kgps=k8s-get-pod-shell`
+* `create-pod-shell.sh`
+  * `alias kcps='k8s-create-pod-shell'`
+* `create-node-shell.sh`
   * arg1 - name of node (default interactive)
-  * `alias kgns='get-node-shell'`
-* `get-pod-ports()`
+  * `alias kgns='k8s-create-node-shell'`
+* `get-pod-ports.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias kgpp='get-pod-ports'`
-* `get-labels-by-name()`
+  * `alias kgpp='k8s-get-pod-ports'`
+* `get-labels-by-name.sh`
   * arg1 - value of label
   * arg2 - resource kind (defaults to `pod`)
-  * alias kglbn='get-labels-by-name'
-* `kubectl-select-context()`
+  * `alias kglbn='k8s-get-labels-by-name'`
+* `kubectl-select-context.sh`
   * arg1 - name of context (default interactive)
-  * `alias ksc=kubectl-select-context`
+  * `alias ksc=k8s-kubectl-select-context`
 * `kubectl-select-namespace()`
   * arg1 - name of namespace (default interactive)
   * `alias ksn=kubectl-select-namespace`
-* `kubectl-reset-all-deployments()`
-* `kubectl-reset-all-deamonsets()`
+* `kubectl-reset-all-deployments.sh`
+  * `alias krad=k8s-kubectl-reset-all-deployments`
+* `kubectl-reset-all-deamonsets.sh`
+  * `alias krads=k8s-kubectl-reset-all-deamonsets`
