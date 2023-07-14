@@ -16,7 +16,9 @@ echo "" > "$cs_tmp_name"
 
 for cheatsheet_to_show in $(echo $cheatsheets_to_show | grep -o .); do
   current_content=$(cheatsheet-write-a-cheatsheet $cheatsheet_to_show)
-  echo "\n$current_content\n" >> "$cs_tmp_name"
+  echo "" >> "$cs_tmp_name"
+  echo "$current_content" >> "$cs_tmp_name"
+  echo "" >> "$cs_tmp_name"
 done
 
 which_bat_output="$(which 'bat')"
