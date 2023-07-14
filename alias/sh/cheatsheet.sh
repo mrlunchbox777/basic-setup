@@ -24,7 +24,8 @@ cheatsheet() {
     local current_content=$(run-write-a-cheatsheet $cheatsheet_to_show)
     echo "\n$current_content\n" >> "$cs_tmp_name"
   done
-  if [ -z "$which_bat_output" ] || [ "bat not found" = "$which_bat_output" ]; then
+  local which_bat_output="$(which 'bat')"
+  if [ -z "$which_bat_output" ] || [[ "bat not found" == "$which_bat_output" ]]; then
     less "$cs_tmp_name"
   else
     bat -l md "$cs_tmp_name"
