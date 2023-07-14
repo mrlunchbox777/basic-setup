@@ -1,6 +1,6 @@
-# Run all the shell scripts in the sh folder
+# Run all the shell scripts in the sh folder (this is a duplicate of the shared-scripts/general/get-shared-scripts-dir.sh)
 shared_scripts_path="../shared-scripts"
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path="$(cd $(dirname ./shared-scripts) && pwd -P)/shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src/tools -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src -type d -wholename "*basic-setup/shared-scripts")
@@ -11,6 +11,8 @@ if [ ! -d "$shared_scripts_path" ]; then
     echo -e "error finding shared-scripts..." >&2
     exit 1
 fi
+export PATH="$shared_scripts_path/bin:$PATH"
+
 for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do
   . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"
 done
