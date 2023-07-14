@@ -47,13 +47,7 @@ alias kmk='k create'
 # scripts
 alias kgpbl='k8s-get-pod-by-label'
 alias krmp='k8s-delete-pod'
-
-function get-pod-logs() {
-  k8s-get-pod-by-label "$1" "$2"
-  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-  kubectl logs -f "$pod_id"
-}
-alias kgpl='get-pod-logs'
+alias kgpl='k8s-get-pod-logs'
 
 function get-pod-image() {
   k8s-get-pod-by-label "$1" "$2"

@@ -52,6 +52,8 @@ Other Aliases
 
 To use these put `k8s-` before the name and drop the .sh, this value is also shown in the alias
 
+Note: Once these are migrated to using options, -h on all of them will give you the info rather than this doc
+
 * `get-pod-by-label.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
@@ -60,10 +62,10 @@ To use these put `k8s-` before the name and drop the .sh, this value is also sho
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
   * `alias krmp='k8s-delete-pod'`
-* `get-pod-logs()`
+* `get-pod-logs.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias kgpl='get-pod-logs'`
+  * `alias kgpl='k8s-get-pod-logs'`
 * `get-pod-image()`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
