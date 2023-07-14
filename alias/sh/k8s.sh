@@ -117,7 +117,7 @@ function create-pod-shell() {
   sed \
     -e "s|\$BASIC_SETUP_BASH_IMAGE_TO_USE|$BASIC_SETUP_BASH_IMAGE_TO_USE|g" \
     -e "s|\$pod_name|$pod_name|g" \
-    "$BASICSETUPGENERALRCDIR/k8s-yaml/pod-shell.yaml" > "$pod_yaml"
+    "$BASICSETUPGENERALRCDIR/../resources/k8s-yaml/pod-shell.yaml" > "$pod_yaml"
   local failed="false"
   {
     kubectl apply -f "$pod_yaml"
@@ -183,7 +183,7 @@ function create-node-shell() {
     -e "s|\$BASIC_SETUP_ALPINE_IMAGE_TO_USE|$BASIC_SETUP_ALPINE_IMAGE_TO_USE|g" \
     -e "s|\$pod_name|$pod_name|g" \
     -e "s|\$node_name|$node_name|g" \
-    "$BASICSETUPGENERALRCDIR/k8s-yaml/node-shell.yaml" > "$pod_yaml"
+    "$BASICSETUPGENERALRCDIR/../resources/k8s-yaml/node-shell.yaml" > "$pod_yaml"
   local failed="false"
   local exception=""
   {

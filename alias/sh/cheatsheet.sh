@@ -5,15 +5,15 @@ run-write-a-cheatsheet() {
     echo "Only One character is allowed when running run-write-a-cheatsheet" >&2
     exit 1
   fi
-  local cheatsheet_file_name=$(ls "$BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/" | grep ^$1)
-  local cheatsheet_file_location="$BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/$cheatsheet_file_name"
+  local cheatsheet_file_name=$(ls "$BASICSETUPGENERALRCDIR/../resources/cheatsheet-docs/" | grep ^$1)
+  local cheatsheet_file_location="$BASICSETUPGENERALRCDIR/../resources/cheatsheet-docs/$cheatsheet_file_name"
   cat "$cheatsheet_file_location"
 }
 
 cheatsheet() {
   local cheatsheets_to_show="$1"
   if [[ "$cheatsheets_to_show" == "all" ]]; then
-    local cheatsheets_to_show="$(ls $BASICSETUPGENERALRCDIR/sh/cheatsheet-docs/ | cut -c 1 | tr -d '\n')"
+    local cheatsheets_to_show="$(ls $BASICSETUPGENERALRCDIR/../resources/cheatsheet-docs/ | cut -c 1 | tr -d '\n')"
   fi
   if [ -z "$cheatsheets_to_show" ]; then
     local cheatsheets_to_show="i"
