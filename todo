@@ -1,5 +1,6 @@
 TODO
 
+all of the scripts in shared-scripts need to move to options rather than ordered parameters
 add back in Windows support (mostly just make it easy to install Ubuntu WSL)
 make the alias portion of this work on gitbash
 switch the aliases to use flags and everything else to make it closer to POSIX compliant

@@ -1,5 +1,5 @@
 # adapted from https://betterprogramming.pub/useful-kubectl-aliases-that-will-speed-up-your-coding-54960185d10
-export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3.9"
+export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3"
 export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
 
 alias k=kubectl
@@ -43,24 +43,20 @@ alias kl='k logs'
 alias ke='k exec'
 alias kr='k run'
 alias kmk='k create'
-alias kgpbl='get-pod-by-label'
 
-function delete-pod() {
-  get-pod-by-label "$1" "$2"
-  local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
-  kubectl delete pod "$pod_id"
-}
-alias krmp='delete-pod'
+# scripts
+alias kgpbl='k8s-get-pod-by-label'
+alias krmp='k8s-delete-pod'
 
 function get-pod-logs() {
-  get-pod-by-label "$1" "$2"
+  k8s-get-pod-by-label "$1" "$2"
   local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   kubectl logs -f "$pod_id"
 }
 alias kgpl='get-pod-logs'
 
 function get-pod-image() {
-  get-pod-by-label "$1" "$2"
+  k8s-get-pod-by-label "$1" "$2"
   local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   local image=$(kubectl get pod "$pod_id" -o=jsonpath='{$.spec.containers[:1].image}')
   echo "$image"
@@ -74,7 +70,7 @@ function get-deploy-image() {
 alias kgdi='get-deploy-image'
 
 function forward-pod() {
-  get-pod-by-label "$2" "$3"
+  k8s-get-pod-by-label "$2" "$3"
   local pod_id="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   local pod_port="$1"
   [ -z "$pod_port" ] && local pod_port="80"
@@ -104,7 +100,7 @@ function forward-pod() {
 alias kfp='forward-pod'
 
 function get-pod-shell() {
-  get-pod-by-label "$1" "$2"
+  k8s-get-pod-by-label "$1" "$2"
   local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   kubectl exec "$target_pod" -it -- sh -c "[ -z \"$(which bash)\" ] && sh || bash"
 }
@@ -232,7 +228,7 @@ function create-node-shell() {
 alias kcns='create-node-shell'
 
 function get-pod-ports() {
-  get-pod-by-label "$1" "$2"
+  k8s-get-pod-by-label "$1" "$2"
   local target_pod="$BASIC_SETUP_GET_POD_BY_LABEL_POD_ID"
   local found_target_pod="false"
   if [[ ! -z "$target_pod" ]]; then

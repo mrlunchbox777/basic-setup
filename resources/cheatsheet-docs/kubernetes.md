@@ -48,16 +48,18 @@ Other Aliases
 * `alias kr=kubectl run`
 * `alias kmk=kubectl create`
 
-### K8s Functions
+### K8s Scripts
 
-* `get-pod-by-label()`
+To use these put `k8s-` before the name and drop the .sh, this value is also shown in the alias
+
+* `get-pod-by-label.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias kgpbl='get-pod-by-label'`
-* `delete-pod()`
+  * `alias kgpbl='k8s-get-pod-by-label'`
+* `delete-pod.sh`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
-  * `alias krmp='delete-pod'`
+  * `alias krmp='k8s-delete-pod'`
 * `get-pod-logs()`
   * arg1 - value of label (defaults to interactive)
   * arg2 - label name (defaults to `"app"`)
