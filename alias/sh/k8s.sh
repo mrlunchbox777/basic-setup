@@ -3,6 +3,7 @@ export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3.9"
 export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
 
 alias k=kubectl
+complete -o default -F __start_kubectl k
 
 # kubectl get
 alias kg="k get"
