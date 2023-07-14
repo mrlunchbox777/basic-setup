@@ -1,5 +1,5 @@
 [include]
-  path = gitalias/gitalias.txt
+  path = submodules/gitalias/gitalias.txt
 [include]
   path = alias/basic-setup-extra.gitconfig
 [commit]
