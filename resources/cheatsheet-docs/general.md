@@ -13,17 +13,13 @@
 
 ## Commands
 
-* `run-find-lines-dir-basic-setup()`
-  * Finds the number of lines in a directory
-  * No args
-* `run-full-update-basic-setup()`
-  * Runs an apt update, upgrade, and autoremove
-  * No args
-* `run-get-source-and-dir()`
-  * Run with no args to get instructions
+* `sd="$(get-sandd "$source")"`
+  * Run with no args to get instructions, currently only can handle being run from scripts
   * arg1 - source file
-  * returns array of `("$source" "$dir")`
-* `run-identify-shell-basic-setup()`
+  * returns json of `{ "source": "$source", "dir": "$dir"}`
+    * source="$(echo "$sd" | jq -r .source)"
+    * dir="$(echo "$sd" | jq -r .dir)"
+* `identify-shell`
   * Identifies the current shell
     * Most effective on `sh`, `bash`, and `zsh`
   * No args

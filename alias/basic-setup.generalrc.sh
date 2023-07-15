@@ -41,9 +41,9 @@ case "$CURRENT_SHELL" in
     ;;
 esac
 
-run-get-source-and-dir "$source"
-source="${rgsd[@]:0:1}"
-dir="${rgsd[@]:1:1}"
+sd="$(general-get-source-and-dir "$source")"
+source="$(echo "$sd" | jq -r .source)"
+dir="$(echo "$sd" | jq -r .dir)"
 export BASICSETUPGENERALRCDIR="$dir"
 
 for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do . $dir/sh/$basic_setup_generalrc_sh_f; done
