@@ -17,3 +17,4 @@ create a versioning system
 write selector for get deployment image
 consider doing something with this - https://code.visualstudio.com/docs/remote/containers
 consider adding kgns to k9s
+consider adding back how to drill down through which
