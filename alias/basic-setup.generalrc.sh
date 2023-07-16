@@ -20,7 +20,8 @@ for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /
 done
 source=""
 
-export CURRENT_SHELL="$(run-identify-shell-basic-setup | sed -r 's/[\ -]//g' )"
+. "$shared_scripts_path/bin/general-identify-shell-function"
+export CURRENT_SHELL="$(identify-shell-function | sed -r 's/[\ -]//g' )"
 echo "shell - $CURRENT_SHELL"
 
 case "$CURRENT_SHELL" in
