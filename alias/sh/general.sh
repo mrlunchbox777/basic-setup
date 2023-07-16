@@ -15,6 +15,7 @@ alias grepx='general-grepx'
 alias random='general-random'
 alias read-script='general-read-script'
 alias iso-date='general-iso-date'
+alias send-message='general-send-message'
 
 function general-identify-shell-function-wrapper() {
   shared_scripts_dir=$(get-shared-scripts-dir)

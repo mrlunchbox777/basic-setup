@@ -3,21 +3,6 @@
 
 # track directories
 initial_dir="$(pwd)"
-shared_scripts_path="../shared-scripts"
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path="./shared-scripts"
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src/tools -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/ -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find /home/ -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
-if [ ! -d "$shared_scripts_path" ]; then
-    echo -e "error finding shared-scripts..." >&2
-    exit 1
-fi
-for basic_setup_init_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do
-  source "$shared_scripts_path/sh/$basic_setup_init_sh_f";
-done
 source="${BASH_SOURCE[0]}"
 sd="$(general-get-source-and-dir "$source")"
 source="$(echo "$sd" | jq -r .source)"
@@ -128,13 +113,13 @@ if [ "$should_add_github_key" == "true" ]; then
 fi
 
 if [ "$should_do_full_update" == "true" ]; then
-  run-send-message "Starting Full Update"
+  general-send-message "Starting Full Update"
   run-full-update-basic-setup
 else
-  run-send-message "Skipping Full Update"
+  general-send-message "Skipping Full Update"
 fi
 
-run-send-message "Starting apt Installs"
+general-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
 [ $should_install_ui_tools == "true" ] && \
@@ -175,7 +160,7 @@ run-manual-install-apt-many-basic-setup \
   zsh
 
 if [ $should_install_snap == "true" ]; then
-  run-send-message "Starting snap Installs"
+  general-send-message "Starting snap Installs"
   source sh-installs/run-manual-install-snap.sh
 
   [ $should_install_ui_tools == "true" ] && \
@@ -186,14 +171,14 @@ if [ $should_install_snap == "true" ]; then
       spotify \
       teams
 else
-  run-send-message "Skipping snap Installs"
+  general-send-message "Skipping snap Installs"
 fi
 
-run-send-message "Starting git submodule update"
+general-send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && \
-  run-update-gitsubmodule-basic-setup
+  git-submodule-update-all
 
-run-send-message "Starting Manual Installs"
+general-send-message "Starting Manual Installs"
 source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
@@ -222,7 +207,7 @@ run-manual-install-many-basic-setup \
   postfix \
   pwsh
 
-run-send-message "Starting Updates"
+general-send-message "Starting Updates"
 source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
@@ -236,15 +221,15 @@ run-manual-update-many-basic-setup \
   unattended-upgrades
 
 if [ "$should_add_cron" == "true" ]; then
-  run-send-message "Starting CRON"
+  general-send-message "Starting CRON"
   source ./../cron/run-add-cron.sh
 else
-  run-send-message "Skipping CRON"
+  general-send-message "Skipping CRON"
 fi
 
 apt-get --fix-broken install -y
 
-run-send-message "Starting Postmessages"
+general-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
 run-manual-postmessage-many-basic-setup \
@@ -252,4 +237,4 @@ run-manual-postmessage-many-basic-setup \
 
 # move back to original dir and update user
 cd "$initial_dir"
-run-send-message "init script complete, you should probably restart your terminal and/or your computer"
+general-send-message "init script complete, you should probably restart your terminal and/or your computer"

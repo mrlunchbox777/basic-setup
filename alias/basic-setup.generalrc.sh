@@ -15,9 +15,6 @@ fi
 # Include the shared_scripts/bin in the PATH
 export PATH="$shared_scripts_path/bin:$PATH"
 
-for basic_setup_generalrc_sh_f in $(ls -p "$shared_scripts_path/sh/" | grep -v /); do
-  . "$shared_scripts_path/sh/$basic_setup_generalrc_sh_f"
-done
 source=""
 
 . "$shared_scripts_path/bin/general-identify-shell-function"
@@ -47,9 +44,10 @@ source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
 export BASICSETUPGENERALRCDIR="$dir"
 
-for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do . $dir/sh/$basic_setup_generalrc_sh_f; done
 if [ -d "$dir/$extra_folder/" ]; then
-  for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do source $dir/$extra_folder/$basic_setup_generalrc_sh_f; done
+  for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do
+    . $dir/$extra_folder/$basic_setup_generalrc_sh_f
+  done
 fi
 
 export BASICSETUPGENERALRCDIR="$dir"

@@ -23,9 +23,9 @@
   * Identifies the current shell
     * Most effective on `sh`, `bash`, and `zsh`
   * No args
-* `run-send-message()`
+* `general-send-message()`
   * Echos a message using the basic setup format
   * args - messages to send
-* `run-update-gitsubmodule-basic-setup()`
+* `git-submodule-update-all()`
   * Updates submodules to latest
   * No args
