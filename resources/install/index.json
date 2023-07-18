@@ -6,7 +6,7 @@
       "labels": [
         "big-bang"
       ],
-      "name": "",
+      "name": "AWS CLI",
       "package-managers": [
         {
           "arguments": "",
@@ -88,6 +88,51 @@
           "manager-name": "winget",
           "notes": "",
           "package-name": "jqlang.jq"
+        }
+      ]
+    },
+    {
+      "description": "Kustomize introduces a template-free way to customize application configuration that simplifies the use of off-the-shelf applications. Now, built into kubectl as apply -k.",
+      "install-page": "https://kubectl.docs.kubernetes.io/installation/kustomize/",
+      "labels": [
+        "big-bang-full"
+      ],
+      "name": "Kustomize",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "kustomize"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "rpm",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
         }
       ]
     }

@@ -44,6 +44,11 @@ source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
 export BASICSETUPGENERALRCDIR="$dir"
 
+if [ -d "$dir/sh/" ]; then
+  for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
+    . $dir/sh/$basic_setup_generalrc_sh_f
+  done
+fi
 if [ -d "$dir/$extra_folder/" ]; then
   for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do
     . $dir/$extra_folder/$basic_setup_generalrc_sh_f

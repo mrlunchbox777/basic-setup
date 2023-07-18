@@ -135,7 +135,9 @@ This is intended to be an exhaustive list and explanation of `labels`` used for 
 * `arm64-only`
   * If this package is only supported on arm64 architectures.
 * `big-bang`
-  * Used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
+  * Required packages that are used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
+* `big-bang-full`
+  * All packages used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `core`
   * If this package should always be installed.
 * `darwin-only`
