@@ -38,7 +38,7 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "winget",
           "notes": "",
           "package-name": "jqlang.jq"
