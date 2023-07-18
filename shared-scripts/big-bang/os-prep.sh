@@ -207,13 +207,8 @@ function restore_files_backup {
 
 function restore_config_backup {
 	config_backup_location="$1"
-
 	# retsore the content
-	cat "$config_backup_location" | while read i; do
-		stripped_i="$(echo "$i" | sed 's/ //g')"
-		(($VERBOSITY > 1)) && echo "sudo sysctl -w $stripped_i"
-		sudo sysctl -w $i
-	done
+	sudo sysctl -p "$config_backup_location"
 }
 
 # restore backup
