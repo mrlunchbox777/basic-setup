@@ -1,9 +1,55 @@
 {
   "packages": [
     {
+      "description": "This package provides a unified command line interface to Amazon Web Services.",
+      "install-page": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
+      "labels": [
+        "big-bang"
+      ],
+      "name": "",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "aws-cli"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "rpm",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Amazon.AWSCLI"
+        }
+      ]
+    },
+    {
       "description": "jq is a lightweight and flexible command-line JSON processor.",
       "install-page": "https://jqlang.github.io/jq/download/",
       "labels": [
+        "big-bang",
         "core"
       ],
       "name": "jq",
@@ -45,6 +91,5 @@
         }
       ]
     }
-
   ]
 }

@@ -134,6 +134,8 @@ This is intended to be an exhaustive list and explanation of `labels`` used for 
   * If this package is only supported on amd64 architectures.
 * `arm64-only`
   * If this package is only supported on arm64 architectures.
+* `big-bang`
+  * Used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `core`
   * If this package should always be installed.
 * `darwin-only`
