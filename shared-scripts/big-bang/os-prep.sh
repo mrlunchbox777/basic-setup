@@ -34,6 +34,7 @@ VERBOSITY=0
 
 # script help message
 function help {
+	# TODO: add open
 	command_for_help="$(basename "$0")"
 	cat <<- EOF
 		----------
@@ -180,16 +181,15 @@ function restore_files_backup {
 		# clean the sysctl.d directory
 		sudo mv $extra_args -f /etc/sysctl.d/ /etc/sysctl.d.old/
 		sudo mkdir -p /etc/sysctl.d/
-
 		# restore the content from the backup
 		for i in $(echo "$backup_content" | jq -r '. | keys[]'); do
 			(($VERBOSITY > 1)) && echo "restoring $i to /etc/sysctl.d/"
 			echo "$backup_content" | jq -r '."'$i'"' | sudo tee -a "/etc/sysctl.d/$i"
-			# echo "$backup_content" | jq -r '."'$i'"'
 		done
-
 		# clean up the old dir if we didn't error out (we should have a back up)
 		sudo rm $extra_args -rf /etc/sysctl.d.old/
+		# Load the restored configs
+		sudo sysctl --load --system
 	} || {
 		ERR=$?
 		(($VERBOSITY > 0)) && echo "errored during restore_files backup, attempting to revert"
@@ -206,8 +206,14 @@ function restore_files_backup {
 }
 
 function restore_config_backup {
-	files_backup_location="$1"
-	# TODO: finish this
+	config_backup_location="$1"
+
+	# retsore the content
+	cat "$config_backup_location" | while read i; do
+		stripped_i="$(echo "$i" | sed 's/ //g')"
+		(($VERBOSITY > 1)) && echo "sudo sysctl -w $stripped_i"
+		sudo sysctl -w $i
+	done
 }
 
 # restore backup
@@ -218,10 +224,14 @@ function restore_backup {
 
 	# files has to be first because it will require a reload of values once it comes back up
 	if [ ! -z "$files_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "starting file restore"
+		# TODO: interactive confirm?
 		restore_files_backup "$files_backup_location"
 	fi
 
 	if [ ! -z "$config_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "starting config restore"
+		# TODO: interactive confirm?
 		restore_config_backup "$config_backup_location"
 	fi
 }
