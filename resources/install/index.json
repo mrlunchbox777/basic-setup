@@ -1,0 +1,50 @@
+{
+  "packages": [
+    {
+      "description": "jq is a lightweight and flexible command-line JSON processor.",
+      "install-page": "https://jqlang.github.io/jq/download/",
+      "labels": [
+        "core"
+      ],
+      "name": "jq",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "rpm",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "jqlang.jq"
+        }
+      ]
+    }
+
+  ]
+}
