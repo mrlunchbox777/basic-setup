@@ -171,9 +171,38 @@ function get_backup_location {
 
 function restore_files_backup {
 	files_backup_location="$1"
-	# TODO: finish this
+	backup_content="$(jq '.' "$files_backup_location")"
+	extra_args=""
+	if (($VERBOSITY > 0)); then
+		extra_args="-v"
+	fi
+	{
+		# clean the sysctl.d directory
+		sudo mv $extra_args -f /etc/sysctl.d/ /etc/sysctl.d.old/
+		sudo mkdir -p /etc/sysctl.d/
 
-	# jq -r '."10-ptrace.conf"' $bbdir/os-prep-sysctl-d-backup-1689712384.json
+		# restore the content from the backup
+		for i in $(echo "$backup_content" | jq -r '. | keys[]'); do
+			(($VERBOSITY > 1)) && echo "restoring $i to /etc/sysctl.d/"
+			echo "$backup_content" | jq -r '."'$i'"' | sudo tee -a "/etc/sysctl.d/$i"
+			# echo "$backup_content" | jq -r '."'$i'"'
+		done
+
+		# clean up the old dir if we didn't error out (we should have a back up)
+		sudo rm $extra_args -rf /etc/sysctl.d.old/
+	} || {
+		ERR=$?
+		(($VERBOSITY > 0)) && echo "errored during restore_files backup, attempting to revert"
+		if [ -d "/etc/sysctl.d.old/" ]; then
+			sudo rm $extra_args -rf /etc/sysctl.d/
+			sudo mv $extra_args -f /etc/sysctl.d.old/ /etc/sysctl.d/
+			(($VERBOSITY > 0)) && echo "reverted"
+		else
+			(($VERBOSITY > 0)) && echo "failed to revert"
+		fi
+		echo "error - $ERR" >&2
+		exit 1
+	}
 }
 
 function restore_config_backup {
