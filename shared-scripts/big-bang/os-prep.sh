@@ -43,13 +43,13 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		-c|--clean          - (flag, default: false) Delete everything in ${BASE_OUT_DIR} and exit.
-		-h|--help           - (flag, default: false) Print this help message and exit.
-		-l|--list           - (flag, default: false) Print the possible restore points and exit.
-		-p|--persist        - (flag, default: false) Persist the changes through a restart (write files).
-		-r|--restore        - (optional, default: "") Absolute path of archive file to restore settings from and exit. Pass "latest" to restore from latest archive file.
-		-v|--verbose        - (multi-flag, default: 0) increase the verbosity by 1.
-		--out               - (optional, default: "${ARCHIVE_FILE}" (suffix is Unix time)) Absolute path of out archive.
+		-c|--clean   - (flag, default: false) Delete everything in ${BASE_OUT_DIR} and exit.
+		-h|--help    - (flag, default: false) Print this help message and exit.
+		-l|--list    - (flag, default: false) Print the possible restore points and exit.
+		-p|--persist - (flag, default: false) Persist the changes through a restart (write files).
+		-r|--restore - (optional, default: "") Absolute path of archive file to restore settings from and exit. Pass "latest" to restore from latest archive file.
+		-v|--verbose - (multi-flag, default: 0) increase the verbosity by 1.
+		--out        - (optional, default: "${ARCHIVE_FILE}" (suffix is Unix time)) Absolute path of out archive.
 		----------
 		examples:
 		setup                 - $command_for_help -v
@@ -77,9 +77,9 @@ function clean_backups {
 		(($VERBOSITY > 0)) && echo "no backup folder found, exiting..."
 		exit 0
 	fi
-	extra_args=""
+	local extra_args=""
 	if (($VERBOSITY > 0)); then
-		extra_args="-v"
+		local extra_args="-v"
 	fi
 	if (( $(ls $BASE_OUT_DIR | wc -l) > 0 )); then
 		(($VERBOSITY > 0)) && echo "found files, cleaning..."
@@ -107,9 +107,9 @@ function backup_sysctl_config_files {
 function backup_manifest {
 	# TODO: build the manifest first with itself as an item, then each thing backed up should add itself to the manifest
 	ensure_out_file_dir "$MANIFEST_OUT_FILE"
-	config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
-	additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
-	manifest_content=$(
+	local config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
+	local additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
+	local manifest_content=$(
 		cat <<- EOF
 			{
 				"items": [
@@ -121,7 +121,7 @@ function backup_manifest {
 			}
 		EOF
 	)
-	manifest_content="$(echo "$manifest_content" | jq '.items += '"$additional_files_array"' ' | jq .)"
+	local manifest_content="$(echo "$manifest_content" | jq '.items += '"$additional_files_array"' ' | jq .)"
 	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
 	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")" || return 0 # if it's the final line you need to return a 0 or it fails
 }
@@ -134,17 +134,17 @@ function backup {
 	backup_sysctl_config_files
 	backup_manifest
 	# create the archive
-	extra_args="czf"
+	local extra_args="czf"
 	if (($VERBOSITY > 1)); then
-		extra_args+="v"
+		local extra_args+="v"
 	fi
-	archive_name="$(basename $OUT_DIR).tgz"
+	local archive_name="$(basename $OUT_DIR).tgz"
 	(($VERBOSITY > 1)) && echo "archiving..."
 	tar $extra_args "$archive_name" --directory="$OUT_DIR" ./
 	# move the archive if needed
-	extra_args="" # need to unset the extra args because tar is different
+	local extra_args="" # need to unset the extra args because tar is different
 	if (($VERBOSITY > 1)); then
-		extra_args="-v"
+		local extra_args="-v"
 	fi
 	if [ "$(realpath "$archive_name")" != "$ARCHIVE_FILE" ]; then
 		(($VERBOSITY > 1)) && echo "moving..."
@@ -161,13 +161,13 @@ function list_backups {
 		echo "no archive directory found" >&2
 		exit 0
 	fi
-	backup_archives="$(ls -1a "$BASE_OUT_DIR" | grep ".tgz$" | sort)"
+	local backup_archives="$(ls -1a "$BASE_OUT_DIR" | grep "^backup-ran-[0-9]*.tgz$" | sort)"
 	if [ -z "$backup_archives" ]; then
 		echo "no archives found" >&2
 		exit 0
 	fi
 	for i in $backup_archives; do
-		current_file="${BASE_OUT_DIR}${i}"
+		local current_file="${BASE_OUT_DIR}${i}"
 		echo "$(date -d @$(echo "$current_file" | sed 's/.*-//g; s/.tgz$//g')) - $current_file"
 	done
 }
@@ -185,9 +185,9 @@ function ensure_backup {
 		exit 1
 	fi
 	# extract the backup
-	extra_args="xf"
+	local extra_args="xf"
 	if (($VERBOSITY > 1)); then
-		extra_args+="v"
+		local extra_args+="v"
 	fi
 	if [ ! -d "$RESTORE_DIR" ]; then
 		mkdir "$RESTORE_DIR"
@@ -207,15 +207,15 @@ function ensure_backup {
 
 # get the selected backup from the archive file
 function get_backup_location {
-	backup_location_json=$(jq '.items[] | select(.type=="'$1'")' "$MANIFEST_RESTORE_FILE")
+	local backup_location_json=$(jq '.items[] | select(.type=="'$1'")' "$MANIFEST_RESTORE_FILE")
 	# check if the selected backup is in the manifest
 	if [ -z "$backup_location_json" ]; then
 		(($VERBOSITY > 0)) && echo "didn't find a $1 type object in $MANIFEST_RESTORE_FILE"
 		echo ""
 	else
-		backup_location="${RESTORE_DIR}$(echo "$backup_location_json" | jq -r '.value')"
+		local backup_location="${RESTORE_DIR}$(echo "$backup_location_json" | jq -r '.value')"
 		# check if the backup in the manifest exists
-		if [ ! -f "${backup_location}" ] && [ ! -d "${backup_location}" ]; then
+		if [ ! -f "$backup_location" ] && [ ! -d "$backup_location" ]; then
 			echo "backup listed in manifest not found - $backup_location" >&2
 			exit 1
 		fi
@@ -232,9 +232,9 @@ function get_backup_location {
 
 # restore the config files
 function restore_files_backup {
-	files_backup_location="$1"
+	local files_backup_location="$1"
 	if (($VERBOSITY > 0)); then
-		extra_args="-v"
+		local extra_args="-v"
 	fi
 	ERR=""
 	{
@@ -264,7 +264,7 @@ function restore_files_backup {
 
 # restore the temp config
 function restore_config_backup {
-	config_backup_location="$1"
+	local config_backup_location="$1"
 	# retsore the content
 	if (($VERBOSITY > 2)); then
 		sudo sysctl -p "$config_backup_location"
@@ -276,8 +276,8 @@ function restore_config_backup {
 # restore backup
 function restore_backup {
 	ensure_backup
-	files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
-	config_backup_location="$(get_backup_location "temp_config")"
+	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
+	local config_backup_location="$(get_backup_location "temp_config")"
 
 	# files has to be first because it will require a reload of values once it comes back up
 	if [ ! -z "$files_backup_location" ]; then
