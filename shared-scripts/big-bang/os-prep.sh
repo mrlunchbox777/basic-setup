@@ -9,6 +9,7 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 #
 # global defaults
 #
+BACKUP_ONLY=false
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
 OPEN_FILE=""
 PERSIST=false
@@ -41,21 +42,21 @@ MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
 
 # script help message
 function help {
-	# TODO: add open manifest (and downstream) and backup only
 	command_for_help="$(basename "$0")"
 	cat <<- EOF
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		-c|--clean     - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
-		-h|--help      - (flag, default: false) Print this help message and exit.
-		-l|--list      - (flag, default: false) Print the possible restore points and exit.
-		-o|--open      - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
-		-p|--persist   - (flag, default: false) Persist the changes through a restart (write files).
-		-r|--restore   - (optional, default: 'latest') Archive to restore settings from and exit. Pass 'latest' to restore from latest archive file.
-		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
-		--open-command - (optional, default: '$OPEN_COMMAND') The command to run with -o. \$OPEN_FILE will be replaced by -o.
-		--out          - (optional, default: '$ARCHIVE_FILE') Absolute path of out archive.
+		-b|--backup-only - (flag, default: false) Exit after backup.
+		-c|--clean       - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
+		-h|--help        - (flag, default: false) Print this help message and exit.
+		-l|--list        - (flag, default: false) Print the possible restore points and exit.
+		-o|--open        - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
+		-p|--persist     - (flag, default: false) Persist the changes through a restart (write files).
+		-r|--restore     - (optional, default: 'latest') Archive to restore settings from and exit. Pass 'latest' to restore from latest archive file.
+		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
+		--open-command   - (optional, default: '$OPEN_COMMAND') The command to run with -o. \$OPEN_FILE will be replaced by -o.
+		--out            - (optional, default: '$ARCHIVE_FILE') Absolute path of out archive.
 		----------
 		note: The Unix timestamp when this command was run was used several times above, it is '$RUN_TIMESTAMP'.
 		----------
@@ -376,6 +377,11 @@ while (("$#")); do
 		fi
 		;;
 	# config out file, optional argument
+	-b | --backup-only)
+		BACKUP_ONLY=true
+		shift
+		;;
+	# config out file, optional argument
 	-c | --clean)
 		SHOULD_CLEAN=true
 		shift
@@ -424,6 +430,7 @@ done
 [ ! -z "$OPEN_FILE" ] && open_file && exit 0
 
 backup
+[ $BACKUP_ONLY == true ] && exit 0
 
 # raise the max map count for ECK to run without OOM errors
 # allows each processe to take more memory maps
