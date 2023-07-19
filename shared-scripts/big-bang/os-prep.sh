@@ -66,7 +66,7 @@ function help {
 		clean backups         - $command_for_help -v -c
 		restore latest backup - $command_for_help -v -r
 		open latest backup    - $command_for_help -o
-		get current settings  - $command_for_help --out current_settings.tgz
+		get current settings  - $command_for_help -b --out current_settings.tgz
 		----------
 	EOF
 }
