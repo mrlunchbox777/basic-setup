@@ -105,46 +105,56 @@ function clean_backups {
 
 # backup current sysctl config
 function backup_sysctl_config {
+	# get the temp config data
 	ensure_out_file_dir "$TEMP_CONFIG_OUT_FILE"
 	sudo sysctl -a > $TEMP_CONFIG_OUT_FILE
+	# prep the manifest entries
+	local temp_config_entry="{\"type\": \"temp_config\", \"value\": \"$(basename "$TEMP_CONFIG_OUT_FILE")\"}"
+	# update the manifest
+	local manifest_content="$(jq . "$MANIFEST_OUT_FILE")"
+	local manifest_content="$(echo "$manifest_content" | jq '.items += '["$temp_config_entry"]' ')"
+	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
 }
 
 # backup current sysctl config files
 function backup_sysctl_config_files {
+	# get the config files data
 	ensure_out_file_dir "$(echo "$CONFIG_FILES_OUT_DIR" | sed 's/.$//g')"
 	sudo cp -r "/etc/sysctl.d" "$CONFIG_FILES_OUT_DIR"
+	# prep the manifest entries
+	local config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
+	local config_files_dir_entry="{\"type\": \"sysctl_d_config_directory\", \"value\": \"$config_files_out_dir_name\"}"
+	local additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
+	# update the manifest
+	local manifest_content="$(jq . "$MANIFEST_OUT_FILE")"
+	local manifest_content="$(echo "$manifest_content" | jq '.items += '["$config_files_dir_entry"]' ')"
+	local manifest_content="$(echo "$manifest_content" | jq '.items += '"$additional_files_array"' ')"
+	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
 }
 
 # create backup manifest
 function backup_manifest {
-	# TODO: build the manifest first with itself as an item, then each thing backed up should add itself to the manifest
 	ensure_out_file_dir "$MANIFEST_OUT_FILE"
-	local config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
-	local additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
 	local manifest_content=$(
 		cat <<- EOF
 			{
 				"items": [
-					{"type": "temp_config", "value": "$(basename "$TEMP_CONFIG_OUT_FILE")"},
-					{"type": "sysctl_d_config_directory", "value": "$config_files_out_dir_name"},
 					{"type": "manifest", "value": "$(basename "$MANIFEST_OUT_FILE")"}
 				],
 				"timestamp": "$RUN_TIMESTAMP"
 			}
 		EOF
 	)
-	local manifest_content="$(echo "$manifest_content" | jq '.items += '"$additional_files_array"' ' | jq .)"
-	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
-	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")" || return 0 # if it's the final line you need to return a 0 or it fails
+	echo "$manifest_content" | jq . > "$MANIFEST_OUT_FILE"
 }
 
 # backup everything that is needed
 function backup {
 	# get the backup data
-	mkdir -p "$OUT_DIR"
+	backup_manifest
 	backup_sysctl_config
 	backup_sysctl_config_files
-	backup_manifest
+	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")"
 	# create the archive
 	local extra_args="czf"
 	if (($VERBOSITY > 1)); then
