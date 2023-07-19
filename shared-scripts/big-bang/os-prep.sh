@@ -230,6 +230,7 @@ function get_backup_location {
 	fi
 }
 
+# restore the config files
 function restore_files_backup {
 	files_backup_location="$1"
 	if (($VERBOSITY > 0)); then
@@ -261,6 +262,7 @@ function restore_files_backup {
 	fi
 }
 
+# restore the temp config
 function restore_config_backup {
 	config_backup_location="$1"
 	# retsore the content
