@@ -62,8 +62,11 @@ function help {
 		----------
 		examples:
 		setup                 - $command_for_help -v
+		list backups          - $command_for_help -l
 		clean backups         - $command_for_help -v -c
-		restore latest backup - $command_for_help -v -r latest
+		restore latest backup - $command_for_help -v -r
+		open latest backup    - $command_for_help -o
+		get current settings  - $command_for_help --out current_settings.tgz
 		----------
 	EOF
 }
