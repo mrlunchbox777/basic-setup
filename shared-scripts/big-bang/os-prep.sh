@@ -10,17 +10,21 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 # global defaults
 #
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
+OPEN_FILE=""
 PERSIST=false
 RESTORE_ARCHIVE_FILE=""
 SHOULD_CLEAN=false
 SHOULD_LIST=false
 SHOW_HELP=false
+TARGET_VM_MAX_MAP_COUNT=524288
+TARGET_FS_FILE_MAX=131072
 VERBOSITY=0
 
 #
 # computed values (often can't be alphabetical)
 #
 RUN_TIMESTAMP="$(date +%s)"
+OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
 ARCHIVE_FILE="$(echo "$OUT_DIR" | sed 's/.$//').tgz"
 TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
@@ -43,13 +47,17 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		-c|--clean   - (flag, default: false) Delete everything in ${BASE_OUT_DIR} and exit.
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--list    - (flag, default: false) Print the possible restore points and exit.
-		-p|--persist - (flag, default: false) Persist the changes through a restart (write files).
-		-r|--restore - (optional, default: "") Absolute path of archive file to restore settings from and exit. Pass "latest" to restore from latest archive file.
-		-v|--verbose - (multi-flag, default: 0) increase the verbosity by 1.
-		--out        - (optional, default: "${ARCHIVE_FILE}" (suffix is Unix time)) Absolute path of out archive.
+		-c|--clean     - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
+		-h|--help      - (flag, default: false) Print this help message and exit.
+		-l|--list      - (flag, default: false) Print the possible restore points and exit.
+		-o|--open      - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
+		-p|--persist   - (flag, default: false) Persist the changes through a restart (write files).
+		-r|--restore   - (optional, default: 'latest') Archive to restore settings from and exit. Pass 'latest' to restore from latest archive file.
+		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
+		--open-command - (optional, default: '$OPEN_COMMAND') The command to run with -o. \$OPEN_FILE will be replaced by -o.
+		--out          - (optional, default: '$ARCHIVE_FILE') Absolute path of out archive.
+		----------
+		note: The Unix timestamp when this command was run was used several times above, it is '$RUN_TIMESTAMP'.
 		----------
 		examples:
 		setup                 - $command_for_help -v
@@ -293,12 +301,49 @@ function restore_backup {
 	fi
 }
 
+function open_file {
+	if [ "$OPEN_FILE" == "latest" ]; then
+		OPEN_FILE=$(list_backups | tail -n 1 | sed 's#.* - ##g')
+		(($VERBOSITY > 0)) && echo "picked $OPEN_FILE as the open file."
+	fi
+	if [ ! -f "$OPEN_FILE" ]; then
+		echo "open file not found..." >&2
+		exit 1
+	fi
+	OPEN_COMMAND=$(echo "$OPEN_COMMAND" | sed 's#\$OPEN_FILE#'$OPEN_FILE'#g')
+	(($VERBOSITY > 1)) && echo "running the open command - $OPEN_COMMAND"
+	eval "$OPEN_COMMAND"
+	exit 0
+}
+
+function set_sysctl_d_setting {
+	local setting_name="$1"
+	local setting_value="$2"
+
+	(($VERBOSITY > 0)) && echo "updating vm.max_map_count to $TARGET_VM_MAX_MAP_COUNT"
+	if [ $PERSIST = true ]; then
+		local file_name="$(echo "$setting_name" | sed 's/./-/g').conf"
+		echo "$setting_name=$setting_value" | sudo tee -a /etc/sysctl.d/$file_name
+	else
+		sudo sysctl -w $setting_name=$setting_value
+	fi
+}
+
 #
 # CLI parsing
 #
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	--open-command)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			OPEN_COMMAND="$2"
+			shift 2
+		else
+			# the default is set as a global
+			shift 1
+		fi
+		;;
 	# the archive file, optional argument
 	--out)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -310,15 +355,24 @@ while (("$#")); do
 			exit 1
 		fi
 		;;
+	# the open file, optional argument
+	-o | --open)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			OPEN_FILE="$2"
+			shift 2
+		else
+			OPEN_FILE="latest"
+			shift 1
+		fi
+		;;
 	# restore archive file, optional argument
 	-r | --restore)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
 			RESTORE_ARCHIVE_FILE=$2
 			shift 2
 		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
+			RESTORE_ARCHIVE_FILE="latest"
+			shift 1
 		fi
 		;;
 	# config out file, optional argument
@@ -367,23 +421,22 @@ done
 [ $SHOULD_LIST == true ] && list_backups && exit 0
 [ $SHOULD_CLEAN == true ] && clean_backups && exit 0
 [ ! -z "$RESTORE_ARCHIVE_FILE" ] && restore_backup && exit 0
+[ ! -z "$OPEN_FILE" ] && open_file && exit 0
 
 backup
 
-# [ubuntu@Ubuntu_VM:~]
-# Needed for ECK to run correctly without OOM errors
-# echo 'vm.max_map_count=524288' | sudo tee -a /etc/sysctl.d/vm-max_map_count.conf
-# Alternatively can use (not persistent after restart):
-# sudo sysctl -w vm.max_map_count=524288
-
+# raise the max map count for ECK to run without OOM errors
+# allows each processe to take more memory maps
+set_sysctl_d_setting "vm.max_map_count" "$TARGET_VM_MAX_MAP_COUNT"
 
 # Needed by Sonarqube
-# echo 'fs.file-max=131072' | sudo tee -a /etc/sysctl.d/fs-file-max.conf
-# Alternatively can use (not persistent after restart):  
-# sudo sysctl -w fs.file-max=131072
+# Sets the max file handles that Linux will allocate
+set_sysctl_d_setting "fs.file-max" "$TARGET_FS_FILE_MAX"
 
 # Also Needed by Sonarqube
+# Raise the open file count limit
 # ulimit -n 131072
+# Raise the process limit
 # ulimit -u 8192
 
 # Load updated configuration
