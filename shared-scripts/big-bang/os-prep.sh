@@ -29,7 +29,7 @@ TARGET_MODULUES=(
 	"nf_nat_redirect" # suze docs
 	"xt_REDIRECT" # both
 	"xt_owner" # both
-	"xt_statistic" # big bang docs - https://github.com/DoD-Platform-One/big-bang/blob/master/docs/guides/deployment-scenarios/quickstart.md#step-4-configure-host-operating-system-prerequisites
+	"xt_statistic" # big bang docs - listed on line 3
 )
 
 #
@@ -44,6 +44,9 @@ TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
 CONFIG_FILES_OUT_DIR="${OUT_DIR}sysctl-d-backup/"
 ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
 MODULE_SETTINGS_OUT_FILE="${OUT_DIR}modules-backup"
+SWAP_SETTINGS_OUT_FILE="${OUT_DIR}swap-settings.json"
+SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
+# SWAP_SWAPS_OUT_FILE="${OUT_DIR}swap-swaps-backup"
 RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
 MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
 
@@ -124,6 +127,11 @@ function clean_backups {
 	fi
 }
 
+# get active swap devices
+function get_active_swap_devices {
+	swapon -s | awk '{print $1}' | tail -n +2
+}
+
 # add an item to the manifest
 function update_manifest {
 	local new_items="$1"
@@ -194,6 +202,28 @@ function backup_module_settings {
 	update_manifest "$modules_entry"
 }
 
+# backup current swap settings
+function backup_swap_settings {
+	# get the modules data
+	ensure_out_file_dir "$SWAP_SETTINGS_OUT_FILE"
+	local swap_array="$(get_active_swap_devices | jq -R . | jq -s .)"
+	echo '{"active_swap_devices": '"$swap_array"'}' | jq . > "$SWAP_SETTINGS_OUT_FILE"
+	sudo cp /etc/fstab "$SWAP_FSTAB_OUT_FILE"
+	# sudo cp /proc/swaps "$SWAP_SWAPS_OUT_FILE"
+	# prep the manifest entries
+	local swap_files_entry="$(
+		cat <<- EOF
+			[
+				{"type": "swap_fstab_file", "value": "$(basename "$SWAP_FSTAB_OUT_FILE")"}
+			]
+		EOF
+	)"
+	# {"type": "swap_swaps_file", "value": "$(basename "$SWAP_SWAPS_OUT_FILE")"},
+	local swap_entry='[{"type": "swap_devices_file", "value": "'"$(basename "$SWAP_SETTINGS_OUT_FILE")"'"}]'
+	update_manifest "$(echo "$swap_files_entry" | jq .)"
+	update_manifest "$(echo "$swap_entry" | jq .)"
+}
+
 # backup everything that is needed
 function backup {
 	# get the backup data
@@ -202,6 +232,7 @@ function backup {
 	backup_sysctl_config_files
 	backup_ulimit_settings
 	backup_module_settings
+	backup_swap_settings
 	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")"
 	# create the archive
 	local extra_args="czf"
@@ -347,7 +378,7 @@ function restore_files_backup {
 	fi
 }
 
-# backup current ulimit settings
+# restore current ulimit settings
 function restore_ulimit_settings_backup {
 	local config_backup_location="$1"
 	local open_file_count_limit="$(jq -r '."open-file-count-limit"' "$config_backup_location")"
@@ -393,33 +424,67 @@ function restore_module_settings_backup {
 	fi
 }
 
+# restore current swap settings
+function restore_swap_settings_backup {
+	local swap_devices_backup_location="$1"
+	local swap_fstab_backup_location="$2"
+	# local swap_swaps_backup_location="$3"
+	local swap_devices="$(jq -r '.active_swap_devices[]' "$swap_devices_backup_location")"
+	for i in $swap_devices; do
+		(($VERBOSITY > 0)) && echo "restoring swap device $i"
+		if [[ "$(get_active_swap_devices)" =~ $i ]]; then
+			(($VERBOSITY > 0)) && echo "swap device $i already active"
+		else
+			sudo swapon "$i"
+		fi
+	done
+	if [ ! -z "$swap_fstab_backup_location" ] && [ -f "$swap_fstab_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "restoring /etc/fstab"
+		sudo mv -f "$swap_fstab_backup_location" /etc/fstab
+	fi
+	# if [ ! -z "$swap_swaps_backup_location" ] && [ -f "$swap_swaps_backup_location" ]; then
+	# 	(($VERBOSITY > 0)) && echo "restoring /proc/swaps"
+	# 	sudo mv -f "$swap_swaps_backup_location" /proc/swaps
+	# fi
+}
+
 # restore backup
 function restore_backup {
+	# TODO: maybe we let it extract during a dry run and then go through each step and dry run those
 	ensure_backup
-	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
-	local config_backup_location="$(get_backup_location "temp_config")"
-	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
-	local module_backup_location="$(get_backup_location "modules_file")"
-
 	# TODO: interactive confirms?
+
+	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
 	if [ ! -z "$files_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting file restore"
 		restore_files_backup "$files_backup_location"
 	fi
 
+	local config_backup_location="$(get_backup_location "temp_config")"
 	if [ ! -z "$config_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting config restore"
 		restore_config_backup "$config_backup_location"
 	fi
 
+	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
 	if [ ! -z "$ulimit_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting ulimit restore"
 		restore_ulimit_settings_backup "$ulimit_backup_location"
 	fi
 
-	if [ ! -z "$ulimit_backup_location" ]; then
+	local module_backup_location="$(get_backup_location "modules_file")"
+	if [ ! -z "$module_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting module restore"
 		restore_module_settings_backup "$module_backup_location"
+	fi
+
+	local swap_backup_location="$(get_backup_location "swap_devices_file")"
+	local swap_fstab_backup_location="$(get_backup_location "swap_fstab_file")"
+	# local swap_swaps_backup_location="$(get_backup_location "swap_swaps_file")"
+	if [ ! -z "$swap_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "starting swap devices and files restore"
+		# restore_swap_settings_backup "$swap_backup_location" "$swap_fstab_backup_location" "$swap_swaps_backup_location"
+		restore_swap_settings_backup "$swap_backup_location" "$swap_fstab_backup_location"
 	fi
 }
 
@@ -448,14 +513,14 @@ function set_sysctl_d_setting {
 	if [ $PERSIST = true ]; then
 		local file_name="/etc/sysctl.d/$(echo "$setting_name" | sed 's/\./-/g').conf"
 		if [ "$DRY_RUN" == true ]; then
-			echo "Would be writing $update_content to $file_name"
+			(($VERBOSITY > 0)) && echo "Would be writing $update_content to $file_name" || return 0
 		else
 			# overwrite rather than append if it's for specific settings
-			echo "$update_content" | sudo tee $file_name
+			echo "$update_content" | sudo tee $file_name >/dev/null
 		fi
 	else
 		if [ "$DRY_RUN" == true ]; then
-			echo "Would be running \`sudo sysctl -w $update_content\`"
+			(($VERBOSITY > 0)) && echo "Would be running \`sudo sysctl -w $update_content\`" || return 0
 		else
 			sudo sysctl -w $update_content
 		fi
@@ -469,7 +534,7 @@ function set_ulimit_setting {
 	local command="ulimit -$setting_flag $setting_value"
 	(($VERBOSITY > 0)) && echo "updating ulimit -$setting_flag to $setting_value"
 	if [ "$DRY_RUN" == true ]; then
-		echo "Would have run \`$command\`"
+		(($VERBOSITY > 0)) && echo "Would have run \`$command\`" || return 0
 	else
 		eval "$command"
 	fi
@@ -478,12 +543,13 @@ function set_ulimit_setting {
 # reloads the system configuration
 function reload_configuration {
 	if [ "$DRY_RUN" == true ]; then
-		echo "would be reloading updated configuration"
+		(($VERBOSITY > 0)) && echo "would be reloading updated configuration" || return 0
 	else
 		sudo sysctl --load --system
 	fi
 }
 
+# set up modules, or skip if not using SELinux
 function set_modules {
 	# Test if we are using SELinux
 	if (( $(command -v getenforce 2>&1 > /dev/null; echo $?) == 0 )); then
@@ -499,12 +565,41 @@ function set_modules {
 				if (( $(grep $i /etc/modules 2>&1 >/dev/null; echo ?) == 0)); then
 					(($VERBOSITY > 0)) && echo "module already in /etc/modules"
 				else
-					echo "$i" | sudo tee -a /etc/modules
+					echo "$i" | sudo tee -a /etc/modules >/dev/null
 				fi
 			fi
 		done
 	else
-		(($VERBOSITY > 0)) && echo "SELinux not found, skipping module modifications"
+		(($VERBOSITY > 0)) && echo "SELinux not found, skipping module modifications" || return 0
+	fi
+}
+
+# turn off swap devices
+function set_swap_devices_off {
+	local new_fstab_content=$(cat /etc/fstab | sed 's!\(.* swap .*\)!# \1!g')
+	# local new_swaps_content=$(cat /proc/swaps | head -n 1)
+	if [ "$DRY_RUN" == true ]; then
+		(($VERBOSITY > 0)) && echo "Would have run sudo swapoff -a"
+		if [ "$PERSIST" == true ]; then
+			if (($VERBOSITY > 0)); then
+				echo "Would have run sudo swapoff -a"
+				echo "Would have modified /etc/fstab to the following:"
+				echo "--"
+				echo "$new_fstab_content"
+				echo "--"
+				echo
+				# echo "Would have modified /proc/swaps to the following:"
+				# echo "--"
+				# echo "$new_swaps_content"
+				# echo "--"
+				# echo
+			fi
+		fi
+	else
+		sudo swapoff -a
+		echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
+		# sudo rm -f /proc/swaps
+		# echo "$new_swaps_content" | sudo tee /proc/swaps >/dev/null
 	fi
 }
 
@@ -633,10 +728,6 @@ reload_configuration
 # Preload kernel modules
 set_modules
 
-# Kubernetes requires swap disabled
-# Turn off all swap devices and files (won't last reboot)
-# sudo swapoff -a
-
-# For swap to stay off, you can remove any references found via
-# cat /proc/swaps
-# cat /etc/fstab
+# Needed by Kubernetes
+# Turn off all swap devices and files
+set_swap_devices_off
