@@ -12,6 +12,7 @@ alias get-shared-scripts-dir="general-get-shared-scripts-dir"
 alias get-source-and-dir="general-get-source-and-dir"
 alias get-sandd="get-source-and-dir"
 alias grepx='general-grepx'
+alias lsr='general-ls-recursive'
 alias random='general-random'
 alias read-script='general-read-script'
 alias iso-date='general-iso-date'

@@ -11,6 +11,7 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 #
 BACKUP_ONLY=false
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
+DRY_RUN=false
 OPEN_FILE=""
 PERSIST=false
 RESTORE_ARCHIVE_FILE=""
@@ -19,6 +20,8 @@ SHOULD_LIST=false
 SHOW_HELP=false
 TARGET_VM_MAX_MAP_COUNT=524288
 TARGET_FS_FILE_MAX=131072
+TARGET_OPEN_FILE_COUNT_LIMIT=131072
+TARGET_PROCESS_LIMIT=8192
 VERBOSITY=0
 
 #
@@ -28,13 +31,15 @@ RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
 ARCHIVE_FILE="$(echo "$OUT_DIR" | sed 's/.$//').tgz"
+MANIFEST_OUT_FILE="${OUT_DIR}manifest.json"
 TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
 CONFIG_FILES_OUT_DIR="${OUT_DIR}sysctl-d-backup/"
-MANIFEST_OUT_FILE="${OUT_DIR}manifest.json"
+ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
 RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
+MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
 TEMP_CONFIG_RESTORE_FILE="${RESTORE_DIR}sysctl-config-backup.conf"
 FILES_RESTORE_DIR="${RESTORE_DIR}sysctl-d-backup/"
-MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
+ULIMIT_CONFIG_RESTORE_FILE="${RESTORE_DIR}ulimit-config-backup.json"
 
 #
 # helper functions
@@ -49,6 +54,7 @@ function help {
 		----------
 		-b|--backup-only - (flag, default: false) Exit after backup.
 		-c|--clean       - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
+		-d|--dry-run     - (flag, default: false) Writes out deletes and updates, still creates (not restores) backups.
 		-h|--help        - (flag, default: false) Print this help message and exit.
 		-l|--list        - (flag, default: false) Print the possible restore points and exit.
 		-o|--open        - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
@@ -61,10 +67,12 @@ function help {
 		note: The Unix timestamp when this command was run was used several times above, it is '$RUN_TIMESTAMP'.
 		----------
 		examples:
-		setup                 - $command_for_help -v
+		setup                 - $command_for_help -p -v
+		test setup            - $command_for_help -d -p
+		temp setup            - $command_for_help -v
 		list backups          - $command_for_help -l
-		clean backups         - $command_for_help -v -c
-		restore latest backup - $command_for_help -v -r
+		clean backups         - $command_for_help -c -v
+		restore latest backup - $command_for_help -r -v
 		open latest backup    - $command_for_help -o
 		get current settings  - $command_for_help -b --out current_settings.tgz
 		----------
@@ -85,6 +93,7 @@ function ensure_out_file_dir {
 
 # delete the backups
 function clean_backups {
+	# TODO: confirm?
 	if [ ! -d "$BASE_OUT_DIR" ]; then
 		(($VERBOSITY > 0)) && echo "no backup folder found, exiting..."
 		exit 0
@@ -95,7 +104,13 @@ function clean_backups {
 	fi
 	if (( $(ls $BASE_OUT_DIR | wc -l) > 0 )); then
 		(($VERBOSITY > 0)) && echo "found files, cleaning..."
-		sudo rm $extra_args -rf $BASE_OUT_DIR
+		if [ "$DRY_RUN" == true ]; then
+			echo "would remove the following:"
+			echo "$BASE_OUT_DIR"
+			general-ls-recursive "$BASE_OUT_DIR"
+		else
+			sudo rm $extra_args -rf $BASE_OUT_DIR
+		fi
 		exit 0
 	else
 		(($VERBOSITY > 0)) && echo "found no files, exiting..."
@@ -103,32 +118,10 @@ function clean_backups {
 	fi
 }
 
-# backup current sysctl config
-function backup_sysctl_config {
-	# get the temp config data
-	ensure_out_file_dir "$TEMP_CONFIG_OUT_FILE"
-	sudo sysctl -a > $TEMP_CONFIG_OUT_FILE
-	# prep the manifest entries
-	local temp_config_entry="{\"type\": \"temp_config\", \"value\": \"$(basename "$TEMP_CONFIG_OUT_FILE")\"}"
-	# update the manifest
-	local manifest_content="$(jq . "$MANIFEST_OUT_FILE")"
-	local manifest_content="$(echo "$manifest_content" | jq '.items += '["$temp_config_entry"]' ')"
-	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
-}
-
-# backup current sysctl config files
-function backup_sysctl_config_files {
-	# get the config files data
-	ensure_out_file_dir "$(echo "$CONFIG_FILES_OUT_DIR" | sed 's/.$//g')"
-	sudo cp -r "/etc/sysctl.d" "$CONFIG_FILES_OUT_DIR"
-	# prep the manifest entries
-	local config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
-	local config_files_dir_entry="{\"type\": \"sysctl_d_config_directory\", \"value\": \"$config_files_out_dir_name\"}"
-	local additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
-	# update the manifest
-	local manifest_content="$(jq . "$MANIFEST_OUT_FILE")"
-	local manifest_content="$(echo "$manifest_content" | jq '.items += '["$config_files_dir_entry"]' ')"
-	local manifest_content="$(echo "$manifest_content" | jq '.items += '"$additional_files_array"' ')"
+# add an item to the manifest
+function update_manifest {
+	local new_items="$1"
+	local manifest_content="$(jq . "$MANIFEST_OUT_FILE" | jq '.items += '"$new_items"' ')"
 	echo "$manifest_content" > "$MANIFEST_OUT_FILE"
 }
 
@@ -148,12 +141,50 @@ function backup_manifest {
 	echo "$manifest_content" | jq . > "$MANIFEST_OUT_FILE"
 }
 
+# backup current sysctl config
+function backup_sysctl_config {
+	# get the temp config data
+	ensure_out_file_dir "$TEMP_CONFIG_OUT_FILE"
+	sudo sysctl -a > $TEMP_CONFIG_OUT_FILE
+	# prep the manifest entries
+	local temp_config_entry='[{"type": "temp_config", "value": "'"$(basename "$TEMP_CONFIG_OUT_FILE")"'"}]'
+	update_manifest "$temp_config_entry"
+}
+
+# backup current sysctl config files
+function backup_sysctl_config_files {
+	# get the config files data
+	ensure_out_file_dir "$(echo "$CONFIG_FILES_OUT_DIR" | sed 's/.$//g')"
+	sudo cp -r "/etc/sysctl.d" "$CONFIG_FILES_OUT_DIR"
+	# prep the manifest entries
+	local config_files_out_dir_name="$(basename "$CONFIG_FILES_OUT_DIR")"
+	local config_files_dir_entry='[{"type": "sysctl_d_config_directory", "value": "'$config_files_out_dir_name'"}]'
+	local additional_files_array="$(ls "$CONFIG_FILES_OUT_DIR" | jq -R . | jq '. | {"type": "config", "value": ("'$config_files_out_dir_name'/" + .|tostring)}' | jq -s . )"
+	update_manifest "$config_files_dir_entry"
+	update_manifest "$additional_files_array"
+}
+
+# backup current ulimit settings
+function backup_ulimit_settings {
+	# get the temp config data
+	ensure_out_file_dir "$ULIMIT_CONFIG_OUT_FILE"
+	local open_file_count_limit="$(ulimit -n)"
+	local process_limit="$(ulimit -u)"
+	# prep the config content
+	config_content='{"process-limit": "'$process_limit'", "open-file-count-limit": "'$open_file_count_limit'"}'
+	echo "$config_content" | jq . > "$ULIMIT_CONFIG_OUT_FILE"
+	# prep the manifest entry
+	local ulimit_entry='[{"type": "ulimit_config", "value": "'"$(basename "$ULIMIT_CONFIG_OUT_FILE")"'"}]'
+	update_manifest "$ulimit_entry"
+}
+
 # backup everything that is needed
 function backup {
 	# get the backup data
 	backup_manifest
 	backup_sysctl_config
 	backup_sysctl_config_files
+	backup_ulimit_settings
 	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")"
 	# create the archive
 	local extra_args="czf"
@@ -206,6 +237,11 @@ function ensure_backup {
 		echo "no valid archive file" >&2
 		exit 1
 	fi
+	# exit if dry run
+	if [ "$DRY_RUN" == true ]; then
+		echo "would attempt to restore from $RESTORE_ARCHIVE_FILE"
+		exit 0
+	fi
 	# extract the backup
 	local extra_args="xf"
 	if (($VERBOSITY > 1)); then
@@ -252,6 +288,17 @@ function get_backup_location {
 	fi
 }
 
+# restore the temp config
+function restore_config_backup {
+	local config_backup_location="$1"
+	# retsore the content
+	if (($VERBOSITY > 2)); then
+		sudo sysctl -p "$config_backup_location"
+	else
+		sudo sysctl -p "$config_backup_location" 2>&1 > /dev/null
+	fi
+}
+
 # restore the config files
 function restore_files_backup {
 	local files_backup_location="$1"
@@ -284,15 +331,15 @@ function restore_files_backup {
 	fi
 }
 
-# restore the temp config
-function restore_config_backup {
+# backup current ulimit settings
+function restore_ulimit_settings_backup {
 	local config_backup_location="$1"
-	# retsore the content
-	if (($VERBOSITY > 2)); then
-		sudo sysctl -p "$config_backup_location"
-	else
-		sudo sysctl -p "$config_backup_location" 2>&1 > /dev/null
-	fi
+	local open_file_count_limit="$(jq -r '."open-file-count-limit"' "$config_backup_location")"
+	local process_limit="$(jq -r '."process-limit"' "$config_backup_location")"
+	(($VERBOSITY > 0)) && echo "restoring open file count limit to $open_file_count_limit"
+	(($VERBOSITY > 0)) && echo "restoring process limit to $process_limit"
+	ulimit -n $open_file_count_limit
+	ulimit -u $process_limit
 }
 
 # restore backup
@@ -300,6 +347,7 @@ function restore_backup {
 	ensure_backup
 	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
 	local config_backup_location="$(get_backup_location "temp_config")"
+	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
 
 	# files has to be first because it will require a reload of values once it comes back up
 	if [ ! -z "$files_backup_location" ]; then
@@ -313,8 +361,15 @@ function restore_backup {
 		# TODO: interactive confirm?
 		restore_config_backup "$config_backup_location"
 	fi
+
+	if [ ! -z "$config_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "starting ulimit restore"
+		# TODO: interactive confirm?
+		restore_ulimit_settings_backup "$ulimit_backup_location"
+	fi
 }
 
+# opens an archive file with the --open-command
 function open_file {
 	if [ "$OPEN_FILE" == "latest" ]; then
 		OPEN_FILE=$(list_backups | tail -n 1 | sed 's#.* - ##g')
@@ -330,16 +385,47 @@ function open_file {
 	exit 0
 }
 
+# sets a sysctl d setting
 function set_sysctl_d_setting {
 	local setting_name="$1"
 	local setting_value="$2"
-
-	(($VERBOSITY > 0)) && echo "updating vm.max_map_count to $TARGET_VM_MAX_MAP_COUNT"
+	local update_content="$setting_name=$setting_value"
+	(($VERBOSITY > 0)) && echo "updating $setting_name to $setting_value"
 	if [ $PERSIST = true ]; then
-		local file_name="$(echo "$setting_name" | sed 's/./-/g').conf"
-		echo "$setting_name=$setting_value" | sudo tee -a /etc/sysctl.d/$file_name
+		local file_name="/etc/sysctl.d/$(echo "$setting_name" | sed 's/\./-/g').conf"
+		if [ "$DRY_RUN" == true ]; then
+			echo "Would be writing $update_content to $file_name"
+		else
+			echo "$update_content" | sudo tee -a $file_name
+		fi
 	else
-		sudo sysctl -w $setting_name=$setting_value
+		if [ "$DRY_RUN" == true ]; then
+			echo "Would be running \`sudo sysctl -w $update_content\`"
+		else
+			sudo sysctl -w $update_content
+		fi
+	fi
+}
+
+# sets a ulimit setting
+function set_ulimit_setting {
+	local setting_flag="$1"
+	local setting_value="$2"
+	local command="ulimit -$setting_flag $setting_value"
+	(($VERBOSITY > 0)) && echo "updating ulimit -$setting_flag to $setting_value"
+	if [ "$DRY_RUN" == true ]; then
+		echo "Would have run \`$command\`"
+	else
+		eval "$command"
+	fi
+}
+
+# reloads the system configuration
+function reload_configuration {
+	if [ "$DRY_RUN" == true ]; then
+		echo "would be reloading updated configuration"
+	else
+		sudo sysctl --load --system
 	fi
 }
 
@@ -399,6 +485,11 @@ while (("$#")); do
 		SHOULD_CLEAN=true
 		shift
 		;;
+	# dry-run, optional argument
+	-d | --dry-run)
+		DRY_RUN=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -445,22 +536,19 @@ done
 backup
 [ $BACKUP_ONLY == true ] && exit 0
 
-# raise the max map count for ECK to run without OOM errors
-# allows each processe to take more memory maps
+# Needed by ECK for OOM errors
+# raise the max memory map count per process
 set_sysctl_d_setting "vm.max_map_count" "$TARGET_VM_MAX_MAP_COUNT"
 
 # Needed by Sonarqube
 # Sets the max file handles that Linux will allocate
 set_sysctl_d_setting "fs.file-max" "$TARGET_FS_FILE_MAX"
-
-# Also Needed by Sonarqube
 # Raise the open file count limit
-# ulimit -n 131072
+set_ulimit_setting "n" "$TARGET_OPEN_FILE_COUNT_LIMIT"
 # Raise the process limit
-# ulimit -u 8192
+set_ulimit_setting "u" "$TARGET_PROCESS_LIMIT"
 
-# Load updated configuration
-# sudo sysctl --load --system
+reload_configuration
 
 # Preload kernel modules, required by istio-init running on SELinux enforcing instances
 # sudo modprobe xt_REDIRECT
