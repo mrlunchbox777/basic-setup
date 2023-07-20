@@ -12,6 +12,7 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 BACKUP_ONLY=false
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
 DRY_RUN=false
+HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 >/dev/null; echo $?) == 0 )) && echo true || echo false )"
 OPEN_FILE=""
 PERSIST=false
 RESTORE_ARCHIVE_FILE=""
@@ -131,6 +132,15 @@ function get_active_swap_devices {
 	swapon -s | awk '{print $1}' | tail -n +2
 }
 
+# get systemctl swap devices
+function get_systemctl_swap_devices {
+	if [ "$HAS_SYSTEMCTL" == true ]; then
+		systemctl --type swap | tail -n +2 | awk '{print $1}' | awk -v 'RS=\n\n' '1;{exit}'
+	else
+		echo
+	fi
+}
+
 # add an item to the manifest
 function update_manifest {
 	local new_items="$1"
@@ -206,7 +216,18 @@ function backup_swap_settings {
 	# get the modules data
 	ensure_out_file_dir "$SWAP_SETTINGS_OUT_FILE"
 	local swap_array="$(get_active_swap_devices | jq -R . | jq -s .)"
-	echo '{"active_swap_devices": '"$swap_array"'}' | jq . > "$SWAP_SETTINGS_OUT_FILE"
+	if [ "$HAS_SYSTEMCTL" == true ]; then
+		local swap_systemctl_devices="$(get_systemctl_swap_devices | jq -R . | jq -s .)"
+	fi
+	swap_backup_content="$(
+		cat <<- EOF
+			{
+				$( [ "$HAS_SYSTEMCTL" == true ] && echo '"systemctl_swap_devices": '"$swap_systemctl_devices"',' || echo "")
+				"active_swap_devices": $swap_array
+			}
+		EOF
+	)"
+	echo "$swap_backup_content" | jq . > "$SWAP_SETTINGS_OUT_FILE"
 	sudo cp /etc/fstab "$SWAP_FSTAB_OUT_FILE"
 	local swap_files_entry='[{"type": "swap_fstab_file", "value": "'"$(basename "$SWAP_FSTAB_OUT_FILE")"'"}]'
 	local swap_entry='[{"type": "swap_devices_file", "value": "'"$(basename "$SWAP_SETTINGS_OUT_FILE")"'"}]'
@@ -419,6 +440,9 @@ function restore_swap_settings_backup {
 	local swap_devices_backup_location="$1"
 	local swap_fstab_backup_location="$2"
 	local swap_devices="$(jq -r '.active_swap_devices[]' "$swap_devices_backup_location")"
+	if [ "$HAS_SYSTEMCTL" == true ]; then
+		local swap_systemctl_devices="$(jq -r '.systemctl_swap_devices[]' "$swap_devices_backup_location")"
+	fi
 	for i in $swap_devices; do
 		(($VERBOSITY > 0)) && echo "restoring swap device $i"
 		if [[ "$(get_active_swap_devices)" =~ $i ]]; then
@@ -427,6 +451,26 @@ function restore_swap_settings_backup {
 			sudo swapon "$i"
 		fi
 	done
+	if [ ! -z "$swap_fstab_backup_location" ] && [ -f "$swap_fstab_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "restoring /etc/fstab"
+		sudo mv -f "$swap_fstab_backup_location" /etc/fstab
+	fi
+	if [ "$HAS_SYSTEMCTL" == true ]; then
+		local masked_devices="$(systemctl list-unit-files status=masked)"
+		for i in $swap_systemctl_devices; do
+			(($VERBOSITY > 0)) && echo "restoring swap systemctl device $i"
+			if [[ "$(get_systemctl_swap_devices)" =~ $i ]]; then
+				(($VERBOSITY > 0)) && echo "systemctl swap device $i already active"
+			else
+				if [[ "$masked_devices" =~ $i ]]; then
+					(($VERBOSITY > 1)) && echo "unmasking systemctl swap device $i"
+					systemctl unmask $i
+				else
+					(($VERBOSITY > 0)) && echo "systemctl swap device $i not masked"
+				fi
+			fi
+		done
+	fi
 	if [ ! -z "$swap_fstab_backup_location" ] && [ -f "$swap_fstab_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "restoring /etc/fstab"
 		sudo mv -f "$swap_fstab_backup_location" /etc/fstab
@@ -560,6 +604,10 @@ function set_modules {
 # turn off swap devices
 function set_swap_devices_off {
 	local new_fstab_content=$(cat /etc/fstab | sed 's!\(.* swap .*\)!# \1!g')
+	local systemctl_devices=""
+	if [ "$HAS_SYSTEMCTL" == true ]; then
+		local systemctl_devices="$(get_systemctl_swap_devices)"
+	fi
 	if [ "$DRY_RUN" == true ]; then
 		(($VERBOSITY > 0)) && echo "Would have run sudo swapoff -a"
 		if [ "$PERSIST" == true ]; then
@@ -569,12 +617,17 @@ function set_swap_devices_off {
 				echo "--"
 				echo "$new_fstab_content"
 				echo "--"
-				echo
+				for i in $systemctl_devices; do
+					echo "Would have run sudo systemctl mask $i"
+				done
 			fi
 		fi
 	else
 		sudo swapoff -a
 		echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
+		for i in $systemctl_devices; do
+			sudo systemctl mask $i
+		done
 	fi
 }
 
