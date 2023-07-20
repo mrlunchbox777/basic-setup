@@ -46,7 +46,6 @@ ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
 MODULE_SETTINGS_OUT_FILE="${OUT_DIR}modules-backup"
 SWAP_SETTINGS_OUT_FILE="${OUT_DIR}swap-settings.json"
 SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
-# SWAP_SWAPS_OUT_FILE="${OUT_DIR}swap-swaps-backup"
 RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
 MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
 
@@ -209,16 +208,7 @@ function backup_swap_settings {
 	local swap_array="$(get_active_swap_devices | jq -R . | jq -s .)"
 	echo '{"active_swap_devices": '"$swap_array"'}' | jq . > "$SWAP_SETTINGS_OUT_FILE"
 	sudo cp /etc/fstab "$SWAP_FSTAB_OUT_FILE"
-	# sudo cp /proc/swaps "$SWAP_SWAPS_OUT_FILE"
-	# prep the manifest entries
-	local swap_files_entry="$(
-		cat <<- EOF
-			[
-				{"type": "swap_fstab_file", "value": "$(basename "$SWAP_FSTAB_OUT_FILE")"}
-			]
-		EOF
-	)"
-	# {"type": "swap_swaps_file", "value": "$(basename "$SWAP_SWAPS_OUT_FILE")"},
+	local swap_files_entry='[{"type": "swap_fstab_file", "value": "'"$(basename "$SWAP_FSTAB_OUT_FILE")"'"}]'
 	local swap_entry='[{"type": "swap_devices_file", "value": "'"$(basename "$SWAP_SETTINGS_OUT_FILE")"'"}]'
 	update_manifest "$(echo "$swap_files_entry" | jq .)"
 	update_manifest "$(echo "$swap_entry" | jq .)"
@@ -428,7 +418,6 @@ function restore_module_settings_backup {
 function restore_swap_settings_backup {
 	local swap_devices_backup_location="$1"
 	local swap_fstab_backup_location="$2"
-	# local swap_swaps_backup_location="$3"
 	local swap_devices="$(jq -r '.active_swap_devices[]' "$swap_devices_backup_location")"
 	for i in $swap_devices; do
 		(($VERBOSITY > 0)) && echo "restoring swap device $i"
@@ -442,10 +431,6 @@ function restore_swap_settings_backup {
 		(($VERBOSITY > 0)) && echo "restoring /etc/fstab"
 		sudo mv -f "$swap_fstab_backup_location" /etc/fstab
 	fi
-	# if [ ! -z "$swap_swaps_backup_location" ] && [ -f "$swap_swaps_backup_location" ]; then
-	# 	(($VERBOSITY > 0)) && echo "restoring /proc/swaps"
-	# 	sudo mv -f "$swap_swaps_backup_location" /proc/swaps
-	# fi
 }
 
 # restore backup
@@ -480,10 +465,8 @@ function restore_backup {
 
 	local swap_backup_location="$(get_backup_location "swap_devices_file")"
 	local swap_fstab_backup_location="$(get_backup_location "swap_fstab_file")"
-	# local swap_swaps_backup_location="$(get_backup_location "swap_swaps_file")"
 	if [ ! -z "$swap_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting swap devices and files restore"
-		# restore_swap_settings_backup "$swap_backup_location" "$swap_fstab_backup_location" "$swap_swaps_backup_location"
 		restore_swap_settings_backup "$swap_backup_location" "$swap_fstab_backup_location"
 	fi
 }
@@ -577,7 +560,6 @@ function set_modules {
 # turn off swap devices
 function set_swap_devices_off {
 	local new_fstab_content=$(cat /etc/fstab | sed 's!\(.* swap .*\)!# \1!g')
-	# local new_swaps_content=$(cat /proc/swaps | head -n 1)
 	if [ "$DRY_RUN" == true ]; then
 		(($VERBOSITY > 0)) && echo "Would have run sudo swapoff -a"
 		if [ "$PERSIST" == true ]; then
@@ -588,18 +570,11 @@ function set_swap_devices_off {
 				echo "$new_fstab_content"
 				echo "--"
 				echo
-				# echo "Would have modified /proc/swaps to the following:"
-				# echo "--"
-				# echo "$new_swaps_content"
-				# echo "--"
-				# echo
 			fi
 		fi
 	else
 		sudo swapoff -a
 		echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
-		# sudo rm -f /proc/swaps
-		# echo "$new_swaps_content" | sudo tee /proc/swaps >/dev/null
 	fi
 }
 
