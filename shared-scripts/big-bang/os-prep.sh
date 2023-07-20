@@ -18,11 +18,19 @@ RESTORE_ARCHIVE_FILE=""
 SHOULD_CLEAN=false
 SHOULD_LIST=false
 SHOW_HELP=false
-TARGET_VM_MAX_MAP_COUNT=524288
 TARGET_FS_FILE_MAX=131072
 TARGET_OPEN_FILE_COUNT_LIMIT=131072
 TARGET_PROCESS_LIMIT=8192
+TARGET_VM_MAX_MAP_COUNT=524288
 VERBOSITY=0
+
+TARGET_MODULUES=(
+	"br_netfilter" # suze docs - https://www.suse.com/support/kb/doc/?id=000020241
+	"nf_nat_redirect" # suze docs
+	"xt_REDIRECT" # both
+	"xt_owner" # both
+	"xt_statistic" # big bang docs - https://github.com/DoD-Platform-One/big-bang/blob/master/docs/guides/deployment-scenarios/quickstart.md#step-4-configure-host-operating-system-prerequisites
+)
 
 #
 # computed values (often can't be alphabetical)
@@ -35,11 +43,9 @@ MANIFEST_OUT_FILE="${OUT_DIR}manifest.json"
 TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
 CONFIG_FILES_OUT_DIR="${OUT_DIR}sysctl-d-backup/"
 ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
+MODULE_SETTINGS_OUT_FILE="${OUT_DIR}modules-backup"
 RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
 MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
-TEMP_CONFIG_RESTORE_FILE="${RESTORE_DIR}sysctl-config-backup.conf"
-FILES_RESTORE_DIR="${RESTORE_DIR}sysctl-d-backup/"
-ULIMIT_CONFIG_RESTORE_FILE="${RESTORE_DIR}ulimit-config-backup.json"
 
 #
 # helper functions
@@ -166,7 +172,7 @@ function backup_sysctl_config_files {
 
 # backup current ulimit settings
 function backup_ulimit_settings {
-	# get the temp config data
+	# get the ulimit data
 	ensure_out_file_dir "$ULIMIT_CONFIG_OUT_FILE"
 	local open_file_count_limit="$(ulimit -n)"
 	local process_limit="$(ulimit -u)"
@@ -178,6 +184,16 @@ function backup_ulimit_settings {
 	update_manifest "$ulimit_entry"
 }
 
+# backup current module settings
+function backup_module_settings {
+	# get the modules data
+	ensure_out_file_dir "$MODULE_SETTINGS_OUT_FILE"
+	sudo cp "/etc/modules" "$MODULE_SETTINGS_OUT_FILE"
+	# prep the manifest entry
+	local modules_entry='[{"type": "modules_file", "value": "'"$(basename "$MODULE_SETTINGS_OUT_FILE")"'"}]'
+	update_manifest "$modules_entry"
+}
+
 # backup everything that is needed
 function backup {
 	# get the backup data
@@ -185,6 +201,7 @@ function backup {
 	backup_sysctl_config
 	backup_sysctl_config_files
 	backup_ulimit_settings
+	backup_module_settings
 	(($VERBOSITY > 2)) && echo "manifest file - $(cat "$MANIFEST_OUT_FILE")"
 	# create the archive
 	local extra_args="czf"
@@ -312,8 +329,7 @@ function restore_files_backup {
 		sudo cp $extra_args -r "$files_backup_location" /etc/sysctl.d/
 		# clean up the old dir if we didn't error out (we should have a back up)
 		sudo rm $extra_args -rf /etc/sysctl.d.old/
-		# Load the restored configs
-		sudo sysctl --load --system
+		reload_configuration
 	} || {
 		ERR=$?
 		(($VERBOSITY > 0)) && echo "errored during restore_files backup, attempting to revert"
@@ -326,7 +342,7 @@ function restore_files_backup {
 		fi
 	}
 	if [ ! -z "$ERR" ]; then
-		echo "error - $ERR" >&2
+		echo "error restoring /etc/sysctl.d files - $ERR" >&2
 		exit 1
 	fi
 }
@@ -342,30 +358,68 @@ function restore_ulimit_settings_backup {
 	ulimit -u $process_limit
 }
 
+# restore the modules file
+function restore_module_settings_backup {
+	local module_backup_location="$1"
+	(($VERBOSITY > 0)) && echo "restoring the modules file to /etc/modules"
+	if (($VERBOSITY > 0)); then
+		local extra_args="-v"
+	fi
+	ERR=""
+	{
+		# clean the modules directory
+		sudo mv $extra_args -f /etc/modules /etc/modules.old
+		sudo cp $extra_args "$module_backup_location" /etc/modules
+		if [[ "$(cat /etc/modules.old)" != "$(cat /etc/modules)" ]]; then
+			echo "modules modified, please restart..."
+		fi
+		# clean up the old dir if we didn't error out (we should have a back up)
+		sudo rm $extra_args -f /etc/modules.old
+	} || {
+		ERR=$?
+		echo "modules may modified, please restart..."
+		(($VERBOSITY > 0)) && echo "errored during restore modules settings backup, attempting to revert"
+		if [ -d "/etc/modules.old" ]; then
+			sudo rm $extra_args -f /etc/modules
+			sudo mv $extra_args -f /etc/modules.old /etc/modules
+			(($VERBOSITY > 0)) && echo "reverted"
+		else
+			(($VERBOSITY > 0)) && echo "failed to revert"
+		fi
+	}
+	if [ ! -z "$ERR" ]; then
+		echo "error restoring /etc/modules file - $ERR" >&2
+		exit 1
+	fi
+}
+
 # restore backup
 function restore_backup {
 	ensure_backup
 	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
 	local config_backup_location="$(get_backup_location "temp_config")"
 	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
+	local module_backup_location="$(get_backup_location "modules_file")"
 
-	# files has to be first because it will require a reload of values once it comes back up
+	# TODO: interactive confirms?
 	if [ ! -z "$files_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting file restore"
-		# TODO: interactive confirm?
 		restore_files_backup "$files_backup_location"
 	fi
 
 	if [ ! -z "$config_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting config restore"
-		# TODO: interactive confirm?
 		restore_config_backup "$config_backup_location"
 	fi
 
-	if [ ! -z "$config_backup_location" ]; then
+	if [ ! -z "$ulimit_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting ulimit restore"
-		# TODO: interactive confirm?
 		restore_ulimit_settings_backup "$ulimit_backup_location"
+	fi
+
+	if [ ! -z "$ulimit_backup_location" ]; then
+		(($VERBOSITY > 0)) && echo "starting module restore"
+		restore_module_settings_backup "$module_backup_location"
 	fi
 }
 
@@ -396,7 +450,8 @@ function set_sysctl_d_setting {
 		if [ "$DRY_RUN" == true ]; then
 			echo "Would be writing $update_content to $file_name"
 		else
-			echo "$update_content" | sudo tee -a $file_name
+			# overwrite rather than append if it's for specific settings
+			echo "$update_content" | sudo tee $file_name
 		fi
 	else
 		if [ "$DRY_RUN" == true ]; then
@@ -426,6 +481,30 @@ function reload_configuration {
 		echo "would be reloading updated configuration"
 	else
 		sudo sysctl --load --system
+	fi
+}
+
+function set_modules {
+	# Test if we are using SELinux
+	if (( $(command -v getenforce 2>&1 > /dev/null; echo $?) == 0 )); then
+		for i in "${TARGET_MODULUES[@]}"; do
+			# Test if the module is already loaded
+			if (( $(lsmod | grep "^$i\s*" 2>&1 >/dev/null; echo ?) == 0)); then
+				(($VERBOSITY > 0)) && echo "module already in \`lsmod\`"
+			else
+				sudo modprobe $i
+			fi
+			if [ "$PERSIST" == true ]; then
+				# Test if the module is already in /etc/modules
+				if (( $(grep $i /etc/modules 2>&1 >/dev/null; echo ?) == 0)); then
+					(($VERBOSITY > 0)) && echo "module already in /etc/modules"
+				else
+					echo "$i" | sudo tee -a /etc/modules
+				fi
+			fi
+		done
+	else
+		(($VERBOSITY > 0)) && echo "SELinux not found, skipping module modifications"
 	fi
 }
 
@@ -550,13 +629,9 @@ set_ulimit_setting "u" "$TARGET_PROCESS_LIMIT"
 
 reload_configuration
 
-# Preload kernel modules, required by istio-init running on SELinux enforcing instances
-# sudo modprobe xt_REDIRECT
-# sudo modprobe xt_owner
-# sudo modprobe xt_statistic
-
-# Persist kernel modules settings after reboots
-# printf "xt_REDIRECT\nxt_owner\nxt_statistic\n" | sudo tee -a /etc/modules
+# Need by Istio if using SELinux
+# Preload kernel modules
+set_modules
 
 # Kubernetes requires swap disabled
 # Turn off all swap devices and files (won't last reboot)
