@@ -135,9 +135,21 @@ function get_active_swap_devices {
 # get systemctl swap devices
 function get_systemctl_swap_devices {
 	if [ "$HAS_SYSTEMCTL" == true ]; then
-		systemctl --type swap | tail -n +2 | awk '{print $1}' | awk -v 'RS=\n\n' '1;{exit}'
+		local target_state="$1"
+		if [ ! -z "$target_state" ]; then
+			local target_state="--state=$target_state"
+		fi
+		local systemctl_output="$(systemctl --type=swap $target_state | tail -n +2)"
+		# skip if no swap units loaded
+		if (( $(echo "$systemctl_output" | grep "^\s*0" 2>&1 >/dev/null; echo $?) == 0 )); then
+			return 0
+		fi
+		# get only the lines that have units
+		local list_of_swap_devices="$(echo "$systemctl_output" | awk -v 'RS=\n\n' '1;{exit}')"
+		# remove characters until the first alpha character, then print the first item (unit name)
+		echo "$list_of_swap_devices" | sed 's/^[^[:alpha:]]//' | awk '{print $1}'
 	else
-		echo
+		return 0
 	fi
 }
 
@@ -456,15 +468,15 @@ function restore_swap_settings_backup {
 		sudo mv -f "$swap_fstab_backup_location" /etc/fstab
 	fi
 	if [ "$HAS_SYSTEMCTL" == true ]; then
-		local masked_devices="$(systemctl list-unit-files status=masked)"
+		local masked_devices="$(get_systemctl_swap_devices "masked")"
 		for i in $swap_systemctl_devices; do
 			(($VERBOSITY > 0)) && echo "restoring swap systemctl device $i"
-			if [[ "$(get_systemctl_swap_devices)" =~ $i ]]; then
+			if [[ "$(get_systemctl_swap_devices "loaded")" =~ $i ]]; then
 				(($VERBOSITY > 0)) && echo "systemctl swap device $i already active"
 			else
 				if [[ "$masked_devices" =~ $i ]]; then
 					(($VERBOSITY > 1)) && echo "unmasking systemctl swap device $i"
-					systemctl unmask $i
+					sudo systemctl unmask $i
 				else
 					(($VERBOSITY > 0)) && echo "systemctl swap device $i not masked"
 				fi
