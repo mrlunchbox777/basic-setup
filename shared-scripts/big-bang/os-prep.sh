@@ -12,6 +12,7 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 BACKUP_ONLY=false
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
 DRY_RUN=false
+FORCE=false
 HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 >/dev/null; echo $?) == 0 )) && echo true || echo false )"
 OPEN_FILE=""
 PERSIST=false
@@ -64,6 +65,7 @@ function help {
 		-b|--backup-only - (flag, default: false) Exit after backup.
 		-c|--clean       - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
 		-d|--dry-run     - (flag, default: false) Writes out deletes and updates, still creates (not restores) backups.
+		-f|--force       - (flag, default: false) Skip all confirmations.
 		-h|--help        - (flag, default: false) Print this help message and exit.
 		-l|--list        - (flag, default: false) Print the possible restore points and exit.
 		-o|--open        - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
@@ -102,7 +104,6 @@ function ensure_out_file_dir {
 
 # delete the backups
 function clean_backups {
-	# TODO: confirm?
 	if [ ! -d "$BASE_OUT_DIR" ]; then
 		(($VERBOSITY > 0)) && echo "no backup folder found, exiting..."
 		exit 0
@@ -112,13 +113,18 @@ function clean_backups {
 		local extra_args="-v"
 	fi
 	if (( $(ls $BASE_OUT_DIR | wc -l) > 0 )); then
-		(($VERBOSITY > 0)) && echo "found files, cleaning..."
-		if [ "$DRY_RUN" == true ]; then
+		if (($VERBOSITY > 0)); then
+			echo "found files, cleaning..."
 			echo "would remove the following:"
 			echo "$BASE_OUT_DIR"
 			general-ls-recursive "$BASE_OUT_DIR"
+		fi
+		if [ "$DRY_RUN" == true ]; then
+			exit 0
 		else
-			sudo rm $extra_args -rf $BASE_OUT_DIR
+			if [ "$FORCE" == true ] || [ "$(general-interactive-confirm)" == true ]; then
+				sudo rm $extra_args -rf $BASE_OUT_DIR
+			fi
 		fi
 		exit 0
 	else
@@ -308,9 +314,9 @@ function ensure_backup {
 		echo "no valid archive file" >&2
 		exit 1
 	fi
-	# exit if dry run
-	if [ "$DRY_RUN" == true ]; then
-		echo "would attempt to restore from $RESTORE_ARCHIVE_FILE"
+	(($VERBOSITY > 0)) && echo "would attempt to restore from $RESTORE_ARCHIVE_FILE"
+	if [ "$(general-interactive-confirm)" == false ]; then
+		(($VERBOSITY > 0)) && echo "no restore archive, exiting..."
 		exit 0
 	fi
 	# extract the backup
@@ -354,7 +360,7 @@ function get_backup_location {
 			jq empty $backup_location
 			exit 1
 		fi
-		# TODO: maybe find a way to validate the temp_config and config_files backups
+		# TODO: validate other file types that will be in there (.config, fstab, modules)
 		echo "$backup_location"
 	fi
 }
@@ -362,6 +368,11 @@ function get_backup_location {
 # restore the temp config
 function restore_config_backup {
 	local config_backup_location="$1"
+	(($VERBOSITY > 0)) && echo "this will run 'sysctl -p' with '$files_backup_location'"
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping 'sysctl -p' restore..."
+		return 0
+	fi
 	# retsore the content
 	if (($VERBOSITY > 2)); then
 		sudo sysctl -p "$config_backup_location"
@@ -375,6 +386,11 @@ function restore_files_backup {
 	local files_backup_location="$1"
 	if (($VERBOSITY > 0)); then
 		local extra_args="-v"
+		echo "this would replace '/etc/sysctl.d/' with '$files_backup_location'"
+	fi
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping '/etc/sysctl.d/' restore..."
+		return 0
 	fi
 	ERR=""
 	{
@@ -491,9 +507,7 @@ function restore_swap_settings_backup {
 
 # restore backup
 function restore_backup {
-	# TODO: maybe we let it extract during a dry run and then go through each step and dry run those
 	ensure_backup
-	# TODO: interactive confirms?
 
 	local files_backup_location="$(get_backup_location "sysctl_d_config_directory")"
 	if [ ! -z "$files_backup_location" ]; then
@@ -505,6 +519,13 @@ function restore_backup {
 	if [ ! -z "$config_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting config restore"
 		restore_config_backup "$config_backup_location"
+	fi
+
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm "Continue past confirmation WIP (y/n)?")" == false ]; }; then
+		# TODO: go through each step and dry run those
+		# TODO: interactive confirms?
+		echo "Stopping at WIP... exiting"
+		exit 0
 	fi
 
 	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
@@ -689,19 +710,24 @@ while (("$#")); do
 			shift 1
 		fi
 		;;
-	# config out file, optional argument
+	# backup flag
 	-b | --backup-only)
 		BACKUP_ONLY=true
 		shift
 		;;
-	# config out file, optional argument
+	# clean flag
 	-c | --clean)
 		SHOULD_CLEAN=true
 		shift
 		;;
-	# dry-run, optional argument
+	# dry-run flag
 	-d | --dry-run)
 		DRY_RUN=true
+		shift
+		;;
+	# force flag
+	-f | --force)
+		FORCE=true
 		shift
 		;;
 	# help flag
@@ -724,7 +750,7 @@ while (("$#")); do
 		((VERBOSITY+=1))
 		shift
 		;;
-	# unsupported flags
+	# unsupported flags and arguments
 	-* | --*=)
 		echo "Error: Unsupported flag $1" >&2
 		help
@@ -749,6 +775,13 @@ done
 
 backup
 [ $BACKUP_ONLY == true ] && exit 0
+
+if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm "Continue past confirmation WIP (y/n)?")" == false ]; }; then
+	# TODO: go through each step and dry run those
+	# TODO: interactive confirms?
+	echo "Stopping at WIP... exiting"
+	exit 0
+fi
 
 # Needed by ECK for OOM errors
 # raise the max memory map count per process
