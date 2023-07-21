@@ -3,7 +3,7 @@
 basic_setup_shared_scripts_dir=$(general-get-shared-scripts-dir)
 
 if [ "${#1}" != "1" ]; then
-	echo "Only One character is allowed when running run-write-a-cheatsheet" >&2
+	echo "Only One character is allowed when running cheatsheet-write-a-cheatsheet" >&2
 	exit 1
 fi
 
