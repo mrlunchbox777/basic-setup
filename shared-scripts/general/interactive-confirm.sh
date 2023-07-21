@@ -9,6 +9,6 @@ while true; do
 	case $response in
 		[Yy]* ) echo true; break;;
 		[Nn]* ) echo false; break;;
-		* ) echo "Please answer yes or no.";;
+		* ) echo "Please answer yes or no." 1>&2;;
 	esac
 done

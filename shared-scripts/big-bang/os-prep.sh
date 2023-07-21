@@ -368,7 +368,7 @@ function get_backup_location {
 # restore the temp config
 function restore_config_backup {
 	local config_backup_location="$1"
-	(($VERBOSITY > 0)) && echo "this will run 'sysctl -p' with '$files_backup_location'"
+	(($VERBOSITY > 0)) && echo "this will run 'sysctl -p' with '$config_backup_location'"
 	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
 		(($VERBOSITY > 0)) && echo "skipping 'sysctl -p' restore..."
 		return 0
@@ -422,8 +422,14 @@ function restore_ulimit_settings_backup {
 	local config_backup_location="$1"
 	local open_file_count_limit="$(jq -r '."open-file-count-limit"' "$config_backup_location")"
 	local process_limit="$(jq -r '."process-limit"' "$config_backup_location")"
-	(($VERBOSITY > 0)) && echo "restoring open file count limit to $open_file_count_limit"
-	(($VERBOSITY > 0)) && echo "restoring process limit to $process_limit"
+	if (($VERBOSITY > 0)); then
+		echo "this would restore open file count limit to $open_file_count_limit"
+		echo "and restore process limit to $process_limit"
+	fi
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping ulimit restores..."
+		return 0
+	fi
 	ulimit -n $open_file_count_limit
 	ulimit -u $process_limit
 }
@@ -431,9 +437,13 @@ function restore_ulimit_settings_backup {
 # restore the modules file
 function restore_module_settings_backup {
 	local module_backup_location="$1"
-	(($VERBOSITY > 0)) && echo "restoring the modules file to /etc/modules"
+	(($VERBOSITY > 0)) && echo "this would replace '/etc/modules' with $module_backup_location"
 	if (($VERBOSITY > 0)); then
 		local extra_args="-v"
+	fi
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the modules file restore..."
+		return 0
 	fi
 	ERR=""
 	{
@@ -470,6 +480,15 @@ function restore_swap_settings_backup {
 	local swap_devices="$(jq -r '.active_swap_devices[]' "$swap_devices_backup_location")"
 	if [ "$HAS_SYSTEMCTL" == true ]; then
 		local swap_systemctl_devices="$(jq -r '.systemctl_swap_devices[]' "$swap_devices_backup_location")"
+	fi
+	if (($VERBOSITY > 0)); then
+		echo "this would restore the swap devices - $(echo $swap_devices | sed 's/\n/\, /g')"
+		echo "and replace 'etc/fstab' with $swap_fstab_backup_location"
+		[ ! -z "$swap_systemctl_devices" ] && echo "and unmask the systemctl managed swap devices - $(echo $swap_systemctl_devices | sed 's/\n/\, /g')"
+	fi
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the swap settings restore..."
+		return 0
 	fi
 	for i in $swap_devices; do
 		(($VERBOSITY > 0)) && echo "restoring swap device $i"
@@ -519,13 +538,6 @@ function restore_backup {
 	if [ ! -z "$config_backup_location" ]; then
 		(($VERBOSITY > 0)) && echo "starting config restore"
 		restore_config_backup "$config_backup_location"
-	fi
-
-	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm "Continue past confirmation WIP (y/n)?")" == false ]; }; then
-		# TODO: go through each step and dry run those
-		# TODO: interactive confirms?
-		echo "Stopping at WIP... exiting"
-		exit 0
 	fi
 
 	local ulimit_backup_location="$(get_backup_location "ulimit_config")"
