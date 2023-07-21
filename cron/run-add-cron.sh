@@ -9,7 +9,7 @@ dir="$(echo "$sd" | jq -r .dir)"
 cd "$dir"
 
 [ -f ../.env ] && \
-  export $(cat ../.env | sed 's/#.*//g' | xargs)
+	export $(cat ../.env | sed 's/#.*//g' | xargs)
 
 # Should Install
 should_install_run_update_azuredatastudio=${BASICSETUPSHOULDINSTALLRUNUPDATEAZUREDATASTUDIO:-true}
@@ -49,47 +49,47 @@ run_update_k9s_dow=${BASICSETUPCRONRUNUPDATEK9SDOW:-0}
 run_update_lens_dow=${BASICSETUPCRONRUNUPDATELENSDOW:-0}
 
 run-add-cron-basic-setup() {
-  if [ -z "$1" ]; then
-    general-send-message "Empty cron... skipping"
-    return 0;
-  fi
+	if [ -z "$1" ]; then
+		general-send-message "Empty cron... skipping"
+		return 0;
+	fi
 
-  local found_cron_entry="false"
-  local file_name="$1"
-  local var_name="$(echo $file_name | sed -r 's/-/_/g')"
+	local found_cron_entry="false"
+	local file_name="$1"
+	local var_name="$(echo $file_name | sed -r 's/-/_/g')"
 
-  local check_for_run_variable_name="should_install_$(echo $var_name)"
-  if [ "${!check_for_run_variable_name}" == true ]; then
-    local cron_min_name="$(echo $var_name)_min"
-    local cron_hour_name="$(echo $var_name)_hour"
-    local cron_dom_name="$(echo $var_name)_dom"
-    local cron_month_name="$(echo $var_name)_month"
-    local cron_dow_name="$(echo $var_name)_dow"
+	local check_for_run_variable_name="should_install_$(echo $var_name)"
+	if [ "${!check_for_run_variable_name}" == true ]; then
+		local cron_min_name="$(echo $var_name)_min"
+		local cron_hour_name="$(echo $var_name)_hour"
+		local cron_dom_name="$(echo $var_name)_dom"
+		local cron_month_name="$(echo $var_name)_month"
+		local cron_dow_name="$(echo $var_name)_dow"
 
-    local cron_min="${!cron_min_name}"
-    local cron_hour="${!cron_hour_name}"
-    local cron_dom="${!cron_dom_name}"
-    local cron_month="${!cron_month_name}"
-    local cron_dow="${!cron_dow_name}"
+		local cron_min="${!cron_min_name}"
+		local cron_hour="${!cron_hour_name}"
+		local cron_dom="${!cron_dom_name}"
+		local cron_month="${!cron_month_name}"
+		local cron_dow="${!cron_dow_name}"
 
-    local cron_min="$(echo $cron_min | sed 's/^$/*/')"
-    local cron_hour="$(echo $cron_hour | sed 's/^$/*/')"
-    local cron_dom="$(echo $cron_dom | sed 's/^$/*/')"
-    local cron_month="$(echo $cron_month | sed 's/^$/*/')"
-    local cron_dow=$(echo $cron_dow | sed 's/^$/*/')""
+		local cron_min="$(echo $cron_min | sed 's/^$/*/')"
+		local cron_hour="$(echo $cron_hour | sed 's/^$/*/')"
+		local cron_dom="$(echo $cron_dom | sed 's/^$/*/')"
+		local cron_month="$(echo $cron_month | sed 's/^$/*/')"
+		local cron_dow=$(echo $cron_dow | sed 's/^$/*/')""
 
-    local cron_script_string="$cron_min $cron_hour $cron_dom $cron_month $cron_dow '$dir/jobs/$file_name.sh'"
-    crontab -l 2>/dev/null | grep -F -q "$cron_script_string" && found_cron_entry="true"
-    if [ "${found_cron_entry}" != "true" ]; then
-      echo "basic-setup-run-add-cron for '$cron_script_string'"
-      (crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'"; echo "$cron_script_string") | crontab -
-    else
-      echo "already found and skipping - $cron_script_string"
-    fi
-  else
-    echo "ensuring the script isn't in crontab, env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
-    (crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'";) | crontab -
-  fi
+		local cron_script_string="$cron_min $cron_hour $cron_dom $cron_month $cron_dow '$dir/jobs/$file_name.sh'"
+		crontab -l 2>/dev/null | grep -F -q "$cron_script_string" && found_cron_entry="true"
+		if [ "${found_cron_entry}" != "true" ]; then
+			echo "basic-setup-run-add-cron for '$cron_script_string'"
+			(crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'"; echo "$cron_script_string") | crontab -
+		else
+			echo "already found and skipping - $cron_script_string"
+		fi
+	else
+		echo "ensuring the script isn't in crontab, env set to false - "${check_for_run_variable_name}" == ${!check_for_run_variable_name}"
+		(crontab -l 2>/dev/null | grep -F -v "'$dir/jobs/$file_name.sh'";) | crontab -
+	fi
 }
 
 run-add-cron-basic-setup "run-update-azuredatastudio"
