@@ -16,23 +16,23 @@
 Run `cs all` to get everything.
 
 * alias
-  * `cs a`
+    * `cs a`
 * compilation
-  * `cs c`
+    * `cs c`
 * docker
-  * `cs d`
+    * `cs d`
 * kubernetes
-  * `cs k`
+    * `cs k`
 * metrics -- performance & telemetry
-  * `cs m`
+    * `cs m`
 * networking
-  * `cs n`
+    * `cs n`
 * process manipulation
-  * `cs p`
+    * `cs p`
 * system -- backend
-  * `cs s`
+    * `cs s`
 * text manipulation
-  * `cs t`
+    * `cs t`
 
 ## Personal Recommendations
 
