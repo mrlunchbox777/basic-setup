@@ -119,7 +119,6 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
         ...
     ]
 }
-
 ```
 
 ### Template
@@ -137,37 +136,37 @@ This is intended to be an exhaustive list and explanation of `labels`` used for 
 * `big-bang`
     * Required packages that are used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `big-bang-full`
-  * All packages used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
+    * All packages used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `core`
-  * If this package should always be installed.
+    * If this package should always be installed.
 * `darwin-only`
-  * If this package is only supported on Mac operating systems.
+    * If this package is only supported on Mac operating systems.
 * `entertainment`
-  * If this package is for entertainment purposes.
+    * If this package is for entertainment purposes.
 * `windows-only`
-  * If this package is only supported on Windows operating systems.
+    * If this package is only supported on Windows operating systems.
 * `linux`
-  * If this package is only supported on Linux operating systems.
+    * If this package is only supported on Linux operating systems.
 
 ## Supported Package Managers
 
 These are the main package managers we are looking to support. These should be included in the `package-instances` for `packages` in the `index.json`.
 
 * `apt-get`
-  * [Find packages](https://packages.ubuntu.com/)
-  * [Github](https://github.com/Debian/apt)
+    * [Find packages](https://packages.ubuntu.com/)
+    * [Github](https://github.com/Debian/apt)
 * `brew`
-  * [Find formulae and casks](https://formulae.brew.sh/)
-  * [Install page](https://brew.sh/)
+    * [Find formulae and casks](https://formulae.brew.sh/)
+    * [Install page](https://brew.sh/)
 * `pacman`
-  * [Find packages](https://archlinux.org/packages/)
-  * [Wiki page](https://wiki.archlinux.org/title/pacman)
+    * [Find packages](https://archlinux.org/packages/)
+    * [Wiki page](https://wiki.archlinux.org/title/pacman)
 * `rpm`
-  * [rpm doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
-    * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
-  * [Website](https://rpm.org/)
-  * Don't forget that [yum uses rpm](https://phoenixnap.com/kb/rpm-vs-yum)
+    * [rpm doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
+        * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
+    * [Website](https://rpm.org/)
+    * Don't forget that [yum uses rpm](https://phoenixnap.com/kb/rpm-vs-yum)
 * `winget`
-  * [winget doesn't have a browser-based browser :(](https://www.reddit.com/r/Windows10/comments/gvfoqr/we_made_a_website_for_browsing_winget_packages/)
-    * [3rd party search](https://winget.run/)
-  * [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+    * [winget doesn't have a browser-based browser :(](https://www.reddit.com/r/Windows10/comments/gvfoqr/we_made_a_website_for_browsing_winget_packages/)
+        * [3rd party search](https://winget.run/)
+    * [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
