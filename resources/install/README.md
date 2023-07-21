@@ -131,11 +131,11 @@ You can find a template for adding a package [here](/resources/install/package-t
 This is intended to be an exhaustive list and explanation of `labels`` used for `packages` in `index.json`. If new labels need to be created and used, they should be added here as well.
 
 * `amd64-only`
-  * If this package is only supported on amd64 architectures.
+    * If this package is only supported on amd64 architectures.
 * `arm64-only`
-  * If this package is only supported on arm64 architectures.
+    * If this package is only supported on arm64 architectures.
 * `big-bang`
-  * Required packages that are used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
+    * Required packages that are used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `big-bang-full`
   * All packages used for [big bang](https://github.com/DoD-Platform-One/big-bang) development and operations.
 * `core`

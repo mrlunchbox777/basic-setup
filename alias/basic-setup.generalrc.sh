@@ -8,8 +8,8 @@ shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find /home/ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
-    echo -e "error finding shared-scripts..." >&2
-    exit 1
+		echo -e "error finding shared-scripts..." >&2
+		exit 1
 fi
 
 # Include the shared_scripts/bin in the PATH
@@ -22,21 +22,21 @@ export CURRENT_SHELL="$(identify-shell-function | sed -r 's/[\ -]//g' )"
 echo "shell - $CURRENT_SHELL"
 
 case "$CURRENT_SHELL" in
-  "bash")
-    echo "using bash aliases"
-    source="${BASH_SOURCE[0]}"
-    extra_folder="bash"
-    ;;
-  "zsh")
-    echo "using zsh aliases"
-    source="${(%):-%x}"
-    extra_folder="zsh"
-    ;;
-  *)
-    echo "using sh aliases"
-    source="$0"
-    extra_folder=""
-    ;;
+	"bash")
+		echo "using bash aliases"
+		source="${BASH_SOURCE[0]}"
+		extra_folder="bash"
+		;;
+	"zsh")
+		echo "using zsh aliases"
+		source="${(%):-%x}"
+		extra_folder="zsh"
+		;;
+	*)
+		echo "using sh aliases"
+		source="$0"
+		extra_folder=""
+		;;
 esac
 
 sd="$(general-get-source-and-dir "$source")"
@@ -45,14 +45,14 @@ dir="$(echo "$sd" | jq -r .dir)"
 export BASICSETUPGENERALRCDIR="$dir"
 
 if [ -d "$dir/sh/" ]; then
-  for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
-    . $dir/sh/$basic_setup_generalrc_sh_f
-  done
+	for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
+		. $dir/sh/$basic_setup_generalrc_sh_f
+	done
 fi
 if [ -d "$dir/$extra_folder/" ]; then
-  for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do
-    . $dir/$extra_folder/$basic_setup_generalrc_sh_f
-  done
+	for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do
+		. $dir/$extra_folder/$basic_setup_generalrc_sh_f
+	done
 fi
 
 export BASICSETUPGENERALRCDIR="$dir"

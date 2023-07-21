@@ -19,8 +19,8 @@ alias iso-date='general-iso-date'
 alias send-message='general-send-message'
 
 function general-identify-shell-function-wrapper() {
-  shared_scripts_dir=$(get-shared-scripts-dir)
-  . "$shared_scripts_dir/bin/general-identify-shell-function"
-  identify-shell-function
+	shared_scripts_dir=$(get-shared-scripts-dir)
+	. "$shared_scripts_dir/bin/general-identify-shell-function"
+	identify-shell-function
 }
 alias identify-shell='general-identify-shell-function-wrapper'
