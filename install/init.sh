@@ -10,7 +10,7 @@ dir="$(echo "$sd" | jq -r .dir)"
 cd "$dir"
 
 [ -f ../.env ] && \
-  export $(cat ../.env | sed 's/#.*//g' | xargs)
+	export $(cat ../.env | sed 's/#.*//g' | xargs)
 
 # Set variables
 ## General variables
@@ -109,122 +109,122 @@ should_postmessage_zsh=${should_install_zsh}
 should_postmessage_cron=${should_add_cron}
 
 if [ "$should_add_github_key" == "true" ]; then
-  ssh-keyscan -t rsa github.com | ssh-keygen -lf -
+	ssh-keyscan -t rsa github.com | ssh-keygen -lf -
 fi
 
 if [ "$should_do_full_update" == "true" ]; then
-  general-send-message "Starting Full Update"
-  run-full-update-basic-setup
+	general-send-message "Starting Full Update"
+	run-full-update-basic-setup
 else
-  general-send-message "Skipping Full Update"
+	general-send-message "Skipping Full Update"
 fi
 
 general-send-message "Starting apt Installs"
 source sh-installs/run-manual-install-apt.sh
 
 [ $should_install_ui_tools == "true" ] && \
-  run-manual-install-apt-many-basic-setup \
-    firefox \
-    gimp \
-    grpn \
-    kdeconnect \
-    kleopatra \
-    libreoffice \
-    thunderbird \
-    virtualbox \
-    vlc \
-    wine
+	run-manual-install-apt-many-basic-setup \
+		firefox \
+		gimp \
+		grpn \
+		kdeconnect \
+		kleopatra \
+		libreoffice \
+		thunderbird \
+		virtualbox \
+		vlc \
+		wine
 
 run-manual-install-apt-many-basic-setup \
-  bat \
-  calc \
-  curl \
-  gcc \
-  git \
-  golang \
-  gpg \
-  jq \
-  lynx \
-  make \
-  openjdk \
-  openssh-client \
-  python3 \
-  ranger \
-  snap \
-  terraform \
-  tldr \
-  tmux \
-  unattended-upgrades \
-  uuid \
-  wget \
-  zsh
+	bat \
+	calc \
+	curl \
+	gcc \
+	git \
+	golang \
+	gpg \
+	jq \
+	lynx \
+	make \
+	openjdk \
+	openssh-client \
+	python3 \
+	ranger \
+	snap \
+	terraform \
+	tldr \
+	tmux \
+	unattended-upgrades \
+	uuid \
+	wget \
+	zsh
 
 if [ $should_install_snap == "true" ]; then
-  general-send-message "Starting snap Installs"
-  source sh-installs/run-manual-install-snap.sh
+	general-send-message "Starting snap Installs"
+	source sh-installs/run-manual-install-snap.sh
 
-  [ $should_install_ui_tools == "true" ] && \
-    run-manual-install-snap-many-basic-setup \
-      discord \
-      remmina \
-      slack \
-      spotify \
-      teams
+	[ $should_install_ui_tools == "true" ] && \
+		run-manual-install-snap-many-basic-setup \
+			discord \
+			remmina \
+			slack \
+			spotify \
+			teams
 else
-  general-send-message "Skipping snap Installs"
+	general-send-message "Skipping snap Installs"
 fi
 
 general-send-message "Starting git submodule update"
 [ "$should_do_submodule_update" == "true" ] && \
-  git-submodule-update-all
+	git-submodule-update-all
 
 general-send-message "Starting Manual Installs"
 source ./sh-installs/run-manual-install.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
-  run-manual-install-many-basic-setup \
-    asbru \
-    azuredatastudio \
-    calibre \
-    code \
-    lens \
-    lutris \
-    steam \
-    virtualboxextpack \
-    zoom
+	run-manual-install-many-basic-setup \
+		asbru \
+		azuredatastudio \
+		calibre \
+		code \
+		lens \
+		lutris \
+		steam \
+		virtualboxextpack \
+		zoom
 
 run-manual-install-many-basic-setup \
-  azcli \
-  dotnet \
-  helm \
-  k9s \
-  kind \
-  kubectl \
-  mailutils \
-  minikube \
-  nvm \
-  ohmyzsh \
-  postfix \
-  pwsh
+	azcli \
+	dotnet \
+	helm \
+	k9s \
+	kind \
+	kubectl \
+	mailutils \
+	minikube \
+	nvm \
+	ohmyzsh \
+	postfix \
+	pwsh
 
 general-send-message "Starting Updates"
 source ./sh-installs/run-manual-update.sh
 
 [ "$should_install_ui_tools" == "true" ] && \
-  run-manual-update-many-basic-setup \
-    code
+	run-manual-update-many-basic-setup \
+		code
 
 run-manual-update-many-basic-setup \
-  "alias" \
-  batcat \
-  gitconfig \
-  unattended-upgrades
+	"alias" \
+	batcat \
+	gitconfig \
+	unattended-upgrades
 
 if [ "$should_add_cron" == "true" ]; then
-  general-send-message "Starting CRON"
-  source ./../cron/run-add-cron.sh
+	general-send-message "Starting CRON"
+	source ./../cron/run-add-cron.sh
 else
-  general-send-message "Skipping CRON"
+	general-send-message "Skipping CRON"
 fi
 
 apt-get --fix-broken install -y
@@ -233,7 +233,7 @@ general-send-message "Starting Postmessages"
 source ./sh-installs/run-manual-postmessage.sh
 
 run-manual-postmessage-many-basic-setup \
-  zsh
+	zsh
 
 # move back to original dir and update user
 cd "$initial_dir"
