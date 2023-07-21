@@ -559,6 +559,18 @@ function restore_backup {
 		(($VERBOSITY > 0)) && echo "starting swap devices and files restore"
 		restore_swap_settings_backup "$swap_backup_location" "$swap_fstab_backup_location"
 	fi
+
+	(($VERBOSITY > 0)) && echo "this will clean up by removing $RESTORE_DIR"
+	if [ "$FORCE" == true ] || [ "$(general-interactive-confirm)" == true ]; then
+		local extra_args=""
+		if (($VERBOSITY > 0)); then
+			echo "starting clean up..."
+			local extra_args="-v"
+		fi
+		rm -rf $extra_args "$RESTORE_DIR"
+	else
+		(($VERBOSITY > 0)) && echo "skipping clean up"
+	fi
 }
 
 # opens an archive file with the --open-command
