@@ -13,7 +13,6 @@ BACKUP_ONLY=false
 BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
 DRY_RUN=false
 FORCE=false
-HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 >/dev/null; echo $?) == 0 )) && echo true || echo false )"
 OPEN_FILE=""
 PERSIST=false
 RESTORE_ARCHIVE_FILE=""
@@ -37,6 +36,7 @@ TARGET_MODULUES=(
 #
 # computed values (often can't be alphabetical)
 #
+HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 >/dev/null; echo $?) == 0 )) && echo true || echo false )"
 RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
