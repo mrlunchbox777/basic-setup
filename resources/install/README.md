@@ -14,77 +14,77 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
 
 ```js
 {
-  /**
-   * The array of managed package objects.
-   * @type Object[]
-   */
-  "packages": [
-    {
-      /**
-       * The friendly description of the package.
-       * @type string
-       */
-      "description": null,
-      /**
-       * The install page for the package.
-       * This will be given as the fallback
-       * if the package or package manager
-       * isn't found.
-       * @type string
-       */
-      "install-page": null,
-      /**
-       * Labels that will be used to group,
-       * filter, and identify packages. Check
-       * documentation for a list of supported labels.
-       * @type string[]
-       */
-      "labels": [],
-      /**
-       * The friendly name of the package.
-       * @type string
-       */
-      "name": null,
-      /**
-       * Array of package instance objects.
-       * @type Object[]
-       */
-      "package-instances": [
+    /**
+    * The array of managed package objects.
+    * @type Object[]
+    */
+    "packages": [
         {
-          /**
-           * The string representing additional
-           * arguments that should be used to
-           * install the package.
-           * @type string
-           */
-          "arguments": null,
-          /**
-           * If the package is currently supported.
-           * @type boolean
-           */
-          "enabled": false,
-          /**
-           * The name of the package manager for
-           * this package instance. Check documentation
-           * for a list of supported package managers.
-           * @type string
-           */
-          "manager-name": null,
-          /**
-           * Any additional notes for the package instance.
-           * @type string
-           */
-          "notes": null,
-          /**
-           * The canonical name of the package instance
-           * on the package manager.
-           * @type string
-           */
-          "package-name": null
+            /**
+            * The friendly description of the package.
+            * @type string
+            */
+            "description": null,
+            /**
+            * The install page for the package.
+            * This will be given as the fallback
+            * if the package or package manager
+            * isn't found.
+            * @type string
+            */
+            "install-page": null,
+            /**
+            * Labels that will be used to group,
+            * filter, and identify packages. Check
+            * documentation for a list of supported labels.
+            * @type string[]
+            */
+            "labels": [],
+            /**
+            * The friendly name of the package.
+            * @type string
+            */
+            "name": null,
+            /**
+            * Array of package instance objects.
+            * @type Object[]
+            */
+            "package-instances": [
+                {
+                    /**
+                    * The string representing additional
+                    * arguments that should be used to
+                    * install the package.
+                    * @type string
+                    */
+                    "arguments": null,
+                    /**
+                    * If the package is currently supported.
+                    * @type boolean
+                    */
+                    "enabled": false,
+                    /**
+                    * The name of the package manager for
+                    * this package instance. Check documentation
+                    * for a list of supported package managers.
+                    * @type string
+                    */
+                    "manager-name": null,
+                    /**
+                    * Any additional notes for the package instance.
+                    * @type string
+                    */
+                    "notes": null,
+                    /**
+                    * The canonical name of the package instance
+                    * on the package manager.
+                    * @type string
+                    */
+                    "package-name": null
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
 ```
 
@@ -92,32 +92,32 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
 
 ```json
 {
-  "packages": [
-    ...
-    {
-      "description": "This is an example package.",
-      "install-page": "https://example.com/install/",
-      "labels": [
-        ...
-        "core",
-        "example",
-        ...
-      ],
-      "name": "example-package",
-      "package-instances": [
+    "packages": [
         ...
         {
-          "arguments": "--arg \"for stuff\"",
-          "enabled": true,
-          "manager-name": "apt-get",
-          "notes": "The arg argument is required because I said so.",
-          "package-name": "exmpl-pkg"
+            "description": "This is an example package.",
+            "install-page": "https://example.com/install/",
+            "labels": [
+                ...
+                "core",
+                "example",
+                ...
+            ],
+            "name": "example-package",
+            "package-instances": [
+                ...
+                {
+                    "arguments": "--arg \"for stuff\"",
+                    "enabled": true,
+                    "manager-name": "apt-get",
+                    "notes": "The arg argument is required because I said so.",
+                    "package-name": "exmpl-pkg"
+                },
+                ...
+            ]
         },
         ...
-      ]
-    },
-    ...
-  ]
+    ]
 }
 
 ```
