@@ -26,3 +26,10 @@ indent_size = 4
 [*.md]
 indent_style = space
 indent_size = 4
+
+# Submodules aren't ours or our concern
+[submodules/**]
+end_of_line = unset
+insert_final_newline = unset
+indent_style = unset
+indent_size = unset
