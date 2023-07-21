@@ -107,7 +107,7 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
             "package-instances": [
                 ...
                 {
-                    "arguments": "--arg \"for stuff\"",
+                    "arguments": "--arg 'for stuff'",
                     "enabled": true,
                     "manager-name": "apt-get",
                     "notes": "The arg argument is required because I said so.",
