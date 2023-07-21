@@ -3,8 +3,8 @@
 basic_setup_shared_scripts_dir=$(general-get-shared-scripts-dir)
 
 if [ "${#1}" != "1" ]; then
-  echo "Only One character is allowed when running run-write-a-cheatsheet" >&2
-  exit 1
+	echo "Only One character is allowed when running run-write-a-cheatsheet" >&2
+	exit 1
 fi
 
 cheatsheet_file_name=$(ls "$basic_setup_shared_scripts_dir/../resources/cheatsheet-docs/" | grep ^$1)
