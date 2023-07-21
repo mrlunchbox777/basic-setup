@@ -1,4 +1,4 @@
-#!/bin/sh
+#! usr/bin/env sh
 # clones and installs the basic setup
 
 current_dir="$(pwd)"
@@ -8,9 +8,18 @@ mkdir -p ~/src/tools
 [ -f .env ] && env_path="$(pwd)/.env"
 cd ~/src/tools
 
-sudo apt-get update -y
-sudo apt-get install git bash -y
-sudo apt-get autoremove -y
+if (( $(which bash >&1 >/dev/null; echo $?) != 0 )); then
+	# TODO: install bash automatically
+	echo "Please install bash before running this." >&2
+	echo "See the following for details for windows https://itsfoss.com/install-bash-on-windows/" >&2
+	echo "For mac and linux it should already be installed, but if not use your package manager."
+fi
+if (( $(which git >&1 >/dev/null; echo $?) != 0 )); then
+	# TODO: install git automatically
+	echo "Please install git before running this." >&2
+	echo "See the following for details https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" >&2
+	exit 1
+fi
 
 if [ ! -d basic-setup ]; then
 	git clone https://github.com/mrlunchbox777/basic-setup
@@ -20,16 +29,6 @@ cd basic-setup
 echo "current dir - $(pwd)"
 [ ! -z "$env_path" ] && cp "$env_path" ./.env
 bash install/init.sh | tee basic-setup-sh-output.log
-
-should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
-if "${should_install_pwsh}" ; then
-	echo "running pwsh for linux"
-	# copy .env
-	# include the alias only env var
-	pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
-else
-	echo "not running pwsh for linux"
-fi
 
 ## end of basic setup
 echo "\n\n"
