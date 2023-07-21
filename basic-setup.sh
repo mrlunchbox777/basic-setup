@@ -13,7 +13,7 @@ sudo apt-get install git bash -y
 sudo apt-get autoremove -y
 
 if [ ! -d basic-setup ]; then
-  git clone https://github.com/mrlunchbox777/basic-setup
+	git clone https://github.com/mrlunchbox777/basic-setup
 fi
 
 cd basic-setup
@@ -23,12 +23,12 @@ bash install/init.sh | tee basic-setup-sh-output.log
 
 should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
 if "${should_install_pwsh}" ; then
-  echo "running pwsh for linux"
-  # copy .env
-  # include the alias only env var
-  pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
+	echo "running pwsh for linux"
+	# copy .env
+	# include the alias only env var
+	pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
 else
-  echo "not running pwsh for linux"
+	echo "not running pwsh for linux"
 fi
 
 ## end of basic setup
