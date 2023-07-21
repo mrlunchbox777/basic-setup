@@ -314,7 +314,8 @@ function ensure_backup {
 		echo "no valid archive file" >&2
 		exit 1
 	fi
-	(($VERBOSITY > 0)) && echo "would attempt to restore from $RESTORE_ARCHIVE_FILE"
+	[ "$DRY_RUN" == true ] && local dry_run_info=" as a dry run"
+	(($VERBOSITY > 0)) && echo "this would attempt to restore from ${RESTORE_ARCHIVE_FILE}${dry_run_info}"
 	if [ "$(general-interactive-confirm)" == false ]; then
 		(($VERBOSITY > 0)) && echo "no restore archive, exiting..."
 		exit 0
