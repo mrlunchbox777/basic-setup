@@ -594,21 +594,19 @@ function set_sysctl_d_setting {
 	local setting_name="$1"
 	local setting_value="$2"
 	local update_content="$setting_name=$setting_value"
-	(($VERBOSITY > 0)) && echo "updating $setting_name to $setting_value"
+	local persist_string=" temporarily"
+	[ "$PERSIST" == true ] && persist_string=" in the configuration files"
+	(($VERBOSITY > 0)) && echo "this would update $setting_name to ${setting_value}${persist_string}"
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the update $setting_name to $setting_value..."
+		return 0
+	fi
 	if [ $PERSIST = true ]; then
 		local file_name="/etc/sysctl.d/$(echo "$setting_name" | sed 's/\./-/g').conf"
-		if [ "$DRY_RUN" == true ]; then
-			(($VERBOSITY > 0)) && echo "Would be writing $update_content to $file_name" || return 0
-		else
-			# overwrite rather than append if it's for specific settings
-			echo "$update_content" | sudo tee $file_name >/dev/null
-		fi
+		# overwrite rather than append if it's for specific settings
+		echo "$update_content" | sudo tee $file_name >/dev/null
 	else
-		if [ "$DRY_RUN" == true ]; then
-			(($VERBOSITY > 0)) && echo "Would be running \`sudo sysctl -w $update_content\`" || return 0
-		else
-			sudo sysctl -w $update_content
-		fi
+		sudo sysctl -w $update_content
 	fi
 }
 
@@ -618,17 +616,19 @@ function set_ulimit_setting {
 	local setting_value="$2"
 	local command="ulimit -$setting_flag $setting_value"
 	(($VERBOSITY > 0)) && echo "updating ulimit -$setting_flag to $setting_value"
-	if [ "$DRY_RUN" == true ]; then
-		(($VERBOSITY > 0)) && echo "Would have run \`$command\`" || return 0
-	else
-		eval "$command"
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the ulimit update of $setting_flag to $setting_value..."
+		return 0
 	fi
+	eval "$command"
 }
 
 # reloads the system configuration
 function reload_configuration {
-	if [ "$DRY_RUN" == true ]; then
-		(($VERBOSITY > 0)) && echo "would be reloading updated configuration" || return 0
+	(($VERBOSITY > 0)) && echo "this would reload the system configuration"
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the reload of the system configuration..."
+		return 0
 	else
 		sudo sysctl --load --system
 	fi
@@ -638,6 +638,13 @@ function reload_configuration {
 function set_modules {
 	# Test if we are using SELinux
 	if (( $(command -v getenforce 2>&1 > /dev/null; echo $?) == 0 )); then
+		local persist_string=""
+		[ "$PERSIST" == true ] && persist_string=" and persist them in the configuration files"
+		(($VERBOSITY > 0)) && echo "this would enable the modules (${TARGET_MODULUES[@]})${persist_string}"
+		if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+			(($VERBOSITY > 0)) && echo "skipping the module updates for (${TARGET_MODULUES[@]})..."
+			return 0
+		fi
 		for i in "${TARGET_MODULUES[@]}"; do
 			# Test if the module is already loaded
 			if (( $(lsmod | grep "^$i\s*" 2>&1 >/dev/null; echo ?) == 0)); then
@@ -666,27 +673,27 @@ function set_swap_devices_off {
 	if [ "$HAS_SYSTEMCTL" == true ]; then
 		local systemctl_devices="$(get_systemctl_swap_devices)"
 	fi
-	if [ "$DRY_RUN" == true ]; then
-		(($VERBOSITY > 0)) && echo "Would have run sudo swapoff -a"
+	if (($VERBOSITY > 0)); then
+		echo "this would have run sudo swapoff -a"
 		if [ "$PERSIST" == true ]; then
-			if (($VERBOSITY > 0)); then
-				echo "Would have run sudo swapoff -a"
-				echo "Would have modified /etc/fstab to the following:"
-				echo "--"
-				echo "$new_fstab_content"
-				echo "--"
-				for i in $systemctl_devices; do
-					echo "Would have run sudo systemctl mask $i"
-				done
-			fi
+			echo "Would have modified /etc/fstab to the following:"
+			echo "--"
+			echo "$new_fstab_content"
+			echo "--"
+			for i in $systemctl_devices; do
+				echo "Would have run sudo systemctl mask $i"
+			done
 		fi
-	else
-		sudo swapoff -a
-		echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
-		for i in $systemctl_devices; do
-			sudo systemctl mask $i
-		done
 	fi
+	if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm)" == false ]; }; then
+		(($VERBOSITY > 0)) && echo "skipping the swap updates..."
+		return 0
+	fi
+	sudo swapoff -a
+	echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
+	for i in $systemctl_devices; do
+		sudo systemctl mask $i
+	done
 }
 
 #
@@ -800,13 +807,6 @@ done
 
 backup
 [ $BACKUP_ONLY == true ] && exit 0
-
-if [ "$DRY_RUN" == true ] || { [ "$FORCE" == false ] && [ "$(general-interactive-confirm "Continue past confirmation WIP (y/n)?")" == false ]; }; then
-	# TODO: go through each step and dry run those
-	# TODO: interactive confirms?
-	echo "Stopping at WIP... exiting"
-	exit 0
-fi
 
 # Needed by ECK for OOM errors
 # raise the max memory map count per process
