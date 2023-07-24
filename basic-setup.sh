@@ -28,6 +28,7 @@ fi
 cd basic-setup
 echo "current dir - $(pwd)"
 [ ! -z "$env_path" ] && cp "$env_path" ./.env
+export PATH="$PATH:$(pwd)/shared-scripts/bin"
 bash install/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
