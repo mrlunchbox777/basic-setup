@@ -8,13 +8,13 @@ mkdir -p ~/src/tools
 [ -f .env ] && env_path="$(pwd)/.env"
 cd ~/src/tools
 
-if (( $(which bash >&1 >/dev/null; echo $?) != 0 )); then
+if (( $(which bash 2>&1 > /dev/null; echo $?) != 0 )); then
 	# TODO: install bash automatically
 	echo "Please install bash before running this." >&2
 	echo "See the following for details for windows https://itsfoss.com/install-bash-on-windows/" >&2
 	echo "For mac and linux it should already be installed, but if not use your package manager."
 fi
-if (( $(which git >&1 >/dev/null; echo $?) != 0 )); then
+if (( $(which git 2>&1 > /dev/null; echo $?) != 0 )); then
 	# TODO: install git automatically
 	echo "Please install git before running this." >&2
 	echo "See the following for details https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" >&2
@@ -26,7 +26,8 @@ if [ ! -d basic-setup ]; then
 fi
 
 cd basic-setup
-echo "current dir - $(pwd)"
+basic_setup_dir="$(pwd)"
+echo "current dir - $basic_setup_dir"
 [ ! -z "$env_path" ] && cp "$env_path" ./.env
 export PATH="$PATH:$(pwd)/shared-scripts/bin"
 bash install/init.sh | tee basic-setup-sh-output.log
@@ -36,7 +37,7 @@ echo "\n\n"
 echo "**********************************************************"
 echo "* Finished Basic Setup" 
 echo "*   Check -"
-echo "*     ~/src/tools/basic-setup/basic-setup-sh-output.log"
+echo "*     $basic_setup_dir/basic-setup-sh-output.log"
 echo "*   It will have logs and outputs on everything installed."
 echo "**********************************************************"
 

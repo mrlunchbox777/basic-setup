@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# TODO: maybe we should look to handle calling from interactive rather than just scripts
+# TODO: maybe we should look to handle calling from interactive rather than just scripts, also fix the help docs
 
 # Adapted from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
 run_get_source_and_dir_help_string=""
@@ -31,10 +31,10 @@ if [ -z "$source" ]; then
 fi
 
 while [ -L "$source" ]; do # resolve $source until the file is no longer a symlink
-	dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
+	dir="$( cd -P "$( dirname "$source" )" > /dev/null 2>&1 && pwd )"
 	source="$(readlink "$source")"
 	[[ $source != /* ]] && \
 		source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
-dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
+dir="$( cd -P "$( dirname "$source" )" > /dev/null 2>&1 && pwd )"
 echo "{\"source\": \"$source\", \"dir\": \"$dir\"}"

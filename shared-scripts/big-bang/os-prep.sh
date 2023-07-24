@@ -36,7 +36,7 @@ TARGET_MODULUES=(
 #
 # computed values (often can't be alphabetical)
 #
-HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 >/dev/null; echo $?) == 0 )) && echo true || echo false )"
+HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 > /dev/null; echo $?) == 0 )) && echo true || echo false )"
 RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
@@ -61,6 +61,8 @@ function help {
 	cat <<- EOF
 		----------
 		usage: $command_for_help <arguments>
+		----------
+		description: Prepares the OS for running Big Bang - https://github.com/DoD-Platform-One/big-bang/blob/master/docs/guides/deployment-scenarios/quickstart.md#step-4-configure-host-operating-system-prerequisites
 		----------
 		-b|--backup-only - (flag, default: false) Exit after backup.
 		-c|--clean       - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
@@ -147,7 +149,7 @@ function get_systemctl_swap_devices {
 		fi
 		local systemctl_output="$(systemctl --type=swap $target_state | tail -n +2)"
 		# skip if no swap units loaded
-		if (( $(echo "$systemctl_output" | grep "^\s*0" 2>&1 >/dev/null; echo $?) == 0 )); then
+		if (( $(echo "$systemctl_output" | grep "^\s*0" 2>&1 > /dev/null; echo $?) == 0 )); then
 			return 0
 		fi
 		# get only the lines that have units
@@ -604,7 +606,7 @@ function set_sysctl_d_setting {
 	if [ $PERSIST = true ]; then
 		local file_name="/etc/sysctl.d/$(echo "$setting_name" | sed 's/\./-/g').conf"
 		# overwrite rather than append if it's for specific settings
-		echo "$update_content" | sudo tee $file_name >/dev/null
+		echo "$update_content" | sudo tee $file_name > /dev/null
 	else
 		sudo sysctl -w $update_content
 	fi
@@ -647,17 +649,17 @@ function set_modules {
 		fi
 		for i in "${TARGET_MODULUES[@]}"; do
 			# Test if the module is already loaded
-			if (( $(lsmod | grep "^$i\s*" 2>&1 >/dev/null; echo ?) == 0)); then
+			if (( $(lsmod | grep "^$i\s*" 2>&1 > /dev/null; echo ?) == 0)); then
 				(($VERBOSITY > 0)) && echo "module already in \`lsmod\`"
 			else
 				sudo modprobe $i
 			fi
 			if [ "$PERSIST" == true ]; then
 				# Test if the module is already in /etc/modules
-				if (( $(grep $i /etc/modules 2>&1 >/dev/null; echo ?) == 0)); then
+				if (( $(grep $i /etc/modules 2>&1 > /dev/null; echo ?) == 0)); then
 					(($VERBOSITY > 0)) && echo "module already in /etc/modules"
 				else
-					echo "$i" | sudo tee -a /etc/modules >/dev/null
+					echo "$i" | sudo tee -a /etc/modules > /dev/null
 				fi
 			fi
 		done
@@ -690,7 +692,7 @@ function set_swap_devices_off {
 		return 0
 	fi
 	sudo swapoff -a
-	echo "$new_fstab_content" | sudo tee /etc/fstab >/dev/null
+	echo "$new_fstab_content" | sudo tee /etc/fstab > /dev/null
 	for i in $systemctl_devices; do
 		sudo systemctl mask $i
 	done
