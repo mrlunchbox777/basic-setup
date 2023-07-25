@@ -1,0 +1,13 @@
+{
+  "package": [
+    {
+      "name": "awscli"
+    },
+    {
+      "name": "jq"
+    },
+    {
+      "name": "kustomize"
+    }
+  ]
+}

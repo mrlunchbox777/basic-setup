@@ -6,16 +6,10 @@ rather than cron, run these things as part of an update process with a touch fil
 fix the cheatsheet docs
 add back in Windows support (mostly just make it easy to install Ubuntu WSL)
 make the alias portion of this work on gitbash
-switch the aliases to use flags and everything else to make it closer to POSIX compliant
 automatic update issues (yes/no prompt)
 kgpp get it to run faster if nodes don't have docker
 write a different repo to check for new updates of packages bot
   add for the submodules as well (https://riptutorial.com/git/example/1186/updating-a-submodule)
-fix the windows install
-support other "basic-setup" style repos (for private secrets)
-support yum, rpm, pacman, and apk
 create a versioning system
 write selector for get deployment image
-consider doing something with this - https://code.visualstudio.com/docs/remote/containers
-consider adding kgns to k9s
 consider adding back how to drill down through which

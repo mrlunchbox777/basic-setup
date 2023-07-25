@@ -129,6 +129,8 @@ You can find a template for adding a package [here](/resources/install/package-t
 
 This is intended to be an exhaustive list and explanation of `labels`` used for `packages` in `index.json`. If new labels need to be created and used, they should be added here as well.
 
+* `all`
+    * All supported packages.
 * `amd64-only`
     * If this package is only supported on amd64 architectures.
 * `arm64-only`
@@ -161,12 +163,17 @@ These are the main package managers we are looking to support. These should be i
 * `pacman`
     * [Find packages](https://archlinux.org/packages/)
     * [Wiki page](https://wiki.archlinux.org/title/pacman)
-* `rpm`
-    * [rpm doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
+* `yum`
+    * [yum doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
         * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
     * [Website](https://rpm.org/)
     * Don't forget that [yum uses rpm](https://phoenixnap.com/kb/rpm-vs-yum)
+    * `docker run -it centos`
+        * [update the yum repos](https://stackoverflow.com/questions/70926799/centos-through-a-vm-no-urls-in-mirrorlist)
+        * `yum search package`
 * `winget`
     * [winget doesn't have a browser-based browser :(](https://www.reddit.com/r/Windows10/comments/gvfoqr/we_made_a_website_for_browsing_winget_packages/)
         * [3rd party search](https://winget.run/)
     * [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+* `curl`
+    * These are disabled by default because of the associated security risks of automated curl/bash scripts.

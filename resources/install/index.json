@@ -1,9 +1,11 @@
 {
   "packages": [
     {
+      "command": "aws",
       "description": "This package provides a unified command line interface to Amazon Web Services.",
       "install-page": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
       "labels": [
+        "all",
         "big-bang"
       ],
       "name": "AWS CLI",
@@ -24,6 +26,13 @@
         },
         {
           "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Version 1 is available, but causes more issues than installing manually.",
@@ -32,9 +41,9 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "rpm",
-          "notes": "Version 1 is available, but causes more issues than installing manually.",
-          "package-name": "awscli"
+          "manager-name": "yum",
+          "notes": "Not available.",
+          "package-name": ""
         },
         {
           "arguments": "",
@@ -46,9 +55,11 @@
       ]
     },
     {
+      "command": "jq",
       "description": "jq is a lightweight and flexible command-line JSON processor.",
       "install-page": "https://jqlang.github.io/jq/download/",
       "labels": [
+        "all",
         "big-bang",
         "core"
       ],
@@ -71,6 +82,13 @@
         {
           "arguments": "",
           "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
           "manager-name": "pacman",
           "notes": "",
           "package-name": "jq"
@@ -78,7 +96,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "rpm",
+          "manager-name": "yum",
           "notes": "",
           "package-name": "jq"
         },
@@ -92,9 +110,11 @@
       ]
     },
     {
+      "command": "kustomize",
       "description": "Kustomize introduces a template-free way to customize application configuration that simplifies the use of off-the-shelf applications. Now, built into kubectl as apply -k.",
       "install-page": "https://kubectl.docs.kubernetes.io/installation/kustomize/",
       "labels": [
+        "all",
         "big-bang-full"
       ],
       "name": "Kustomize",
@@ -115,6 +135,13 @@
         },
         {
           "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "kustomize"
+        },
+        {
+          "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Not available.",
@@ -123,7 +150,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "rpm",
+          "manager-name": "yum",
           "notes": "Not available.",
           "package-name": ""
         },

@@ -21,6 +21,13 @@
         {
           "arguments": "",
           "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
           "manager-name": "pacman",
           "notes": "",
           "package-name": ""
