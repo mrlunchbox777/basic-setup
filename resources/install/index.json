@@ -3,6 +3,7 @@
     {
       "command": "aws",
       "description": "This package provides a unified command line interface to Amazon Web Services.",
+      "enabled": true,
       "install-page": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
       "labels": [
         "all",
@@ -57,6 +58,7 @@
     {
       "command": "jq",
       "description": "jq is a lightweight and flexible command-line JSON processor.",
+      "enabled": true,
       "install-page": "https://jqlang.github.io/jq/download/",
       "labels": [
         "all",
@@ -81,7 +83,7 @@
         },
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "curl",
           "notes": "",
           "package-name": "jq"
@@ -112,6 +114,7 @@
     {
       "command": "kustomize",
       "description": "Kustomize introduces a template-free way to customize application configuration that simplifies the use of off-the-shelf applications. Now, built into kubectl as apply -k.",
+      "enabled": true,
       "install-page": "https://kubectl.docs.kubernetes.io/installation/kustomize/",
       "labels": [
         "all",
@@ -135,9 +138,9 @@
         },
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "curl",
-          "notes": "",
+          "notes": "With it being part of kubectl we really don't need it",
           "package-name": "kustomize"
         },
         {

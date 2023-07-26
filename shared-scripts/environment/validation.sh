@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+#
+# Error handling
+#
 SET_E_AFTER=true
 if [[ $- =~ e ]]; then
 	SET_E_AFTER=false
@@ -22,21 +25,26 @@ ERROR_MESSAGES=()
 LABELS=("all")
 LABELS_FILTER_MODE="replace" # union, intersection, replace
 FORCE=false
-# OVERRIDE_FILE_PATH="" # how to support this, merge might be rough
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
 SHOW_HELP=false
+SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "yum" "winget")
 VERBOSITY=0
 
 #
 # computed values (often can't be alphabetical)
 #
-PACKAGES="$(cat "$(general-get-basic-setup-dir)/install/index.json")"
-PACKAGES_OVERRIDE="$([ -f "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH"] && cat "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH" || echo "" )"
+PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
+# TODO: make this override do something
+PACKAGES_OVERRIDE="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH"] && [ -f "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH" ] && cat "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH" || echo "" )"
+
+# TODO: add verbosity to everything
 
 #
 # helper functions
 #
 
+# TODO add --update-curl-installs
+# TODO add install missing
 # script help message
 function help {
 	command_for_help="$(basename "$0")"
@@ -62,31 +70,45 @@ function is_command_installed {
 	general-command-installed "$1"
 }
 
-function get_package_manager_name {
+function get_package_manager_content {
 	# TODO: this may need to be done per package (for things like aws cli where it's on apt but not enabled)
-	local package_manager_name="unknown"
-	[ "$(is_command_installed apt-get)" == true ] && local package_manager_name="apt-get"
-	[ "$(is_command_installed brew)" == true ] && local package_manager_name="brew"
-	[ "$(is_command_installed pacman)" == true ] && local package_manager_name="pacman"
-	[ "$(is_command_installed yum)" == true ] && local package_manager_name="yum"
-	[ "$(is_command_installed winget)" == true ] && local package_manager_name="winget"
-	[ "$(is_command_installed curl)" == true ] && local package_manager_name="curl"
+	local package_manager_name=""
+	local package_content="$1"
+	for i in "${SUPPORTED_PACKAGE_MANAGERS[@]}"; do
+		# skip the package manager if it's not installed
+		if [ "$(is_command_installed "$i")" == false ]; then
+			continue
+		fi
+		# skip the package manager if it's not found or enabled
+		local package_manager_content="$(echo "$package_content" | jq '."package-managers"[] | select((."manager-name" == "'"$i"'") and .enabled == true)')"
+		if [ -z "$package_manager_content" ]; then
+			continue
+		fi
+		# skip the package manager if it's curl and curl isn't allowed
+		if [ "$ALLOW_CURL_INSTALLS" == false ] && [ "$i" == "curl" ]; then
+			continue
+		fi
+		# set the package manager if it's not been set, or it's been set to curl
+		if [ -z "$package_manager_name" ] || [ "$package_manager_name" == "curl" ]; then
+			package_manager_name="$i"
+		fi
+	done
 
-	if [ "$package_manager_name" == "unknown" ] || { [ "$package_manager_name" == "curl" ] && [ "$ALLOW_CURL_INSTALLS" != true ]; }; then
-		# TODO when doing per package include the package name here
-		echo "no valid package manager found and/or curl installs not allowed" 1>&2
+	if [ -z "$package_manager_name" ]; then
+		echo "no valid package manager found for $(echo "$package_content" | jq '.name')" 1>&2
+		# return empty if not found
 		echo ""
 	else
-		echo "$package_manager_name"
+		echo "$package_content" | jq '."package-managers"[] | select(."manager-name" == "'"$package_manager_name"'")'
 	fi
 }
 
 function check_for_jq {
 	local is_jq_installed=$(is_command_installed "jq")
-	if (( $is_jq_installed == 0 )); then
+	if [ $is_jq_installed == false ]; then
 		# TODO maybe install it instead
 		echo "\`jq\` must be installed to get a list of to be installed packages. Please follow these instructions - https://stedolan.github.io/jq/download/"
-		usage
+		help
 		exit 1
 	fi
 }
@@ -117,14 +139,17 @@ function check_for_tools {
 	# TODO: merge config override
 	# Merge file paths - https://stackoverflow.com/a/36218044
 	# jq -s 'reduce .[] as $item ({}; . * $item)'
+	# this will need to be done per item to ensure they are there
 	# TODO: handle the different ways we want to handle filters
-	packages_keys=($(echo $PACKAGES | jq '.packages[] | select(.labels[] | . == "'${LABELS[0]}'") | .name'))
-	for package_key in "${packages_keys[@]}"; do
-		temp="$(echo $PACKAGES | jq '.packages[] | select(.name == "'$package_key'")')"
+	packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select((.labels[] | . == "'${LABELS[0]}'") and .enabled == true) | .name')"
+	echo "$packages_keys" | while read package_key; do
+		echo "package key - $package_key"
+		temp="$(echo "$PACKAGES" | jq '.packages[] | select(.name == "'"$package_key"'")')"
 		should_be_installed "$temp"
 	done
 }
 
+# ensure the OS specific tooling is installed (e.g. GNU Mac tools)
 function check_for_os_specific_tooling {
 	# TODO: find a way to force gnu-sed on OSX - https://gist.github.com/andre3k1/e3a1a7133fded5de5a9ee99c87c6fa0d
 	if [ "$(environment-os-type --mac)" == "true" ]; then
@@ -136,8 +161,8 @@ function check_for_os_specific_tooling {
 	fi
 }
 
+# fail after running everything to generate a list
 function handle_overall_errors {
-	# fail after running everything to generate a list
 	if (( "${#ERROR_MESSAGES[@]}" > 0 )); then
 		echo "Found Failures: " 1>&2
 		for error_message_object in "${ERROR_MESSAGES[@]}"; do
@@ -149,18 +174,39 @@ function handle_overall_errors {
 	fi
 }
 
-# TODO WIP functions below
-function should_be_installed {
-	local json_object=$1
+# Get the install command for the package manager
+function get_package_manager_install_command {
+	local package_manager="$1"
+	local install_command="unknown install command"
+	[ "$package_manager" == "apt-get" ] && local install_command="install"
+	[ "$package_manager" == "brew" ] && local install_command="install"
+	[ "$package_manager" == "curl" ] && local install_command="custom install script for"
+	[ "$package_manager" == "pacman" ] && local install_command="-S"
+	[ "$package_manager" == "yum" ] && local install_command="install"
+	[ "$package_manager" == "winget" ] && local install_command="install"
+	echo "$install_command"
+}
 
-	local command_name=$(echo "$json_object" | jq -r '.command')
+function should_be_installed {
+	local package_content=$1
+
+	local command_name=$(echo "$package_content" | jq -r '.command')
 	local is_command_installed=$(is_command_installed "$command_name")
 	if (( $is_command_installed == 0 )); then
-		local human_name=$(echo "$json_object" | jq -r '.name')
-		local extra=$(echo "$json_object" | jq -r '."install-page"')
-		local package_name=$(get_package_name "$json_object")
-		local message="unable to find $human_name ($command_name), '$package_manager_name install $package_name' $extra"
-		local error_message=$(echo "$json_object" | jq -c --arg m "$message" '{message: $m} + .')
+		# TODO: handle installs here if flag passed
+		local human_name=$(echo "$package_content" | jq -r '.name')
+		local extra=$(echo "$package_content" | jq -r '."install-page"')
+		local package_manager_content="$(get_package_manager_content "$package_content")"
+		local package_name="$human_name"
+		local package_manager_name="manually"
+		local package_manager_install_command="install"
+		if [ ! -z "$package_manager_content" ]; then
+			local package_name=$(echo "$package_manager_content" | jq '."package-name"')
+			local package_manager_name=$(echo "$package_manager_content" | jq '."manager-name"')
+			local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name")
+		fi
+		local message="unable to find $human_name ($command_name), '$package_manager_name $package_manager_install_command $package_name' $extra"
+		local error_message=$(echo "$package_content" | jq -c --arg m "$message" '{message: $m} + .')
 		ERROR_MESSAGES+=("$error_message")
 	fi
 }
@@ -211,7 +257,6 @@ check_for_jq
 check_for_bash
 check_for_os_specific_tooling
 check_for_tools
-# TODO: WIP below
 handle_overall_errors
 
 # If everything worked, note it so that future checks can be skipped
