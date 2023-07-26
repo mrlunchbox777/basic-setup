@@ -704,12 +704,13 @@ function set_swap_devices_off {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# the file to open, optional argument
 	--open-command)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
 			OPEN_COMMAND="$2"
 			shift 2
 		else
-			# the default is set as a global
+			OPEN_COMMAND="latest"
 			shift 1
 		fi
 		;;

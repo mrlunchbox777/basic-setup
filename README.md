@@ -88,3 +88,9 @@ apt update && apt install curl sudo tzdata -y && export BASICSETUPSHOULDINSTALLU
 ### Testing GUI
 
 You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+### Environment Specific Testing
+
+There are various places in the code that need testing because they require a specific kind of setup (OS, architecture, etc).
+
+You can find them with `grep --recursive '# TODO: NEEDS TESTING'`
