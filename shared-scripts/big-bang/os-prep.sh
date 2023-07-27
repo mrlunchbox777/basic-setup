@@ -51,6 +51,9 @@ SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
 RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
 MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
 
+# TODO: finish the other setup steps
+# for updating the sudoers - https://stackoverflow.com/questions/10420713/regex-pattern-to-edit-etc-sudoers-file
+
 #
 # helper functions
 #

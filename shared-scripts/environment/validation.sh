@@ -10,6 +10,7 @@ else
 	set -e
 fi
 
+# set e to the right value after running the script
 function update_e {
 	if [ "$SET_E_AFTER" == "true" ]; then
 		set +e
@@ -66,10 +67,12 @@ function help {
 	EOF
 }
 
+# ensure a specific command is installed
 function is_command_installed {
 	general-command-installed "$1"
 }
 
+# select the correct package manager and return it's content for a given package
 function get_package_manager_content {
 	# TODO: this may need to be done per package (for things like aws cli where it's on apt but not enabled)
 	local package_manager_name=""
@@ -103,26 +106,31 @@ function get_package_manager_content {
 	fi
 }
 
+# ensure a modern jq version is being used
 function check_for_jq {
 	local is_jq_installed=$(is_command_installed "jq")
 	if [ $is_jq_installed == false ]; then
 		# TODO maybe install it instead
 		echo "\`jq\` must be installed to get a list of to be installed packages. Please follow these instructions - https://stedolan.github.io/jq/download/"
 		help
+		update_e
 		exit 1
 	fi
 }
 
+# ensure a modern bash version is being used
 function check_for_bash {
 	# First and foremost we must have modern bash and jq
 	if [[ "$BASH_VERSION" =~ ^3.*$ ]]; then
 		echo "Bash 3 installed... please install bash (brew/apt/etc install bash)" 1>&2
 		echo "if you have already done that ensure you aren't calling with an alias to MacOS bash (which defaults to 3, and is where this usually happens)" 1>&2
 		help
+		update_e
 		exit 1
 	fi
 }
 
+# exit early if this has been run recently
 function check_for_skip {
 	# Include important flags in the file name
 	PREVIOUSLY_VALIDATED_FILE_NAME="${PREVIOUSLY_VALIDATED_FILE_NAME}_$(echo "${LABELS[@]}" | sed 's/ /_/g')_${LABELS_FILTER_MODE}_${ALLOW_CURL_INSTALLS}"
@@ -135,17 +143,18 @@ function check_for_skip {
 	fi
 }
 
+# Check for the tools described in the packages after filtering
 function check_for_tools {
 	# TODO: merge config override
 	# Merge file paths - https://stackoverflow.com/a/36218044
 	# jq -s 'reduce .[] as $item ({}; . * $item)'
 	# this will need to be done per item to ensure they are there
 	# TODO: handle the different ways we want to handle filters
-	packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select((.labels[] | . == "'${LABELS[0]}'") and .enabled == true) | .name')"
+	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select((.labels[] | . == "'${LABELS[0]}'") and .enabled == true) | .name')"
 	echo "$packages_keys" | while read package_key; do
-		echo "package key - $package_key"
-		temp="$(echo "$PACKAGES" | jq '.packages[] | select(.name == "'"$package_key"'")')"
-		should_be_installed "$temp"
+		(($VERBOSITY > 1)) && echo "running for $package_key"
+		local package_content="$(echo "$PACKAGES" | jq '.packages[] | select(.name == "'"$package_key"'")')"
+		should_be_installed "$package_content"
 	done
 }
 
@@ -156,6 +165,7 @@ function check_for_os_specific_tooling {
 		if [ "$(brew list --formula | grep coreutils)" != "coreutils" ]; then
 			echo "unable to find coreutils. Install with brew install coreutils" 1>&2
 			help
+			update_e
 			exit 1
 		fi
 	fi
@@ -167,9 +177,13 @@ function handle_overall_errors {
 		echo "Found Failures: " 1>&2
 		for error_message_object in "${ERROR_MESSAGES[@]}"; do
 			error_message=$(echo $error_message_object | jq -r '.message')
+			if [ -z "$error_message" ]; then
+				continue
+			fi
 			echo "  - $error_message" 1>&2
 		done
 		help
+		update_e
 		exit 1
 	fi
 }
@@ -187,6 +201,7 @@ function get_package_manager_install_command {
 	echo "$install_command"
 }
 
+# run the logic for a package that should be installed
 function should_be_installed {
 	local package_content=$1
 
@@ -236,6 +251,7 @@ while (("$#")); do
 	-* | --*=)
 		echo "Error: Unsupported flag $1" >&2
 		help
+		update_e
 		exit 1
 		;;
 	# preserve positional arguments
@@ -249,7 +265,7 @@ done
 #
 # Do the work
 #
-[ $SHOW_HELP == true ] && help && exit 0
+[ $SHOW_HELP == true ] && help && update_e && exit 0
 
 check_for_skip
 # TODO: add a check for on main at latest
