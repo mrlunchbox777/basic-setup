@@ -113,6 +113,62 @@
       ]
     },
     {
+      "command": "helm",
+      "description": "Helm is the package manager for Kubernetes.",
+      "enabled": true,
+      "install-page": "https://helm.sh/docs/intro/install/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Helm",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://helm.sh/docs/intro/install/#from-apt-debianubuntu",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Helm.Helm"
+        }
+      ]
+    },
+    {
       "command": "jq",
       "description": "jq is a lightweight and flexible command-line JSON processor.",
       "enabled": true,
@@ -171,7 +227,7 @@
     },
     {
       "command": "k3d",
-      "description": "k3d is a lightweight wrapper to run k3s (Rancher Lab’s minimal Kubernetes distribution) in docker.",
+      "description": "k3d is a lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.",
       "enabled": true,
       "install-page": "https://k3d.io/v5.5.1/#installation",
       "labels": [
@@ -184,7 +240,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "",
+          "manager-name": "apt-get",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -222,6 +278,62 @@
           "manager-name": "winget",
           "notes": "Not available.",
           "package-name": ""
+        }
+      ]
+    },
+    {
+      "command": "kubectl",
+      "description": "The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters.",
+      "enabled": true,
+      "install-page": "https://kubernetes.io/docs/tasks/tools/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "kubectl",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "yum",
+          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Kubernetes.kubectl"
         }
       ]
     },

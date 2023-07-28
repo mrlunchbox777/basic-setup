@@ -12,7 +12,7 @@ SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
 VERBOSITY=0
-HELP_INSTALL_PAGE="https://k3d.io/v5.5.1/#installation"
+HELP_INSTALL_PAGE="https://helm.sh/docs/intro/install/"
 
 #
 # computed values (often can't be alphabetical)
@@ -58,16 +58,16 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed k3d)" == false ]; then
+	if [ "$(general-command-installed helm)" == false ]; then
 		echo ""
 	else
-		k3d --version | grep k3d | awk '{print $3}'
+		echo "$(helm version --template='{{.Version}}')"
 	fi
 }
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	local all_versions="$(curl -s https://api.github.com/repos/k3d-io/k3d/releases | jq -r '.[] | ."tag_name"')"
+	local all_versions="$(curl -s https://api.github.com/repos/helm/helm/releases | jq -r '.[] | ."tag_name"')"
 	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
 		local all_versions="$(echo "$all_versions" | grep -v \-)"
 	fi
@@ -111,12 +111,57 @@ function test_version {
 
 # CUSTOM FUNCTION: install the target version
 function install_version {
+	local os_type="$(environment-os-type)"
+	local arch_type="$(environment-arch-type)"
+	local command_to_run=""
+	local os_string=""
+	local checksum_command=""
+	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
 	if [ "$TARGET_VERSION" == "latest" ]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
-	local command_to_run="curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=$TARGET_VERSION bash"
+	local arch_string=""
+	if [ "$arch_type" == "x64" ]; then
+		local arch_string="amd64"
+	elif [ "$arch_type" == "arm64" ]; then
+		local arch_string="arm64"
+	else
+		echo "unsupported arch type - $arch_type" 1>&2
+		exit 1
+	fi
+	if [ "$os_type" == "Linux" ]; then
+		local os_string="linux"
+		local checksum_command="sha256sum --check"
+	elif [ "$os_type" == "Mac" ]; then
+		# TODO: NEEDS TESTING
+		local os_string="darwin"
+		local checksum_command="shasum -a 256 --check"
+	else
+		echo "unsupported os type - $os_type" 1>&2
+		exit 1
+	fi
+	local dirname="${os_string}-${arch_string}"
+	local filename="helm-${TARGET_VERSION}-${dirname}.tar.gz"
+	local hash_extension=".sha256sum"
+	local command_to_run="$(
+		cat <<- EOF
+			curl -L -s "https://get.helm.sh/${filename}" -o "$filename"
+			curl -L -s "https://get.helm.sh/${filename}${hash_extension}" -o "${filename}${hash_extension}"
+			tar xf "$filename"
+			hash="\$(cat "${filename}${hash_extension}")"
+			if (( \$(echo "\$hash" | ${checksum_command} 2>&1 > /dev/null; echo \$?) != 0)); then
+				echo "installing helm failed, checksum didn't match. Cleaning up..." 1>&2
+				rm -rf "$dirname" "${dowload_name}" "${dowload_name}${hash_extension}"
+				exit 1
+			fi
+			chmod +x "./${dirname}/helm"
+			sudo mv ./${dirname}/helm /usr/local/bin/helm
+			sudo chown root: /usr/local/bin/helm
+			rm -rf "$dirname" "${filename}" "${filename}${hash_extension}"
+		EOF
+	)"
 	if [ "$FORCE" == true ]; then
-		eval "$command_to_run"
+		bash -c "$command_to_run"
 	else
 		echo "$command_to_run"
 	fi

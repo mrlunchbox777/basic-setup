@@ -189,7 +189,10 @@ while (("$#")); do
 		fi
 		;;
 	# Get all versions flag
-	-a | --all-versio"$dowload_name" 
+	-a | --all-versions)
+		GET_ALL_VERSIONS=true
+		shift
+		;;
 	# Force flag
 	-f | --force)
 		FORCE=true
