@@ -12,7 +12,7 @@ SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
 VERBOSITY=0
-HELP_INSTALL_PAGE="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-version.html"
+HELP_INSTALL_PAGE="https://kubernetes.io/docs/tasks/tools/"
 
 #
 # computed values (often can't be alphabetical)
@@ -58,17 +58,20 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed aws)" == false ]; then
+	if [ "$(general-command-installed kubectl)" == false ]; then
 		echo ""
 	else
-		aws --version | sed 's/ /\n/g' | head -n 1 | sed 's|/|\n|g' | tail -n 1
+		kubectl version --output=json | jq -r '.clientVersion.gitVersion'
 	fi
 }
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	# The aws cli doesn't have prerelease versions
-	curl https://raw.githubusercontent.com/aws/aws-cli/v2/CHANGELOG.rst -s | awk -v 'RS=\n\n' '{print $1}' | grep -e "^[0-9]*\.[0-9]*\.[0-9]*$"
+	local all_versions="$(curl -s https://api.github.com/repos/kubernetes/kubernetes/releases | jq -r '.[] | ."tag_name"')"
+	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
+		local all_versions="$(echo "$all_versions" | grep -v \-)"
+	fi
+	echo "$all_versions"
 }
 
 # STANDARD FUNCTION: get the latest version or override
@@ -88,13 +91,7 @@ function get_latest_version {
 
 # CUSTOM FUNCTION: extra test version functionality
 function custom_test_version {
-	local aws_version_major=$(echo "$installed_version" | sed 's/\./\n/g' | head -n 1)
-	# aws cli 1 causes issues that have to be resolved manually
-	if (( $aws_version_major < 2 )); then
-		echo "aws is not version 2, uninstall/purge old version, then try this again, and/or follow migration instructions here https://docs.aws.amazon.com/cli/latest/userguide/cliv2-migration.html" 1>&2
-		help
-		exit 1
-	fi
+	return 0
 }
 
 # STANDARD FUNCTION: test the installed version
@@ -116,42 +113,61 @@ function test_version {
 function install_version {
 	local os_type="$(environment-os-type)"
 	local arch_type="$(environment-arch-type)"
+	local dowload_name="kubectl"
 	local command_to_run=""
 	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
 	if [ "$TARGET_VERSION" == "latest" ]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
 	if [ "$os_type" == "Linux" ]; then
-		local dowload_name="awscliv2.zip"
 		local linux_arch_string=""
 		if [ "$arch_type" == "x64" ]; then
-			local linux_arch_string="x86_64"
+			local linux_arch_string="amd64"
 		elif [ "$arch_type" == "arm64" ]; then
-			local linux_arch_string="aarch64"
+			local linux_arch_string="arm64"
 		else
 			echo "unsupported arch type - $arch_type" 1>&2
 			exit 1
 		fi
-		local extra_flags=""
-		if [ ! -z "$(get_installed_version)" ]; then
-			extra_flags="--update"
-		fi
 		local command_to_run="$(
 			cat <<- EOF
-				curl "https://awscli.amazonaws.com/awscli-exe-linux-${linux_arch_string}-${TARGET_VERSION}.zip" -o "$dowload_name" -s
-				unzip "$dowload_name" > /dev/null
-				sudo ./aws/install $extra_flags
-				rm -rf aws "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${linux_arch_string}/kubectl" -o "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${linux_arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
+				hash="\$(cat "${dowload_name}.sha256")"
+				if (( \$(echo "\$hash kubectl" | sha256sum --check 2>&1 > /dev/null; echo \$?) != 0)); then
+					echo "installing kubectl failed, checksum didn't match. Cleaning up..." 1>&2
+					rm -rf "$idowload_name" "${dowload_name}.sha256"
+					exit 1
+				fi
+				sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+				rm -rf "$dowload_name" "${dowload_name}.sha256"
 			EOF
 		)"
 	elif [ "$os_type" == "Mac" ]; then
 		# TODO: NEEDS TESTING
-		local dowload_name="AWSCLIV2.pkg"
+		local mac_arch_string=""
+		if [ "$arch_type" == "x64" ]; then
+			local mac_arch_string="amd64"
+		elif [ "$arch_type" == "arm64" ]; then
+			local mac_arch_string="arm64"
+		else
+			echo "unsupported arch type - $arch_type" 1>&2
+			exit 1
+		fi
 		local command_to_run="$(
 			cat <<- EOF
-				curl "https://awscli.amazonaws.com/AWSCLIV2-${TARGET_VERSION}.pkg" -o "$dowload_name"
-				sudo installer -pkg $dowload_name -target /
-				rm -rf "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${mac_arch_string}/kubectl" -o "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${mac_arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
+				hash="\$(cat "${dowload_name}.sha256")"
+				if (( \$(echo "\$hash kubectl" | shasum -a 256 --check 2>&1 > /dev/null; echo \$?) != 0)); then
+					echo "installing kubectl failed, checksum didn't match. Cleaning up..." 1>&2
+					rm -rf "$dowload_name" "${dowload_name}.sha256"
+					exit 1
+				fi
+				chmod +x "./${dowload_name}"
+				sudo mv ./kubectl /usr/local/bin/kubectl
+				sudo chown root: /usr/local/bin/kubectl
+				rm -rf "${dowload_name}.sha256"
 			EOF
 		)"
 	else
@@ -159,7 +175,7 @@ function install_version {
 		exit 1
 	fi
 	if [ "$FORCE" == true ]; then
-		eval "$command_to_run"
+		bash -c "$command_to_run"
 	else
 		echo "$command_to_run"
 	fi
@@ -182,10 +198,7 @@ while (("$#")); do
 		fi
 		;;
 	# Get all versions flag
-	-a | --all-versions)
-		GET_ALL_VERSIONS=true
-		shift
-		;;
+	-a | --all-versio"$dowload_name" 
 	# Force flag
 	-f | --force)
 		FORCE=true

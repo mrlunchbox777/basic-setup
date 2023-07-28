@@ -7,6 +7,7 @@ FORCE=false
 GET_ALL_VERSIONS=false
 GET_INSTALLED_VERSION=false
 GET_LATEST_VERSION=false
+INCLUDE_PRERELEASE_VERSIONS=false
 SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
@@ -39,6 +40,7 @@ function help {
 		-h|--help            - (flag, default: false) Print this help message and exit.
 		-i|--install-version - (optional, default: "latest") Print commands to install (-f to actually install) the given version of $COMMAND_NAME (pass latest for the -l version) and exit.
 		-l|--latest-version  - (flag, default: false) Print the latest available version of $COMMAND_NAME and exit.
+		-p|--prerelease      - (flag, default: false) Include prerelease versions as available versions of $COMMAND_NAME for the other commands.
 		-r|--read-version    - (flag, default: false) Print the currently installed version of $COMMAND_NAME (or empty string) and exit.
 		-t|--test-version    - (flag, default: false) error if -l does not equal -r and exit.
 		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
@@ -65,7 +67,11 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	curl -s https://api.github.com/repos/k3d-io/k3d/releases | jq -r '.[] | ."tag_name"'
+	local all_versions="$(curl -s https://api.github.com/repos/k3d-io/k3d/releases | jq -r '.[] | ."tag_name"')"
+	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
+		local all_versions="$(echo "$all_versions" | grep -v \-)"
+	fi
+	echo "$all_versions"
 }
 
 # STANDARD FUNCTION: get the latest version or override
@@ -84,10 +90,11 @@ function get_latest_version {
 }
 
 # CUSTOM FUNCTION: extra test version functionality
-function custom_test_version {
-	return 0
-}
-
+function custom_test_version	# Get latest version flag
+	-p | --prerelease)
+		INCLUDE_PRERELEASE_VERSIONS=true
+		shift
+		;;
 # STANDARD FUNCTION: test the installed version
 function test_version {
 	local installed_version="$(get_installed_version)"
@@ -145,6 +152,11 @@ while (("$#")); do
 	# Get latest version flag
 	-l | --latest-version)
 		GET_LATEST_VERSION=true
+		shift
+		;;
+	# Include prerelease versions flag
+	-p | --prerelease)
+		INCLUDE_PRERELEASE_VERSIONS=true
 		shift
 		;;
 	# Read installed version flag
