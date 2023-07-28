@@ -168,8 +168,9 @@ function check_for_latest {
 				false
 			else
 				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
-				if [ "$(git branch --show-current)" != "$TARGET_BRANCH" ]; then
-					error_message="Git is not on the target branch - $TARGET_BRANCH. You can change this with export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"."
+				local current_branch="$(git branch --show-current)"
+				if [ "$current_branch" != "$TARGET_BRANCH" ]; then
+					error_message="Git (at ${basic_setup_dir}) is not on the target branch (${TARGET_BRANCH}). It is on ${current_branch}. You can change the target with export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"."
 					false
 				fi
 			fi
