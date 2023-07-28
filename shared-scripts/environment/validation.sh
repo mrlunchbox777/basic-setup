@@ -39,6 +39,7 @@ PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
 # TODO: make this override do something
 PACKAGES_OVERRIDE_DIR="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH"] && [ -d "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" ] && echo "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" || echo "" )"
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
+SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 
 # TODO: add verbosity to everything
 
@@ -137,7 +138,7 @@ function check_for_skip {
 	# Include important flags in the file name
 	PREVIOUSLY_VALIDATED_FILE_NAME="${PREVIOUSLY_VALIDATED_FILE_NAME}_$(echo "${LABELS[@]}" | sed 's/ /_/g')_${LABELS_FILTER_MODE}_${ALLOW_CURL_INSTALLS}"
 	mkdir -p $BASIC_SETUP_DATA_DIRECTORY
-	if (( "$FORCE" == 0 )) && [ "$(find "$BASIC_SETUP_DATA_DIRECTORY" -maxdepth 1 -name $PREVIOUSLY_VALIDATED_FILE_NAME -mmin -1440)" ]; then
+	if [ "$FORCE" != "true" ] && [ "$(find "$BASIC_SETUP_DATA_DIRECTORY" -maxdepth 1 -name $PREVIOUSLY_VALIDATED_FILE_NAME -mmin -1440)" ]; then
 	# TODO: add verbose and push this out
 	# echo "previously validated - skipping" 1>&2
 		update_e
@@ -156,21 +157,22 @@ function check_for_latest {
 	local basic_setup_dir="$(general-get-basic-setup-dir)"
 	{
 		cd "$basic_setup_dir"
-		if [ ! -z "$(git status --porcelain)" ]; then
-			error_message="Error checking for latest, git not porcelain at ${basic_setup_dir}. Please commit/stash your changes."
+		if [ ! -z "$(git status --porcelain)" ] && [ "$SKIP_PORCELAIN" != "true" ]; then
+			error_message="Error checking for latest, git not porcelain at ${basic_setup_dir}. Please commit/stash your changes. You can also skip this step with \`export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN=\"true\"\`"
 			false
 		else
 			git fetch -p
-			local diff="$(git rev-list main...origin/main --count)"
+			local current_branch="$(git branch --show-current)"
+			local upstream="$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"
+			local diff="$(git rev-list ${current_branch}...${upstream} --count)"
 			if (( $diff > 0 )); then
 				# TODO: offer an interactive way to update here
-				error_message="Branch 'main' not at latest, please update ${basic_setup_dir}"
+				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir}"
 				false
 			else
 				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
-				local current_branch="$(git branch --show-current)"
 				if [ "$current_branch" != "$TARGET_BRANCH" ]; then
-					error_message="Git (at ${basic_setup_dir}) is not on the target branch (${TARGET_BRANCH}). It is on ${current_branch}. You can change the target with export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"."
+					error_message="Git (at ${basic_setup_dir}) is not on the target branch (${TARGET_BRANCH}). It is on ${current_branch}. You can change the target with \`export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"\`."
 					false
 				fi
 			fi
