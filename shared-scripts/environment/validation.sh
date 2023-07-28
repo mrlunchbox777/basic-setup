@@ -157,7 +157,7 @@ function check_for_latest {
 	{
 		cd "$basic_setup_dir"
 		if [ ! -z "$(git status --porcelain)" ]; then
-			error_message="Error checking for latest, git not porcelain at ${basic_setup_dir}."
+			error_message="Error checking for latest, git not porcelain at ${basic_setup_dir}. Please commit/stash your changes."
 			false
 		else
 			git fetch -p
@@ -167,9 +167,9 @@ function check_for_latest {
 				error_message="Branch 'main' not at latest, please update ${basic_setup_dir}"
 				false
 			else
-				(( $VERBOSITY > 0 )) && echo "at latest" || true
+				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
 				if [ "$(git branch --show-current)" != "$TARGET_BRANCH" ]; then
-					error_message="Git "
+					error_message="Git is not on the target branch - $TARGET_BRANCH. You can change this with export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"."
 					false
 				fi
 			fi
