@@ -119,20 +119,20 @@ function install_version {
 	if [ "$TARGET_VERSION" == "latest" ]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
+	local arch_string=""
+	if [ "$arch_type" == "x64" ]; then
+		local arch_string="amd64"
+	elif [ "$arch_type" == "arm64" ]; then
+		local arch_string="arm64"
+	else
+		echo "unsupported arch type - $arch_type" 1>&2
+		exit 1
+	fi
 	if [ "$os_type" == "Linux" ]; then
-		local linux_arch_string=""
-		if [ "$arch_type" == "x64" ]; then
-			local linux_arch_string="amd64"
-		elif [ "$arch_type" == "arm64" ]; then
-			local linux_arch_string="arm64"
-		else
-			echo "unsupported arch type - $arch_type" 1>&2
-			exit 1
-		fi
 		local command_to_run="$(
 			cat <<- EOF
-				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${linux_arch_string}/kubectl" -o "$dowload_name"
-				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${linux_arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${arch_string}/kubectl" -o "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/linux/${arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
 				hash="\$(cat "${dowload_name}.sha256")"
 				if (( \$(echo "\$hash kubectl" | sha256sum --check 2>&1 > /dev/null; echo \$?) != 0)); then
 					echo "installing kubectl failed, checksum didn't match. Cleaning up..." 1>&2
@@ -145,19 +145,10 @@ function install_version {
 		)"
 	elif [ "$os_type" == "Mac" ]; then
 		# TODO: NEEDS TESTING
-		local mac_arch_string=""
-		if [ "$arch_type" == "x64" ]; then
-			local mac_arch_string="amd64"
-		elif [ "$arch_type" == "arm64" ]; then
-			local mac_arch_string="arm64"
-		else
-			echo "unsupported arch type - $arch_type" 1>&2
-			exit 1
-		fi
 		local command_to_run="$(
 			cat <<- EOF
-				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${mac_arch_string}/kubectl" -o "$dowload_name"
-				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${mac_arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${arch_string}/kubectl" -o "$dowload_name"
+				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${arch_string}/kubectl.sha256" -o "${dowload_name}.sha256"
 				hash="\$(cat "${dowload_name}.sha256")"
 				if (( \$(echo "\$hash kubectl" | shasum -a 256 --check 2>&1 > /dev/null; echo \$?) != 0)); then
 					echo "installing kubectl failed, checksum didn't match. Cleaning up..." 1>&2
