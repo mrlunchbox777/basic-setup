@@ -191,13 +191,14 @@ function handle_overall_errors {
 # Get the install command for the package manager
 function get_package_manager_install_command {
 	local package_manager="$1"
+	local package="$2"
 	local install_command="unknown install command"
-	[ "$package_manager" == "apt-get" ] && local install_command="install"
-	[ "$package_manager" == "brew" ] && local install_command="install"
-	[ "$package_manager" == "curl" ] && local install_command="custom install script for"
-	[ "$package_manager" == "pacman" ] && local install_command="-S"
-	[ "$package_manager" == "yum" ] && local install_command="install"
-	[ "$package_manager" == "winget" ] && local install_command="install"
+	[ "$package_manager" == "apt-get" ] && local install_command="apt-get install $package"
+	[ "$package_manager" == "brew" ] && local install_command="brew install $package"
+	[ "$package_manager" == "curl" ] && local install_command="environment-curl-commands-${package}"
+	[ "$package_manager" == "pacman" ] && local install_command="pacman -S $package"
+	[ "$package_manager" == "yum" ] && local install_command="yum install $package"
+	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
 	echo "$install_command"
 }
 
@@ -213,14 +214,14 @@ function should_be_installed {
 		local extra=$(echo "$package_content" | jq -r '."install-page"')
 		local package_manager_content="$(get_package_manager_content "$package_content")"
 		local package_name="$human_name"
-		local package_manager_name="manually"
-		local package_manager_install_command="install"
+		local package_manager_name=""
+		local package_manager_install_command="Manually install ${package_name}."
 		if [ ! -z "$package_manager_content" ]; then
 			local package_name=$(echo "$package_manager_content" | jq '."package-name"')
 			local package_manager_name=$(echo "$package_manager_content" | jq '."manager-name"')
-			local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name")
+			local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
 		fi
-		local message="unable to find $human_name ($command_name), '$package_manager_name $package_manager_install_command $package_name' $extra"
+		local message="unable to find $human_name ($command_name), '$package_manager_install_command' $extra"
 		local error_message=$(echo "$package_content" | jq -c --arg m "$message" '{message: $m} + .')
 		ERROR_MESSAGES+=("$error_message")
 	fi

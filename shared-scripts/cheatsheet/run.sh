@@ -21,8 +21,7 @@ for cheatsheet_to_show in $(echo $cheatsheets_to_show | grep -o .); do
 	echo "" >> "$cs_tmp_name"
 done
 
-which_bat_output="$(which 'bat')"
-if [ -z "$which_bat_output" ] || [[ "bat not found" == "$which_bat_output" ]]; then
+if [ "$(general-command-installed bat)" == false ]; then
 	less "$cs_tmp_name"
 else
 	bat -l md "$cs_tmp_name"

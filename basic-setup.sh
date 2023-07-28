@@ -8,13 +8,13 @@ mkdir -p ~/src/tools
 [ -f .env ] && env_path="$(pwd)/.env"
 cd ~/src/tools
 
-if (( $(which bash 2>&1 > /dev/null; echo $?) != 0 )); then
+if (( $(command -v bash 2>&1 > /dev/null; echo $?) != 0 )); then
 	# TODO: install bash automatically
 	echo "Please install bash before running this." >&2
 	echo "See the following for details for windows https://itsfoss.com/install-bash-on-windows/" >&2
 	echo "For mac and linux it should already be installed, but if not use your package manager."
 fi
-if (( $(which git 2>&1 > /dev/null; echo $?) != 0 )); then
+if (( $(command -v git 2>&1 > /dev/null; echo $?) != 0 )); then
 	# TODO: install git automatically
 	echo "Please install git before running this." >&2
 	echo "See the following for details https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" >&2
