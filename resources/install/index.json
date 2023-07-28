@@ -76,7 +76,7 @@
           "package-name": "docker.io"
         },
         {
-          "arguments": "",
+          "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",

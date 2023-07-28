@@ -29,6 +29,7 @@ FORCE=false
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
 SHOW_HELP=false
 SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "yum" "winget")
+TARGET_BRANCH="main"
 VERBOSITY=0
 
 #
@@ -36,7 +37,8 @@ VERBOSITY=0
 #
 PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
 # TODO: make this override do something
-PACKAGES_OVERRIDE="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH"] && [ -f "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH" ] && cat "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_FILE_PATH" || echo "" )"
+PACKAGES_OVERRIDE_DIR="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH"] && [ -d "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" ] && echo "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" || echo "" )"
+TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 
 # TODO: add verbosity to everything
 
@@ -140,6 +142,51 @@ function check_for_skip {
 	# echo "previously validated - skipping" 1>&2
 		update_e
 		exit 0
+	fi
+}
+
+# check for latest
+function check_for_latest {
+	# TODO: add a flag to make all of this optional (or maybe optional by default)
+	# TODO: add a check that ensures this is checked at generalrc
+	# TODO: do the tooling checks as well (maybe as part of the tooling)
+	local old_dir="$(pwd)"
+	local exit_code=0
+	local error_message=""
+	local basic_setup_dir="$(general-get-basic-setup-dir)"
+	{
+		cd "$basic_setup_dir"
+		if [ ! -z "$(git status --porcelain)" ]; then
+			error_message="Error checking for latest, git not porcelain at ${basic_setup_dir}."
+			false
+		else
+			git fetch -p
+			local diff="$(git rev-list main...origin/main --count)"
+			if (( $diff > 0 )); then
+				# TODO: offer an interactive way to update here
+				error_message="Branch 'main' not at latest, please update ${basic_setup_dir}"
+				false
+			else
+				(( $VERBOSITY > 0 )) && echo "at latest" || true
+				if [ "$(git branch --show-current)" != "$TARGET_BRANCH" ]; then
+					error_message="Git "
+					false
+				fi
+			fi
+		fi
+	} || {
+		local exit_code=$?
+		if (( $exit_code == 0 )); then
+			local exit_code=1
+		fi
+		if [ -z "$error_message" ]; then
+			local error_message="error during environment-validation when checking for latest..."
+		fi
+	}
+	cd "$old_dir"
+	if (( $exit_code > 0 )); then
+		echo "$error_message" 1>&2
+		exit $exit_code
 	fi
 }
 
@@ -269,7 +316,7 @@ done
 [ $SHOW_HELP == true ] && help && update_e && exit 0
 
 check_for_skip
-# TODO: add a check for on main at latest
+check_for_latest
 check_for_jq
 check_for_bash
 check_for_os_specific_tooling
