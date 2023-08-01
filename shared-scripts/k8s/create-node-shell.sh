@@ -16,11 +16,11 @@ if [ -z "$node_name" ]; then
 		node_name=$(echo $nodes | sed -n "$REPLY"p)
 	else
 		echo "Entry invalid, exiting..." >&2
-		return 1
+		exit 1
 	fi
 fi
 node_exists=$(echo "$nodes" | grep "$node_name")
-[ -z "$node_exists" ] && echo "No node with the name provided ($node_name), check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && return 1
+[ -z "$node_exists" ] && echo "No node with the name provided ($node_name), check below for nodes\n\n--\n$nodes\n--\n\nexiting..." && exit 1
 echo "Node found, creating pod to get shell"
 pod_name=$(echo "node-shell-$(uuid)")
 pod_yaml="/tmp/$pod_name.yaml"
@@ -53,7 +53,7 @@ exception=""
 	command_to_run="$2"
 	if [ -z "$command_to_run" ]; then
 		# TODO make this make sense for windows nodes
-		command_to_run="(( \$(command -v bash 2>&1 > /dev/null; echo \$?) != 0 )) && sh || bash"
+		command_to_run="(( \$(command -v bash 2>&1 > /dev/null; echo \$?) == 0 )) && bash || sh"
 	fi
 	# TODO make this make sense for windows nodes
 	kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"
@@ -73,5 +73,5 @@ rm "$pod_yaml"
 if [[ "$failed" == "true" ]]; then
 	echo "Failure detected, check logs, exiting...">&2
 	echo "exception code - $exception">&2
-	return $exception
+	exit $exception
 fi
