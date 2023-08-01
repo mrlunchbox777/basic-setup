@@ -22,7 +22,7 @@ function update_e {
 #
 ALLOW_CURL_INSTALLS=false
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
-ERROR_MESSAGES=()
+ERROR_MESSAGES=0
 LABELS=("all")
 LABELS_FILTER_MODE="replace" # union, intersection, replace
 FORCE=false
@@ -58,9 +58,10 @@ function help {
 		----------
 		description: This script will validate that everything that is needed is included in your environment.
 		----------
-		-f|--force   - (flag, default: false) Force the validation (don't skip if previously passed).
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--allow-curl - (flag, default: false) Allow curl installs and validations.
+		-f|--force      - (flag, default: false) Force the validation (don't skip if previously passed).
+		-h|--help       - (flag, default: false) Print this help message and exit.
+		-v|--verbose    - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
 		----------
@@ -201,11 +202,11 @@ function check_for_tools {
 	# this will need to be done per item to ensure they are there
 	# TODO: handle the different ways we want to handle filters
 	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select((.labels[] | . == "'${LABELS[0]}'") and .enabled == true) | .name')"
-	echo "$packages_keys" | while read package_key; do
+	while read package_key; do
 		(($VERBOSITY > 1)) && echo "running for $package_key"
 		local package_content="$(echo "$PACKAGES" | jq '.packages[] | select(.name == "'"$package_key"'")')"
 		should_be_installed "$package_content"
-	done
+	done <<< $packages_keys # can't use echo pipe because that puts the loop in a subshell
 }
 
 # ensure the OS specific tooling is installed (e.g. GNU Mac tools)
@@ -223,18 +224,13 @@ function check_for_os_specific_tooling {
 
 # fail after running everything to generate a list
 function handle_overall_errors {
-	if (( "${#ERROR_MESSAGES[@]}" > 0 )); then
-		echo "Found Failures: " 1>&2
-		for error_message_object in "${ERROR_MESSAGES[@]}"; do
-			error_message=$(echo $error_message_object | jq -r '.message')
-			if [ -z "$error_message" ]; then
-				continue
-			fi
-			echo "  - $error_message" 1>&2
-		done
-		help
+	if (( $ERROR_MESSAGES > 0 )); then
+		echo "Found Failures, check logs. Run with -h for help." 1>&2
+		# help
 		update_e
 		exit 1
+	else
+		(($VERBOSITY > 0)) && echo "No errors found. count - $ERROR_MESSAGES" || true
 	fi
 }
 
@@ -243,6 +239,7 @@ function get_package_manager_install_command {
 	local package_manager="$1"
 	local package="$2"
 	local install_command="unknown install command"
+	(($VERBOSITY > 1)) && echo "finding install command for $package_manager and $package" 1>&2
 	[ "$package_manager" == "apt-get" ] && local install_command="apt-get install $package"
 	[ "$package_manager" == "brew" ] && local install_command="brew install $package"
 	[ "$package_manager" == "curl" ] && local install_command="environment-curl-commands-${package}"
@@ -258,8 +255,9 @@ function should_be_installed {
 
 	local command_name=$(echo "$package_content" | jq -r '.command')
 	local is_command_installed=$(is_command_installed "$command_name")
-	if (( $is_command_installed == 0 )); then
+	if [ "$is_command_installed" == "false" ]; then
 		# TODO: handle installs here if flag passed
+		(($VERBOSITY > 1)) && echo "$command_name failed"
 		local human_name=$(echo "$package_content" | jq -r '.name')
 		local extra=$(echo "$package_content" | jq -r '."install-page"')
 		local package_manager_content="$(get_package_manager_content "$package_content")"
@@ -267,13 +265,17 @@ function should_be_installed {
 		local package_manager_name=""
 		local package_manager_install_command="Manually install ${package_name}."
 		if [ ! -z "$package_manager_content" ]; then
-			local package_name=$(echo "$package_manager_content" | jq '."package-name"')
-			local package_manager_name=$(echo "$package_manager_content" | jq '."manager-name"')
+			local package_name=$(echo "$package_manager_content" | jq -r '."package-name"')
+			local package_manager_name=$(echo "$package_manager_content" | jq -r '."manager-name"')
 			local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
 		fi
 		local message="unable to find $human_name ($command_name), '$package_manager_install_command' $extra"
 		local error_message=$(echo "$package_content" | jq -c --arg m "$message" '{message: $m} + .')
-		ERROR_MESSAGES+=("$error_message")
+		echo "$message" 1>&2
+		((ERROR_MESSAGES+=1))
+	else
+		# TODO: check for latest package
+		(($VERBOSITY > 0)) && echo "$command_name installed." || true
 	fi
 }
 
@@ -283,6 +285,11 @@ function should_be_installed {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# Allow Curl flag
+	-c | --allow-curl)
+		ALLOW_CURL_INSTALLS=true
+		shift
+		;;
 	# Force flag
 	-f | --force)
 		FORCE=true
