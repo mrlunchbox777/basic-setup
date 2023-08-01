@@ -240,11 +240,11 @@ function get_package_manager_install_command {
 	local package="$2"
 	local install_command="unknown install command"
 	(($VERBOSITY > 1)) && echo "finding install command for $package_manager and $package" 1>&2
-	[ "$package_manager" == "apt-get" ] && local install_command="apt-get install $package"
+	[ "$package_manager" == "apt-get" ] && local install_command="sudo apt-get install $package"
 	[ "$package_manager" == "brew" ] && local install_command="brew install $package"
 	[ "$package_manager" == "curl" ] && local install_command="environment-curl-commands-${package}"
-	[ "$package_manager" == "pacman" ] && local install_command="pacman -S $package"
-	[ "$package_manager" == "yum" ] && local install_command="yum install $package"
+	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S $package"
+	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package"
 	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
 	echo "$install_command"
 }
