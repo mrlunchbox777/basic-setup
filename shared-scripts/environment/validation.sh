@@ -39,6 +39,7 @@ PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
 # TODO: make this override do something
 PACKAGES_OVERRIDE_DIR="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH"] && [ -d "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" ] && echo "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" || echo "" )"
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
+SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 
 # TODO: add verbosity to everything
@@ -58,10 +59,11 @@ function help {
 		----------
 		description: This script will validate that everything that is needed is included in your environment.
 		----------
-		-c|--allow-curl - (flag, default: false) Allow curl installs and validations.
-		-f|--force      - (flag, default: false) Force the validation (don't skip if previously passed).
-		-h|--help       - (flag, default: false) Print this help message and exit.
-		-v|--verbose    - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--allow-curl  - (flag, default: false) Allow curl installs and validations.
+		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
+		-h|--help        - (flag, default: false) Print this help message and exit.
+		-l|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
+		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
 		----------
@@ -148,7 +150,7 @@ function check_for_skip {
 }
 
 # check for latest
-function check_for_latest {
+function check_for_latest_basic_setup_git {
 	# TODO: add a flag to make all of this optional (or maybe optional by default)
 	# TODO: add a check that ensures this is checked at generalrc
 	# TODO: do the tooling checks as well (maybe as part of the tooling)
@@ -249,33 +251,66 @@ function get_package_manager_install_command {
 	echo "$install_command"
 }
 
+# Check for the latest packages
+function check_for_latest_package_from_package_manager {
+	local package_manager="$1"
+	local package="$2"
+	if [ "$SKIP_LATEST_CHECK" == true ]; then
+		return 0
+	fi
+	(($VERBOSITY > 1)) && echo "checking for latest for $package_manager and $package" 1>&2
+	# TODO: allow users to upgrade packages interactively or with a flag
+	if [ "$package_manager" == "apt-get" ]; then
+		sudo apt-get update -y
+		local apt_results="$(apt-get --just-print upgrade | grep '^[0-9]* upgraded, [0-9]* newly installed, [0-9]* to remove and [0-9]* not upgraded\.$')"
+		if [[ "$apt_results" =~ [1-9]* ]]; then
+			echo "ERROR: Please upgrade apt packages, 'sudo apt upgrade'." 1>&2
+			update_e
+			exit 1
+		fi
+	fi
+	if [ "$package_manager" == "brew" ]; then
+		if [ ! -z "$(brew outdated)" ]; then
+			echo "ERROR: Please upgrade brew packages 'brew upgrade'." 1>&2
+			update_e
+			exit 1
+		fi
+	fi
+	if [ "$package_manager" == "curl" ]; then
+		# TODO: WIP
+	fi
+	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S $package"
+	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package"
+	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
+}
+
 # run the logic for a package that should be installed
 function should_be_installed {
 	local package_content=$1
-
 	local command_name=$(echo "$package_content" | jq -r '.command')
 	local is_command_installed=$(is_command_installed "$command_name")
+	local human_name=$(echo "$package_content" | jq -r '.name')
+	local extra=$(echo "$package_content" | jq -r '."install-page"')
+	local package_manager_content="$(get_package_manager_content "$package_content")"
+	local package_name="$human_name"
+	local package_manager_name=""
+	local package_manager_install_command="Manually install $human_name."
+	if [ ! -z "$package_manager_content" ]; then
+		local package_name=$(echo "$package_manager_content" | jq -r '."package-name"')
+		local package_manager_name=$(echo "$package_manager_content" | jq -r '."manager-name"')
+		local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
+	fi
 	if [ "$is_command_installed" == "false" ]; then
 		# TODO: handle installs here if flag passed
 		(($VERBOSITY > 1)) && echo "$command_name failed"
-		local human_name=$(echo "$package_content" | jq -r '.name')
-		local extra=$(echo "$package_content" | jq -r '."install-page"')
-		local package_manager_content="$(get_package_manager_content "$package_content")"
-		local package_name="$human_name"
-		local package_manager_name=""
-		local package_manager_install_command="Manually install ${package_name}."
-		if [ ! -z "$package_manager_content" ]; then
-			local package_name=$(echo "$package_manager_content" | jq -r '."package-name"')
-			local package_manager_name=$(echo "$package_manager_content" | jq -r '."manager-name"')
-			local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
-		fi
-		local message="unable to find $human_name ($command_name), '$package_manager_install_command' $extra"
-		local error_message=$(echo "$package_content" | jq -c --arg m "$message" '{message: $m} + .')
+		local message="unable to find $human_name ($command_name), '$package_manager_install_command' - $extra"
 		echo "$message" 1>&2
 		((ERROR_MESSAGES+=1))
 	else
-		# TODO: check for latest package
 		(($VERBOSITY > 0)) && echo "$command_name installed." || true
+		if [ "$package_manager" == "curl" ]; then
+			check_for_latest_package_from_package_manager "$package_manager_name" "$package_name"
+		fi
 	fi
 }
 
@@ -298,6 +333,11 @@ while (("$#")); do
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
+		shift
+		;;
+	# skip latest check flag
+	-l | --skip-latest)
+		SKIP_LATEST_CHECK=true
 		shift
 		;;
 	# verbosity multi-flag
@@ -326,7 +366,7 @@ done
 [ $SHOW_HELP == true ] && help && update_e && exit 0
 
 check_for_skip
-check_for_latest
+check_for_latest_basic_setup_git
 check_for_jq
 check_for_bash
 check_for_os_specific_tooling
