@@ -16,7 +16,7 @@ temp_file_name=""
 	bound_port=$(echo "$forwarding_output" | awk '{print $3}' | sed -n 1p | awk -F: '{print $2}')
 	echo "$forwarding_output"
 	# TODO support open for mac here - https://superuser.com/questions/911735/how-do-i-use-xdg-open-from-xdg-utils-on-mac-osx
-	xdg-open http://localhost:$bound_port < /dev/null > /dev/null 2>&1 & disown
+	xdg-open http://localhost:$bound_port </dev/null >/dev/null 2>&1 & disown
 	echo "Bringing portforward back to foreground"
 	fg %$port_forward_job
 } || {

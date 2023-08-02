@@ -281,7 +281,7 @@ function check_for_latest_package_from_package_manager {
 	fi
 	if [ "$package_manager" == "curl" ]; then
 		local curl_command="environment-curl-commands-${package}"
-		if (( $(eval "$curl_command -t" 2>&1 > /dev/null; echo $?) > 0 )); then
+		if (( $($curl_command -t >/dev/null 2>&1; echo $?) > 0 )); then
 			echo "ERROR: Please run '$curl_command -f -i'." 1>&2
 			update_e
 			exit 1
@@ -331,8 +331,8 @@ function should_be_installed {
 		echo "$message" 1>&2
 		((ERROR_MESSAGES+=1))
 	else
-		(($VERBOSITY > 0)) && echo "$command_name installed." || true
-		if [ "$package_manager" == "curl" ]; then
+		(($VERBOSITY > 0)) && echo "$command_name installed with $package_manager_name." || true
+		if [ "$package_manager_name" == "curl" ]; then
 			check_for_latest_package_from_package_manager "$package_manager_name" "$package_name"
 		fi
 	fi

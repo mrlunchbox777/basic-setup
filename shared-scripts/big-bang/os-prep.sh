@@ -36,7 +36,7 @@ TARGET_MODULUES=(
 #
 # computed values (often can't be alphabetical)
 #
-HAS_SYSTEMCTL="$( (( $(command -v systemctl 2>&1 > /dev/null; echo $?) == 0 )) && echo true || echo false )"
+HAS_SYSTEMCTL="$( (( $(command -v systemctl >/dev/null 2>&1; echo $?) == 0 )) && echo true || echo false )"
 RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
@@ -152,7 +152,7 @@ function get_systemctl_swap_devices {
 		fi
 		local systemctl_output="$(systemctl --type=swap $target_state | tail -n +2)"
 		# skip if no swap units loaded
-		if (( $(echo "$systemctl_output" | grep "^\s*0" 2>&1 > /dev/null; echo $?) == 0 )); then
+		if (( $(echo "$systemctl_output" | grep "^\s*0" >/dev/null 2>&1; echo $?) == 0 )); then
 			return 0
 		fi
 		# get only the lines that have units
@@ -383,7 +383,7 @@ function restore_config_backup {
 	if (($VERBOSITY > 2)); then
 		sudo sysctl -p "$config_backup_location"
 	else
-		sudo sysctl -p "$config_backup_location" 2>&1 > /dev/null
+		sudo sysctl -p "$config_backup_location" >/dev/null 2>&1
 	fi
 }
 
@@ -642,7 +642,7 @@ function reload_configuration {
 # set up modules, or skip if not using SELinux
 function set_modules {
 	# Test if we are using SELinux
-	if (( $(command -v getenforce 2>&1 > /dev/null; echo $?) == 0 )); then
+	if (( $(command -v getenforce >/dev/null 2>&1; echo $?) == 0 )); then
 		local persist_string=""
 		[ "$PERSIST" == true ] && persist_string=" and persist them in the configuration files"
 		(($VERBOSITY > 0)) && echo "this would enable the modules (${TARGET_MODULUES[@]})${persist_string}"
@@ -652,14 +652,14 @@ function set_modules {
 		fi
 		for i in "${TARGET_MODULUES[@]}"; do
 			# Test if the module is already loaded
-			if (( $(lsmod | grep "^$i\s*" 2>&1 > /dev/null; echo ?) == 0)); then
+			if (( $(lsmod | grep "^$i\s*" >/dev/null 2>&1; echo ?) == 0)); then
 				(($VERBOSITY > 0)) && echo "module already in \`lsmod\`"
 			else
 				sudo modprobe $i
 			fi
 			if [ "$PERSIST" == true ]; then
 				# Test if the module is already in /etc/modules
-				if (( $(grep $i /etc/modules 2>&1 > /dev/null; echo ?) == 0)); then
+				if (( $(grep $i /etc/modules >/dev/null 2>&1; echo ?) == 0)); then
 					(($VERBOSITY > 0)) && echo "module already in /etc/modules"
 				else
 					echo "$i" | sudo tee -a /etc/modules > /dev/null

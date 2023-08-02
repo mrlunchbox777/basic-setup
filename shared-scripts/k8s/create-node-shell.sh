@@ -53,7 +53,7 @@ exception=""
 	command_to_run="$2"
 	if [ -z "$command_to_run" ]; then
 		# TODO make this make sense for windows nodes
-		command_to_run="(( \$(command -v bash 2>&1 > /dev/null; echo \$?) == 0 )) && bash || sh"
+		command_to_run="(( \$(command -v bash >/dev/null 2>&1; echo \$?) == 0 )) && bash || sh"
 	fi
 	# TODO make this make sense for windows nodes
 	kubectl exec $pod_name -n kube-system -it -- sh -c "$command_to_run"

@@ -4,7 +4,7 @@
 # track directories
 initial_dir="$(pwd)"
 source="${BASH_SOURCE[0]}"
-if (( $(command -v general-get-source-and-dir 2>&1 > /dev/null; echo $?) != 0 )); then
+if (( $(command -v general-get-source-and-dir >/dev/null 2>&1; echo $?) != 0 )); then
 	echo "general-get-source-and-dir not found, please ensure \$basic_setup_directory/shared-scripts/bin is in your path before running..." >&2
 	exit 1
 fi

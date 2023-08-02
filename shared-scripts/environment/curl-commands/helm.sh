@@ -78,7 +78,7 @@ function get_all_versions {
 function get_latest_version {
 	local all_versions="$(get_all_versions)"
 	if [ ! -z "$LATEST_VERSION_OVERRIDE" ]; then
-		if (( $(echo "$all_versions" | grep -q $LATEST_VERSION_OVERRIDE 2>&1 > /dev/null; echo $? ) != 0 )); then
+		if (( $(echo "$all_versions" | grep -q $LATEST_VERSION_OVERRIDE >/dev/null 2>&1; echo $? ) != 0 )); then
 			echo "$COMMAND_NAME LATEST_VERSION_OVERRIDE not found - $LATEST_VERSION_OVERRIDE" 1>&2
 			exit 1
 		else
@@ -149,7 +149,7 @@ function install_version {
 			curl -L -s "https://get.helm.sh/${filename}${hash_extension}" -o "${filename}${hash_extension}"
 			tar xf "$filename"
 			hash="\$(cat "${filename}${hash_extension}")"
-			if (( \$(echo "\$hash" | ${checksum_command} 2>&1 > /dev/null; echo \$?) != 0)); then
+			if (( \$(echo "\$hash" | ${checksum_command} >/dev/null 2>&1; echo \$?) != 0)); then
 				echo "installing helm failed, checksum didn't match. Cleaning up..." 1>&2
 				rm -rf "$dirname" "${dowload_name}" "${dowload_name}${hash_extension}"
 				exit 1
