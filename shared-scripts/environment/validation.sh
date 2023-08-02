@@ -282,7 +282,7 @@ function check_for_latest_package_from_package_manager {
 	if [ "$package_manager" == "curl" ]; then
 		local curl_command="environment-curl-commands-${package}"
 		if (( $($curl_command -t >/dev/null 2>&1; echo $?) > 0 )); then
-			echo "ERROR: Please run '$curl_command -f -i'." 1>&2
+			echo "ERROR: ${package} is out of date. Please run '$curl_command -f -i' (or -h for help)." 1>&2
 			update_e
 			exit 1
 		fi
