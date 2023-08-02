@@ -253,17 +253,20 @@ function get_package_manager_install_command {
 
 # Check for the latest packages
 function check_for_latest_package_from_package_manager {
-	local package_manager="$1"
-	local package="$2"
 	if [ "$SKIP_LATEST_CHECK" == true ]; then
 		return 0
 	fi
+	local package_manager="$1"
+	if [ "$(is_command_installed "$package_manager")" != true ]; then
+		return 0
+	fi
+	local package="$2"
 	(($VERBOSITY > 1)) && echo "checking for latest for $package_manager and $package" 1>&2
 	# TODO: allow users to upgrade packages interactively or with a flag
 	if [ "$package_manager" == "apt-get" ]; then
 		sudo apt-get update -y
 		local apt_results="$(apt-get --just-print upgrade | grep '^[0-9]* upgraded, [0-9]* newly installed, [0-9]* to remove and [0-9]* not upgraded\.$')"
-		if [[ "$apt_results" =~ [1-9]* ]]; then
+		if [[ "$apt_results" =~ [1-9] ]]; then
 			echo "ERROR: Please upgrade apt packages, 'sudo apt upgrade'." 1>&2
 			update_e
 			exit 1
@@ -277,11 +280,32 @@ function check_for_latest_package_from_package_manager {
 		fi
 	fi
 	if [ "$package_manager" == "curl" ]; then
-		# TODO: WIP
+		local curl_command="environment-curl-commands-${package}"
+		if (( $($curl_command -t 2>&1 > /dev/null; echo $?) > 0 )); then
+			echo "ERROR: Please run '$curl_command -f -i'." 1>&2
+			update_e
+			exit 1
+		fi
 	fi
-	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S $package"
-	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package"
-	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
+	if [ "$package_manager" == "pacman" ]; then
+		if [ ! -z "$(pacman -Qu)" ]; then
+			echo "ERROR: Please upgrade pacman packages 'pacman -Syu'." 1>&2
+			update_e
+			exit 1
+		fi
+	fi
+	if [ "$package_manager" == "yum" ]; then
+		if [ ! -z "$(yum check-update -q)" ]; then
+			echo "ERROR: Please upgrade yum packages 'yum update'." 1>&2
+			update_e
+			exit 1
+		fi
+	fi
+	if [ "$package_manager" == "winget" ]; then
+		# TODO: implement this WINDOWS
+		# https://learn.microsoft.com/en-us/windows/package-manager/winget/list#list-with-update
+		(($VERBOSITY > 0)) && echo "not implemented...." 1>&2
+	fi
 }
 
 # run the logic for a package that should be installed
@@ -312,6 +336,13 @@ function should_be_installed {
 			check_for_latest_package_from_package_manager "$package_manager_name" "$package_name"
 		fi
 	fi
+}
+
+# check for updates
+function update_tools {
+	for i in $SUPPORTED_PACKAGE_MANAGERS; do
+		check_for_latest_package_from_package_manager "$i" all
+	done
 }
 
 #
@@ -371,6 +402,7 @@ check_for_jq
 check_for_bash
 check_for_os_specific_tooling
 check_for_tools
+update_tools
 handle_overall_errors
 
 # If everything worked, note it so that future checks can be skipped
