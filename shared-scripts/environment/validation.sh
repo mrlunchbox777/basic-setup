@@ -36,8 +36,10 @@ VERBOSITY=0
 # computed values (often can't be alphabetical)
 #
 PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
+DEFAULT_OVERRIDE_DIR="$(general-get-basic-setup-dir)/resources/install/index.d"
 # TODO: make this override do something
-PACKAGES_OVERRIDE_DIR="$([ ! -z "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH"] && [ -d "$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" ] && echo "$$BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH" || echo "" )"
+PACKAGES_OVERRIDE_DIR="${BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH:-$DEFAULT_OVERRIDE_DIR}"
+PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR"] && [ -d "$PACKAGES_OVERRIDE_DIR" ] && echo "$PACKAGES_OVERRIDE_DIR" || echo "")"
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
@@ -48,7 +50,7 @@ SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 # helper functions
 #
 
-# TODO add --update-curl-installs
+# TODO add --update-installs
 # TODO add install missing
 # script help message
 function help {
@@ -80,7 +82,6 @@ function is_command_installed {
 
 # select the correct package manager and return it's content for a given package
 function get_package_manager_content {
-	# TODO: this may need to be done per package (for things like aws cli where it's on apt but not enabled)
 	local package_manager_name=""
 	local package_content="$1"
 	for i in "${SUPPORTED_PACKAGE_MANAGERS[@]}"; do
