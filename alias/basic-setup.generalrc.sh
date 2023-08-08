@@ -57,3 +57,6 @@ fi
 
 export BASICSETUPGENERALRCDIR="$dir"
 export BASICSETUPGENERALRCHASRUN=true
+if [ "$(general-command-installed bat)" == "true" ]; then
+	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi

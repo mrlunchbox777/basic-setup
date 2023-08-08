@@ -58,6 +58,64 @@
       "pinned-version": null
     },
     {
+      "command": "bat",
+      "description": "A cat(1) clone with syntax highlighting and Git integration.",
+      "enabled": true,
+      "install-page": "https://github.com/sharkdp/bat",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "AWS CLI",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "This is on choco if you really want it.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "docker",
       "description": "Docker is an open platform for developing, shipping, and running applications.",
       "enabled": true,
