@@ -66,7 +66,7 @@ function help {
 		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
 		-h|--help        - (flag, default: false) Print this help message and exit.
 		-i|--install     - (flag, default: false) Run installs and upgrade as needed instead of erroring.
-		-l|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
+		-s|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
 		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
@@ -400,7 +400,7 @@ while (("$#")); do
 		shift
 		;;
 	# skip latest check flag
-	-l | --skip-latest)
+	-s | --skip-latest)
 		SKIP_LATEST_CHECK=true
 		shift
 		;;
