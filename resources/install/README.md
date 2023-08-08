@@ -10,79 +10,102 @@ The `index.json` will function as a list of all of the packages that basic-setup
 
 Below you'll find the [schema](#json-schema) that the index.json will take as well as an [example](#json-example).
 
+## NOTES
+
+TODO:
+
+* currently the `"pinned-version"` attribute is not supported
+* os/arch labels are not automatically applied when running and would have to be filtered manually
+
 ### JSON Schema
 
 ```js
 {
     /**
-    * The array of managed package objects.
-    * @type Object[]
-    */
+     * The array of managed package objects.
+     * @type Object[]
+     */
     "packages": [
         {
             /**
-            * The friendly description of the package.
-            * @type string
-            */
+             * The commandd that invokes the package.
+             * @type string
+             */
+            "command": null,
+            /**
+             * The friendly description of the package.
+             * @type string
+             */
             "description": null,
             /**
-            * The install page for the package.
-            * This will be given as the fallback
-            * if the package or package manager
-            * isn't found.
-            * @type string
-            */
+             * If the packaged should be managed.
+             * @type boolean
+             */
+            "enabled": null,
+            /**
+             * The install page for the package.
+             * This will be given as the fallback
+             * if the package or package manager
+             * isn't found.
+             * @type string
+             */
             "install-page": null,
             /**
-            * Labels that will be used to group,
-            * filter, and identify packages. Check
-            * documentation for a list of supported labels.
-            * @type string[]
-            */
+             * Labels that will be used to group,
+             * filter, and identify packages. Check
+             * documentation for a list of supported labels.
+             * @type string[]
+             */
             "labels": [],
             /**
-            * The friendly name of the package.
-            * @type string
-            */
+             * The friendly name of the package.
+             * @type string
+             */
             "name": null,
             /**
-            * Array of package instance objects.
-            * @type Object[]
-            */
+             * Array of package instance objects.
+             * @type Object[]
+             */
             "package-instances": [
                 {
                     /**
-                    * The string representing additional
-                    * arguments that should be used to
-                    * install the package.
-                    * @type string
-                    */
+                     * The string representing additional
+                     * arguments that should be used to
+                     * install the package.
+                     * @type string
+                     */
                     "arguments": null,
                     /**
-                    * If the package is currently supported.
-                    * @type boolean
-                    */
+                     * If the package is currently supported.
+                     * @type boolean
+                     */
                     "enabled": false,
                     /**
-                    * The name of the package manager for
-                    * this package instance. Check documentation
-                    * for a list of supported package managers.
-                    * @type string
-                    */
+                     * The name of the package manager for
+                     * this package instance. Check documentation
+                     * for a list of supported package managers.
+                     * @type string
+                     */
                     "manager-name": null,
                     /**
-                    * Any additional notes for the package instance.
-                    * @type string
-                    */
+                     * Any additional notes for the package instance.
+                     * @type string
+                     */
                     "notes": null,
                     /**
-                    * The canonical name of the package instance
-                    * on the package manager.
-                    * @type string
-                    */
+                     * The canonical name of the package instance
+                     * on the package manager.
+                     * @type string
+                     */
                     "package-name": null
                 }
-            ]
+            ],
+            /**
+            * TODO: when supported this should define the version
+             * of a package that should be installed to and checked for.
+             * @type string
+             */
+            "pinned-version": null
         }
     ]
 }
@@ -95,7 +118,9 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
     "packages": [
         ...
         {
+            "command": "xmpl",
             "description": "This is an example package.",
+            "enabled": true,
             "install-page": "https://example.com/install/",
             "labels": [
                 ...
@@ -114,7 +139,8 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
                     "package-name": "exmpl-pkg"
                 },
                 ...
-            ]
+            ],
+            "pinned-version": null
         },
         ...
     ]
@@ -147,7 +173,7 @@ This is intended to be an exhaustive list and explanation of `labels`` used for 
     * If this package is for entertainment purposes.
 * `windows-only`
     * If this package is only supported on Windows operating systems.
-* `linux`
+* `linux-only`
     * If this package is only supported on Linux operating systems.
 
 ## Supported Package Managers

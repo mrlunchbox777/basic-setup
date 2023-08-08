@@ -72,7 +72,8 @@ function help {
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
 		----------
 		examples:
-		validate environment - $command_for_help
+		validate environment                         - $command_for_help
+		install/update environment with curl enabled - $command_for_help -i -c
 		----------
 	EOF
 }
@@ -353,7 +354,6 @@ function should_be_installed {
 		local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
 	fi
 	if [ "$is_command_installed" == "false" ]; then
-		# TODO: handle installs here if flag passed
 		(($VERBOSITY > 1)) && echo "$command_name failed"
 		local message="unable to find $human_name ($command_name), '$package_manager_install_command' - $extra"
 		echo "$message" 1>&2
