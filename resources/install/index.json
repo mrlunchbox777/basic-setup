@@ -54,7 +54,8 @@
           "notes": "",
           "package-name": "Amazon.AWSCLI"
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "docker",
@@ -110,7 +111,8 @@
           "notes": "",
           "package-name": "Docker.DockerDesktop"
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "helm",
@@ -166,7 +168,8 @@
           "notes": "",
           "package-name": "Helm.Helm"
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "jq",
@@ -223,7 +226,8 @@
           "notes": "",
           "package-name": "jqlang.jq"
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "k3d",
@@ -279,7 +283,8 @@
           "notes": "Not available.",
           "package-name": ""
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "kubectl",
@@ -335,7 +340,8 @@
           "notes": "",
           "package-name": "Kubernetes.kubectl"
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "kustomize",
@@ -390,7 +396,8 @@
           "notes": "Not available.",
           "package-name": ""
         }
-      ]
+      ],
+      "pinned-version": null
     },
     {
       "command": "sshuttle",
@@ -447,7 +454,8 @@
           "notes": "Not available.",
           "package-name": ""
         }
-      ]
+      ],
+      "pinned-version": null
     }
   ]
 }

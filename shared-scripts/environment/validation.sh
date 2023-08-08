@@ -27,6 +27,7 @@ LABELS=("all")
 LABELS_FILTER_MODE="replace" # union, intersection, replace
 FORCE=false
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
+RUN_INSTALLS=false
 SHOW_HELP=false
 SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "yum" "winget")
 TARGET_BRANCH="main"
@@ -39,7 +40,7 @@ PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
 DEFAULT_OVERRIDE_DIR="$(general-get-basic-setup-dir)/resources/install/index.d"
 # TODO: make this override do something
 PACKAGES_OVERRIDE_DIR="${BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH:-$DEFAULT_OVERRIDE_DIR}"
-PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR"] && [ -d "$PACKAGES_OVERRIDE_DIR" ] && echo "$PACKAGES_OVERRIDE_DIR" || echo "")"
+PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR" ] && [ -d "$PACKAGES_OVERRIDE_DIR" ] && echo "$PACKAGES_OVERRIDE_DIR" || echo "")"
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
@@ -64,6 +65,7 @@ function help {
 		-c|--allow-curl  - (flag, default: false) Allow curl installs and validations.
 		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
 		-h|--help        - (flag, default: false) Print this help message and exit.
+		-i|--install     - (flag, default: false) Run installs and upgrade as needed instead of erroring.
 		-l|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
 		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
@@ -176,7 +178,7 @@ function check_for_latest_basic_setup_git {
 			else
 				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
 				if [ "$current_branch" != "$TARGET_BRANCH" ]; then
-					error_message="Git (at ${basic_setup_dir}) is not on the target branch (${TARGET_BRANCH}). It is on ${current_branch}. You can change the target with \`export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"\"\`."
+					error_message="Git (at ${basic_setup_dir}) is not on the target branch (${TARGET_BRANCH}). It is on ${current_branch}. You can change the target with \`export BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH=\"$current_branch\"\`."
 					false
 				fi
 			fi
@@ -263,43 +265,68 @@ function check_for_latest_package_from_package_manager {
 	fi
 	local package="$2"
 	(($VERBOSITY > 1)) && echo "checking for latest for $package_manager and $package" 1>&2
-	# TODO: allow users to upgrade packages interactively or with a flag
 	if [ "$package_manager" == "apt-get" ]; then
 		sudo apt-get update -y
 		local apt_results="$(apt-get --just-print upgrade | grep '^[0-9]* upgraded, [0-9]* newly installed, [0-9]* to remove and [0-9]* not upgraded\.$')"
 		if [[ "$apt_results" =~ [1-9] ]]; then
-			echo "ERROR: Please upgrade apt packages, 'sudo apt upgrade'." 1>&2
-			update_e
-			exit 1
+			if [ "$RUN_INSTALLS" == false ]; then
+				echo "ERROR: Please upgrade apt packages, 'sudo apt upgrade'." 1>&2
+				update_e
+				exit 1
+			else
+				(($VERBOSITY > 1)) && echo "found newer packages for apt, upgrading..." 1>&2
+				sudo apt-get upgrade -y
+				sudo apt-get autoremove -y
+			fi
 		fi
 	fi
 	if [ "$package_manager" == "brew" ]; then
 		if [ ! -z "$(brew outdated)" ]; then
-			echo "ERROR: Please upgrade brew packages 'brew upgrade'." 1>&2
-			update_e
-			exit 1
+			if [ "$RUN_INSTALLS" == false ]; then
+				echo "ERROR: Please upgrade brew packages 'brew upgrade'." 1>&2
+				update_e
+				exit 1
+			else
+				(($VERBOSITY > 1)) && echo "found newer packages for brew, upgrading..." 1>&2
+				brew upgrade
+			fi
 		fi
 	fi
 	if [ "$package_manager" == "curl" ]; then
 		local curl_command="environment-curl-commands-${package}"
 		if (( $($curl_command -t >/dev/null 2>&1; echo $?) > 0 )); then
-			echo "ERROR: ${package} is out of date. Please run '$curl_command -f -i' (or -h for help)." 1>&2
-			update_e
-			exit 1
+			if [ "$RUN_INSTALLS" == false ]; then
+				echo "ERROR: ${package} is out of date. Please run '$curl_command -f -i' (or -h for help)." 1>&2
+				update_e
+				exit 1
+			else
+				(($VERBOSITY > 1)) && echo "found newer packages for curl, upgrading..." 1>&2
+				$curl_command -f -i
+			fi
 		fi
 	fi
 	if [ "$package_manager" == "pacman" ]; then
 		if [ ! -z "$(pacman -Qu)" ]; then
-			echo "ERROR: Please upgrade pacman packages 'pacman -Syu'." 1>&2
-			update_e
-			exit 1
+			if [ "$RUN_INSTALLS" == false ]; then
+				echo "ERROR: Please upgrade pacman packages 'pacman -Syu'." 1>&2
+				update_e
+				exit 1
+			else
+				(($VERBOSITY > 1)) && echo "found newer packages for pacman, syncing..." 1>&2
+				sudo pacman -Syu
+			fi
 		fi
 	fi
 	if [ "$package_manager" == "yum" ]; then
 		if [ ! -z "$(yum check-update -q)" ]; then
-			echo "ERROR: Please upgrade yum packages 'yum update'." 1>&2
-			update_e
-			exit 1
+			if [ "$RUN_INSTALLS" == false ]; then
+				echo "ERROR: Please upgrade yum packages 'yum update'." 1>&2
+				update_e
+				exit 1
+			else
+				(($VERBOSITY > 1)) && echo "found newer packages for yum, updating..." 1>&2
+				sudo yum update -y
+			fi
 		fi
 	fi
 	if [ "$package_manager" == "winget" ]; then
@@ -365,6 +392,11 @@ while (("$#")); do
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
+		shift
+		;;
+	# run installs flag
+	-i | --install)
+		RUN_INSTALLS=true
 		shift
 		;;
 	# skip latest check flag
