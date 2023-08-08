@@ -1,5 +1,7 @@
     {
+      "command": "",
       "description": "",
+      "enabled": true,
       "install-page": "",
       "labels": [],
       "name": "",
@@ -46,5 +48,6 @@
           "notes": "",
           "package-name": ""
         }
-      ]
+      ],
+      "pinned-version": null
     }
