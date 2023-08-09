@@ -6,6 +6,8 @@ The `index.json` will function as a list of all of the packages that basic-setup
 
 [Supported Package Managers](#supported-package-managers)
 
+[Commands for Reading `index.json` Files](#commands-for-reading-indexjson-files)
+
 ## JSON Format
 
 Below you'll find the [schema](#json-schema) that the index.json will take as well as an [example](#json-example).
@@ -204,3 +206,18 @@ These are the main package managers we are looking to support. These should be i
     * [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 * `curl`
     * These are disabled by default because of the associated security risks of automated curl/bash scripts.
+
+## Commands for Reading `index.json` files
+
+Below are some premade commands to interact with `index.json` files.
+
+* Get the names of the packages
+    * `jq -r '.packages[].name' index.json`
+* Get the commands that invoke the packages
+    * `jq -r '.packages[].command' index.json`
+    * Find where all of those commands are installed
+        * `jq -r '.packages[].command' index.json | xargs which`
+* Get the package json for the zsh package
+    * `jq -r '.packages[] | select(.command == "zsh")' index.json`
+* Get the name and command that invokes each package
+    * `jq -r '.packages[] | "Name - \(.name) | Command - \(.command)"' index.json`

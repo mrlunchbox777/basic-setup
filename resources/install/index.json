@@ -227,6 +227,120 @@
       "pinned-version": null
     },
     {
+      "command": "git",
+      "description": "Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
+      "enabled": true,
+      "install-page": "https://git-scm.com/downloads",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "Git",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "git"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "gcc",
+      "description": "The GNU Compiler Collection includes front ends for C, C++, Objective-C, Fortran, Ada, Go, and D, as well as libraries for these languages (libstdc++,...).",
+      "enabled": true,
+      "install-page": "https://gcc.gnu.org/install/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "GNU Compiler Collection (gcc)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "helm",
       "description": "Helm is the package manager for Kubernetes.",
       "enabled": true,

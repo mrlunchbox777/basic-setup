@@ -13,8 +13,6 @@
 		wine
 
 run-manual-install-apt-many-basic-setup \
-	gcc \
-	git \
 	golang \
 	gpg \
 	make \
