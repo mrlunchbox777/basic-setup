@@ -68,7 +68,7 @@
         "big-bang-full",
         "core"
       ],
-      "name": "AWS CLI",
+      "name": "bat",
       "package-managers": [
         {
           "arguments": "",

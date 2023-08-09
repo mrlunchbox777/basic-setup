@@ -246,11 +246,11 @@ function get_package_manager_install_command {
 	local package="$2"
 	local install_command="unknown install command"
 	(($VERBOSITY > 1)) && echo "finding install command for $package_manager and $package" 1>&2
-	[ "$package_manager" == "apt-get" ] && local install_command="sudo apt-get install $package"
+	[ "$package_manager" == "apt-get" ] && local install_command="sudo apt-get install $package -y"
 	[ "$package_manager" == "brew" ] && local install_command="brew install $package"
 	[ "$package_manager" == "curl" ] && local install_command="environment-curl-commands-${package}"
-	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S $package"
-	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package"
+	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S --noconfirm $package"
+	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package -y"
 	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
 	echo "$install_command"
 }
@@ -354,12 +354,17 @@ function should_be_installed {
 		local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
 	fi
 	if [ "$is_command_installed" == "false" ]; then
-		(($VERBOSITY > 1)) && echo "$command_name failed"
-		local message="unable to find $human_name ($command_name), '$package_manager_install_command' - $extra"
-		echo "$message" 1>&2
-		((ERROR_MESSAGES+=1))
+		if [ "$RUN_INSTALLS" == false ]; then
+			(($VERBOSITY > 1)) && echo "$command_name failed"
+			local message="unable to find $human_name ($command_name), '$package_manager_install_command' - $extra"
+			echo "$message" 1>&2
+			((ERROR_MESSAGES+=1))
+		else
+			# TODO: maybe batch these
+			$package_manager_install_command
+		fi
 	else
-		(($VERBOSITY > 0)) && echo "$command_name installed with $package_manager_name." || true
+		(($VERBOSITY > 0)) && echo "$command_name already installed with $package_manager_name." || true
 		if [ "$package_manager_name" == "curl" ]; then
 			check_for_latest_package_from_package_manager "$package_manager_name" "$package_name"
 		fi
