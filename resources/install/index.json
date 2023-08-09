@@ -64,8 +64,6 @@
       "install-page": "https://github.com/sharkdp/bat",
       "labels": [
         "all",
-        "big-bang",
-        "big-bang-full",
         "core"
       ],
       "name": "bat",
@@ -111,6 +109,62 @@
           "manager-name": "winget",
           "notes": "This is on choco if you really want it.",
           "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "curl",
+      "description": "Curl is a command-line tool for transferring data specified with URL syntax.",
+      "enabled": true,
+      "install-page": "https://curl.se/docs/install.html",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "cURL",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "cURL.cURL"
         }
       ],
       "pinned-version": null
@@ -504,6 +558,62 @@
           "manager-name": "yum",
           "notes": "",
           "package-name": "sshuttle"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "zsh",
+      "description": "Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.",
+      "enabled": true,
+      "install-page": "https://zsh.sourceforge.io/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Z Shell",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "zsh"
         },
         {
           "arguments": "",

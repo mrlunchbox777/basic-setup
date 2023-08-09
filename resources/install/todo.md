@@ -13,28 +13,20 @@
 		wine
 
 run-manual-install-apt-many-basic-setup \
-	bat \
-	calc \
-	curl \
 	gcc \
 	git \
 	golang \
 	gpg \
-	jq \
-	lynx \
 	make \
 	openjdk \
 	openssh-client \
 	python3 \
 	ranger \
-	snap \
 	terraform \
 	tldr \
 	tmux \
-	unattended-upgrades \
 	uuid \
 	wget \
-	zsh
 
 if [ $should_install_snap == "true" ]; then
 	general-send-message "Starting snap Installs"

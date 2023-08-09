@@ -16,6 +16,7 @@ TODO:
 
 * currently the `"pinned-version"` attribute is not supported
 * os/arch labels are not automatically applied when running and would have to be filtered manually
+* currently using yum, should switch to dnf
 
 ### JSON Schema
 
