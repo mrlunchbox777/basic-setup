@@ -51,8 +51,6 @@ SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 # helper functions
 #
 
-# TODO add --update-installs
-# TODO add install missing
 # script help message
 function help {
 	command_for_help="$(basename "$0")"
