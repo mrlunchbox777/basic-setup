@@ -74,3 +74,5 @@ run-manual-install-many-basic-setup \
 	run-manual-update-many-basic-setup \
 		code
 ```
+
+# Add docker curl so that it can install on dnf
