@@ -188,9 +188,6 @@ These are the main package managers we are looking to support. These should be i
 * `brew`
     * [Find formulae and casks](https://formulae.brew.sh/)
     * [Install page](https://brew.sh/)
-* `pacman`
-    * [Find packages](https://archlinux.org/packages/)
-    * [Wiki page](https://wiki.archlinux.org/title/pacman)
 * `dnf`
     * [dnf doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
         * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
@@ -198,6 +195,9 @@ These are the main package managers we are looking to support. These should be i
     * `docker run -it centos`
         * [update the dnf repos](https://stackoverflow.com/questions/70926799/centos-through-a-vm-no-urls-in-mirrorlist)
         * `dnf search package`
+* `pacman`
+    * [Find packages](https://archlinux.org/packages/)
+    * [Wiki page](https://wiki.archlinux.org/title/pacman)
 * `winget`
     * [winget doesn't have a browser-based browser :(](https://www.reddit.com/r/Windows10/comments/gvfoqr/we_made_a_website_for_browsing_winget_packages/)
         * [3rd party search](https://winget.run/)
