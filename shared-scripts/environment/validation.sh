@@ -44,6 +44,7 @@ PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR" ] && [ -d "$PACKAGES_OV
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
+SKIP_EVERYTHING="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_EVERYTHING:-false}"
 
 # TODO: add verbosity to everything
 
@@ -68,6 +69,8 @@ function help {
 		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
+		note: This script will not install anything by default, you must pass the -i|--install flag to do so.
+		note: Set BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_EVERYTHING to true to skip everything.
 		----------
 		examples:
 		validate environment                         - $command_for_help
@@ -431,6 +434,7 @@ done
 # Do the work
 #
 [ $SHOW_HELP == true ] && help && update_e && exit 0
+[ "$SKIP_EVERYTHING" == true ] && update_e && exit 0
 
 check_for_skip
 check_for_latest_basic_setup_git

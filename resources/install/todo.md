@@ -13,7 +13,6 @@
 		wine
 
 run-manual-install-apt-many-basic-setup \
-	golang \ (in progress, check curl-command)
 	gpg \
 	make \
 	openjdk \
