@@ -30,14 +30,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": ""
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "rpm",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": ""
         },
