@@ -1,7 +1,4 @@
 ```bash
-[ $should_install_ui_tools == "true" ] && \
-	run-manual-install-apt-many-basic-setup \
-		firefox \
 		gimp \
 		grpn \
 		kdeconnect \
@@ -76,10 +73,4 @@ run-manual-install-many-basic-setup \
 [ "$should_install_ui_tools" == "true" ] && \
 	run-manual-update-many-basic-setup \
 		code
-
-run-manual-update-many-basic-setup \
-	"alias" \
-	batcat \
-	gitconfig \
-	unattended-upgrades
 ```
