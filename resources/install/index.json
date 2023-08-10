@@ -43,7 +43,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -99,7 +99,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "bat"
         },
@@ -155,7 +155,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "curl"
         },
@@ -212,7 +212,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "You need to add the repo first - https://download.docker.com/linux/rhel/docker-ce.repo.",
           "package-name": "docker-ce"
         },
@@ -268,7 +268,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "firefox"
         },
@@ -324,7 +324,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "gcc"
         },
@@ -379,7 +379,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "gimp"
         },
@@ -437,7 +437,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "git"
         },
@@ -494,7 +494,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "Only old versions available.",
           "package-name": "golang"
         },
@@ -551,7 +551,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "helm"
         },
@@ -609,7 +609,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "jq"
         },
@@ -666,7 +666,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -721,7 +721,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "kdeconnect"
         },
@@ -778,7 +778,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
           "package-name": "kubectl"
         },
@@ -834,7 +834,7 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -892,7 +892,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "sshuttle"
         },
@@ -948,7 +948,7 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "yum",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "zsh"
         },

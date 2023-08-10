@@ -29,7 +29,7 @@ FORCE=false
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
 RUN_INSTALLS=false
 SHOW_HELP=false
-SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "yum" "winget")
+SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "dnf" "winget")
 TARGET_BRANCH="main"
 VERBOSITY=0
 
@@ -251,7 +251,7 @@ function get_package_manager_install_command {
 	[ "$package_manager" == "brew" ] && local install_command="brew install $package"
 	[ "$package_manager" == "curl" ] && local install_command="environment-curl-commands-${package}"
 	[ "$package_manager" == "pacman" ] && local install_command="sudo pacman -S --noconfirm $package"
-	[ "$package_manager" == "yum" ] && local install_command="sudo yum install $package -y"
+	[ "$package_manager" == "dnf" ] && local install_command="sudo dnf install $package -y"
 	[ "$package_manager" == "winget" ] && local install_command="winget install -e --id $package"
 	echo "$install_command"
 }
@@ -319,15 +319,15 @@ function check_for_latest_package_from_package_manager {
 			fi
 		fi
 	fi
-	if [ "$package_manager" == "yum" ]; then
-		if [ ! -z "$(yum check-update -q)" ]; then
+	if [ "$package_manager" == "dnf" ]; then
+		if [ ! -z "$(dnf check-update -q)" ]; then
 			if [ "$RUN_INSTALLS" == false ]; then
-				echo "ERROR: Please upgrade yum packages 'yum update'." 1>&2
+				echo "ERROR: Please upgrade dnf packages 'dnf update'." 1>&2
 				update_e
 				exit 1
 			else
-				(($VERBOSITY > 1)) && echo "found newer packages for yum, updating..." 1>&2
-				sudo yum update -y
+				(($VERBOSITY > 1)) && echo "found newer packages for dnf, updating..." 1>&2
+				sudo dnf update -y
 			fi
 		fi
 	fi

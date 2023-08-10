@@ -18,7 +18,6 @@ TODO:
 
 * currently the `"pinned-version"` attribute is not supported
 * os/arch labels are not automatically applied when running and would have to be filtered manually
-* currently using yum, should switch to dnf
 
 ### JSON Schema
 
@@ -192,14 +191,14 @@ These are the main package managers we are looking to support. These should be i
 * `pacman`
     * [Find packages](https://archlinux.org/packages/)
     * [Wiki page](https://wiki.archlinux.org/title/pacman)
-* `yum`
-    * [yum doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
+* `dnf`
+    * [dnf doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
         * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
     * [Website](https://rpm.org/)
-    * Don't forget that [yum uses rpm](https://phoenixnap.com/kb/rpm-vs-yum)
+    * Don't forget that [dnf uses rpm](https://phoenixnap.com/kb/rpm-vs-dnf)
     * `docker run -it centos`
-        * [update the yum repos](https://stackoverflow.com/questions/70926799/centos-through-a-vm-no-urls-in-mirrorlist)
-        * `yum search package`
+        * [update the dnf repos](https://stackoverflow.com/questions/70926799/centos-through-a-vm-no-urls-in-mirrorlist)
+        * `dnf search package`
 * `winget`
     * [winget doesn't have a browser-based browser :(](https://www.reddit.com/r/Windows10/comments/gvfoqr/we_made_a_website_for_browsing_winget_packages/)
         * [3rd party search](https://winget.run/)
