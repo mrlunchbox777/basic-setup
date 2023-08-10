@@ -67,6 +67,7 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
+	# TODO: pagination (see go.sh)
 	local all_versions="$(curl -s https://api.github.com/repos/kubernetes/kubernetes/releases | jq -r '.[] | ."tag_name"')"
 	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
 		local all_versions="$(echo "$all_versions" | grep -v \-)"

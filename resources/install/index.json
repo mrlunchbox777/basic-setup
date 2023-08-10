@@ -341,6 +341,63 @@
       "pinned-version": null
     },
     {
+      "command": "go",
+      "description": "Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.",
+      "enabled": true,
+      "install-page": "https://go.dev/doc/install",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Golang",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Only old versions available.",
+          "package-name": "golang"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "yum",
+          "notes": "Only old versions available.",
+          "package-name": "golang"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "helm",
       "description": "Helm is the package manager for Kubernetes.",
       "enabled": true,

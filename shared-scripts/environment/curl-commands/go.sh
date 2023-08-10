@@ -12,7 +12,7 @@ SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
 VERBOSITY=0
-HELP_INSTALL_PAGE="https://go.dev/dl/"
+HELP_INSTALL_PAGE="https://go.dev/doc/install"
 
 #
 # computed values (often can't be alphabetical)
@@ -70,20 +70,18 @@ function get_all_versions {
 	local should_continue=true
 	local page=1
 	local all_versions=""
-	# TODO: WIP here, got rate limited
+	# TODO: support throttling (this needs to be added to the other curl commands as well - https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
 	while [ "$should_continue" == true ]; do
-		local current_versions="$(curl -s https://api.github.com/repos/golang/go/tags?page=$page | jq '[.[] | ."name"]')"
+		local current_versions="$(curl -s "https://api.github.com/repos/golang/go/tags?page=$page&per_page=100" | jq '[.[] | ."name"]')"
 		if (( $(echo "$current_versions" | jq length) == 0 )); then
 			local should_continue=false
 		fi
 		local all_versions="$(echo "${all_versions}${current_versions}" | jq -s add)"
 		local page=$(($page+1))
-		echo "page $page"
-		echo "current versions $current_versions"
 	done
-	local all_version="$(echo "$all_versions" | jq -r '.[]')"
+	local all_versions="$(echo "$all_versions" | jq -r '.[]')"
 	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
-		local all_versions="$(echo "$all_versions" | grep -v \-)"
+		local all_versions="$(echo "$all_versions" | grep -v rc | grep -v beta | grep -v alpha | grep -v weekly | grep -v release)"
 	fi
 	echo "$all_versions"
 }
@@ -129,7 +127,6 @@ function install_version {
 	local arch_type="$(environment-arch-type)"
 	local command_to_run=""
 	local os_string=""
-	local checksum_command=""
 	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
 	if [ "$TARGET_VERSION" == "latest" ]; then
 		TARGET_VERSION="$(get_latest_version)"
@@ -145,33 +142,21 @@ function install_version {
 	fi
 	if [ "$os_type" == "Linux" ]; then
 		local os_string="linux"
-		local checksum_command="sha256sum --check"
 	elif [ "$os_type" == "Mac" ]; then
 		# TODO: NEEDS TESTING
 		local os_string="darwin"
-		local checksum_command="shasum -a 256 --check"
 	else
 		echo "unsupported os type - $os_type" 1>&2
 		exit 1
 	fi
-	local dirname="${os_string}-${arch_string}"
-	local filename="helm-${TARGET_VERSION}-${dirname}.tar.gz"
-	local hash_extension=".sha256sum"
+	local filename="${TARGET_VERSION}.${os_string}-${arch_string}.tar.gz"
+	# TODO: implement checksum verification (https://golang.org/dl/?mode=json)
 	local command_to_run="$(
 		cat <<- EOF
-			curl -L -s "https://get.helm.sh/${filename}" -o "$filename"
-			curl -L -s "https://get.helm.sh/${filename}${hash_extension}" -o "${filename}${hash_extension}"
-			tar xf "$filename"
-			hash="\$(cat "${filename}${hash_extension}")"
-			if (( \$(echo "\$hash" | ${checksum_command} >/dev/null 2>&1; echo \$?) != 0)); then
-				echo "installing helm failed, checksum didn't match. Cleaning up..." 1>&2
-				rm -rf "$dirname" "${dowload_name}" "${dowload_name}${hash_extension}"
-				exit 1
-			fi
-			chmod +x "./${dirname}/helm"
-			sudo mv ./${dirname}/helm /usr/local/bin/helm
-			sudo chown root: /usr/local/bin/helm
-			rm -rf "$dirname" "${filename}" "${filename}${hash_extension}"
+			curl -L -s "https://go.dev/dl/${filename}" -o "$filename"
+			sudo rm -rf /usr/local/go
+			sudo tar -C /usr/local -xzf $filename > /dev/null
+			rm -rf $filename
 		EOF
 	)"
 	if [ "$FORCE" == true ]; then
