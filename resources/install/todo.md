@@ -1,5 +1,4 @@
 ```bash
-		virtualbox \
 		vlc \
 		wine
 
