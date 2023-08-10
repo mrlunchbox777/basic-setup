@@ -681,6 +681,61 @@
       "pinned-version": null
     },
     {
+      "command": "kdeconnect-app",
+      "description": "Enabling communication between all your devices. Made for people like you.",
+      "enabled": true,
+      "install-page": "https://kdeconnect.kde.org/download.html",
+      "labels": [
+        "all"
+      ],
+      "name": "KDE Connect",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "kdeconnect"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available yet, https://binary-factory.kde.org/view/MacOS/job/kdeconnect-kde_Nightly_macos/.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kdeconnect"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "yum",
+          "notes": "",
+          "package-name": "kdeconnect"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "KDE.KDEConnect"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "kubectl",
       "description": "The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters.",
       "enabled": true,

@@ -221,3 +221,5 @@ Below are some premade commands to interact with `index.json` files.
     * `jq -r '.packages[] | select(.command == "zsh")' index.json`
 * Get the name and command that invokes each package
     * `jq -r '.packages[] | "Name - \(.name) | Command - \(.command)"' index.json`
+
+TODO: add label searching here

@@ -1,10 +1,6 @@
 ```bash
-		gimp \
-		grpn \
-		kdeconnect \
 		kleopatra \
 		libreoffice \
-		thunderbird \
 		virtualbox \
 		vlc \
 		wine
@@ -76,3 +72,4 @@ run-manual-install-many-basic-setup \
 ```
 
 # Add docker curl so that it can install on dnf
+# Add a way to make kdeconnect work on Mac or skip it on mac (maybe labels?)
