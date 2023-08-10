@@ -195,7 +195,6 @@ These are the main package managers we are looking to support. These should be i
     * [dnf doesn't have a browser-based browser :(](https://serverfault.com/questions/239205/official-online-rpm-package-browser-search-for-centos)
         * [3rd party search](https://rpmfind.net/linux/rpm2html/search.php)
     * [Website](https://rpm.org/)
-    * Don't forget that [dnf uses rpm](https://phoenixnap.com/kb/rpm-vs-dnf)
     * `docker run -it centos`
         * [update the dnf repos](https://stackoverflow.com/questions/70926799/centos-through-a-vm-no-urls-in-mirrorlist)
         * `dnf search package`
