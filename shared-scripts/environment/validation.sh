@@ -268,7 +268,7 @@ function check_for_latest_package_from_package_manager {
 	local package="$2"
 	(($VERBOSITY > 1)) && echo "checking for latest for $package_manager and $package" 1>&2
 	if [ "$package_manager" == "apt-get" ]; then
-		sudo apt-get update -y
+		sudo apt-get update -y > /dev/null
 		local apt_results="$(apt-get --just-print upgrade | grep '^[0-9]* upgraded, [0-9]* newly installed, [0-9]* to remove and [0-9]* not upgraded\.$')"
 		if [[ "$apt_results" =~ [1-9] ]]; then
 			if [ "$RUN_INSTALLS" == false ]; then
