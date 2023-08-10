@@ -199,7 +199,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "notes": "TODO: This should be supported for rhel.",
           "package-name": ""
         },
         {
@@ -774,7 +774,7 @@
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "kdeconnect"
+          "package-name": "kdeconnectd"
         },
         {
           "arguments": "",
@@ -962,6 +962,62 @@
       "pinned-version": null
     },
     {
+      "command": "libreoffice",
+      "description": "LibreOffice is a free and powerful office suite, and a successor to OpenOffice.org (commonly known as OpenOffice).",
+      "enabled": true,
+      "install-page": "https://www.libreoffice.org/download/download-libreoffice/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "LibreOffice",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "libreoffice-still"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "TheDocumentFoundation.LibreOffice"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "make",
       "description": "GNU Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.",
       "enabled": true,
@@ -1075,6 +1131,62 @@
       ],
       "pinned-version": null
     },
+    {
+      "command": "virtualbox",
+      "description": "VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use.",
+      "enabled": true,
+      "install-page": "https://www.virtualbox.org/wiki/Downloads",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "VirtualBox",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: this should be supported and used by default, the package manager versions are often out of date.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Oracle.VirtualBox"
+        }
+      ],
+      "pinned-version": null
+    }
     {
       "command": "zsh",
       "description": "Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.",

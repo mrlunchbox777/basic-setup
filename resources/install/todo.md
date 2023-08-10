@@ -1,5 +1,4 @@
 ```bash
-		libreoffice \
 		virtualbox \
 		vlc \
 		wine
