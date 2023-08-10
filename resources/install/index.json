@@ -36,16 +36,16 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "pacman",
-          "notes": "Version 1 is available, but causes more issues than installing manually.",
-          "package-name": "aws-cli"
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
         },
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "dnf",
-          "notes": "Not available.",
-          "package-name": ""
+          "manager-name": "pacman",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "aws-cli"
         },
         {
           "arguments": "",
@@ -92,14 +92,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "bat"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "bat"
         },
@@ -148,14 +148,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "curl"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "curl"
         },
@@ -204,17 +204,17 @@
         },
         {
           "arguments": "",
-          "enabled": true,
-          "manager-name": "pacman",
-          "notes": "",
-          "package-name": "docker"
-        },
-        {
-          "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "You need to add the repo first - https://download.docker.com/linux/rhel/docker-ce.repo.",
           "package-name": "docker-ce"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "docker"
         },
         {
           "arguments": "",
@@ -261,14 +261,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "firefox"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "firefox"
         },
@@ -317,14 +317,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "gcc"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "gcc"
         },
@@ -372,14 +372,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "gimp"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "gimp"
         },
@@ -430,14 +430,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "git"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "git"
         },
@@ -486,17 +486,17 @@
         },
         {
           "arguments": "",
-          "enabled": true,
-          "manager-name": "pacman",
-          "notes": "",
-          "package-name": "go"
-        },
-        {
-          "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Only old versions available.",
           "package-name": "golang"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "go"
         },
         {
           "arguments": "",
@@ -543,17 +543,17 @@
         },
         {
           "arguments": "",
-          "enabled": false,
-          "manager-name": "pacman",
-          "notes": "Not available.",
-          "package-name": ""
-        },
-        {
-          "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
           "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
         },
         {
           "arguments": "",
@@ -602,14 +602,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "jq"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "jq"
         },
@@ -659,14 +659,14 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "Not available.",
           "package-name": ""
         },
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -714,14 +714,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "kdeconnect"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "kdeconnect"
         },
@@ -771,16 +771,16 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "pacman",
-          "notes": "Not available.",
-          "package-name": ""
+          "manager-name": "dnf",
+          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
+          "package-name": "kubectl"
         },
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "dnf",
-          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
-          "package-name": "kubectl"
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
         },
         {
           "arguments": "",
@@ -827,14 +827,14 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "Not available.",
           "package-name": ""
         },
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "Not available.",
           "package-name": ""
         },
@@ -885,14 +885,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "sshuttle"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "sshuttle"
         },
@@ -941,14 +941,14 @@
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "pacman",
+          "manager-name": "dnf",
           "notes": "",
           "package-name": "zsh"
         },
         {
           "arguments": "",
           "enabled": true,
-          "manager-name": "dnf",
+          "manager-name": "pacman",
           "notes": "",
           "package-name": "zsh"
         },

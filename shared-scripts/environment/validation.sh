@@ -20,7 +20,6 @@ function update_e {
 #
 # global defaults
 #
-ALLOW_CURL_INSTALLS=false
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
 ERROR_MESSAGES=0
 LABELS=("all")
@@ -36,15 +35,16 @@ VERBOSITY=0
 #
 # computed values (often can't be alphabetical)
 #
-PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
+ALLOW_CURL_INSTALLS="${BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS:-false}"
 DEFAULT_OVERRIDE_DIR="$(general-get-basic-setup-dir)/resources/install/index.d"
+PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
 # TODO: make this override do something
 PACKAGES_OVERRIDE_DIR="${BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH:-$DEFAULT_OVERRIDE_DIR}"
 PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR" ] && [ -d "$PACKAGES_OVERRIDE_DIR" ] && echo "$PACKAGES_OVERRIDE_DIR" || echo "")"
-TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 SKIP_EVERYTHING="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_EVERYTHING:-false}"
+TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
 
 # TODO: add verbosity to everything
 
@@ -61,7 +61,7 @@ function help {
 		----------
 		description: This script will validate that everything that is needed is included in your environment.
 		----------
-		-c|--allow-curl  - (flag, default: false) Allow curl installs and validations.
+		-c|--allow-curl  - (flag, default: false) Allow curl installs and validations, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS=true'.
 		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
 		-h|--help        - (flag, default: false) Print this help message and exit.
 		-i|--install     - (flag, default: false) Run installs and upgrade as needed instead of erroring.

@@ -203,7 +203,7 @@ These are the main package managers we are looking to support. These should be i
         * [3rd party search](https://winget.run/)
     * [winget docs](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 * `curl`
-    * These are disabled by default because of the associated security risks of automated curl/bash scripts.
+    * These are disabled by default because of the associated security risks of automated curl/bash scripts, they can be enabled as described in the help for `environment-validation`.
 
 ## Commands for Reading `index.json` files
 
