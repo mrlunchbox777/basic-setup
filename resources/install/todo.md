@@ -1,13 +1,10 @@
 ```bash
-		kleopatra \
 		libreoffice \
 		virtualbox \
 		vlc \
 		wine
 
 run-manual-install-apt-many-basic-setup \
-	gpg \
-	make \
 	openjdk \
 	openssh-client \
 	python3 \

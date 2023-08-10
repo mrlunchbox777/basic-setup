@@ -509,6 +509,64 @@
       "pinned-version": null
     },
     {
+      "command": "gpg",
+      "description": "GnuPG is a complete and free implementation of the OpenPGP standard as defined by RFC4880 (also known as PGP).",
+      "enabled": true,
+      "install-page": "https://gnupg.org/download/index.html",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "GNU Privacy Guard (GnuPG)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "gpg"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "gnupg"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "gnupg2"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "gnupg"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "GnuPG.GnuPG"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "helm",
       "description": "Helm is the package manager for Kubernetes.",
       "enabled": true,
@@ -708,7 +766,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "Not available.",
+          "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for MacOS",
           "package-name": ""
         },
         {
@@ -731,6 +789,61 @@
           "manager-name": "winget",
           "notes": "",
           "package-name": "KDE.KDEConnect"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kleopatra",
+      "description": "Kleopatra is a certificate manager and a universal crypto GUI.",
+      "enabled": true,
+      "install-page": "https://apps.kde.org/kleopatra/",
+      "labels": [
+        "all"
+      ],
+      "name": "Kleopatra",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available for MacOS.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "It has a different name, but is the same app.",
+          "package-name": "GnuPG.Gpg4win"
         }
       ],
       "pinned-version": null
@@ -844,6 +957,62 @@
           "manager-name": "winget",
           "notes": "Not available.",
           "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "make",
+      "description": "GNU Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.",
+      "enabled": true,
+      "install-page": "https://www.gnu.org/software/make/#download",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "GNU Make",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "This is not exactly GNU Make, but it is a port of it.",
+          "package-name": "GnuWin32.Make"
         }
       ],
       "pinned-version": null
