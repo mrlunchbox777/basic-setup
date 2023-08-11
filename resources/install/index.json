@@ -21,9 +21,9 @@
         },
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "brew",
-          "notes": "",
+          "notes": "Curling for the aws is better than brew.",
           "package-name": "awscli"
         },
         {
@@ -126,9 +126,9 @@
       "package-managers": [
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "apt-get",
-          "notes": "",
+          "notes": "You must add the repo as described here - https://code.visualstudio.com/docs/setup/linux",
           "package-name": "code"
         },
         {
@@ -142,7 +142,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for dnf",
+          "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for apt and dnf",
           "package-name": ""
         },
         {
@@ -161,7 +161,7 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "winget",
           "notes": "",
           "package-name": "Microsoft.VisualStudioCode"
@@ -217,7 +217,7 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "winget",
           "notes": "",
           "package-name": "cURL.cURL"
@@ -558,7 +558,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
-          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
+          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (TODO: eventually windows will be supported through curl instead).",
           "package-name": ""
         }
       ],
@@ -664,10 +664,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "pacman",
-          "notes": "Not available.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "helm"
         },
         {
           "arguments": "",
@@ -946,10 +946,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "pacman",
-          "notes": "Not available.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "kubectl"
         },
         {
           "arguments": "",
@@ -1002,10 +1002,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "pacman",
-          "notes": "Not available.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "kustomize"
         },
         {
           "arguments": "",
@@ -1176,7 +1176,7 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "winget",
           "notes": "This is not exactly GNU Make, but it is a port of it.",
           "package-name": "GnuWin32.Make"
@@ -1481,10 +1481,10 @@
       "package-managers": [
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "apt-get",
-          "notes": "",
-          "package-name": "terraform"
+          "notes": "You must add the repo as described here - https://www.hashicorp.com/official-packaging-guide",
+          "package-name": ""
         },
         {
           "arguments": "",
@@ -1497,7 +1497,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "TODO: this should be supported and used for dnf.",
+          "notes": "TODO: this should be supported and used for dnf and apt.",
           "package-name": ""
         },
         {
@@ -1537,9 +1537,9 @@
       "package-managers": [
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "apt-get",
-          "notes": "",
+          "notes": "This is a frustratingly old version.",
           "package-name": "tldr"
         },
         {
@@ -1705,9 +1705,9 @@
       "package-managers": [
         {
           "arguments": "",
-          "enabled": true,
+          "enabled": false,
           "manager-name": "apt-get",
-          "notes": "",
+          "notes": "This is a frustratingly old version.",
           "package-name": "virtualbox"
         },
         {
@@ -1783,7 +1783,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
-          "notes": "",
+          "notes": "Not available.",
           "package-name": ""
         },
         {
