@@ -5,19 +5,23 @@
 code
 docker.io
 k9s
+kpt - https://kpt.dev/installation/kpt-cli
 mattermost
 nvm
 ohmyzsh
 terraform
 tldr
 virtualbox
+yq
 
 ## other curls that are nice to have
 
 discord
+gsed (for mac)
 lens
 slack
 teams
+todoist
 zoom
 
 ## other curls that are less important
@@ -33,3 +37,11 @@ pwsh
 spotify
 steam
 vlc
+
+### Notes
+
+for both coreutils and gsed, you need to add them to path to override the defaults
+
+PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
