@@ -1,10 +1,4 @@
 ```bash
-	tldr \
-	tmux \
-	uuid \
-	wget \
-
-		run-manual-install-snap-many-basic-setup \
 			discord \
 			remmina \
 			slack \
