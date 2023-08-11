@@ -1,5 +1,4 @@
 ```bash
-		vlc \
 		wine
 
 run-manual-install-apt-many-basic-setup \
