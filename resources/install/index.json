@@ -1074,6 +1074,61 @@
       "pinned-version": null
     },
     {
+      "command": "mailutils",
+      "description": "Mailutils is a swiss army knife of electronic mail handling.",
+      "enabled": true,
+      "install-page": "https://mailutils.org/download.html",
+      "labels": [
+        "all"
+      ],
+      "name": "GNU Mailutils (mail/mailx)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "mailx"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "make",
       "description": "GNU Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.",
       "enabled": true,
@@ -1300,6 +1355,61 @@
       "pinned-version": null
     },
     {
+      "command": "remmina",
+      "description": "Remote access screen and file sharing to your desktop.",
+      "enabled": true,
+      "install-page": "https://www.remmina.org/how-to-install-remmina/",
+      "labels": [
+        "all"
+      ],
+      "name": "Remmina",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Linux only.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Linux only.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "sshuttle",
       "description": "sshuttle: where transparent proxy meets VPN meets ssh",
       "enabled": true,
@@ -1443,7 +1553,7 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "TODO: this should be supported and used for windows.",
+          "notes": "TODO: this should be supported and used for everything because the package manager versions are very out of date, and when that happens we should enable the self-updating alias of tldr.",
           "package-name": ""
         },
         {
