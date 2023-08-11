@@ -1,20 +1,35 @@
 # TODO: more curl installs
-asbru \
-azcli \
-calibre \
-discord \
-k9s \
-lens \
-lutris \
-mattermost \
-nvm \
-ohmyzsh \
-slack \
-spotify \
-steam \
-teams \
-pwsh \
+
+## Add the curl commands that are most important
+
+code
+docker.io
+k9s
+mattermost
+nvm
+ohmyzsh
+terraform
+tldr
+virtualbox
+
+## other curls that are nice to have
+
+discord
+lens
+slack
+teams
 zoom
 
-# Add docker curl so that it can install on dnf
-# Add a way to make kdeconnect work on Mac or skip it on mac (maybe labels?)
+## other curls that are less important
+
+asbru
+azcli
+calibre
+golang
+kdeconnect
+lutris
+openjdk
+pwsh
+spotify
+steam
+vlc
