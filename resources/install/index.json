@@ -1243,6 +1243,61 @@
       "pinned-version": null
     },
     {
+      "command": "wine",
+      "description": "Wine (originally an acronym for \"Wine Is Not an Emulator\") is a compatibility layer capable of running Windows applications on several POSIX-compliant operating systems, such as Linux, macOS, & BSD.",
+      "enabled": true,
+      "install-page": "https://wiki.winehq.org/Download",
+      "labels": [
+        "all"
+      ],
+      "name": "wine",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "wine-stable"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Windows doesn't need wine.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "zsh",
       "description": "Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.",
       "enabled": true,

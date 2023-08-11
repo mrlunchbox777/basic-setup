@@ -1,6 +1,4 @@
 ```bash
-		wine
-
 run-manual-install-apt-many-basic-setup \
 	openjdk \
 	openssh-client \
