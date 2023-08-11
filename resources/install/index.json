@@ -1188,6 +1188,61 @@
       "pinned-version": null
     },
     {
+      "command": "vlc",
+      "description": "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols.",
+      "enabled": true,
+      "install-page": "https://www.videolan.org/vlc/",
+      "labels": [
+        "all"
+      ],
+      "name": "VLC Media Player",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: This should be supported for rhel.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "VideoLAN.VLC"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "zsh",
       "description": "Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.",
       "enabled": true,
