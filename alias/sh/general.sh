@@ -2,7 +2,7 @@ alias grepr='grep -r'
 alias guid='uuid'
 alias ll="ls -la"
 alias tf="terraform"
-alias tldr="tldr --auto-update-interval 10" # Update every 10 days
+#alias tldr="tldr --auto-update-interval 10" # Update every 10 days
 
 alias cddev='general-cddev'
 alias count-lines-dir='general-count-lines-dir'
