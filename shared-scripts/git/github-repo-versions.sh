@@ -40,7 +40,6 @@ function help {
 	EOF
 }
 
-# TODO: WIP - get the latest version from github
 # get the versions from github
 function get_versions {
 	local should_continue=true
