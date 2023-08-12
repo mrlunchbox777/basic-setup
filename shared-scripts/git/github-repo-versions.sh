@@ -47,9 +47,13 @@ function get_versions {
 	local all_versions=""
 	local name_kind="name"
 	[ "$VERSION_KIND" == "releases" ] && local name_kind="tag_name"
-	# TODO: support throttling (this needs to be added to the other curl commands as well - https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
 	while [ "$should_continue" == true ]; do
-		local current_versions="$(curl -s "https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100" | jq '[.[] | ."'${name_kind}'"]')"
+		local raw_content="$(curl -s "https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100")"
+		if [[ "$raw_content" == *"API rate limit exceeded"* ]]; then
+			echo "Error: API rate limit exceeded" 1>&2
+			exit 1
+		fi
+		local current_versions="$(echo "$raw_content" | jq '[.[] | ."'${name_kind}'"]')"
 		if (( $(echo "$current_versions" | jq length) == 0 )); then
 			local should_continue=false
 		fi
