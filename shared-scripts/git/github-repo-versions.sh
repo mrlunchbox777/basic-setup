@@ -50,7 +50,7 @@ function get_versions {
 	[ "$VERSION_KIND" == "releases" ] && local name_kind="tag_name"
 	# TODO: support throttling (this needs to be added to the other curl commands as well - https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
 	while [ "$should_continue" == true ]; do
-		local current_versions="$(curl -s "https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100" | jq '[.[] | ."${name_kind}}"]')"
+		local current_versions="$(curl -s "https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100" | jq '[.[] | ."'${name_kind}'"]')"
 		if (( $(echo "$current_versions" | jq length) == 0 )); then
 			local should_continue=false
 		fi
