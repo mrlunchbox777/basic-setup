@@ -48,9 +48,13 @@ function get_versions {
 	local name_kind="name"
 	[ "$VERSION_KIND" == "releases" ] && local name_kind="tag_name"
 	while [ "$should_continue" == true ]; do
-		local raw_content="$(curl -s "https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100")"
+		local curl_url="https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100"
+		local raw_content="$(curl -s "$curl_url")"
 		if [[ "$raw_content" == *"API rate limit exceeded"* ]]; then
 			echo "Error: API rate limit exceeded" 1>&2
+			echo "Error: run 'curl -s -v \"$curl_url\"' for more info." 1>&2
+			local seconds="$(curl -s -v "$curl_url" 2>&1 | grep 'x-ratelimit-reset' | awk '{print $3}' | sed 's/[^0-9]*//g' )"
+			echo "Error: Github rate limit resets at $(date -d @"$seconds")." 1>&2
 			exit 1
 		fi
 		local current_versions="$(echo "$raw_content" | jq '[.[] | ."'${name_kind}'"]')"
