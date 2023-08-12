@@ -67,19 +67,7 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	local should_continue=true
-	local page=1
-	local all_versions=""
-	# TODO: support throttling (this needs to be added to the other curl commands as well - https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
-	while [ "$should_continue" == true ]; do
-		local current_versions="$(curl -s "https://api.github.com/repos/golang/go/tags?page=$page&per_page=100" | jq '[.[] | ."name"]')"
-		if (( $(echo "$current_versions" | jq length) == 0 )); then
-			local should_continue=false
-		fi
-		local all_versions="$(echo "${all_versions}${current_versions}" | jq -s add)"
-		local page=$(($page+1))
-	done
-	local all_versions="$(echo "$all_versions" | jq -r '.[]')"
+	local all_versions="$(git-github-repo-versions -g "https://github.com/golang/go" -t)"
 	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
 		local all_versions="$(echo "$all_versions" | grep -v rc | grep -v beta | grep -v alpha | grep -v weekly | grep -v release)"
 	fi
