@@ -2,7 +2,6 @@
 
 ## Add the curl commands that are most important
 
-code
 tldr
 virtualbox
 

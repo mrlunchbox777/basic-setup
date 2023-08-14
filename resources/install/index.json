@@ -140,10 +140,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "curl",
-          "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for apt and dnf",
-          "package-name": ""
+          "notes": "",
+          "package-name": "code"
         },
         {
           "arguments": "",
