@@ -1495,10 +1495,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "curl",
-          "notes": "TODO: this should be supported and used for dnf and apt.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "terraform"
         },
         {
           "arguments": "",

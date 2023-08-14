@@ -3,7 +3,6 @@
 ## Add the curl commands that are most important
 
 code
-terraform
 tldr
 virtualbox
 
