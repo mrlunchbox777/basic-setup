@@ -2,8 +2,6 @@
 
 ## Add the curl commands that are most important
 
-virtualbox
-
 docker.io
 k9s
 kpt - https://kpt.dev/installation/kpt-cli
@@ -34,6 +32,8 @@ pwsh
 spotify
 steam
 vlc
+
+virtualbox as curl...
 
 ### Notes
 

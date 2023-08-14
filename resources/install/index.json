@@ -1705,9 +1705,9 @@
       "package-managers": [
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "apt-get",
-          "notes": "This is a frustratingly old version.",
+          "notes": "",
           "package-name": "virtualbox"
         },
         {
