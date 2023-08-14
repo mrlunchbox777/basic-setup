@@ -6,7 +6,6 @@ code
 terraform
 tldr
 virtualbox
-yq (WIP)
 
 docker.io
 k9s

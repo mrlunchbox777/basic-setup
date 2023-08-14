@@ -1941,10 +1941,10 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "curl",
-          "notes": "TODO: this should be supported and used by default, the package manager versions are often out of date.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "yq"
         },
         {
           "arguments": "",
