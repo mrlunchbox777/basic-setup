@@ -1551,7 +1551,7 @@
         },
         {
           "arguments": "",
-          "enabled": false,
+          "enabled": true,
           "manager-name": "curl",
           "notes": "",
           "package-name": "tldr"
