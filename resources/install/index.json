@@ -1553,8 +1553,8 @@
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
-          "notes": "TODO: this should be supported and used for everything because the package manager versions are very out of date, and when that happens we should enable the self-updating alias of tldr.",
-          "package-name": ""
+          "notes": "",
+          "package-name": "tldr"
         },
         {
           "arguments": "",

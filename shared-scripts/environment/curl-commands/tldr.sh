@@ -12,7 +12,7 @@ SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
 VERBOSITY=0
-HELP_INSTALL_PAGE="https://mikefarah.gitbook.io/yq/#install"
+HELP_INSTALL_PAGE="https://github.com/psibi/tldr-hs#installation"
 
 #
 # computed values (often can't be alphabetical)
@@ -58,16 +58,16 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed code)" == false ]; then
+	if [ "$(general-command-installed tldr)" == false ]; then
 		echo ""
 	else
-		echo "$(code --version | head -n 1)"
+		echo "$(tldr -v)"
 	fi
 }
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	local all_versions="$(git-github-repo-versions -r -g "https://github.com/microsoft/vscode")"
+	local all_versions="$(git-github-repo-versions -r -g "https://github.com/psibi/tldr-hs")"
 	if [ -z "$all_versions" ]; then
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
@@ -119,17 +119,14 @@ function install_version {
 	local arch_type="$(environment-arch-type)"
 	local command_to_run=""
 	local os_string=""
-	local extension=""
-	local unzip_command=""
 	# TODO: support checkums
 	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
-	if [ "$TARGET_VERSION" != "latest" ]; then
-		echo "VS Code install version not supported - $TARGET_VERSION" 1>&2
-		exit 1
+	if [ "$TARGET_VERSION" == "latest" ]; then
+		TARGET_VERSION="$(get_latest_version)"
 	fi
 	local arch_string=""
 	if [ "$arch_type" == "x64" ]; then
-		local arch_string="x64"
+		local arch_string="amd64"
 	elif [ "$arch_type" == "arm64" ]; then
 		local arch_string="arm64"
 	else
@@ -137,38 +134,23 @@ function install_version {
 		exit 1
 	fi
 	if [ "$os_type" == "Linux" ]; then
-		local os_string="linux"
-		local extension=".tar.gz"
-		local unzip_command="tar -xf"
+		local os_string="musl-linux"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: We should support this
+		# TODO: NEEDS TESTING
 		local os_string="darwin"
-		local extension=".zip"
-		local unzip_command="unzip"
-		echo "VS Code install not supported on Mac" 1>&2
-		exit 1
 	else
 		echo "unsupported os type - $os_type" 1>&2
 		exit 1
 	fi
-	local os_param="${os_string}-${arch_string}"
-	if [ "$os_string" == "darwin" ] && [ "$arch_string" == "x64" ]; then
-		local os_param="${os_string}"
-	fi
-	local archive_name="vscode${extension}"
-	local dirname="VSCode-${os_string}-${arch_string}"
+	local archive_name="tldr-${os_string}-${TARGET_VERSION}.tar.gz"
 	local command_to_run="$(
 		cat <<- EOF
-			curl -L -s "https://code.visualstudio.com/sha/download?build=stable&os=${os_param}" -o "$archive_name"
-			$unzip_command "$archive_name"
-			# TODO: support Mac here, the below is only for Linux
-			sudo rm -rf /usr/local/lib/vscode/ /usr/local/bin/code
-			sudo mkdir -p /usr/local/lib/vscode/
-			chmod +x "./${dirname}/bin/code"
-			sudo mv ./${dirname}/* /usr/local/lib/vscode/
-			sudo chown -R root: /usr/local/lib/vscode/
-			sudo ln -s /usr/local/lib/vscode/bin/code /usr/local/bin/code
-			rm -rf "$archive_name" "$dirname"
+			curl -L -s "https://github.com/psibi/tldr-hs/releases/download/${TARGET_VERSION}/${archive_name}" -o "$archive_name"
+			tar xf "$archive_name"
+			chmod +x "./tldr"
+			sudo mv ./tldr /usr/local/bin/tldr
+			sudo chown root: /usr/local/bin/tldr
+			rm -rf "$archive_name"
 		EOF
 	)"
 	if [ "$FORCE" == true ]; then
