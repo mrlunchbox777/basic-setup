@@ -142,7 +142,6 @@ function install_version {
 		echo "unsupported os type - $os_type" 1>&2
 		exit 1
 	fi
-	# https://github.com/derailed/k9s/releases/download/v0.27.4/k9s_Linux_amd64.tar.gz
 	local filename="k9s"
 	local archive_name="k9s_${os_string}_${arch_string}.tar.gz"
 	local command_to_run="$(
