@@ -1,9 +1,5 @@
 # TODO: more curl installs
 
-## Add the curl commands that are most important
-
-* ohmyzsh
-
 ## Add repo commands
 
 we should support some standard add repo commands for the package managers (this will require adding some stuff to schema)

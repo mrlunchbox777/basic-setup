@@ -1355,6 +1355,62 @@
       "pinned-version": null
     },
     {
+      "command": "omz",
+      "description": "Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.",
+      "enabled": true,
+      "install-page": "https://github.com/ohmyzsh/ohmyzsh#basic-installation",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Oh My Zsh",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "ohmyzsh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "java",
       "description": "OpenJDK is a development environment for building applications, applets, and components using the Java programming language.",
       "enabled": true,
