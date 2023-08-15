@@ -30,7 +30,7 @@ basic_setup_dir="$(pwd)"
 echo "current dir - $basic_setup_dir"
 [ ! -z "$env_path" ] && cp "$env_path" ./.env
 export PATH="$PATH:$(pwd)/shared-scripts/bin"
-bash install/init.sh | tee basic-setup-sh-output.log
+bash shared-scripts/basic-setup/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
 echo "\n\n"
