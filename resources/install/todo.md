@@ -2,7 +2,6 @@
 
 ## Add the curl commands that are most important
 
-* mattermost
 * nvm
 * ohmyzsh
 
@@ -10,7 +9,8 @@
 
 we should support some standard add repo commands for the package managers (this will require adding some stuff to schema)
 
-docker.io - https://docs.docker.com/engine/install/
+* docker.io - https://docs.docker.com/engine/install/
+* mattermost
 
 ## other curls that are nice to have
 
