@@ -2,38 +2,42 @@
 
 ## Add the curl commands that are most important
 
-docker.io
-k9s
-kpt - https://kpt.dev/installation/kpt-cli
-mattermost
-nvm
-ohmyzsh
+* k9s
+* kpt - https://kpt.dev/installation/kpt-cli
+* mattermost
+* nvm
+* ohmyzsh
+
+## Add repo commands
+
+we should support some standard add repo commands for the package managers (this will require adding some stuff to schema)
+
+docker.io - https://docs.docker.com/engine/install/
 
 ## other curls that are nice to have
 
-discord
-gsed (for mac)
-lens
-slack
-teams
-todoist
-zoom
+* discord
+* gsed (for mac)
+* lens
+* slack
+* teams
+* todoist
+* zoom
 
 ## other curls that are less important
 
-asbru
-azcli
-calibre
-golang
-kdeconnect
-lutris
-openjdk
-pwsh
-spotify
-steam
-vlc
-
-virtualbox as curl...
+* asbru
+* azcli
+* calibre
+* golang
+* kdeconnect
+* lutris
+* openjdk
+* pwsh
+* spotify
+* steam
+* vlc
+* virtualbox as curl (specifically for redhat)...
 
 ### Notes
 
