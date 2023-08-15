@@ -962,6 +962,63 @@
       "pinned-version": null
     },
     {
+      "command": "kpt",
+      "description": "Kpt is a toolkit to help you manage, examine, transform, and apply configuration manifests to your cluster.",
+      "enabled": true,
+      "install-page": "https://kpt.dev/installation/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "kpt",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "There is a tap for this, but to keep it simple we will use the curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "kpt"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "kubectl",
       "description": "The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters.",
       "enabled": true,
