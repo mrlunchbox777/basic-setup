@@ -22,6 +22,7 @@ we should support some standard add repo commands for the package managers (this
 * asbru
 * azcli
 * calibre
+* dotnet
 * golang
 * kdeconnect
 * lutris
