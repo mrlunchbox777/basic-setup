@@ -795,6 +795,63 @@
       "pinned-version": null
     },
     {
+      "command": "k9s",
+      "description": "k9s is a terminal UI to interact with your Kubernetes clusters.",
+      "enabled": true,
+      "install-page": "https://k9scli.io/topics/install/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "k3d",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "kdeconnect-app",
       "description": "Enabling communication between all your devices. Made for people like you.",
       "enabled": true,

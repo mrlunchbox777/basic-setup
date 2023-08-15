@@ -2,7 +2,6 @@
 
 ## Add the curl commands that are most important
 
-* k9s
 * kpt - https://kpt.dev/installation/kpt-cli
 * mattermost
 * nvm
