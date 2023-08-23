@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /usr/bin/env sh
 # clones and installs the basic setup
 
 current_dir="$(pwd)"
@@ -8,35 +8,36 @@ mkdir -p ~/src/tools
 [ -f .env ] && env_path="$(pwd)/.env"
 cd ~/src/tools
 
-sudo apt-get update -y
-sudo apt-get install git bash -y
-sudo apt-get autoremove -y
+if (( $(command -v bash >/dev/null 2>&1; echo $?) != 0 )); then
+	# TODO: install bash automatically
+	echo "Please install bash before running this." >&2
+	echo "See the following for details for windows https://itsfoss.com/install-bash-on-windows/" >&2
+	echo "For mac and linux it should already be installed, but if not use your package manager."
+fi
+if (( $(command -v git >/dev/null 2>&1; echo $?) != 0 )); then
+	# TODO: install git automatically
+	echo "Please install git before running this." >&2
+	echo "See the following for details https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" >&2
+	exit 1
+fi
 
 if [ ! -d basic-setup ]; then
-  git clone https://github.com/mrlunchbox777/basic-setup
+	git clone https://github.com/mrlunchbox777/basic-setup
 fi
 
 cd basic-setup
-echo "current dir - $(pwd)"
+basic_setup_dir="$(pwd)"
+echo "current dir - $basic_setup_dir"
 [ ! -z "$env_path" ] && cp "$env_path" ./.env
-bash install/init.sh | tee basic-setup-sh-output.log
-
-should_install_pwsh=${BASICSETUPSHOULDINSTALLPWSH:-true}
-if "${should_install_pwsh}" ; then
-  echo "running pwsh for linux"
-  # copy .env
-  # include the alias only env var
-  pwsh -c "./install/init.ps1" | tee ./basic-setup-pwsh-output.log
-else
-  echo "not running pwsh for linux"
-fi
+export PATH="$PATH:$(pwd)/shared-scripts/bin"
+bash shared-scripts/basic-setup/init.sh | tee basic-setup-sh-output.log
 
 ## end of basic setup
 echo "\n\n"
 echo "**********************************************************"
 echo "* Finished Basic Setup" 
 echo "*   Check -"
-echo "*     ~/src/tools/basic-setup/basic-setup-sh-output.log"
+echo "*     $basic_setup_dir/basic-setup-sh-output.log"
 echo "*   It will have logs and outputs on everything installed."
 echo "**********************************************************"
 

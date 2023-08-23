@@ -1,5 +1,2 @@
 alias g='git'
-
-gsmua() {
-  git submodule update --recursive --remote
-}
+alias gsmua='git-submodule-update-all'

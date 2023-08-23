@@ -1,6 +1,6 @@
 # basic-setup
 
-Basic box setup, it's fairly customizable using bash/powershell and will work on gui-based and headless systems. Open a pr if you want something added.
+Basic box setup, it's fairly customizable using bash and will work on gui-based and headless systems. Open a pr if you want something added.
 
 Currently only works on Windows(WIP) and Linux.
 
@@ -14,10 +14,9 @@ This will create a good basic setup for workstations. It should provide a pretty
 
 Run your OS Install
 
-* [Windows](#install-using-powershell)
 * [Linux](#install-using-bash)
 
-After installing use the command (from WSL if Windows, from `cmd` or `powershell` type `wsl` or `bash`) `cs` and try the commands listed there. It contains links to documents, roadmaps, tutorials, and other cheatsheet commands. The developer roadmaps listed there can be very helpful, as can the suggestions on what they are used for.
+After installing use the command `cs` and try the commands listed there. It contains links to documents, roadmaps, tutorials, and other cheatsheet commands. The developer roadmaps listed there can be very helpful, as can the suggestions on what they are used for.
 
 ## Installation
 
@@ -26,6 +25,12 @@ All of these will clone the repo and run the init script
 ### Install Using bash
 
 Clones to `~/src/tools/basic-setup`
+
+TODO:
+
+* make sure that git `submodule update --init` gets ran
+* make sure that there is an ssh-key to use
+* todo switch the submodule to https instead of ssh
 
 ```bash
 curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
@@ -37,32 +42,6 @@ This will still respect the .env, but will default everything that isn't alias r
 
 ```bash
 export BASICSETUPSHOULDDOALIASONLY="true" && curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
-```
-
-### Install Using PowerShell
-
-If Windows, runs powershell and choco installs.
-To install WSL you'll need to run once, restart, and then run the command again.
-If you are on a restricted computer, or have issues with WSL try `wsl --set-default-version 1` or to set your specific WSL Distro to version 1 with something like `wsl --set-version {{Distro Name}} 1` and you can get the distro name with `wsl -l -v`. You also need to make sure the [LXSS](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/cmdline/wsl-architectural-overview) service is running.
-
-If Linux installs as expected.
-
-**If Windows Run As Administrator**
-
-```powershell
-$onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
-```
-
-#### Install Alias Only Using PowerShell
-
-This will still respect the .env, but will default everything that isn't alias related to false.
-
-See [above](#install-using-powershell) for notes on OS variation installs.
-
-**If Windows Run As Administrator**
-
-```powershell
-$env:BASICSETUPWINSHOULDDOALIASONLY="$true"; BASICSETUPSHOULDDOALIASONLY="$true" ;$onWindows=(($IsWindows) -or ([System.String]::IsNullOrWhiteSpace($IsWindows) -and [System.String]::IsNullOrWhiteSpace($IsLinux))); if ($onWindows) {Set-ExecutionPolicy Bypass -Scope Process -Force;} [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.ps1'))
 ```
 
 ## Environment Variables
@@ -98,14 +77,6 @@ This will only last while the terminal is open, consider using the `.env`.
 export BASICSETUPSHOULDINSTALLUITOOLS="false"
 ```
 
-### Turn off GUI Tools Using powershell 
-
-This will only last while the terminal is open, consider using the `.env`.
-
-```powershell
-$env:BASICSETUPSHOULDINSTALLUITOOLS = $false
-```
-
 ## Testing
 
 You can run headless tests with the following
@@ -123,3 +94,9 @@ apt update && apt install curl sudo tzdata -y && export BASICSETUPSHOULDINSTALLU
 ### Testing GUI
 
 You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+### Environment Specific Testing
+
+There are various places in the code that need testing because they require a specific kind of setup (OS, architecture, etc).
+
+You can find them with `grep --recursive '# TODO: NEEDS TESTING'`

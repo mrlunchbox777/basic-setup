@@ -1,0 +1,53 @@
+    {
+      "command": "",
+      "description": "",
+      "enabled": true,
+      "install-page": "",
+      "labels": [],
+      "name": "",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    }

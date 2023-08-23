@@ -1,0 +1,2256 @@
+{
+  "packages": [
+    {
+      "command": "aws",
+      "description": "This package provides a unified command line interface to Amazon Web Services.",
+      "enabled": true,
+      "install-page": "https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "AWS CLI",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Curling for the aws is better than brew.",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "awscli"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Version 1 is available, but causes more issues than installing manually.",
+          "package-name": "aws-cli"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Amazon.AWSCLI"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "bat",
+      "description": "A cat(1) clone with syntax highlighting and Git integration.",
+      "enabled": true,
+      "install-page": "https://github.com/sharkdp/bat",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "bat",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "bat"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "This is on choco if you really want it.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "code",
+      "description": "Code editing. Redefined. Free. Built on open source. Runs everywhere.",
+      "enabled": true,
+      "install-page": "https://code.visualstudio.com/Download",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Visual Studio Code",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://code.visualstudio.com/docs/setup/linux",
+          "package-name": "code"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "visual-studio-code"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "code"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "You must add the repo as described here - https://computingforgeeks.com/install-visual-studio-code-on-fedora/?expand_article=1",
+          "package-name": "code"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "code"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Microsoft.VisualStudioCode"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "curl",
+      "description": "Curl is a command-line tool for transferring data specified with URL syntax.",
+      "enabled": true,
+      "install-page": "https://curl.se/docs/install.html",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "cURL",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "curl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "cURL.cURL"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "docker",
+      "description": "Docker is an open platform for developing, shipping, and running applications.",
+      "enabled": true,
+      "install-page": "https://docs.docker.com/engine/install/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Docker",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "docker.io"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "docker"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: This should be supported for rhel.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "You need to add the repo first - https://download.docker.com/linux/rhel/docker-ce.repo.",
+          "package-name": "docker-ce"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "docker"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Docker.DockerDesktop"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "firefox",
+      "description": "Firefox is a free and open source web browser developed by Mozilla Foundation.",
+      "enabled": true,
+      "install-page": "https://www.mozilla.org/en-US/firefox/new/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Firefox",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "firefox"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "firefox"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "firefox"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "firefox"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Mozilla.Firefox"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "gcc",
+      "description": "The GNU Compiler Collection includes front ends for C, C++, Objective-C, Fortran, Ada, Go, and D, as well as libraries for these languages (libstdc++,...).",
+      "enabled": true,
+      "install-page": "https://gcc.gnu.org/install/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "GNU Compiler Collection (gcc)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "gcc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "gimp",
+      "description": "The Free & Open Source Image Editor.",
+      "enabled": true,
+      "install-page": "https://www.gimp.org/downloads/",
+      "labels": [
+        "all"
+      ],
+      "name": "GNU Image Manipulation Program (GIMP)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "gimp"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "gimp"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "gimp"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "gimp"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "GIMP.GIMP"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "git",
+      "description": "Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
+      "enabled": true,
+      "install-page": "https://git-scm.com/downloads",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "Git",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "git"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Git.Git"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "go",
+      "description": "Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.",
+      "enabled": true,
+      "install-page": "https://go.dev/doc/install",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Golang",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Only old versions available.",
+          "package-name": "golang"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Only old versions available.",
+          "package-name": "golang"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "go"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (TODO: eventually windows will be supported through curl instead).",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "gpg",
+      "description": "GnuPG is a complete and free implementation of the OpenPGP standard as defined by RFC4880 (also known as PGP).",
+      "enabled": true,
+      "install-page": "https://gnupg.org/download/index.html",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "GNU Privacy Guard (GnuPG)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "gpg"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "gnupg"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "gnupg2"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "gnupg"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "GnuPG.GnuPG"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "helm",
+      "description": "Helm is the package manager for Kubernetes.",
+      "enabled": true,
+      "install-page": "https://helm.sh/docs/intro/install/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Helm",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://helm.sh/docs/intro/install/#from-apt-debianubuntu",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "helm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Helm.Helm"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "jq",
+      "description": "jq is a lightweight and flexible command-line JSON processor.",
+      "enabled": true,
+      "install-page": "https://jqlang.github.io/jq/download/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "jq",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "jq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "jqlang.jq"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "k3d",
+      "description": "k3d is a lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.",
+      "enabled": true,
+      "install-page": "https://k3d.io/v5.5.1/#installation",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "k3d",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "k3d"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "k3d"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "k9s",
+      "description": "k9s is a terminal UI to interact with your Kubernetes clusters.",
+      "enabled": true,
+      "install-page": "https://k9scli.io/topics/install/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "k9s",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "k9s"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kdeconnect-app",
+      "description": "Enabling communication between all your devices. Made for people like you.",
+      "enabled": true,
+      "install-page": "https://kdeconnect.kde.org/download.html",
+      "labels": [
+        "all"
+      ],
+      "name": "KDE Connect",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "kdeconnect"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available yet, https://binary-factory.kde.org/view/MacOS/job/kdeconnect-kde_Nightly_macos/.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for MacOS",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "kdeconnectd"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kdeconnect"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "KDE.KDEConnect"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kleopatra",
+      "description": "Kleopatra is a certificate manager and a universal crypto GUI.",
+      "enabled": true,
+      "install-page": "https://apps.kde.org/kleopatra/",
+      "labels": [
+        "all"
+      ],
+      "name": "Kleopatra",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available for MacOS.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kleopatra"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "It has a different name, but is the same app.",
+          "package-name": "GnuPG.Gpg4win"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kpt",
+      "description": "Kpt is a toolkit to help you manage, examine, transform, and apply configuration manifests to your cluster.",
+      "enabled": true,
+      "install-page": "https://kpt.dev/installation/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "kpt",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "There is a tap for this, but to keep it simple we will use the curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "kpt"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kubectl",
+      "description": "The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters.",
+      "enabled": true,
+      "install-page": "https://kubernetes.io/docs/tasks/tools/",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "kubectl",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kubectl"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Kubernetes.kubectl"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "kustomize",
+      "description": "Kustomize introduces a template-free way to customize application configuration that simplifies the use of off-the-shelf applications. Now, built into kubectl as apply -k.",
+      "enabled": false,
+      "install-page": "https://kubectl.docs.kubernetes.io/installation/kustomize/",
+      "labels": [
+        "all",
+        "big-bang-full"
+      ],
+      "name": "Kustomize",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "kustomize"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being part of kubectl we really don't need it",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "kustomize"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "libreoffice",
+      "description": "LibreOffice is a free and powerful office suite, and a successor to OpenOffice.org (commonly known as OpenOffice).",
+      "enabled": true,
+      "install-page": "https://www.libreoffice.org/download/download-libreoffice/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "LibreOffice",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "libreoffice"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "libreoffice-still"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "TheDocumentFoundation.LibreOffice"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "mailutils",
+      "description": "Mailutils is a swiss army knife of electronic mail handling.",
+      "enabled": false,
+      "install-page": "https://mailutils.org/download.html",
+      "labels": [
+        "all"
+      ],
+      "name": "GNU Mailutils (mail/mailx)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "mailx"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "mailutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "make",
+      "description": "GNU Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.",
+      "enabled": true,
+      "install-page": "https://www.gnu.org/software/make/#download",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "GNU Make",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "make"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "This is not exactly GNU Make, but it is a port of it.",
+          "package-name": "GnuWin32.Make"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "nvm",
+      "description": "Node Version Manager - Simple bash script to manage multiple active node.js versions",
+      "enabled": true,
+      "install-page": "https://github.com/nvm-sh/nvm#installing-and-updating",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "nvm",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "nvm"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "nvm"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": "java-latest-openjdk"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "omz",
+      "description": "Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.",
+      "enabled": true,
+      "install-page": "https://github.com/ohmyzsh/ohmyzsh#basic-installation",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Oh My Zsh",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "ohmyzsh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "pacman",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "java",
+      "description": "OpenJDK is a development environment for building applications, applets, and components using the Java programming language.",
+      "enabled": true,
+      "install-page": "https://openjdk.org/install/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "OpenJDK",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "This may install an older version of OpenJDK.",
+          "package-name": "default-jdk"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "openjdk"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: We might consider adding a curl script for this so you can always get latest (specifically for apt).",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "java-latest-openjdk"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "jdk-openjdk"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "ssh",
+      "description": "OpenSSH is the premier connectivity tool for remote login with the SSH protocol.",
+      "enabled": true,
+      "install-page": "https://www.openssh.com/portable.html",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "OpenSSH",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "openssh-client"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "openssh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "openssh-clients"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "openssh"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "This is not exactly openssh, but it is a port of it.",
+          "package-name": "Microsoft.OpenSSH.Beta"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "python3",
+      "description": "Python is a programming language that lets you work quickly and integrate systems more effectively.",
+      "enabled": true,
+      "install-page": "https://www.python.org/downloads/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Python",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "python3"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "python3"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "python3"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "python"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "remmina",
+      "description": "Remote access screen and file sharing to your desktop.",
+      "enabled": true,
+      "install-page": "https://www.remmina.org/how-to-install-remmina/",
+      "labels": [
+        "all"
+      ],
+      "name": "Remmina",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "brew",
+          "notes": "Linux only.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "remmina"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Linux only.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "sshuttle",
+      "description": "sshuttle: where transparent proxy meets VPN meets ssh",
+      "enabled": true,
+      "install-page": "https://github.com/sshuttle/sshuttle#obtaining-sshuttle",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full",
+        "core"
+      ],
+      "name": "sshuttle",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "sshuttle"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "sshuttle"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "sshuttle"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "sshuttle"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "terraform",
+      "description": "Terraform is a tool for building, changing, and versioning infrastructure safely and efficiently.",
+      "enabled": true,
+      "install-page": "https://developer.hashicorp.com/terraform/downloads",
+      "labels": [
+        "all",
+        "big-bang",
+        "big-bang-full"
+      ],
+      "name": "Terraform",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "You must add the repo as described here - https://www.hashicorp.com/official-packaging-guide",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "terraform"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "terraform"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "terraform"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Hashicorp.Terraform"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "tldr",
+      "description": "Simplified and community-driven man pages.",
+      "enabled": true,
+      "install-page": "https://tldr.sh/#installation",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "tldr",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "This is a frustratingly old version.",
+          "package-name": "tldr"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "tldr"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "tldr"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "tldr"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "tldr"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "tmux",
+      "description": "tmux is a terminal multiplexer.",
+      "enabled": true,
+      "install-page": "https://github.com/tmux/tmux/wiki/Installing",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "tmux",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "tmux"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "tmux"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "tmux"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "tmux"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "uuid",
+      "description": "OSSP uuid is a ISO-C:1999 application programming interface (API) and corresponding command line interface (CLI) for the generation of DCE 1.1, ISO/IEC 11578:1996 and RFC 4122 compliant Universally Unique Identifier (UUID).",
+      "enabled": true,
+      "install-page": "http://www.ossp.org/pkg/lib/uuid/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Universally Unique Identifier (UUID)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "uuid"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "ossp-uuid"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "uuid"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "util-linux-libs"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "virtualbox",
+      "description": "VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as home use.",
+      "enabled": true,
+      "install-page": "https://www.virtualbox.org/wiki/Downloads",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "VirtualBox",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: this should be supported and used by default, the package manager versions are often out of date.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "virtualbox"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "Oracle.VirtualBox"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "vlc",
+      "description": "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols.",
+      "enabled": true,
+      "install-page": "https://www.videolan.org/vlc/",
+      "labels": [
+        "all"
+      ],
+      "name": "VLC Media Player",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "TODO: This should be supported for rhel.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "vlc"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "VideoLAN.VLC"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "wget",
+      "description": "GNU Wget is a free software package for retrieving files using HTTP, HTTPS, FTP and FTPS, the most widely used Internet protocols.",
+      "enabled": true,
+      "install-page": "https://www.gnu.org/software/wget/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "GNU Wget (wget)",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "wget"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "wget"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "wget"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "wget"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "GNU.Wget2"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "wine",
+      "description": "Wine (originally an acronym for \"Wine Is Not an Emulator\") is a compatibility layer capable of running Windows applications on several POSIX-compliant operating systems, such as Linux, macOS, & BSD.",
+      "enabled": true,
+      "install-page": "https://wiki.winehq.org/Download",
+      "labels": [
+        "all"
+      ],
+      "name": "wine",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "wine-stable"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "wine"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Windows doesn't need wine.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "yq",
+      "description": "A lightweight and portable command-line YAML processor.",
+      "enabled": true,
+      "install-page": "https://mikefarah.gitbook.io/yq/#install",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "yq",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "apt-get",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "yq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "curl",
+          "notes": "",
+          "package-name": "yq"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "Not available.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "yq"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "winget",
+          "notes": "",
+          "package-name": "MikeFarah.yq"
+        }
+      ],
+      "pinned-version": null
+    },
+    {
+      "command": "zsh",
+      "description": "Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.",
+      "enabled": true,
+      "install-page": "https://zsh.sourceforge.io/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "Z Shell",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "zsh"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Not available.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    }
+  ]
+}

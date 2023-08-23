@@ -42,14 +42,14 @@
 autoload -U colors; colors
 autoload -Uz compinit
 compinit
-source "$BASICSETUPGENERALRCDIR/../zsh-kubectl-prompt/kubectl.zsh"
+source "$BASICSETUPGENERALRCDIR/../submodules/zsh-kubectl-prompt/kubectl.zsh"
 function right_prompt() {
-  local color="blue"
+	local color="blue"
 
-  if [[ "$ZSH_KUBECTL_USER" =~ "admin" ]]; then
-    color=red
-  fi
+	if [[ "$ZSH_KUBECTL_USER" =~ "admin" ]]; then
+		color=red
+	fi
 
-  echo "%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}"
+	echo "%{$fg[$color]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}"
 }
 RPROMPT='$(date) - $(right_prompt)'

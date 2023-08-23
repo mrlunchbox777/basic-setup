@@ -1,4 +1,7 @@
-/test.*
+/resources/install/index.d/*
+!/resources/install/index.d/.gitkeep
+/test*
+/tmp/
 **/basic-setup-*-output.log
 **/basic-setup-*-output.txt
 install/minikube*

@@ -1,10 +1,10 @@
 [submodule "gitalias"]
-	path = gitalias
+	path = submodules/gitalias
 	url = https://github.com/GitAlias/gitalias
 	branch = main
 [submodule "posh-git-sh"]
-	path = posh-git-sh
+	path = submodules/posh-git-sh
 	url = git@github.com:lyze/posh-git-sh.git
 [submodule "zsh-kubectl-prompt"]
-	path = zsh-kubectl-prompt
+	path = submodules/zsh-kubectl-prompt
 	url = git@github.com:superbrothers/zsh-kubectl-prompt.git

@@ -1,5 +1,3 @@
-
-
 # EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
@@ -9,5 +7,29 @@ root = true
 [*]
 end_of_line = lf
 insert_final_newline = true
+
+# You need to use tabs to indent heredocs so i'll fight with google on this one - https://google.github.io/styleguide/shellguide.html#s5.1-indentation
+[*.{sh,bash,zsh}]
+indent_style = tab
+
+# js standard is 2 spaces - https://google.github.io/styleguide/jsguide.html#formatting-block-indentation
+[*.{js,json}]
 indent_style = space
 indent_size = 2
+
+# Powershell standard is 4 spaces - unofficial - https://github.com/PoshCode/PowerShellPracticeAndStyle/blob/master/Style-Guide/Code-Layout-and-Formatting.md#indentation
+[*.ps1]
+indent_style = space
+indent_size = 4
+
+# Markdown doesn't have standard per se, but every mention of indentation is 4 spaces - https://google.github.io/styleguide/docguide/style.html
+[*.md]
+indent_style = space
+indent_size = 4
+
+# Submodules aren't ours or our concern
+[submodules/**]
+end_of_line = unset
+insert_final_newline = unset
+indent_style = unset
+indent_size = unset
