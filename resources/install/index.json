@@ -1190,7 +1190,7 @@
     {
       "command": "mailutils",
       "description": "Mailutils is a swiss army knife of electronic mail handling.",
-      "enabled": true,
+      "enabled": false,
       "install-page": "https://mailutils.org/download.html",
       "labels": [
         "all"
