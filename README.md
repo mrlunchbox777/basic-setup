@@ -26,6 +26,11 @@ All of these will clone the repo and run the init script
 
 Clones to `~/src/tools/basic-setup`
 
+TODO:
+
+* make sure that git `submodule update --init` gets ran
+* make sure that there is an ssh-key to use
+
 ```bash
 curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
 ```
