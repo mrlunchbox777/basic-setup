@@ -30,6 +30,7 @@ TODO:
 
 * make sure that git `submodule update --init` gets ran
 * make sure that there is an ssh-key to use
+* todo switch the submodule to https instead of ssh
 
 ```bash
 curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
