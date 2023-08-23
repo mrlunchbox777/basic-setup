@@ -1,4 +1,4 @@
-#! usr/bin/env sh
+#! /usr/bin/env sh
 # clones and installs the basic setup
 
 current_dir="$(pwd)"
