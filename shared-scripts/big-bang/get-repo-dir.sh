@@ -17,13 +17,13 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: Returnsthe full path of the the bigbang directory
+		description: Returns the full path of the the bigbang directory
 		----------
 		-h|--help    - (flag, default: false) Print this help message and exit.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		examples:
-		get basic setup dir - $command_for_help
+		get bigbang repo dir - $command_for_help
 		----------
 	EOF
 }

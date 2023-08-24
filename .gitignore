@@ -7,3 +7,5 @@
 install/minikube*
 .env
 *.deb
+/shared-scripts/big-bang/bin/*
+!/shared-scripts/big-bang/bin/.gitkeep

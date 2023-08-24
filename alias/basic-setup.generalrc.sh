@@ -12,8 +12,10 @@ if [ ! -d "$shared_scripts_path" ]; then
 		exit 1
 fi
 
-# Include the shared_scripts/bin in the PATH
+# Include the shared-scripts/bin in the PATH
 export PATH="$shared_scripts_path/bin:$PATH"
+# Include the shared-scripts/big-bang/bin in the PATH
+export PATH="$shared_scripts_path/big-bang/bin:$PATH"
 
 source=""
 
