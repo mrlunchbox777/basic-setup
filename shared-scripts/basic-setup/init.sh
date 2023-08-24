@@ -28,6 +28,7 @@ if [ "$should_add_github_key" == "true" ]; then
 	ssh-keyscan -t rsa github.com | ssh-keygen -lf -
 fi
 
+git-submodule-update-all
 environment-validation -i -c -v
 git-add-basic-setup-gitconfig
 basic-setup-add-general-rc
