@@ -22,6 +22,8 @@ function help {
 		-h|--help    - (flag, default: false) Print this help message and exit.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
+		note: Adapted from and for more info see - https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
+		----------
 		examples:
 		update the readme - $command_for_help
 		----------
@@ -63,7 +65,6 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-# adapted from https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/README.md.gotmpl
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/.helmdocsignore
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/_templates.gotmpl
