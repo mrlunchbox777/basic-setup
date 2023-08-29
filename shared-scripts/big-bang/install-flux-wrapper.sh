@@ -169,7 +169,7 @@ args_string="$(echo "$args" | sed "$sed_string")"
 (($VERBOSITY > 0)) && echo "args: $args_string"
 command="$(readlink "$(command -v bb-install_flux.sh)")"
 if [ -z "$command" ]; then
-	echo "Error: bb-install_flux.sh not found" >&2
+	echo "Error: bb-install_flux.sh not found, please run big-bang-relink-scripts" >&2
 	help
 	exit 1
 fi
