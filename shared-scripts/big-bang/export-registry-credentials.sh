@@ -22,7 +22,7 @@ zzz_helper_export_registry_credentials_help() {
 		(There are no parameters to this script, it should be sourced)
 		----------
 		notes: exported variables below
-		- export REGISTRY_USER="\${REGISTRY_USER:-}"
+		- export REGISTRY_USERNAME="\${REGISTRY_USERNAME:-}"
 		- export REGISTRY_PASSWORD="\${REGISTRY_PASSWORD:-}"
 		- export REGISTRY_URL="\${REGISTRY_URL:-}"
 		----------
@@ -40,7 +40,12 @@ zzz_helper_export_registry_credentials_is_sourced() {
 	else  # Add additional POSIX-compatible shell names here, if needed.
 		case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
 	fi
-	return 1  # NOT sourced.
+	local did_match=$(echo "$0" | grep -q ".*export\-registry\-credentials.*" >/dev/null 2>&1; echo $?)
+	if [ $did_match -eq 0 ]; then
+		return 1  # NOT sourced (file name matches this script).
+	else
+		return 0  # IS sourced.
+	fi
 }
 
 # is null or whitespace
@@ -101,6 +106,6 @@ if zzz_helper_export_registry_credentials_is_null_or_whitespace "$harbor_registr
 	exit 1
 fi
 
-export REGISTRY_USER="$harbor_user"
+export REGISTRY_USERNAME="$harbor_user"
 export REGISTRY_PASSWORD="$harbor_password"
 export REGISTRY_URL="$harbor_registry"
