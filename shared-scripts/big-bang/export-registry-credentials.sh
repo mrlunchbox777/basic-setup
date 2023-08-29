@@ -17,9 +17,14 @@ zzz_helper_export_registry_credentials_help() {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: A script that should be sourced to get the credentials for the bigbang registry
+		description: A script that should be sourced to get the credentials for the bigbang registry from the overrides/registry-values.yaml file
 		----------
 		(There are no parameters to this script, it should be sourced)
+		----------
+		notes: exported variables below
+		- export REGISTRY_USER="\${REGISTRY_USER:-}"
+		- export REGISTRY_PASSWORD="\${REGISTRY_PASSWORD:-}"
+		- export REGISTRY_URL="\${REGISTRY_URL:-}"
 		----------
 		examples:
 		get the commands - . $command_for_help
@@ -96,6 +101,6 @@ if zzz_helper_export_registry_credentials_is_null_or_whitespace "$harbor_registr
 	exit 1
 fi
 
-export HARBOR_USER="$harbor_user"
-export HARBOR_PASSWORD="$harbor_password"
-export HARBOR_REGISTRY="$harbor_registry"
+export REGISTRY_USER="$harbor_user"
+export REGISTRY_PASSWORD="$harbor_password"
+export REGISTRY_URL="$harbor_registry"
