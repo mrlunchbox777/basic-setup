@@ -160,6 +160,7 @@ done
 #
 # Do the work
 #
+[ $SHOW_HELP == true ] && help # don't exit so we get the install flux help as well
 
 args="$(build-args)"
 sed_string='s/-p .*\b/-p ******** /g'

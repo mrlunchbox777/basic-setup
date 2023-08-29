@@ -50,6 +50,7 @@ zzz_helper_export_registry_credentials_is_sourced() {
 
 # is null or whitespace
 zzz_helper_export_registry_credentials_is_null_or_whitespace() {
+	# TODO: fix this for zsh
 	if [ -z "$1" ] || [ -z "${1// }" ] || [ -z "${1//	}" ] || [ -z "${1//\n}" ] || [ -z "${1//\r}" ] || [[ "$1" == "null" ]]; then
 		return 0
 	else
