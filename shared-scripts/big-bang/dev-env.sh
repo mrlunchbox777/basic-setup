@@ -143,7 +143,7 @@ while (("$#")); do
 		shift
 		;;
 	# destroy flag
-	--k3d-d)
+	-d | --k3d-d)
 		DESTROY=true
 		shift
 		;;
