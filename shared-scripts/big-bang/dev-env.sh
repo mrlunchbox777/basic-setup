@@ -5,6 +5,8 @@
 #
 LOG_DIR="/tmp/k3d-dev-logs"
 SHOW_HELP=false
+SKIP_FLUX=false
+SKIP_INSTALL=false
 USE_LOCAL_LOG=false
 USE_REGISTRY_YAML=true
 VERBOSITY=0
@@ -43,11 +45,13 @@ function help {
 		description: runs the k3d-dev wrapper, then runs the install-flux wrapper
 		----------
 		wrapper flags:
-		-d|--k3d-d   - see below
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
-		-m|--manual  - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-d|--k3d-d        - see below
+		-f|--skip-flux    - (flag, default: false) Skips flux commands.
+		-h|--help         - (flag, default: false) Print this help message and exit.
+		-i|--skip-install - (flag, default: false) Skips the k3d and flux commands.
+		-l|--log          - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
+		-m|--manual       - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
+		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
 		flux script flags (all flags below are passed to bb-install_flux.sh):
 		--flux-r - (optional, default: registry1.dso.mil) registry url to use for flux installation
 		--flux-s - (optional) use existing private-registry secret 
@@ -147,12 +151,22 @@ while (("$#")); do
 		DESTROY=true
 		shift
 		;;
+	# skip flux flag
+	-f | --skip-flux)
+		SKIP_FLUX=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
 		shift
 		;;
-	# help flag
+	# skip install flag
+	-i | --skip-install)
+		SKIP_INSTALL=true
+		shift
+		;;
+	# use local log flag
 	-l | --log)
 		USE_LOCAL_LOG=true
 		shift
@@ -255,9 +269,13 @@ sudo cat /dev/null # prompt for sudo password now
 k3d_args="$(build-k3d-args)"
 flux_args="$(build-flux-args)"
 
-big-bang-k3d-dev-wrapper $k3d_args
-if [ $DESTROY == true ]; then
-	(($VERBOSITY > 0)) && echo "message: Destroying k3d-dev cluster, so not installing flux." >&2
-	exit 0
+if [ "$SKIP_INSTALL" == false ]; then
+	big-bang-k3d-dev-wrapper $k3d_args
+	if [ $DESTROY == true ]; then
+		(($VERBOSITY > 0)) && echo "message: Destroying k3d-dev cluster, exiting." >&2
+		exit 0
+	fi
+	if [ $SKIP_FLUX == false ]; then
+		big-bang-install-flux-wrapper $flux_args
+	fi
 fi
-big-bang-install-flux-wrapper $flux_args
