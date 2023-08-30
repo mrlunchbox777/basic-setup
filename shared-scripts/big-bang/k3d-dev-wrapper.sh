@@ -41,13 +41,13 @@ function help {
 		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		script flags (all flags below are passed to bb-k3d-dev.sh):
-		-b   use BIG M5 instance. Default is m5a.4xlarge
-		-p   use private IP for security group and k3d cluster
-		-m   create k3d cluster with metalLB
-		-a   attach secondary Public IP (overrides -p and -m flags)
-		-d   destroy related AWS resources
-		-w   install the weave CNI instead of the default flannel CNI
-		-h   output help
+		-b - use BIG M5 instance. Default is m5a.4xlarge
+		-p - use private IP for security group and k3d cluster
+		-m - create k3d cluster with metalLB
+		-a - attach secondary Public IP (overrides -p and -m flags)
+		-d - destroy related AWS resources
+		-w - install the weave CNI instead of the default flannel CNI
+		-h - output help
 		----------
 		examples:
 		create dev environment      - $command_for_help
@@ -199,6 +199,8 @@ done
 #
 [ $SHOW_HELP == true ] && help # don't exit so we get the k3d-dev help as well
 
+sudo cat /dev/null # prompt for sudo password now
+
 # Prep the log file
 if [ "$USE_LOCAL_LOG" == true ]; then
 	LOG_DIR="."
@@ -209,6 +211,12 @@ LOG_FILE="$LOG_DIR/$LOG_FILE_NAME"
 
 # Run the script
 run-k3d-dev
+
+# exit if we are destroying the dev environment
+if [ $SHOW_HELP == true ]; then
+	(($VERBOSITY > 0)) && echo "Showing help, no changes to /etc/hosts or ~/.kube/config will be made"
+	exit 0
+fi
 
 # Validate the log file
 if [ ! -f "$LOG_FILE" ]; then
@@ -222,7 +230,7 @@ fi
 
 # exit if we are destroying the dev environment
 if [ $DESTROY == true ]; then
-	echo "Destroying dev environment, no changes to /etc/hosts or ~/.kube/config will be made"
+	(($VERBOSITY > 0)) && echo "Destroying dev environment, no changes to /etc/hosts or ~/.kube/config will be made"
 	exit 0
 fi
 

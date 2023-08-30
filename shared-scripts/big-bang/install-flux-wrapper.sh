@@ -27,8 +27,8 @@ function help {
 		----------
 		wrapper flags:
 		-h|--help    - (flag, default: false) Print this help message and exit.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		-m|--manual  - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml
+		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		script flags (all flags below are passed to bb-install_flux.sh):
 		-h|--help                - print this help message and exit
 		-r|--registry-url        - (optional, default: registry1.dso.mil) registry url to use for flux installation
@@ -116,7 +116,7 @@ while (("$#")); do
 		fi
 		;;
 	# registry username, optional argument
-	-p | --registry-username)
+	-u| --registry-username)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
 			REGISTRY_USERNAME=$2
 			shift 2
@@ -161,6 +161,8 @@ done
 # Do the work
 #
 [ $SHOW_HELP == true ] && help # don't exit so we get the install flux help as well
+
+sudo cat /dev/null # prompt for sudo password now
 
 args="$(build-args)"
 sed_string='s/-p .*\b/-p ******** /g'
