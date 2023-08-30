@@ -4,9 +4,11 @@
 # global defaults
 #
 LOG_DIR="/tmp/k3d-dev-logs"
+DEV_ENV_NAMESPACE=""
 SHOW_HELP=false
 SKIP_FLUX=false
 SKIP_INSTALL=false
+SKIP_SECRET=false
 USE_LOCAL_LOG=false
 USE_REGISTRY_YAML=true
 VERBOSITY=0
@@ -51,6 +53,8 @@ function help {
 		-i|--skip-install - (flag, default: false) Skips the k3d and flux commands.
 		-l|--log          - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
 		-m|--manual       - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
+		-n|--namespace    - (flag, default: true) The namespace to use for the dev env, required if -s is not set.
+		-s|--skip-secret  - (flag, default: true) If the secret should be created.
 		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
 		flux script flags (all flags below are passed to bb-install_flux.sh):
 		--flux-r - (optional, default: registry1.dso.mil) registry url to use for flux installation
@@ -67,7 +71,7 @@ function help {
 		--k3d-w    - install the weave CNI instead of the default flannel CNI
 		----------
 		examples:
-		build a dev env  - $command_for_help
+		build a dev env  - $command_for_help -n my-namespace
 		destoy a dev env - $command_for_help -d
 		----------
 	EOF
@@ -130,6 +134,35 @@ build-flux-args() {
 	echo "$args"
 }
 
+# Creates the namespace
+create-namespace() {
+	kubectl create namespace "$DEV_ENV_NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+}
+
+# Creates the registry secret
+create-registry-secret() {
+	if [ -z "$DEV_ENV_NAMESPACE" ]; then
+		echo "Error: DEV_ENV_NAMESPACE is not set and is required to set the secret" >&2
+		exit 1
+	fi
+	if [ "$USE_REGISTRY_YAML" == true ]; then
+		. big-bang-export-registry-credentials
+	fi
+	if [ -z "$REGISTRY_URL" ]; then
+		echo "Error: REGISTRY_URL is not set and is required to set the secret" >&2
+		exit 1
+	fi
+	if [ -z "$REGISTRY_USERNAME" ]; then
+		echo "Error: REGISTRY_USERNAME is not set and is required to set the secret" >&2
+		exit 1
+	fi
+	if [ -z "$REGISTRY_PASSWORD" ]; then
+		echo "Error: REGISTRY_PASSWORD is not set and is required to set the secret" >&2
+		exit 1
+	fi
+	kubectl create secret docker-registry private-registry --docker-server="$REGISTRY_URL" --docker-username="$REGISTRY_USERNAME" --docker-password="$REGISTRY_PASSWORD" -n "$DEV_ENV_NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+}
+
 #
 # CLI parsing
 #
@@ -181,6 +214,17 @@ while (("$#")); do
 		USE_REGISTRY_YAML=false
 		shift
 		;;
+	# namespace optional argument
+	-n | --namespace)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			DEV_ENV_NAMESPACE=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
 	# private ip flag
 	--k3d-p)
 		USE_PRIVATE_IP=true
@@ -207,6 +251,11 @@ while (("$#")); do
 			help
 			exit 1
 		fi
+		;;
+	# skip secret
+	-s | --skip-secret)
+		SKIP_INSTALL=true
+		shift
 		;;
 	# manual auth flag
 	--flux-s)
@@ -278,4 +327,12 @@ if [ "$SKIP_INSTALL" == false ]; then
 	if [ $SKIP_FLUX == false ]; then
 		big-bang-install-flux-wrapper $flux_args
 	fi
+fi
+
+if [ -n "$DEV_ENV_NAMESPACE" ]; then
+	create-namespace
+fi
+
+if [ $SKIP_SECRET == false ]; then
+	create-registry-secret
 fi
