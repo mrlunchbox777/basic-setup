@@ -97,6 +97,7 @@ run-k3d-dev() {
 
 # do parsing on the log file to get the hosts and kubectl changes
 update-hosts-and-kubectl() {
+	(($VERBOSITY > 0)) && echo "Updating /etc/hosts and ~/.kube/config"
 	new_hosts_file_line="$(grep \.bigbang\.dev "$LOG_FILE")"
 	if [ -z "$new_hosts_file_line" ]; then
 		echo "Error: no hosts file line found in $LOG_FILE" >&2
@@ -107,19 +108,21 @@ update-hosts-and-kubectl() {
 		echo "Error: no kubectl line found in $LOG_FILE" >&2
 		exit 1
 	fi
-	new_kubectl_file="$(echo "$new_kubectl_line" | sed 's/.*export KUBECONFIG=//g' | xargs | sed 's/\"//g')"
+	new_kubectl_file="$(echo "$new_kubectl_line" | sed 's/.*export KUBECONFIG=//g' | xargs)"
 	if [ -z "$new_kubectl_file" ]; then
 		echo "Error: no kubectl file found in $LOG_FILE" >&2
 		exit 1
 	fi
-	# TODO: fix this error (unable to find the new kubeconfig file)
+	new_kubectl_file="$(echo "$new_kubectl_file" | sed 's|~|'$HOME'|g')"
 	if [ ! -f "$new_kubectl_file" ]; then
 		echo "Error: kubectl file not found: $new_kubectl_file" >&2
 		exit 1
 	fi
 
+	(($VERBOSITY > 0)) && echo "new_hosts_file_line: $new_hosts_file_line"
+	(($VERBOSITY > 0)) && echo "new_kubectl_file: $new_kubectl_file"
 	sudo sed -i '/.*\.bigbang\.dev.*/d' /etc/hosts # remove old entries
-	echo "$new_hosts_file_line" | sudo tee -a /etc/hosts # add new entries
+	echo "$new_hosts_file_line" | sudo tee -a /etc/hosts >/dev/null # add new entries
 	mv ~/.kube/config ~/.kube/config-$DATE_TO_USE.bak # backup old config
 	cp $new_kubectl_file ~/.kube/config # copy new config
 }
