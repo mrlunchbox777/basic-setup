@@ -48,13 +48,13 @@ function help {
 		----------
 		wrapper flags:
 		-d|--k3d-d        - see below
-		-f|--skip-flux    - (flag, default: false) Skips flux commands.
 		-h|--help         - (flag, default: false) Print this help message and exit.
 		-i|--skip-install - (flag, default: false) Skips the k3d and flux commands.
 		-l|--log          - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
 		-m|--manual       - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
 		-n|--namespace    - (flag, default: true) The namespace to use for the dev env, required if -s is not set.
 		-s|--skip-secret  - (flag, default: true) If the secret should be created.
+		-u|--skip-flux    - (flag, default: false) Skips flux commands.
 		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
 		flux script flags (all flags below are passed to bb-install_flux.sh):
 		--flux-r - (optional, default: registry1.dso.mil) registry url to use for flux installation
@@ -184,11 +184,6 @@ while (("$#")); do
 		DESTROY=true
 		shift
 		;;
-	# skip flux flag
-	-f | --skip-flux)
-		SKIP_FLUX=true
-		shift
-		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -260,6 +255,11 @@ while (("$#")); do
 	# manual auth flag
 	--flux-s)
 		USE_EXISTING_SECRET=true
+		shift
+		;;
+	# skip flux flag
+	-u | --skip-flux)
+		SKIP_FLUX=true
 		shift
 		;;
 	# registry username, optional argument
