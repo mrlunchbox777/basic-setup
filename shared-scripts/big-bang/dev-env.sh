@@ -4,7 +4,7 @@
 # global defaults
 #
 LOG_DIR="/tmp/k3d-dev-logs"
-DEV_ENV_NAMESPACE=""
+DEV_ENV_NAMESPACE="bigbang"
 EXCLUDE_DEFAULT_YAML=false
 INSTALL_BIGBANG=false
 INSTALL_COMMAND=""
@@ -56,7 +56,7 @@ function help {
 		-h|--help         - (flag, default: false) Print this help message and exit.
 		-i|--skip-install - (flag, default: false) Skips helm-install.
 		-k|--skip-k3d     - (flag, default: false) Skips the k3d.
-		-n|--namespace    - (flag, default: true) The namespace to use for the dev env, required if -s is not set.
+		-n|--namespace    - (flag, default: "bigbang") The namespace to use for the dev env, required if -s is not set.
 		-s|--skip-secret  - (flag, default: true) If the secret should be created.
 		-u|--skip-flux    - (flag, default: false) Skips flux commands.
 		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
@@ -92,7 +92,7 @@ function help {
 		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		examples:
-		build a dev env  - $command_for_help -n my-namespace -b
+		build a dev env  - $command_for_help -b
 		destoy a dev env - $command_for_help -d
 		----------
 	EOF
