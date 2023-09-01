@@ -6,7 +6,6 @@
 EXCLUDE_DEFAULT_YAML=false
 SHOW_HELP=false
 VERBOSITY=0
-INSTALL_BIGBANG=false
 INSTALL_COMMAND=""
 OVERRIDE_FILES=()
 YAML_FILES=()
@@ -29,8 +28,7 @@ function help {
 		----------
 		description: runs helm install scripts
 		----------
-		-b|--install-bigbang      - (flag, default: false) Install bigbang, mutually exclusive with -c, one is required.
-		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, mutually exclusive with -b, one is required.
+		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, this runs instead of the generic bigbang deploy.
 		-e|--exclude-default-yaml - (flag, default: false) Don't include chart/values.yaml and overrides/registry-values.yaml.
 		-f|--yaml-file            - (multi-option, default: empty array) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
 		-h|--help                 - (flag, default: false) Print this help message and exit.
@@ -70,11 +68,6 @@ add-yaml-files() {
 
 # run the helm command
 run-the-helm-command() {
-	if [ "$INSTALL_BIGBANG" == true ]; then
-		(($VERBOSITY > 0)) && echo "running - helm upgrade -i bigbang \"${BIG_BANG_DIR}/chart/\" -n bigbang --create-namespace $YAML_FILES_ARGS"
-		helm upgrade -i bigbang "${BIG_BANG_DIR}/chart/" -n bigbang --create-namespace $YAML_FILES_ARGS
-	fi
-
 	if [ "$INSTALL_COMMAND" != "" ]; then
 		install_command="$(realpath $BIG_BANG_DIR/../overrides/$INSTALL_COMMAND)"
 		if [ ! -f "$install_command" ]; then
@@ -84,6 +77,9 @@ run-the-helm-command() {
 		fi
 		(($VERBOSITY > 0)) && echo "running - $install_command $YAML_FILES_ARGS"
 		$install_command $YAML_FILES_ARGS
+	else
+		(($VERBOSITY > 0)) && echo "running - helm upgrade -i bigbang \"${BIG_BANG_DIR}/chart/\" -n bigbang --create-namespace $YAML_FILES_ARGS"
+		helm upgrade -i bigbang "${BIG_BANG_DIR}/chart/" -n bigbang --create-namespace $YAML_FILES_ARGS
 	fi
 }
 
@@ -93,11 +89,6 @@ run-the-helm-command() {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# big bang flag
-	-b | --install-bigbang)
-		INSTALL_BIGBANG=true
-		shift
-		;;
 	# install command flag
 	-c | --install-command)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -164,18 +155,6 @@ done
 # Do the work
 #
 [ $SHOW_HELP == true ] && help && exit 0
-
-if [ "$INSTALL_BIGBANG" == true ] && [ -n "$INSTALL_COMMAND" ]; then
-	echo "Error: -b and -c are mutually exclusive" >&2
-	help
-	exit 1
-fi
-
-if [ "$INSTALL_BIGBANG" == false ] && [ -z "$INSTALL_COMMAND" ]; then
-	echo "Error: one of -b or -c is required" >&2
-	help
-	exit 1
-fi
 
 add-yaml-files
 run-the-helm-command

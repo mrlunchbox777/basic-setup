@@ -6,7 +6,6 @@
 LOG_DIR="/tmp/k3d-dev-logs"
 DEV_ENV_NAMESPACE="bigbang"
 EXCLUDE_DEFAULT_YAML=false
-INSTALL_BIGBANG=false
 INSTALL_COMMAND=""
 OVERRIDE_FILES=()
 YAML_FILES=()
@@ -83,8 +82,7 @@ function help {
 		--flux-w     - (optional, default: 120) how long to wait; in seconds, for each key flux resource component
 
 		helm install script flags (all flags below are passed to big-bang-helm-install):
-		-b|--install-bigbang      - (flag, default: false) Install bigbang, mutually exclusive with -c, one is required.
-		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, mutually exclusive with -b, one is required.
+		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, this runs instead of the generic bigbang deploy.
 		-e|--exclude-default-yaml - (flag, default: false) Don't include chart/values.yaml and overrides/registry-values.yaml.
 		-f|--yaml-file            - (multi-option, default: empty array) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
 		-h|--help                 - (flag, default: false) Print this help message and exit.
@@ -92,8 +90,9 @@ function help {
 		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		examples:
-		build a dev env  - $command_for_help -b
-		destoy a dev env - $command_for_help -d
+		build a dev env                       - $command_for_help
+		destoy a dev env                      - $command_for_help -d
+		build a dev env with an override yaml - $command_for_help -o default-disables.yaml
 		----------
 	EOF
 }
@@ -167,9 +166,6 @@ build-helm-install-args() {
 	if [ "$SHOW_HELP" == true ]; then
 		local args="$args -h"
 	fi
-	if [ "$INSTALL_BIGBANG" == true ]; then
-		local args="$args -b"
-	fi
 	if [ -n "$INSTALL_COMMAN" ]; then
 		local args="$args -c \"$INSTALL_COMMAND\""
 	fi
@@ -231,11 +227,6 @@ while (("$#")); do
 	# big flag
 	--k3d-b)
 		USE_BIG_M5=true
-		shift
-		;;
-	# big bang flag
-	-b | --install-bigbang)
-		INSTALL_BIGBANG=true
 		shift
 		;;
 	# install command flag
