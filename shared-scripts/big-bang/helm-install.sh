@@ -5,7 +5,6 @@
 #
 EXCLUDE_DEFAULT_YAML=false
 SHOW_HELP=false
-USE_REGISTRY_YAML=true
 VERBOSITY=0
 INSTALL_BIGBANG=false
 INSTALL_COMMAND=""
@@ -30,7 +29,6 @@ function help {
 		----------
 		description: runs helm install scripts
 		----------
-		wrapper flags:
 		-b|--install-bigbang      - (flag, default: false) Install bigbang, mutually exclusive with -c, one is required.
 		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, mutually exclusive with -b, one is required.
 		-e|--exclude-default-yaml - (flag, default: false) Don't include chart/values.yaml and overrides/registry-values.yaml.
@@ -41,7 +39,7 @@ function help {
 		----------
 		note: first the default yaml files are added (unless excluded), then -f files are added in the order they are specified, then -o files are added in the order they are specified.
 		  default yaml files: chart/values.yaml, overrides/registry-values.yaml
-			default then -f then -o
+		  default then -f then -o
 		----------
 		examples:
 		run basic big bang install                     - $command_for_help -b
