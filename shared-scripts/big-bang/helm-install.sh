@@ -41,8 +41,9 @@ function help {
 		  default then -f then -o
 		----------
 		examples:
-		run basic big bang install                     - $command_for_help -b
+		run basic big bang install                     - $command_for_help
 		run an install script called metrics-server.sh - $command_for_help -c metrics-server.sh
+		run basic big bang install with an override    - $command_for_help -o default-disables.yaml
 		----------
 	EOF
 }
