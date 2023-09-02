@@ -36,11 +36,11 @@ Run `cs all` to get everything.
 
 ## Personal Recommendations
 
-* {{command}} & - run command as background job
-* jobs - list current jobs
-* script - record shell session to file
-* strings - find strings in an object or binary
-* tmux|screen - terminal multiplexer
-* vim - text editor - [tutorial](https://vim-adventures.com/)
-* watch - repeat command on interval
-* xargs - text-based \"foreach\"
+* `tldr` - simpler man pages
+* `{{command}} &` - run command as background job
+* `jobs` - list current jobs
+* `script` - record shell session to file
+* `tmux` - terminal multiplexer
+* `vim` - text editor - [tutorial](https://vim-adventures.com/)
+* `watch` - repeat command on interval
+* `xargs` - text-based \"foreach\"
