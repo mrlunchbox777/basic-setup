@@ -13,7 +13,7 @@
 
 ### add the best info from each here
 
-Run `cs all` to get everything.
+Run `cs --all` to get everything.
 
 * alias
     * `cs a`
