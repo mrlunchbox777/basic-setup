@@ -17,13 +17,15 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: Returns the full path of the the basic-setup directory
+		description: updates the readme for the bigbang helm chart
 		----------
 		-h|--help    - (flag, default: false) Print this help message and exit.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
+		note: Adapted from and for more info see - https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
+		----------
 		examples:
-		get basic setup dir - $command_for_help
+		update the readme - $command_for_help
 		----------
 	EOF
 }
@@ -63,9 +65,8 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-basic_setup_dir="$(
-	cd $(general-get-shared-scripts-dir)
-	cd ..
-	pwd
-)"
-echo "$basic_setup_dir"
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/README.md.gotmpl
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/.helmdocsignore
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/_templates.gotmpl
+docker run --rm -v "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.10.0 -s file -t /helm-docs/README.md.gotmpl -t /helm-docs/_templates.gotmpl --dry-run > README.md
+rm .helmdocsignore README.md.gotmpl _templates.gotmpl

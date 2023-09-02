@@ -17,13 +17,13 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: Returns the full path of the the basic-setup directory
+		description: cleans the shared-scripts/big-bang/bin directory and then relinks the scripts from big bang
 		----------
 		-h|--help    - (flag, default: false) Print this help message and exit.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		examples:
-		get basic setup dir - $command_for_help
+		recreate the bigbang script links - $command_for_help
 		----------
 	EOF
 }
@@ -63,9 +63,17 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-basic_setup_dir="$(
-	cd $(general-get-shared-scripts-dir)
-	cd ..
-	pwd
-)"
-echo "$basic_setup_dir"
+bigbang_path="$(big-bang-get-repo-dir)"
+shared_scripts_path="$(general-get-shared-scripts-dir)"
+bigbang_link_dir="$shared_scripts_path/big-bang/bin"
+
+# remove the bigbang links
+rm -f "$bigbang_link_dir"/*
+
+# link the bigbang scripts
+touch "$bigbang_link_dir/.gitkeep"
+for script in $(find "$bigbang_path" -type f -name "*.sh"); do
+	script_name="$(basename "$script")"
+	ln -s "$script" "$bigbang_link_dir/bb-$script_name"
+done
+
