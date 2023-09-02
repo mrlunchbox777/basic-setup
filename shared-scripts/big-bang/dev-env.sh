@@ -166,7 +166,7 @@ build-helm-install-args() {
 	if [ "$SHOW_HELP" == true ]; then
 		local args="$args -h"
 	fi
-	if [ -n "$INSTALL_COMMAN" ]; then
+	if [ -n "$INSTALL_COMMAND" ]; then
 		local args="$args -c \"$INSTALL_COMMAND\""
 	fi
 	if [ "$EXCLUDE_DEFAULT_YAML" == true ]; then
@@ -176,7 +176,7 @@ build-helm-install-args() {
 		local args="$args -f \"$yaml_file\""
 	done
 	for override_file in "${OVERRIDE_FILES[@]}"; do
-		local args="$args -o \"$override_file\""
+		local args="$args -o $override_file"
 	done
 	for i in $(seq 1 $VERBOSITY); do
 		local args="$args -v"
