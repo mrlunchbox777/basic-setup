@@ -1,12 +1,6 @@
 # no crunch bang because this should be sourced
 
 #
-# global defaults
-#
-SHOW_HELP=false
-VERBOSITY=0
-
-#
 # helper functions
 #
 
