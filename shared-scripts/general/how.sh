@@ -3,16 +3,12 @@
 #
 # global defaults
 #
+AFTER_CONTEXT=0
 BEFORE_CONTEXT=3
 COMMAND=""
 LANGUAGE="sh"
 SHOW_HELP=false
 VERBOSITY=0
-
-#
-# computed values (often can't be alphabetical)
-#
-AFTER_CONTEXT=$(( $BEFORE_CONTEXT" + 2))
 
 #
 # helper functions
@@ -37,57 +33,53 @@ function help {
 		note: this will run down the chain of aliases and/or symbolic links until it finds the actual command.
 		----------
 		examples:
-		get os type          - $command_for_help
-		check if os is linux - $command_for_help -l
+		check source of how - $command_for_help -c how
 		----------
 	EOF
 }
 
 # get the test value for the operating system
-how() {
+how_function() {
 	# this is WIP and not working yet
-  local command_to_search=$1
-  local context_before_to_grab=$2
-  local bat_lanuage_to_use=$3
-  local context_after_to_grab=$4
-  if [ -z "$bat_lanuage_to_use" ]; then
-    local bat_lanuage_to_use="sh"
-  fi
-  if [ -z "$context_before_to_grab" ]; then
-    local context_before_to_grab="3"
-  fi
-  if [ -z "$context_after_to_grab" ]; then
-    local context_after_to_grab=$(echo "$context_before_to_grab" + 2 | bc)
-  fi
-  local type_output=$(type -a "$command_to_search")
-  local error_output=$(echo "$type_output" | grep '^\w* not found$')
-  if [ ! -z "$error_output" ]; then
-    echo "$error_output" >&2
-    return 1
-  fi
-  local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
-  local how_after=""
-  if [ ! -z "$alias_output" ]; then
-    local how_output="$type_output"
-    local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
-  else
-    local how_output=$(echo "$type_output" | awk -F " " '{print $NF}' | \
-      xargs -I % sh -c "echo \"--\" && grep -B \"$context_before_to_grab\" \
-      -A \"$context_after_to_grab\" \"$command_to_search\" \"%\" && echo \"--\\nPulled from - %\\n\"")
-  fi
-  if [ -z "$(which bat)" ]; then
-    echo "$how_output"
-  else
-    echo "$how_output" | bat -l "$bat_lanuage_to_use"
-  fi
-  if [ ! -z "$how_after" ]; then
-    echo ""
-    echo "--"
-    echo "- running 'how $how_after'"
-    echo "--"
-    echo ""
-    how "$how_after" "$2" "$3" "$4" "$5"
-  fi
+	local type_output=$(type -a "$COMMAND")
+	local error_output=$(echo "$type_output" | grep '^\w* not found$')
+	if [ ! -z "$error_output" ]; then
+		echo "$error_output" >&2
+		help
+		exit 1
+	fi
+	local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
+	local how_after=""
+	if [ ! -z "$alias_output" ]; then
+		local how_output="$type_output"
+		local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
+	fi
+	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
+	if [ -L "$file_path" ]; then
+		local symlink_target="$(readlink -f "$file_path")"
+		local how_output=$(echo -e "--\n" && cat "$symlink_target" && echo -e "--\n" && echo "pull from symlink - $file_path -> $symlink_target" && echo -e "\n")
+	else
+		local how_output=$(echo "$file_path" | \
+			xargs -I % sh -c "echo \"--\" && grep -B \"$BEFORE_CONTEXT\" \
+			-A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\" && echo \"--\\nPulled from - %\\n\"")
+	fi
+	if [ -z "$(which bat)" ]; then
+		echo "$how_output"
+	else
+		echo "$how_output" | bat -l "$LANGUAGE"
+	fi
+	if [ ! -z "$how_after" ]; then
+		local extra_args=""
+		for i in $(seq 1 $VERBOSITY); do
+			extra_args="$extra_args -v"
+		done
+		echo ""
+		echo "--"
+		echo "- running 'how $how_after'"
+		echo "--"
+		echo ""
+		how "$how_after" -a "$AFTER_CONTEXT" -b "$BEFORE_CONTEXT" -l "$LANGUAGE" $extra_args
+	fi
 }
 
 #
@@ -170,3 +162,5 @@ done
 [ $SHOW_HELP == true ] && help && exit 0
 
 [ -z "$COMMAND" ] && echo "Error: Argument for -c is missing" >&2 && help && exit 1
+AFTER_CONTEXT=$(( $BEFORE_CONTEXT + 2))
+how_function
