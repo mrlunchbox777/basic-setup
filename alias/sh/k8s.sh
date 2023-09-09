@@ -38,13 +38,13 @@ complete -o default -F __start_kubectl k
 # alias kcuc="kc use-context"
 # alias kcv="kc view"
 
-# kubectl misc
-alias ka='k apply'
-alias krm='k delete'
-alias kl='k logs'
-alias ke='k exec'
-alias kr='k run'
-alias kmk='k create'
+# # kubectl misc
+# alias ka='k apply'
+# alias krm='k delete'
+# alias kl='k logs'
+# alias ke='k exec'
+# alias kr='k run'
+# alias kmk='k create'
 
 # scripts
 alias kgpbl='k8s-get-pod-by-label'
