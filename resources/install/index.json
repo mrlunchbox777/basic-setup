@@ -1299,6 +1299,62 @@
       "pinned-version": null
     },
     {
+      "command": "moreutils",
+      "description": "A growing collection of the unix tools that nobody thought to write long ago, when unix was young.",
+      "enabled": true,
+      "install-page": "https://joeyh.name/code/moreutils/",
+      "labels": [
+        "all",
+        "core"
+      ],
+      "name": "moreutils",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "moreutils"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "moreutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "dnf",
+          "notes": "",
+          "package-name": "moreutils"
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "moreutils"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "This doesn't exist on windows.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+    {
       "command": "nvm",
       "description": "Node Version Manager - Simple bash script to manage multiple active node.js versions",
       "enabled": true,
