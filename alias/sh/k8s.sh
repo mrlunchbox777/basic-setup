@@ -3,21 +3,20 @@
 export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3"
 export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
 
-alias k=kubectl
 complete -o default -F __start_kubectl k
 
-# kubectl get
-alias kg="k get"
-alias kga="kg --all-namespaces all"
-alias kgc="kg cronjobs"
-alias kgds="kg daemonsets"
-alias kgd="kg deployment"
-alias kgj="kg job"
-alias kgn="kg node"
-alias kgns="kg namespace"
-alias kgp="kg pod"
-alias kgr="kg replicasets"
-alias kgs="kg service"
+# # kubectl get
+# alias kg="k get"
+# alias kga="kg --all-namespaces all"
+# alias kgc="kg cronjobs"
+# alias kgds="kg daemonsets"
+# alias kgd="kg deployment"
+# alias kgj="kg job"
+# alias kgn="kg node"
+# alias kgns="kg namespace"
+# alias kgp="kg pod"
+# alias kgr="kg replicasets"
+# alias kgs="kg service"
 
 # kubectl describe
 alias kd="k describe"

@@ -2,12 +2,7 @@
 
 ## Cheatsheet
 
-* `alias cs=cheatsheet`
-    * Get more info using `cs` with `-b`, `-h`, or `-i`
-
-## Env-var
-
-Saved for future use
+* Get more info using `cs` with `-b`, `-h`, or `-i`
 
 ## Docker
 
@@ -23,8 +18,6 @@ Please see the general cheatsheet - `cs -g`
 
 ## Git
 
-* `alias g='git'`
-* `alias gsmua='git-submodule-update-all'`
 * view all aliases
     * `git config --get-regexp ^alias`
 
