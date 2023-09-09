@@ -38,21 +38,21 @@ function help {
 		----------
 		description: pretty prints cheatsheets to the terminal
 		----------
-		-a|--alias   - (flag, default: false) Include alias.md.
-		--all        - (flag, default: false) Show all cheatsheets, takes precendence.
-		-b|--base    - (flag, default: false) Include base.md.
-		-c|--compilation    - (flag, default: false) Include compilation.md.
-		-d|--docker    - (flag, default: false) Include docker.md.
-		-g|--general    - (flag, default: false) Include general.md.
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-i|--index   - (flag, default: false) Include index.md.
-		-k|--kubernetes   - (flag, default: false) Include kubernetes.md.
-		-m|--metrics   - (flag, default: false) Include metrics.md.
-		-n|--networking   - (flag, default: false) Include networking.md.
-		-p|--process-manipulation   - (flag, default: false) Include process-manipulation.md.
-		-s|--system   - (flag, default: false) Include system.md.
-		-t|--text-manipulation   - (flag, default: false) Include text-manipulation.md.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--alias                - (flag, default: false) Include alias.md.
+		--all                     - (flag, default: false) Show all cheatsheets, takes precendence.
+		-b|--base                 - (flag, default: false) Include base.md.
+		-c|--compilation          - (flag, default: false) Include compilation.md.
+		-d|--docker               - (flag, default: false) Include docker.md.
+		-g|--general              - (flag, default: false) Include general.md.
+		-h|--help                 - (flag, default: false) Print this help message and exit.
+		-i|--index                - (flag, default: false) Include index.md.
+		-k|--kubernetes           - (flag, default: false) Include kubernetes.md.
+		-m|--metrics              - (flag, default: false) Include metrics.md.
+		-n|--networking           - (flag, default: false) Include networking.md.
+		-p|--process-manipulation - (flag, default: false) Include process-manipulation.md.
+		-s|--system               - (flag, default: false) Include system.md.
+		-t|--text-manipulation    - (flag, default: false) Include text-manipulation.md.
+		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		examples:
 		print cheatsheet index - $command_for_help -i

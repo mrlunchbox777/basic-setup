@@ -8,7 +8,7 @@ If you are new, everything in these cheatsheets is worth learning at at least a 
 
 *[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
 
-*[developer roadmaps](https://github.com/kamranahmedse/developer-roadmap)*
+*[developer roadmaps](https://roadmap.sh/)*
 
 * tldr - get simple info on command
 * man - get detailed info on command
