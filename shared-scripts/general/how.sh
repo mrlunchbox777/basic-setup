@@ -56,8 +56,13 @@ how_function() {
 	fi
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
 	if [ -L "$file_path" ]; then
-		local symlink_target="$(readlink -f "$file_path")"
-		local how_output=$(echo -e "--\n" && cat "$symlink_target" && echo -e "--\n" && echo "pull from symlink - $file_path -> $symlink_target" && echo -e "\n")
+		local next_file_path="$(realpath --no-symlinks "$(dirname "$file_path")/$(readlink "$file_path")")"
+		local symlink_string="pulled from symlink - $file_path -> $next_file_path"
+		while [ -L "$next_file_path" ]; do
+			local next_file_path="$(realpath --no-symlinks "$(dirname "$next_file_path")/$(readlink "$next_file_path")")"
+			local symlink_string+=" -> $next_file_path"
+		done
+		local how_output=$(echo -e "--\n" && cat "$next_file_path" && echo -e "--\n" && echo "$symlink_string" && echo -e "\n")
 	else
 		local how_output=$(echo "$file_path" | \
 			xargs -I % sh -c "echo \"--\" && grep -B \"$BEFORE_CONTEXT\" \
