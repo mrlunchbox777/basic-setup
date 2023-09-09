@@ -51,59 +51,20 @@ Other Aliases
 
 ### K8s Scripts
 
-To use these put `k8s-` before the name and drop the .sh, this value is also shown in the alias
+run with `-h` to get more info
 
-Note: Once these are migrated to using options, -h on all of them will give you the info rather than this doc
-
-* `get-pod-by-label.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias kgpbl='k8s-get-pod-by-label'`
-* `delete-pod.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias krmp='k8s-delete-pod'`
-* `get-pod-logs.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias kgpl='k8s-get-pod-logs'`
-* `get-pod-image.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias kgpi='k8s-get-pod-image'`
-* `get-deploy-image.sh`
-    * arg1 - name of deployment
-    * `alias kgdi='k8s-get-deploy-image'`
-* `forward-pod.sh`
-    * arg1 - pod port (defaults to `80`)
-    * arg2 - value of label (defaults to interactive)
-    * arg3 - label name (defaults to `"app"`)
-    * arg4 - external port (defaults to k8s decides)
-    * `alias kfp='k8s-forward-pod'`
-* `get-pod-shell.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias kgps=k8s-get-pod-shell`
-* `create-pod-shell.sh`
-    * `alias kcps='k8s-create-pod-shell'`
-* `create-node-shell.sh`
-    * arg1 - name of node (default interactive)
-    * `alias kgns='k8s-create-node-shell'`
-* `get-pod-ports.sh`
-    * arg1 - value of label (defaults to interactive)
-    * arg2 - label name (defaults to `"app"`)
-    * `alias kgpp='k8s-get-pod-ports'`
-* `get-labels-by-name.sh`
-    * arg1 - value of label
-    * arg2 - resource kind (defaults to `pod`)
-    * `alias kglbn='k8s-get-labels-by-name'`
-* `kubectl-select-context.sh`
-    * arg1 - name of context (default interactive)
-    * `alias ksc=k8s-kubectl-select-context`
-* `kubectl-select-namespace()`
-    * arg1 - name of namespace (default interactive)
-    * `alias ksn=kubectl-select-namespace`
-* `kubectl-reset-all-deployments.sh`
-    * `alias krad=k8s-kubectl-reset-all-deployments`
-* `kubectl-reset-all-deamonsets.sh`
-    * `alias krads=k8s-kubectl-reset-all-deamonsets`
+* `alias kgpbl='k8s-get-pod-by-label'`
+* `alias krmp='k8s-delete-pod'`
+* `alias kgpl='k8s-get-pod-logs'`
+* `alias kgpi='k8s-get-pod-image'`
+* `alias kgdi='k8s-get-deploy-image'`
+* `alias kfp='k8s-forward-pod'`
+* `alias kgps='k8s-get-pod-shell'`
+* `alias kcps='k8s-create-pod-shell'`
+* `alias kcns='k8s-create-node-shell'`
+* `alias kgpp='k8s-get-pod-ports'`
+* `alias kglbn='k8s-get-labels-by-name'`
+* `alias ksc='k8s-kubectl-select-context'`
+* `alias ksn='k8s-kubectl-select-namespace'`
+* `alias krad='k8s-kubectl-restart-all-deployments'`
+* `alias krads='k8s-kubectl-restart-all-daemonsets'`

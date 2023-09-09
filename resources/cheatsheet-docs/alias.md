@@ -1,20 +1,9 @@
 # Cheatsheet Alias
 
-## Command Info
-
-*[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
-
-*[developer roadmap](https://github.com/kamranahmedse/developer-roadmap)*
-
-* tldr - get simple info on command
-* man - get detailed info on command
-* how - get source for command
-* For basic info run `cs b` or `cs i`
-
 ## Cheatsheet
 
 * `alias cs=cheatsheet`
-    * Get more info using `cs i` or `cs`
+    * Get more info using `cs` with `-b`, `-h`, or `-i`
 
 ## Env-var
 
@@ -22,12 +11,22 @@ Saved for future use
 
 ## Docker
 
-Please see the docker cheatsheet - `cs d`
+Please see the docker cheatsheet - `cs -d`
+
+## Environment Variables
+
+Reserved for future use
+
+## General
+
+Please see the general cheatsheet - `cs -g`
 
 ## Git
 
 * `alias g='git'`
-* `gsmua()` - check with `how()`
+* `alias gsmua='git-submodule-update-all'`
+* view all aliases
+    * `git config --get-regexp ^alias`
 
 ## GPG
 
@@ -43,45 +42,18 @@ Please see the docker cheatsheet - `cs d`
 
 Please see the kubernetes cheatsheet - `cs k`
 
-## Network
+## Package Management
 
-* `my-public-ip()`
-* `my-default-network-device()`
-* `my-mac()`
-* `my-default-route()`
-* `my-local-ip()`
+* `alias p-full-upgrade="package-management-full-upgrade"`
 
-## Primary
+## Path Extentions
 
-* `alias guid='uuid'`
-* `alias ll="ls -la"`
-* `rgui()`
-    * Restarts plasmashell (KDE)
-* `cddev()` - check with `how()`
-* `ffind()` - check with `how()`
-* `dfind()` - check with `how()`
-* `random()`
-    * arg 1 - min value (defaults to `0`)
-    * arg 2 - max value (default to `10`)
-* `remove-containers()` - check with `how()`
-* `full-docker-clear()` - check with `how()`
-* `trim-end-of-string()` - check with `how()`
-* `trim-whitespace()` - check with `how()`
-* `grepx()` - check with `how()`
-    * grep | sed | xargs
-    * arg 1 - regex for grep
-    * arg 2 - command to run (defaults to `"code"`)
-* `how()`
-    * arg 1 - command to get source for
-    * arg 2 - context before command (defaults to `3`)
-    * arg 3 - bat language to use (defaults to `sh`)
-    * arg 4 - context after command (defaults to `{{arg 2}} + 2`)
-* `read-script()`
-    * arg 1 - location of `script` output to read
-* `diff-date()`
-    * arg 1 - `date` minuend
-    * arg 2 - `date` subrahend
-* `is_on_wsl()` - check with `how()`
-* `copy-kube-to-windows()`
-    * arg 1 - Windows username (defaults to `$(whoami)`)
-    * arg 2 - Invert target/source when `"true"`, i.e. copy from Windows to WSL (defaults to `"false"`)
+* `export PATH="$PATH:$HOME/go/bin"`
+
+## SSH
+
+* Runs `ssh-redo-ssh-agent`
+
+## XServer
+
+* reserved for future use

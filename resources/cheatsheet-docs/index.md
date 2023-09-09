@@ -4,28 +4,23 @@
 
 If you are new, everything in these cheatsheets is worth learning at at least a surface level. Use `tldr` and `man` to help along the way.
 
+## Command Info
+
+*[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
+
+*[developer roadmaps](https://github.com/kamranahmedse/developer-roadmap)*
+
+* tldr - get simple info on command
+* man - get detailed info on command
+* For basic info run `cs` with `-b`, `-h`, or `-i`
+
 ## `cs` commands
 
-There is a reserved command to get all of the cheatsheets as a single doc - `cs all`, it can also be called by `csa`.
-
-These can be composited as a single string argument.
-
-* `cs bi` will show cheatsheet base and then cheatsheet index
-* `cs ib` will show cheatsheet index and then cheatsheet base
-
-The default command (when no string is provided) is index
-
-* `a` - alias
-* `b` - base
-* `c` - complication
-* `d` - docker
-* `g` - general -- shared scripts
-* `i` - index
-* `k` - kubernetes
-* `m` - metrics -- performance & telemetry
-* `n` - networking
-* `p` - process manipulation
-* `s` - system -- backend
-* `t` - text manipulation
-
-Did you mean `cs b`?
+* `--all`
+    * The parameter to get all of the cheatsheets as a single doc
+* `-b`
+    * The parameter to get the base cheatsheet
+* `-h`
+    * The parameter to get the cheatsheet help
+* `-i`
+    * The parameter to get the index cheatsheet (this document)
