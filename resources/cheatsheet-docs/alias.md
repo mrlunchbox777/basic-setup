@@ -33,7 +33,7 @@ Please see the general cheatsheet - `cs -g`
 
 ## K8s
 
-Please see the kubernetes cheatsheet - `cs k`
+Please see the kubernetes cheatsheet - `cs -k`
 
 ## Package Management
 
