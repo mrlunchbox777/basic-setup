@@ -16,6 +16,8 @@ fi
 export PATH="$shared_scripts_path/bin:$PATH"
 # Include the shared-scripts/big-bang/bin in the PATH
 export PATH="$shared_scripts_path/big-bang/bin:$PATH"
+# Include the shared-scripts/alias in the PATH
+export PATH="$shared_scripts_path/alias/bin:$PATH"
 
 source=""
 

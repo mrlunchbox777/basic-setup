@@ -4,43 +4,27 @@
 
 *[basic command line tutorial](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)*
 
-*[developer roadmap](https://github.com/kamranahmedse/developer-roadmap)*
+*[developer roadmaps](https://roadmap.sh/)*
 
 * tldr - get simple info on command
 * man - get detailed info on command
-* how - get source for command
-* For basic info run `cs b` or `cs i`
+* For basic info run `cs` with `-b`, `-h`, or `-i`
 
-### add the best info from each here
+### Cheat Sheets
 
-Run `cs all` to get everything.
+These are some basic commands that should help local development.
 
-* alias
-    * `cs a`
-* compilation
-    * `cs c`
-* docker
-    * `cs d`
-* kubernetes
-    * `cs k`
-* metrics -- performance & telemetry
-    * `cs m`
-* networking
-    * `cs n`
-* process manipulation
-    * `cs p`
-* system -- backend
-    * `cs s`
-* text manipulation
-    * `cs t`
+To learn more about the cheat sheet command run `cs -h`
 
 ## Personal Recommendations
 
-* {{command}} & - run command as background job
-* jobs - list current jobs
-* script - record shell session to file
-* strings - find strings in an object or binary
-* tmux|screen - terminal multiplexer
-* vim - text editor - [tutorial](https://vim-adventures.com/)
-* watch - repeat command on interval
-* xargs - text-based \"foreach\"
+* `tldr` - simpler man pages
+* `{{command}} &` - run command as background job
+* `jobs` - list current jobs
+* `script` - record shell session to file
+* `tmux` - terminal multiplexer
+* `vim` - text editor
+    * [web tutorial](https://vim-adventures.com/)
+    * terminal tutorial - `vimtutor`
+* `watch` - repeat command on interval
+* `xargs` - text-based \"foreach\"

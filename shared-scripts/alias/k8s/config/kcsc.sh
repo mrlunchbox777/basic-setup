@@ -1,0 +1,1 @@
+kc set-context $@

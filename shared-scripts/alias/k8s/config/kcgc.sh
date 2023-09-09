@@ -1,0 +1,1 @@
+kc get-contexts $@
