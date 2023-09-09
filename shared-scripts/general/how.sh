@@ -55,6 +55,7 @@ how_function() {
 		local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
 	fi
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
+	(($VERBOSITY > 0)) && echo "file_path: $file_path"
 	if [ -L "$file_path" ]; then
 		local next_file_path="$(realpath --no-symlinks "$(dirname "$file_path")/$(readlink "$file_path")")"
 		local symlink_string="pulled from symlink - $file_path -> $next_file_path"
@@ -65,13 +66,21 @@ how_function() {
 		local how_output=$(echo -e "--\n" && cat "$next_file_path" && echo -e "--\n" && echo "$symlink_string" && echo -e "\n")
 	else
 		local how_output=$(echo "$file_path" | \
-			xargs -I % sh -c "echo \"--\" && grep -B \"$BEFORE_CONTEXT\" \
-			-A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\" && echo \"--\\nPulled from - %\\n\"")
+			xargs -I % bash -c "echo \"--\" && \
+				file_output=\"\$(file \"%\")\" && \
+				if [[ \"\$file_output\" =~ executable ]]; then \
+					echo \"\$file_output\" \
+				else \
+					grep -B \"$BEFORE_CONTEXT\" -A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\" \
+				fi && \
+				echo -e \"--\nPulled from - %\n\"
+			"
+		)
 	fi
-	if [ -z "$(which bat)" ]; then
-		echo "$how_output"
-	else
+	if [ "$(general-command-installed bat)" == true ]; then
 		echo "$how_output" | bat -l "$LANGUAGE"
+	else
+		echo "$how_output"
 	fi
 	if [ ! -z "$how_after" ]; then
 		local extra_args=""
