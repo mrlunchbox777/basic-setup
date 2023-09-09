@@ -18,17 +18,17 @@ complete -o default -F __start_kubectl k
 # alias kgr="kg replicasets"
 # alias kgs="kg service"
 
-# kubectl describe
-alias kd="k describe"
-alias kdc="kd cronjobs"
-alias kdds="kd daemonsets"
-alias kdd="kd deployment"
-alias kdj="kd job"
-alias kdn="kd node"
-alias kdns="kd namespace"
-alias kdp="kd pod"
-alias kdr="kd replicasets"
-alias kds="kd service"
+# # kubectl describe
+# alias kd="k describe"
+# alias kdc="kd cronjobs"
+# alias kdds="kd daemonsets"
+# alias kdd="kd deployment"
+# alias kdj="kd job"
+# alias kdn="kd node"
+# alias kdns="kd namespace"
+# alias kdp="kd pod"
+# alias kdr="kd replicasets"
+# alias kds="kd service"
 
 # kubectl config
 alias kc="k config"
