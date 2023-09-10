@@ -33,15 +33,18 @@ how-function() {
 		how --help
 		return 1
 	fi
+
 	local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
 	[ "$VERBOSITY" -gt 0 ] && echo "command: $COMMAND"
 	[ "$VERBOSITY" -gt 0 ] && echo "type_output: $type_output"
 	[ "$VERBOSITY" -gt 0 ] && echo "alias_output: $alias_output"
+
 	local how_after=""
 	if [ ! -z "$alias_output" ]; then
 		local how_output="$type_output"
 		local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
 	fi
+
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
 	[ "$VERBOSITY" -gt 0 ] && echo "file_path: $file_path"
 	if [ -L "$file_path" ]; then
@@ -51,21 +54,27 @@ how-function() {
 		else
 			local next_file_path="$(realpath --no-symlinks "$readlink_output")"
 		fi
-		local symlink_string="pulled from symlink - $file_path -> $next_file_path"
+		local symlink_string="^ Pulled from symlink - $file_path -> $next_file_path"
 		while [ -L "$next_file_path" ]; do
-			local next_file_path="$(realpath --no-symlinks "$(dirname "$next_file_path")/$(readlink "$next_file_path")")"
+			local readlink_output="$(readlink "$next_file_path")"
+			if [ "$(echo "1 + ${#readlink_output}" | bc)" -eq "$(echo $readlink_output | sed 's|^/||' | wc -m)" ]; then
+				local next_file_path="$(realpath --no-symlinks "$(dirname "$next_file_path")/$readlink_output")"
+			else
+				local next_file_path="$(realpath --no-symlinks "$readlink_output")"
+			fi
 			local symlink_string="$symlink_string -> $next_file_path"
 		done
-		local how_output=$(echo -e "--\n" && cat "$next_file_path" && echo -e "--" && echo "$symlink_string" && echo -e "\n")
+		local how_output=$(echo -e "--" && cat "$next_file_path" && echo -e "--" && echo "$symlink_string" && echo -e "--")
 	elif [ -z "$how_after" ]; then
 		local how_output=$(echo "$file_path" | \
-			xargs -I % bash -c "echo \"--\" && \
+			xargs -I % bash -c "echo -e \"--\" && \
 				file_output=\"\$(file \"%\")\" && \
 				if [[ \"\$file_output\" =~ executable ]]; then echo \"\$file_output\"; else grep -B \"$BEFORE_CONTEXT\" -A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\" 2>&1; fi && \
-				echo -e \"--\nPulled from - %\n\"
+				echo -e \"--\n^ Pulled from - %\n--\n\"
 			"
 		)
 	fi
+
 	local error_output=$(echo "$how_output" | grep '^grep: found: No such file or directory$')
 	if [ ! -z "$error_output" ]; then
 		echo "ERROR: $error_output" >&2
@@ -73,6 +82,7 @@ how-function() {
 		how --help
 		return 1
 	fi
+
 	if [ -z "$how_after" ]; then
 		if [ "$(echo "$(general-command-installed bat)" | sed 's/true//' | wc -m)" -eq 1 ]; then
 			echo "$how_output" | bat -l "$LANGUAGE"
