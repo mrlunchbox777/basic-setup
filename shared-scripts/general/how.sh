@@ -31,6 +31,11 @@ help() {
 		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: this will run down the chain of aliases and/or symbolic links until it finds the actual command.
+		note: howa is an alias for this command that will allow you to "how" other aliases. It's parameters are positional rather than flags.
+		  -c="\$1 -b="\$2" -a="\$3" -l="\$4" -v="\$5"
+		    note: the first parameter (-c) is required, the rest are optional.
+		    note: the fifth parameter (-v) here takes a number, not a multi-flag.
+		  So you can run "howa howa" to see how the howa alias works.
 		----------
 		examples:
 		check source of how - $command_for_help -c how
@@ -38,66 +43,12 @@ help() {
 	EOF
 }
 
-# get the test value for the operating system
+
+# source and call the how function
 how_function() {
-	# this is WIP and not working yet
-	local type_output=$(type "$COMMAND" 2>&1)
-	local error_output=$(echo "$type_output" | grep '^.*how: line [0-9]*: type: '$COMMAND': not found$')
-	if [ ! -z "$error_output" ]; then
-		echo "ERROR: $error_output" >&2
-		help
-		exit 1
-	fi
-	local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
-	[ "$VERBOSITY" -gt 0 ] && echo "command: $COMMAND"
-	[ "$VERBOSITY" -gt 0 ] && echo "type_output: $type_output"
-	[ "$VERBOSITY" -gt 0 ] && echo "alias_output: $alias_output"
-	local how_after=""
-	if [ ! -z "$alias_output" ]; then
-		local how_output="$type_output"
-		local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
-	fi
-	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
-	[ "$VERBOSITY" -gt 0 ] && echo "file_path: $file_path"
-	if [ -L "$file_path" ]; then
-		local readlink_output="$(readlink "$file_path")"
-		if [ "$(echo "1 + ${#readlink_output}" | bc)" -eq "$(echo $readlink_output | sed 's|^/||' | wc -m)" ]; then
-			local next_file_path="$(realpath --no-symlinks "$(dirname "$file_path")/$readlink_output")"
-		else
-			local next_file_path="$(realpath --no-symlinks "$readlink_output")"
-		fi
-		local symlink_string="pulled from symlink - $file_path -> $next_file_path"
-		while [ -L "$next_file_path" ]; do
-			local next_file_path="$(realpath --no-symlinks "$(dirname "$next_file_path")/$(readlink "$next_file_path")")"
-			local symlink_string+=" -> $next_file_path"
-		done
-		local how_output=$(echo "--\n" && cat "$next_file_path" && echo "--" && echo "$symlink_string" && echo "\n")
-	else
-		local how_output=$(echo "$file_path" | \
-			xargs -I % bash -c "echo \"--\" && \
-				file_output=\"\$(file \"%\")\" && \
-				if [[ \"\$file_output\" =~ executable ]]; then echo \"\$file_output\"; else grep -B \"$BEFORE_CONTEXT\" -A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\"; fi && \
-				echo \"--\nPulled from - %\n\"
-			"
-		)
-	fi
-	if [ "$(echo "$(general-command-installed bat)" | sed 's/true//' | wc -m)" -eq 1 ]; then
-		echo "$how_output" | bat -l "$LANGUAGE"
-	else
-		echo "$how_output"
-	fi
-	if [ ! -z "$how_after" ]; then
-		local extra_args=""
-		for i in $(seq 1 $VERBOSITY); do
-			extra_args="$extra_args -v"
-		done
-		echo ""
-		echo "--"
-		echo "- running 'how $how_after'"
-		echo "--"
-		echo ""
-		how "$how_after" -a "$AFTER_CONTEXT" -b "$BEFORE_CONTEXT" -l "$LANGUAGE" $extra_args
-	fi
+	shared_scripts_dir=$(get-shared-scripts-dir)
+	. "$shared_scripts_dir/bin/general-how-function"
+	how-function "$COMMAND" "$BEFORE_CONTEXT" "$AFTER_CONTEXT" "$LANGUAGE" "$VERBOSITY"
 }
 
 #
