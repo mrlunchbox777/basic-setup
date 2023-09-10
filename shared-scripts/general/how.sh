@@ -68,11 +68,7 @@ how_function() {
 		local how_output=$(echo "$file_path" | \
 			xargs -I % bash -c "echo \"--\" && \
 				file_output=\"\$(file \"%\")\" && \
-				if [[ \"\$file_output\" =~ executable ]]; then \
-					echo \"\$file_output\" \
-				else \
-					grep -B \"$BEFORE_CONTEXT\" -A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\" \
-				fi && \
+				if [[ \"\$file_output\" =~ executable ]]; then echo \"\$file_output\"; else grep -B \"$BEFORE_CONTEXT\" -A \"$AFTER_CONTEXT\" \"$COMMAND\" \"%\"; fi && \
 				echo -e \"--\nPulled from - %\n\"
 			"
 		)
