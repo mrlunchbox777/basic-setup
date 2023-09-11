@@ -1,5 +1,3 @@
-#! /usr/bin/env bash
-
 # include the how function
 how-function() {
 	local COMMAND="$1"
@@ -53,23 +51,17 @@ how-function() {
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
 	[ "$VERBOSITY" -gt 0 ] && echo "file_path: $file_path"
 	if [ -L "$file_path" ]; then
-		local readlink_output="$(readlink "$file_path")"
-		if [ "$(echo "1 + ${#readlink_output}" | bc)" -eq "$(echo $readlink_output | sed 's|^/||' | wc -m)" ]; then
-			local next_file_path="$(realpath --no-symlinks "$(dirname "$file_path")/$readlink_output")"
-		else
-			local next_file_path="$(realpath --no-symlinks "$readlink_output")"
-		fi
-		local symlink_string="^ Pulled from symlink - $file_path -> $next_file_path"
-		while [ -L "$next_file_path" ]; do
-			local readlink_output="$(readlink "$next_file_path")"
+		local symlink_string="^ Pulled from symlink - $file_path"
+		while [ -L "$file_path" ]; do
+			local readlink_output="$(readlink "$file_path")"
 			if [ "$(echo "1 + ${#readlink_output}" | bc)" -eq "$(echo $readlink_output | sed 's|^/||' | wc -m)" ]; then
-				local next_file_path="$(realpath --no-symlinks "$(dirname "$next_file_path")/$readlink_output")"
+				local file_path="$(realpath --no-symlinks "$(dirname "$file_path")/$readlink_output")"
 			else
-				local next_file_path="$(realpath --no-symlinks "$readlink_output")"
+				local file_path="$(realpath --no-symlinks "$readlink_output")"
 			fi
-			local symlink_string="$symlink_string -> $next_file_path"
+			local symlink_string="$symlink_string -> $file_path"
 		done
-		local how_output=$(echo -e "--" && cat "$next_file_path" && echo -e "--" && echo "$symlink_string" && echo -e "--")
+		local how_output=$(echo -e "--" && cat "$file_path" && echo -e "--" && echo "$symlink_string" && echo -e "--")
 	elif [ -z "$how_after" ]; then
 		local how_output=$(echo "$file_path" | \
 			xargs -I % bash -c "echo -e \"--\" && \
