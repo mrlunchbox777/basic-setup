@@ -8,6 +8,7 @@ RELEASES=false
 REPO_PATH=""
 SHOW_HELP=false
 TAGS=false
+USE_CURL=false
 VERBOSITY=0
 VERSION_KIND=""
 
@@ -25,11 +26,12 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-g|--github repo - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
+		-c|--curl        - (optional, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
+		-g|--github-repo - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
 		-h|--help        - (flag, default: false) Print this help message and exit.
-		-r|--releases    - (flag, default: false) Get the release versions, mutually exclusive with -t.
-		-t|--tags     - (flag, default: false) Get the tag versions, mutually exclusive with -r.
-		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
+		-r|--releases    - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
+		-t|--tags        - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
+		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: -r or -t must be specified
 		----------
@@ -41,7 +43,7 @@ function help {
 }
 
 # get the versions from github
-function get_versions {
+get_versions_curl() {
 	local should_continue=true
 	local page=1
 	local all_versions=""
@@ -67,12 +69,24 @@ function get_versions {
 	echo "$all_versions" | jq -r '.[]'
 }
 
+# get the versions from local git repo
+get_versions_local() {
+	echo "Error: not implemented" 1>&2
+	help
+	exit 1
+}
+
 #
 # CLI parsing
 #
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# curl flag
+	-c | --curl)
+		USE_CURL=true
+		shift
+		;;
 	# the github repo, required argument
 	-g | --github-repo)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -122,11 +136,17 @@ done
 # Do the work
 #
 [ $SHOW_HELP == true ] && help && exit 0
+[ "$RELEASES" == false ] && [ "$TAGS" == false ] && echo "Error: one of -r and -t are required" >&2 && help && exit 1
 [ "$RELEASES" == true ] && [ "$TAGS" == true ] && echo "Error: -r and -t are mutually exclusive" >&2 && help && exit 1
+[ "$RELEASES" == true ] && [ "$USE_CURL" == false ] && echo "Error: -r requires -c" >&2 && help && exit 1
 [ "$TAGS" == true ] && VERSION_KIND="tags"
 [ "$RELEASES" == true ] && VERSION_KIND="releases"
 [ "$GITHUB_REPO" == false ] && echo "Error: -g is required" >&2 && help && exit 1
 [ "$VERSION_KIND" == "" ] && echo "Error: -r or -t is required" >&2 && help && exit 1
 REPO_PATH="$(echo "$GITHUB_REPO" | sed 's#http[s]*://github.com/##g; s#/$##g')"
 
-get_versions
+if [ "$USE_CURL" == true ]; then
+	get_versions_curl
+else
+	get_versions_local
+fi
