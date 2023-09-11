@@ -3,6 +3,7 @@
 #
 # global defaults
 #
+CACHE_BASE_DIR="$HOME/.cache/github-repo-versions"
 GITHUB_REPO=false
 RELEASES=false
 REPO_PATH=""
@@ -71,9 +72,28 @@ get_versions_curl() {
 
 # get the versions from local git repo
 get_versions_local() {
-	echo "Error: not implemented" 1>&2
-	help
-	exit 1
+	if [ ! -d "$CACHE_BASE_DIR" ]; then
+		mkdir -p "$CACHE_BASE_DIR"
+	fi
+	# clone the repo if it doesn't exist
+	if [ ! -d "${CACHE_BASE_DIR}/${REPO_PATH}" ]; then
+		git clone -n "$GITHUB_REPO.git" "${CACHE_BASE_DIR}/${REPO_PATH}"
+	fi
+	local old_dir="$(pwd)"
+	local error_code=0
+	cd "${CACHE_BASE_DIR}/${REPO_PATH}"
+	{
+		git fetch -p -t
+		git tag --list
+	} || {
+		local error_code=$?
+	}
+	cd $old_dir
+	if [ "$error_code" != 0 ]; then
+		echo "Error: git clone failed: $error_code" 1>&2
+		help
+		exit $error_code
+	fi
 }
 
 #
