@@ -177,16 +177,6 @@ function install_version {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# The version to install, optional argument
-	-i | --install-version)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			TARGET_VERSION="$2"
-			shift 2
-		else
-			TARGET_VERSION="latest"
-			shift 1
-		fi
-		;;
 	# Get all versions flag
 	-a | --all-versions)
 		GET_ALL_VERSIONS=true
@@ -196,6 +186,16 @@ while (("$#")); do
 	-f | --force)
 		FORCE=true
 		shift
+		;;
+	# The version to install, optional argument
+	-i | --install-version)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			TARGET_VERSION="$2"
+			shift 2
+		else
+			TARGET_VERSION="latest"
+			shift 1
+		fi
 		;;
 	# Get latest version flag
 	-l | --latest-version)
