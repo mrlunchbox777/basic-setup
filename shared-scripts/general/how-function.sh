@@ -90,12 +90,10 @@ how-function() {
 			echo "$how_output"
 		fi
 	else
-		echo ""
 		echo "--"
-		echo "- $COMMAND is an alias for $how_after"
-		echo "- running 'howa \"$how_after\" \"$AFTER_CONTEXT\" \"$BEFORE_CONTEXT\" \"$LANGUAGE\" $VERBOSITY'"
+		echo "$COMMAND is an alias for $how_after"
+		echo "running 'howa \"$how_after\" \"$AFTER_CONTEXT\" \"$BEFORE_CONTEXT\" \"$LANGUAGE\" $VERBOSITY'"
 		echo "--"
-		echo ""
 		how-function "$how_after" "$AFTER_CONTEXT" "$BEFORE_CONTEXT" "$LANGUAGE" $VERBOSITY
 	fi
 }
