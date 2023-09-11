@@ -34,7 +34,7 @@ how-function() {
 		return 1
 	fi
 
-	local alias_output=$(echo "$type_output" | grep '^\w* is an alias for .*$')
+	local alias_output=$(echo "$type_output" | grep '^.* is an alias for .*$')
 	[ "$VERBOSITY" -gt 0 ] && echo "command: $COMMAND"
 	[ "$VERBOSITY" -gt 0 ] && echo "type_output: $type_output"
 	[ "$VERBOSITY" -gt 0 ] && echo "alias_output: $alias_output"
@@ -42,7 +42,7 @@ how-function() {
 	local how_after=""
 	if [ ! -z "$alias_output" ]; then
 		local how_output="$type_output"
-		local how_after="$(echo "$type_output" | sed 's/^\w* is an alias for\s//g' | awk '{print $1}')"
+		local how_after="$(echo "$type_output" | sed 's/^.* is an alias for\s//g' | awk '{print $1}')"
 	fi
 
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
