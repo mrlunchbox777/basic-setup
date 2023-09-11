@@ -707,47 +707,6 @@ function set_swap_devices_off {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# the file to open, optional argument
-	--open-command)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			OPEN_COMMAND="$2"
-			shift 2
-		else
-			OPEN_COMMAND="latest"
-			shift 1
-		fi
-		;;
-	# the archive file, optional argument
-	--out)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			ARCHIVE_FILE=$2
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
-	# the open file, optional argument
-	-o | --open)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			OPEN_FILE="$2"
-			shift 2
-		else
-			OPEN_FILE="latest"
-			shift 1
-		fi
-		;;
-	# restore archive file, optional argument
-	-r | --restore)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			RESTORE_ARCHIVE_FILE=$2
-			shift 2
-		else
-			RESTORE_ARCHIVE_FILE="latest"
-			shift 1
-		fi
-		;;
 	# backup flag
 	-b | --backup-only)
 		BACKUP_ONLY=true
@@ -778,10 +737,51 @@ while (("$#")); do
 		SHOULD_LIST=true
 		shift
 		;;
+	# the open file, optional argument
+	-o | --open)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			OPEN_FILE="$2"
+			shift 2
+		else
+			OPEN_FILE="latest"
+			shift 1
+		fi
+		;;
+	# the file to open, optional argument
+	--open-command)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			OPEN_COMMAND="$2"
+			shift 2
+		else
+			OPEN_COMMAND="latest"
+			shift 1
+		fi
+		;;
+	# the archive file, optional argument
+	--out)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			ARCHIVE_FILE=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
 	# persist flag
 	-p | --persist)
 		PERSIST=true
 		shift
+		;;
+	# restore archive file, optional argument
+	-r | --restore)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			RESTORE_ARCHIVE_FILE=$2
+			shift 2
+		else
+			RESTORE_ARCHIVE_FILE="latest"
+			shift 1
+		fi
 		;;
 	# verbosity multi-flag
 	-v | --verbose)
