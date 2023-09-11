@@ -35,14 +35,19 @@ how-function() {
 	fi
 
 	local alias_output=$(echo "$type_output" | grep '^.* is an alias for .*$')
+	local builtin_output=$(echo "$type_output" | grep '^.* is a shell builtin$')
 	[ "$VERBOSITY" -gt 0 ] && echo "command: $COMMAND"
 	[ "$VERBOSITY" -gt 0 ] && echo "type_output: $type_output"
 	[ "$VERBOSITY" -gt 0 ] && echo "alias_output: $alias_output"
+	[ "$VERBOSITY" -gt 0 ] && echo "builtin_output: $builtin_output"
 
 	local how_after=""
 	if [ ! -z "$alias_output" ]; then
 		local how_output="$type_output"
 		local how_after="$(echo "$type_output" | sed 's/^.* is an alias for\s//g' | awk '{print $1}')"
+	else
+		local how_output="$type_output"
+		local how_force="$type_output"
 	fi
 
 	local file_path="$(echo "$type_output" | awk -F " " '{print $NF}')"
@@ -81,6 +86,11 @@ how-function() {
 		echo "ERROR: consider running with howa instead of how, this may be an alias." >&2
 		how --help
 		return 1
+	fi
+
+	if [ ! -z "$how_force" ]; then
+		local how_output="$how_force"
+		local how_after=""
 	fi
 
 	if [ -z "$how_after" ]; then
