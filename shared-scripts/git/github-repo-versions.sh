@@ -3,7 +3,7 @@
 #
 # global defaults
 #
-CACHE_BASE_DIR="$HOME/.cache/github-repo-versions"
+CACHE_BASE_DIR="$HOME/.cache/basic-setup/github-repo-versions"
 GITHUB_REPO=false
 RELEASES=false
 REPO_PATH=""
@@ -50,9 +50,11 @@ get_versions_curl() {
 	local all_versions=""
 	local name_kind="name"
 	[ "$VERSION_KIND" == "releases" ] && local name_kind="tag_name"
+
 	while [ "$should_continue" == true ]; do
 		local curl_url="https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100"
 		local raw_content="$(curl -s "$curl_url")"
+
 		if [[ "$raw_content" == *"API rate limit exceeded"* ]]; then
 			echo "Error: API rate limit exceeded" 1>&2
 			echo "Error: run 'curl -s -v \"$curl_url\"' for more info." 1>&2
@@ -60,13 +62,16 @@ get_versions_curl() {
 			echo "Error: Github rate limit resets at $(date -d @"$seconds")." 1>&2
 			exit 1
 		fi
+
 		local current_versions="$(echo "$raw_content" | jq '[.[] | ."'${name_kind}'"]')"
 		if (( $(echo "$current_versions" | jq length) == 0 )); then
 			local should_continue=false
 		fi
+
 		local all_versions="$(echo "${all_versions}${current_versions}" | jq -s add)"
 		local page=$(($page+1))
 	done
+
 	echo "$all_versions" | jq -r '.[]'
 }
 
@@ -75,10 +80,12 @@ get_versions_local() {
 	if [ ! -d "$CACHE_BASE_DIR" ]; then
 		mkdir -p "$CACHE_BASE_DIR"
 	fi
+
 	# clone the repo if it doesn't exist
 	if [ ! -d "${CACHE_BASE_DIR}/${REPO_PATH}" ]; then
 		git clone -n "$GITHUB_REPO.git" "${CACHE_BASE_DIR}/${REPO_PATH}"
 	fi
+
 	local old_dir="$(pwd)"
 	local error_code=0
 	cd "${CACHE_BASE_DIR}/${REPO_PATH}"
@@ -88,6 +95,7 @@ get_versions_local() {
 	} || {
 		local error_code=$?
 	}
+
 	cd $old_dir
 	if [ "$error_code" != 0 ]; then
 		echo "Error: git clone failed: $error_code" 1>&2
