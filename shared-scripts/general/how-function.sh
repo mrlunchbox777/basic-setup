@@ -45,7 +45,7 @@ how-function() {
 	if [ ! -z "$alias_output" ]; then
 		local how_output="$type_output"
 		local how_after="$(echo "$type_output" | sed 's/^.* is an alias for\s//g' | awk '{print $1}')"
-	else
+	elif [ ! -z "$builtin_output" ]; then
 		local how_output="$type_output"
 		local how_force="$type_output"
 	fi
