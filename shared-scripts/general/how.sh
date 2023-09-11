@@ -43,7 +43,6 @@ help() {
 	EOF
 }
 
-
 # source and call the how function
 how_function() {
 	shared_scripts_dir=$(get-shared-scripts-dir)
