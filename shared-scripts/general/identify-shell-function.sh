@@ -1,5 +1,3 @@
-#! /usr/bin/env bash
-
 # run identify shell function
 identify-shell-function() {
 	local shell=$(ps -o args= -p "$$" | awk '{print $1}' | awk -F '/' '{print $NF}')
