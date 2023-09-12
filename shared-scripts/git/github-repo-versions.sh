@@ -84,7 +84,7 @@ get_versions_local() {
 	if [ "$SEMANTIC_VERSIONING" == true ]; then
 		all_tags="$(echo "$all_tags" | grep '^'$SEMANTIC_PREFIX'[0-9]*\.[0-9]*\.[0-9]*[-.*]*$')"
 	fi
-	echo $all_tags | sort -Vr | sed 's/ /\n/g'
+	echo $all_tags | sed 's/ /\n/g' | sort -Vr
 }
 
 #
