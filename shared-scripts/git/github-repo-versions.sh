@@ -32,7 +32,7 @@ function help {
 		-g|--github-repo     - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
 		-h|--help            - (flag, default: false) Print this help message and exit.
 		-r|--releases        - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
-		-p|--semantic-prefix - (flag, default: "") The tag prefix for the sematic versioning, requires -s.
+		-p|--semantic-prefix - (flag, default: "") The tag prefix for the sematic versioning, requires no -c.
 		-s|--semantic        - (flag, default: false) sort and filter with semantic versioning, requires no -c.
 		-t|--tags            - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
 		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
@@ -82,9 +82,9 @@ get_versions_curl() {
 get_versions_local() {
 	all_tags=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "$GITHUB_REPO" | awk '{print $2}' | sed 's#refs/tags/##g')
 	if [ "$SEMANTIC_VERSIONING" == true ]; then
-		all_tags="$(echo "$all_tags" | grep '^'$SEMANTIC_PREFIX'[0-9]*\.[0-9]*\.[0-9]*[-.*]*$' | sort -Vr)"
+		all_tags="$(echo "$all_tags" | grep '^'$SEMANTIC_PREFIX'[0-9]*\.[0-9]*\.[0-9]*[-.*]*$')"
 	fi
-	echo $all_tags | sed 's/ /\n/g'
+	echo $all_tags | sort -Vr | sed 's/ /\n/g'
 }
 
 #
@@ -170,7 +170,7 @@ done
 [ "$GITHUB_REPO" == false ] && echo "Error: -g is required" >&2 && help && exit 1
 [ "$VERSION_KIND" == "" ] && echo "Error: -r or -t is required" >&2 && help && exit 1
 [ "$SEMANTIC_VERSIONING" == true ] && [ "$USE_CURL" == true ] && echo "Error: -s requires no -c" >&2 && help && exit 1
-[ ! -z "$SEMANTIC_PREFIX" ] && [ "$SEMANTIC_VERSIONING" == false ] && echo "Error: -p requires -s" >&2 && help && exit 1
+[ ! -z "$SEMANTIC_PREFIX" ] && [ "$USE_CURL" == true ] && echo "Error: -p no -c" >&2 && help && exit 1
 REPO_PATH="$(echo "$GITHUB_REPO" | sed 's#http[s]*://github.com/##g; s#/$##g')"
 
 if [ "$USE_CURL" == true ]; then
