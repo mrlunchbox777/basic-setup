@@ -3,11 +3,12 @@
 #
 # global defaults
 #
-CACHE_BASE_DIR="$HOME/.cache/basic-setup/github-repo-versions"
 GITHUB_REPO=false
 RELEASES=false
 REPO_PATH=""
 SHOW_HELP=false
+SEMANTIC_PREFIX=""
+SEMANTIC_VERSIONING=false
 TAGS=false
 USE_CURL=false
 VERBOSITY=0
@@ -27,12 +28,14 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-c|--curl        - (optional, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
-		-g|--github-repo - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
-		-h|--help        - (flag, default: false) Print this help message and exit.
-		-r|--releases    - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
-		-t|--tags        - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
-		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--curl            - (optional, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
+		-g|--github-repo     - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
+		-h|--help            - (flag, default: false) Print this help message and exit.
+		-r|--releases        - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
+		-p|--semantic-prefix - (flag, default: "") The tag prefix for the sematic versioning, requires -s.
+		-s|--semantic        - (flag, default: false) sort and filter with semantic versioning, requires no -c.
+		-t|--tags            - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
+		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: -r or -t must be specified
 		----------
@@ -77,31 +80,11 @@ get_versions_curl() {
 
 # get the versions from local git repo
 get_versions_local() {
-	if [ ! -d "$CACHE_BASE_DIR" ]; then
-		mkdir -p "$CACHE_BASE_DIR"
+	all_tags=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "$GITHUB_REPO" | awk '{print $2}' | sed 's#refs/tags/##g')
+	if [ "$SEMANTIC_VERSIONING" == true ]; then
+		all_tags="$(echo "$all_tags" | grep '^'$SEMANTIC_PREFIX'[0-9]*\.[0-9]*\.[0-9]*[-.*]*$' | sort -Vr)"
 	fi
-
-	# clone the repo if it doesn't exist
-	if [ ! -d "${CACHE_BASE_DIR}/${REPO_PATH}" ]; then
-		git clone -n "$GITHUB_REPO.git" "${CACHE_BASE_DIR}/${REPO_PATH}"
-	fi
-
-	local old_dir="$(pwd)"
-	local error_code=0
-	cd "${CACHE_BASE_DIR}/${REPO_PATH}"
-	{
-		git fetch -p -t
-		git tag --list
-	} || {
-		local error_code=$?
-	}
-
-	cd $old_dir
-	if [ "$error_code" != 0 ]; then
-		echo "Error: git clone failed: $error_code" 1>&2
-		help
-		exit $error_code
-	fi
+	echo $all_tags | sed 's/ /\n/g'
 }
 
 #
@@ -131,6 +114,16 @@ while (("$#")); do
 		SHOW_HELP=true
 		shift
 		;;
+	# The semantic prefix, optional argument
+	-p | --semantic-prefix)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			SEMANTIC_PREFIX="$2"
+			shift 2
+		else
+			SEMANTIC_PREFIX=""
+			shift 1
+		fi
+		;;
 	# Releases flag
 	-r | --releases)
 		RELEASES=true
@@ -139,6 +132,11 @@ while (("$#")); do
 	# Tags flag
 	-t | --tags)
 		TAGS=true
+		shift
+		;;
+	# Semantic flag
+	-s | --semantic)
+		SEMANTIC_VERSIONING=true
 		shift
 		;;
 	# verbosity multi-flag
@@ -171,6 +169,8 @@ done
 [ "$RELEASES" == true ] && VERSION_KIND="releases"
 [ "$GITHUB_REPO" == false ] && echo "Error: -g is required" >&2 && help && exit 1
 [ "$VERSION_KIND" == "" ] && echo "Error: -r or -t is required" >&2 && help && exit 1
+[ "$SEMANTIC_VERSIONING" == true ] && [ "$USE_CURL" == true ] && echo "Error: -s requires no -c" >&2 && help && exit 1
+[ ! -z "$SEMANTIC_PREFIX" ] && [ "$SEMANTIC_VERSIONING" == false ] && echo "Error: -p requires -s" >&2 && help && exit 1
 REPO_PATH="$(echo "$GITHUB_REPO" | sed 's#http[s]*://github.com/##g; s#/$##g')"
 
 if [ "$USE_CURL" == true ]; then

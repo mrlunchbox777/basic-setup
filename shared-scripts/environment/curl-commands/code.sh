@@ -67,7 +67,7 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	local all_versions="$(git-github-repo-versions -r -g "https://github.com/microsoft/vscode")"
+	local all_versions="$(git-github-repo-versions -g "https://github.com/microsoft/vscode" -s -t)"
 	if [ -z "$all_versions" ]; then
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
