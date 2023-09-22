@@ -118,7 +118,7 @@ function install_version {
 	if [[ "$TARGET_VERSION" == "latest" ]]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
-	local command_to_run='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+	local command_to_run='rm -rf "$HOME/.oh-my-zsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
 	if [[ "$FORCE" == true ]]; then
 		eval "$command_to_run"
 	else
