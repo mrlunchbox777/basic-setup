@@ -7,7 +7,10 @@ GITHUB_REPO=false
 RELEASES=false
 REPO_PATH=""
 SHOW_HELP=false
+SEMANTIC_PREFIX=""
+SEMANTIC_VERSIONING=false
 TAGS=false
+USE_CURL=false
 VERBOSITY=0
 VERSION_KIND=""
 
@@ -25,11 +28,14 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-g|--github repo - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
-		-h|--help        - (flag, default: false) Print this help message and exit.
-		-r|--releases    - (flag, default: false) Get the release versions, mutually exclusive with -t.
-		-t|--tags     - (flag, default: false) Get the tag versions, mutually exclusive with -r.
-		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--curl            - (optional, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
+		-g|--github-repo     - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
+		-h|--help            - (flag, default: false) Print this help message and exit.
+		-r|--releases        - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
+		-p|--semantic-prefix - (flag, default: "") The tag prefix for the sematic versioning, requires no -c.
+		-s|--semantic        - (flag, default: false) sort and filter with semantic versioning, requires no -c.
+		-t|--tags            - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
+		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: -r or -t must be specified
 		----------
@@ -41,15 +47,17 @@ function help {
 }
 
 # get the versions from github
-function get_versions {
+get_versions_curl() {
 	local should_continue=true
 	local page=1
 	local all_versions=""
 	local name_kind="name"
 	[ "$VERSION_KIND" == "releases" ] && local name_kind="tag_name"
+
 	while [ "$should_continue" == true ]; do
 		local curl_url="https://api.github.com/repos/${REPO_PATH}/${VERSION_KIND}?page=$page&per_page=100"
 		local raw_content="$(curl -s "$curl_url")"
+
 		if [[ "$raw_content" == *"API rate limit exceeded"* ]]; then
 			echo "Error: API rate limit exceeded" 1>&2
 			echo "Error: run 'curl -s -v \"$curl_url\"' for more info." 1>&2
@@ -57,14 +65,26 @@ function get_versions {
 			echo "Error: Github rate limit resets at $(date -d @"$seconds")." 1>&2
 			exit 1
 		fi
+
 		local current_versions="$(echo "$raw_content" | jq '[.[] | ."'${name_kind}'"]')"
 		if (( $(echo "$current_versions" | jq length) == 0 )); then
 			local should_continue=false
 		fi
+
 		local all_versions="$(echo "${all_versions}${current_versions}" | jq -s add)"
 		local page=$(($page+1))
 	done
+
 	echo "$all_versions" | jq -r '.[]'
+}
+
+# get the versions from local git repo
+get_versions_local() {
+	all_tags=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "$GITHUB_REPO" | awk '{print $2}' | sed 's#refs/tags/##g')
+	if [ "$SEMANTIC_VERSIONING" == true ]; then
+		all_tags="$(echo "$all_tags" | grep '^'$SEMANTIC_PREFIX'[0-9]*\.[0-9]*\.[0-9]*[-.*]*$')"
+	fi
+	echo $all_tags | sed 's/ /\n/g' | sort -Vr
 }
 
 #
@@ -73,6 +93,11 @@ function get_versions {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# curl flag
+	-c | --curl)
+		USE_CURL=true
+		shift
+		;;
 	# the github repo, required argument
 	-g | --github-repo)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -89,6 +114,16 @@ while (("$#")); do
 		SHOW_HELP=true
 		shift
 		;;
+	# The semantic prefix, optional argument
+	-p | --semantic-prefix)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			SEMANTIC_PREFIX="$2"
+			shift 2
+		else
+			SEMANTIC_PREFIX=""
+			shift 1
+		fi
+		;;
 	# Releases flag
 	-r | --releases)
 		RELEASES=true
@@ -97,6 +132,11 @@ while (("$#")); do
 	# Tags flag
 	-t | --tags)
 		TAGS=true
+		shift
+		;;
+	# Semantic flag
+	-s | --semantic)
+		SEMANTIC_VERSIONING=true
 		shift
 		;;
 	# verbosity multi-flag
@@ -122,11 +162,19 @@ done
 # Do the work
 #
 [ $SHOW_HELP == true ] && help && exit 0
+[ "$RELEASES" == false ] && [ "$TAGS" == false ] && echo "Error: one of -r and -t are required" >&2 && help && exit 1
 [ "$RELEASES" == true ] && [ "$TAGS" == true ] && echo "Error: -r and -t are mutually exclusive" >&2 && help && exit 1
+[ "$RELEASES" == true ] && [ "$USE_CURL" == false ] && echo "Error: -r requires -c" >&2 && help && exit 1
 [ "$TAGS" == true ] && VERSION_KIND="tags"
 [ "$RELEASES" == true ] && VERSION_KIND="releases"
 [ "$GITHUB_REPO" == false ] && echo "Error: -g is required" >&2 && help && exit 1
 [ "$VERSION_KIND" == "" ] && echo "Error: -r or -t is required" >&2 && help && exit 1
+[ "$SEMANTIC_VERSIONING" == true ] && [ "$USE_CURL" == true ] && echo "Error: -s requires no -c" >&2 && help && exit 1
+[ ! -z "$SEMANTIC_PREFIX" ] && [ "$USE_CURL" == true ] && echo "Error: -p no -c" >&2 && help && exit 1
 REPO_PATH="$(echo "$GITHUB_REPO" | sed 's#http[s]*://github.com/##g; s#/$##g')"
 
-get_versions
+if [ "$USE_CURL" == true ]; then
+	get_versions_curl
+else
+	get_versions_local
+fi

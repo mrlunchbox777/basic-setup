@@ -63,7 +63,8 @@ function get_installed_version {
 	if [ -f "~/.oh-my-zsh/oh-my-zsh.sh" ]; then
 		echo ""
 	else
-		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g')"
+		# note we are cutting it to 8 because that's how we get it from omz and to ensure it's consistent
+		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g' | cut -c-8)"
 	fi
 }
 
@@ -74,7 +75,8 @@ function get_all_versions {
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
-	echo "$all_versions" | cut -c-7
+	# note we are cutting it to 8 because that's how we get it from omz
+	echo "$all_versions" | cut -c-8
 }
 
 # STANDARD FUNCTION: get the latest version or override
@@ -82,6 +84,7 @@ function get_latest_version {
 	local all_versions="$(get_all_versions)"
 	if [ ! -z "$LATEST_VERSION_OVERRIDE" ]; then
 		if (( $(echo "$all_versions" | grep -q $LATEST_VERSION_OVERRIDE >/dev/null 2>&1; echo $? ) != 0 )); then
+			(($VERBOSITY > 0)) && echo "all_versions - $all_versions" 1>&2
 			echo "$COMMAND_NAME LATEST_VERSION_OVERRIDE not found - $LATEST_VERSION_OVERRIDE" 1>&2
 			exit 1
 		else
@@ -94,6 +97,10 @@ function get_latest_version {
 
 # CUSTOM FUNCTION: extra test version functionality
 function custom_test_version {
+	if [ ! -z "$(get_installed_version)" ]; then
+		# if omz is installed, it'll update itself
+		LATEST_VERSION_OVERRIDE="$(get_installed_version)"
+	fi
 	return 0
 }
 
@@ -117,7 +124,12 @@ function install_version {
 	if [[ "$TARGET_VERSION" == "latest" ]]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
-	local command_to_run='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+	if [ -z "$(get_installed_version)" ]; then
+		local command_to_run='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+	else
+		. ~/.oh-my-zsh/oh-my-zsh.sh
+		omz update
+	fi
 	if [[ "$FORCE" == true ]]; then
 		eval "$command_to_run"
 	else
