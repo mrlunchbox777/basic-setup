@@ -97,6 +97,7 @@ function get_latest_version {
 # CUSTOM FUNCTION: extra test version functionality
 function custom_test_version {
 	if [ ! -z "$(get_installed_version)" ]; then
+		# if omz is installed, it'll update itself
 		LATEST_VERSION_OVERRIDE="$(get_installed_version)"
 	fi
 	return 0
