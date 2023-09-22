@@ -69,6 +69,7 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
+	# TODO: this can be throttled by github
 	local all_versions="$(curl -s https://api.github.com/repos/ohmyzsh/ohmyzsh/commits | jq -r '.[].sha')"
 	if [ -z "$all_versions" ]; then
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2

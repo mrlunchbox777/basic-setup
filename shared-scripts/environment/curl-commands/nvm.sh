@@ -67,14 +67,23 @@ function get_installed_version {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	local all_versions="$(git-github-repo-versions -r -g "https://github.com/nvm-sh/nvm")"
+	if [ "$INCLUDE_PRERELEASE_VERSIONS" == true ]; then
+		local all_versions="$(git-github-repo-versions -g "https://github.com/nvm-sh/nvm" -p v -t)"
+	else
+		local all_versions="$(git-github-repo-versions -g "https://github.com/nvm-sh/nvm" -p v -s -t)"
+	fi
 	if [ -z "$all_versions" ]; then
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
-	if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
-		local all_versions="$(echo "$all_versions" | grep -v \-)"
-	fi
+	# local all_versions="$(git-github-repo-versions -r -g "https://github.com/nvm-sh/nvm")"
+	# if [ -z "$all_versions" ]; then
+	# 	echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
+	# 	exit 1
+	# fi
+	# if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
+	# 	local all_versions="$(echo "$all_versions" | grep -v \-)"
+	# fi
 	echo "$all_versions"
 }
 
