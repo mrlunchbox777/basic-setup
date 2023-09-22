@@ -63,18 +63,18 @@ function get_installed_version {
 	if [ -f "~/.oh-my-zsh/oh-my-zsh.sh" ]; then
 		echo ""
 	else
-		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g')"
+		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g' | cut -c-7)"
 	fi
 }
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get all versions (newest first, one per line)
 function get_all_versions {
-	# TODO: this can be throttled by github
 	local all_versions="$(curl -s https://api.github.com/repos/ohmyzsh/ohmyzsh/commits | jq -r '.[].sha')"
 	if [ -z "$all_versions" ]; then
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
+	# note we are cutting it by one because that's how we get it from the api
 	echo "$all_versions" | cut -c-7
 }
 
@@ -83,6 +83,7 @@ function get_latest_version {
 	local all_versions="$(get_all_versions)"
 	if [ ! -z "$LATEST_VERSION_OVERRIDE" ]; then
 		if (( $(echo "$all_versions" | grep -q $LATEST_VERSION_OVERRIDE >/dev/null 2>&1; echo $? ) != 0 )); then
+			(($VERBOSITY > 0)) && echo "all_versions - $all_versions" 1>&2
 			echo "$COMMAND_NAME LATEST_VERSION_OVERRIDE not found - $LATEST_VERSION_OVERRIDE" 1>&2
 			exit 1
 		else
@@ -95,6 +96,9 @@ function get_latest_version {
 
 # CUSTOM FUNCTION: extra test version functionality
 function custom_test_version {
+	if [ ! -z "$(get_installed_version)" ]; then
+		LATEST_VERSION_OVERRIDE="$(get_installed_version)"
+	fi
 	return 0
 }
 
@@ -118,7 +122,12 @@ function install_version {
 	if [[ "$TARGET_VERSION" == "latest" ]]; then
 		TARGET_VERSION="$(get_latest_version)"
 	fi
-	local command_to_run='rm -rf "$HOME/.oh-my-zsh" && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+	if [ -z "$(get_installed_version)" ]; then
+		local command_to_run='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+	else
+		. ~/.oh-my-zsh/oh-my-zsh.sh
+		omz update
+	fi
 	if [[ "$FORCE" == true ]]; then
 		eval "$command_to_run"
 	else
