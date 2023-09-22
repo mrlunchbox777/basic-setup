@@ -76,14 +76,6 @@ function get_all_versions {
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
-	# local all_versions="$(git-github-repo-versions -r -g "https://github.com/nvm-sh/nvm")"
-	# if [ -z "$all_versions" ]; then
-	# 	echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
-	# 	exit 1
-	# fi
-	# if [ "$INCLUDE_PRERELEASE_VERSIONS" == false ]; then
-	# 	local all_versions="$(echo "$all_versions" | grep -v \-)"
-	# fi
 	echo "$all_versions"
 }
 

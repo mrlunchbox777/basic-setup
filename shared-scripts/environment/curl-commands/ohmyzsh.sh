@@ -63,7 +63,8 @@ function get_installed_version {
 	if [ -f "~/.oh-my-zsh/oh-my-zsh.sh" ]; then
 		echo ""
 	else
-		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g' | cut -c-7)"
+		# note we are cutting it to 8 because that's how we get it from omz and to ensure it's consistent
+		echo "$(. ~/.oh-my-zsh/oh-my-zsh.sh && omz version | awk '{print $2}' | sed 's/(//g; s/)//g' | cut -c-8)"
 	fi
 }
 
@@ -74,8 +75,8 @@ function get_all_versions {
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
-	# note we are cutting it by one because that's how we get it from the api
-	echo "$all_versions" | cut -c-7
+	# note we are cutting it to 8 because that's how we get it from omz
+	echo "$all_versions" | cut -c-8
 }
 
 # STANDARD FUNCTION: get the latest version or override
