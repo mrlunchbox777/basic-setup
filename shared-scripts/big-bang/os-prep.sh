@@ -1,5 +1,15 @@
 #! /usr/bin/env bash
 
+#
+# Environment Validation
+#
+validation="$(environment-validation -l "big-bang" -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
 # Steps adapted from https://github.com/DoD-Platform-One/big-bang/blob/master/docs/guides/deployment-scenarios/quickstart.md#step-4-configure-host-operating-system-prerequisites
 
 set -e

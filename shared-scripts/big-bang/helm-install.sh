@@ -1,6 +1,16 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -l "big-bang" -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 EXCLUDE_DEFAULT_YAML=false
