@@ -1,6 +1,16 @@
 # no crunch bang because this should be sourced
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -l "big-bang" -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # helper functions
 #
 
