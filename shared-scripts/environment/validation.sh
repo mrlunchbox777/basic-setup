@@ -209,7 +209,8 @@ function check_for_tools {
 	# Merge file paths - https://stackoverflow.com/a/36218044
 	# jq -s 'reduce .[] as $item ({}; . * $item)'
 	# this will need to be done per item to ensure they are there
-	local labels="$(printf '%s\n' "${LABELS[@]}" | jq -R . | jq -s .)"
+	local labels="$(printf '%s\n' "${LABELS[@]}" | jq -R . | jq -sc .)"
+	(($VERBOSITY > 0)) && echo "checking for tools with labels: ${labels[@]}"
 	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select(any(.labels; . | contains('$labels')) and .enabled == true) | .name')"
 	while read package_key; do
 		(($VERBOSITY > 1)) && echo "running for $package_key"
