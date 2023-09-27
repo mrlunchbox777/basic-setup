@@ -24,7 +24,7 @@ All of these will clone the repo and run the init script
 
 ### Install Using bash
 
-Clones to `~/src/tools/basic-setup`
+Clones to `~/.basic-setup/basic-setup`
 
 ```bash
 curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/basic-setup.sh | sh
