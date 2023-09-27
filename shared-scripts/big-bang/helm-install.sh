@@ -74,7 +74,7 @@ add-yaml-files() {
 	done
 
 	for yaml_file in "${COMBINED_YAML_FILES[@]}"; do
-		YAML_FILES_ARGS="$YAML_FILES_ARGS -f \"$yaml_file\""
+		YAML_FILES_ARGS="$YAML_FILES_ARGS -f $yaml_file"
 	done
 }
 
