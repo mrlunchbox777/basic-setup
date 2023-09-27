@@ -1,5 +1,7 @@
 #! /usr/bin/env zsh
 
+# NOTE: don't run environment-validation here, it could cause a loop
+
 # NOTE: this script is ran using zsh not bash
 
 #
