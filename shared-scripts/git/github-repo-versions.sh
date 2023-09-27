@@ -28,7 +28,7 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-c|--curl            - (optional, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
+		-c|--curl            - (flag, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
 		-g|--github-repo     - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
 		-h|--help            - (flag, default: false) Print this help message and exit.
 		-r|--releases        - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
