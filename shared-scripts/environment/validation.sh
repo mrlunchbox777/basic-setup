@@ -177,7 +177,7 @@ function check_for_latest_basic_setup_git {
 			local diff="$(git rev-list ${current_branch}...${upstream} --count)"
 			if (( $diff > 0 )); then
 				# TODO: offer an interactive way to update here
-				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir}"
+				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir} or run \`basic-setup-update\` for main."
 				false
 			else
 				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
@@ -236,7 +236,10 @@ function check_for_os_specific_tooling {
 function handle_overall_errors {
 	if (( $ERROR_MESSAGES > 0 )); then
 		echo "Found Failures, check logs. Run with -h for help." 1>&2
-		# help
+		echo "For install or upgrade errors you can run \`environment-validation\` with:" 1>&2
+		echo "  -i to install" 1>&2
+		echo "  -c to allow curl-commands" 1>&2
+		echo "  -l for each of the current labels - ${LABELS[@]}" 1>&2
 		update_e
 		exit 1
 	else
