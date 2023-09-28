@@ -47,7 +47,7 @@ function help {
 		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: first the default yaml files are added (unless excluded), then -f files are added in the order they are specified, then -o files are added in the order they are specified.
-		  default yaml files: chart/ingress-certs.yaml, docs/assets/configs/example/policy-overrides-k3d.yaml, ../overrides/registry-values.yaml
+		  default yaml files (in order): chart/ingress-certs.yaml, docs/assets/configs/example/policy-overrides-k3d.yaml, ../overrides/registry-values.yaml
 		  default then -f then -o
 		----------
 		examples:
