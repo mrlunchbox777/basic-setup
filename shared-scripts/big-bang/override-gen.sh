@@ -15,6 +15,8 @@ fi
 #
 SHOW_HELP=false
 VERBOSITY=0
+HAD_REGISTRY_CREDS=false
+HAD_REPO_CREDS=false
 
 #
 # helper functions
@@ -89,5 +91,33 @@ if [ ! -d "$override_dir" ]; then
 	mkdir -p "$override_dir"
 fi
 
-# TODO: handle if repo/registry creds exist and if they are passed in
+if [ -f "$override_dir/registry-values.yaml" ]; then
+	(($VERBOSITY > 0)) && echo "Backing up registry-values.yaml" >&2
+	cp -f "$override_dir/registry-values.yaml" "$override_dir/registry-values.yaml.bak"
+	HAD_REGISTRY_CREDS=true
+fi
+
+if [ -f "$override_dir/repo-values.yaml" ]; then
+	(($VERBOSITY > 0)) && echo "Backing up repo-values.yaml" >&2
+	cp -f "$override_dir/repo-values.yaml" "$override_dir/repo-values.yaml.bak"
+	HAD_REPO_CREDS=true
+fi
+
 cp -f $basic_setup_dir/resources/big-bang-overrides/* "$override_dir/"
+
+# TODO: handle if repo/registry creds are passed in
+if [ "$HAD_REGISTRY_CREDS" == true ]; then
+	(($VERBOSITY > 0)) && echo "Restoring registry-values.yaml" >&2
+	cp -f "$override_dir/registry-values.yaml.bak" "$override_dir/registry-values.yaml"
+else
+	(($VERBOSITY > 0)) && echo "Update $override_dir/registry-values.yaml" >&2
+fi
+
+if [ "$HAD_REPO_CREDS" == true ]; then
+	(($VERBOSITY > 0)) && echo "Restoring repo-values.yaml" >&2
+	cp -f "$override_dir/repo-values.yaml.bak" "$override_dir/repo-values.yaml"
+else
+	(($VERBOSITY > 0)) && echo "Update $override_dir/repo-values.yaml" >&2
+fi
+
+exit 0
