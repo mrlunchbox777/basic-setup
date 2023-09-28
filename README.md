@@ -68,3 +68,9 @@ You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Download
 There are various places in the code that need testing because they require a specific kind of setup (OS, architecture, etc).
 
 You can find them with `grep --recursive '# TODO: NEEDS TESTING'`
+
+## Contact us
+
+[Open an issue](https://github.com/mrlunchbox777/basic-setup/issues/new/choose)
+[Open discussions](https://github.com/mrlunchbox777/basic-setup/discussions)
+[Join Discord](https://discord.gg/D68RzfvBhC)
