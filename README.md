@@ -1,5 +1,9 @@
 # basic-setup
 
+* [install](#install-using-bash)
+* [submit bug](https://github.com/mrlunchbox777/basic-setup/issues/new?assignees=&labels=bug&template=bug.yaml&title=%5BBug%5D%3A+)
+* [find support](https://github.com/mrlunchbox777/basic-setup/blob/main/.github/SUPPORT.md)
+
 Basic box setup, it's fairly customizable using bash and will work on gui-based and headless systems. Open a pr if you want something added.
 
 ## Goal
