@@ -415,7 +415,7 @@ done
 #
 [ $SHOW_HELP == true ] && help && printf "\n\n -- running big-bang-k3d-dev-wrapper -h --\n\n" && (big-bang-k3d-dev-wrapper -h || return 0) && printf "\n\n -- running big-bang-install-flux-wrapper -h --\n\n" && (big-bang-install-flux-wrapper -h || return 0) && printf "\n\n -- running big-bang-helm-install -h --\n\n" && (big-bang-helm-install -h || return 0) && exit 0
 
-sudo cat /dev/null # prompt for sudo password now
+sudo cat /dev/null # prompt for sudo password now needed to update /etc/hosts
 
 k3d_args="$(build-k3d-args)"
 flux_args="$(build-flux-args)"
