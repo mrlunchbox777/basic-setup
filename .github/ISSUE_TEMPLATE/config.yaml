@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Bug Repot
+    url: https://github.com/mrlunchbox777/basic-setup/issues/new?assignees=&labels=bug&template=bug.yaml&title=%5BBug%5D%3A+
+    about: Please ask and answer questions here.
+  - name: Feature Request
+    url: https://github.com/mrlunchbox777/basic-setup/issues/new?assignees=&labels=bug&template=feature.yaml&title=%5BFeature%5D%3A+
+    about: Please request new features here.
+  - name: Support Request
+    url: https://github.com/mrlunchbox777/basic-setup/issues/new?assignees=&labels=bug&template=support.yaml&title=%5BSupport%5D%3A+
+    about: Please request support here.

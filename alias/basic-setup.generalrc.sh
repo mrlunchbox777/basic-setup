@@ -45,7 +45,7 @@ esac
 sd="$(general-get-source-and-dir "$source")"
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
-export BASICSETUPGENERALRCDIR="$dir"
+export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 
 if [ -d "$dir/sh/" ]; then
 	for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
@@ -58,8 +58,8 @@ if [ -d "$dir/$extra_folder/" ]; then
 	done
 fi
 
-export BASICSETUPGENERALRCDIR="$dir"
-export BASICSETUPGENERALRCHASRUN=true
+export BASIC_SETUP_GENERAL_RC_DIR="$dir"
+export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
 if [[ "$(general-command-installed bat)" == "true" ]]; then
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi

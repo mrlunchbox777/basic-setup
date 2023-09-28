@@ -18,8 +18,8 @@ cd "$dir"
 
 # Set variables
 ## General variables
-should_do_alias_only=${BASICSETUPSHOULDDOALIASONLY:-false}
-should_add_github_key=${BASICSETUPSHOULDADDGITHUBKEY:-"true"}
+should_do_alias_only=${BASIC_SETUP_SHOULD_DO_ALIAS_ONLY:-false}
+should_add_github_key=${BASIC_SETUP_SHOULD_ADD_GITHUB_KEY:-"true"}
 
 ## Postmessage variables
 should_postmessage_zsh=${should_install_zsh}
