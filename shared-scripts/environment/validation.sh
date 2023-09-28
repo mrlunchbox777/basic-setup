@@ -21,9 +21,9 @@ function update_e {
 # global defaults
 #
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
+CUSTOM_LABELS=false
 ERROR_MESSAGES=0
-LABELS=("all")
-LABELS_FILTER_MODE="replace" # union, intersection, replace
+LABELS=("core")
 FORCE=false
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
 RUN_INSTALLS=false
@@ -65,6 +65,7 @@ function help {
 		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
 		-h|--help        - (flag, default: false) Print this help message and exit.
 		-i|--install     - (flag, default: false) Run installs and upgrade as needed instead of erroring.
+		-l|--label       - (multi-optional, default: "core") The union of label(s) that should be used to filter the packages, any addition will replace the default.
 		-s|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
 		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
@@ -73,8 +74,9 @@ function help {
 		note: Set BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_EVERYTHING to true to skip everything.
 		----------
 		examples:
-		validate environment                         - $command_for_help
-		install/update environment with curl enabled - $command_for_help -i -c
+		validate environment                                           - $command_for_help
+		install/update environment with curl enabled                   - $command_for_help -i -c
+		install/update environment with curl enabled with all packages - $command_for_help -i -c -l all
 		----------
 	EOF
 }
@@ -144,7 +146,7 @@ function check_for_bash {
 # exit early if this has been run recently
 function check_for_skip {
 	# Include important flags in the file name
-	PREVIOUSLY_VALIDATED_FILE_NAME="${PREVIOUSLY_VALIDATED_FILE_NAME}_$(echo "${LABELS[@]}" | sed 's/ /_/g')_${LABELS_FILTER_MODE}_${ALLOW_CURL_INSTALLS}"
+	PREVIOUSLY_VALIDATED_FILE_NAME="${PREVIOUSLY_VALIDATED_FILE_NAME}_$(echo "${LABELS[@]}" | sed 's/ /_/g')_${ALLOW_CURL_INSTALLS}"
 	mkdir -p $BASIC_SETUP_DATA_DIRECTORY
 	if [ "$FORCE" != "true" ] && [ "$(find "$BASIC_SETUP_DATA_DIRECTORY" -maxdepth 1 -name $PREVIOUSLY_VALIDATED_FILE_NAME -mmin -1440)" ]; then
 	# TODO: add verbose and push this out
@@ -175,7 +177,7 @@ function check_for_latest_basic_setup_git {
 			local diff="$(git rev-list ${current_branch}...${upstream} --count)"
 			if (( $diff > 0 )); then
 				# TODO: offer an interactive way to update here
-				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir}"
+				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir} or run \`basic-setup-update\` for main."
 				false
 			else
 				(( $VERBOSITY > 0 )) && echo "Git is at latest" || true
@@ -207,8 +209,9 @@ function check_for_tools {
 	# Merge file paths - https://stackoverflow.com/a/36218044
 	# jq -s 'reduce .[] as $item ({}; . * $item)'
 	# this will need to be done per item to ensure they are there
-	# TODO: handle the different ways we want to handle filters
-	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select((.labels[] | . == "'${LABELS[0]}'") and .enabled == true) | .name')"
+	local labels="$(printf '%s\n' "${LABELS[@]}" | jq -R . | jq -sc .)"
+	(($VERBOSITY > 0)) && echo "checking for tools with labels: ${labels[@]}"
+	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select(any(.labels; . | contains('$labels')) and .enabled == true) | .name')"
 	while read package_key; do
 		(($VERBOSITY > 1)) && echo "running for $package_key"
 		local package_content="$(echo "$PACKAGES" | jq '.packages[] | select(.name == "'"$package_key"'")')"
@@ -233,7 +236,10 @@ function check_for_os_specific_tooling {
 function handle_overall_errors {
 	if (( $ERROR_MESSAGES > 0 )); then
 		echo "Found Failures, check logs. Run with -h for help." 1>&2
-		# help
+		echo "For install or upgrade errors you can run \`environment-validation\` with:" 1>&2
+		echo "  -i to install" 1>&2
+		echo "  -c to allow curl-commands" 1>&2
+		echo "  -l for each of the current labels - ${LABELS[@]}" 1>&2
 		update_e
 		exit 1
 	else
@@ -404,6 +410,21 @@ while (("$#")); do
 	-i | --install)
 		RUN_INSTALLS=true
 		shift
+		;;
+	# label multi-optional argument
+	-l | --label)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			if [ $CUSTOM_LABELS == false ]; then
+				LABELS=()
+				CUSTOM_LABELS=true
+			fi
+			LABELS+=("$2")
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
 		;;
 	# skip latest check flag
 	-s | --skip-latest)

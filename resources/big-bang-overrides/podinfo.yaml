@@ -1,0 +1,25 @@
+monitoring:
+  enabled: true
+
+packages:
+  podinfo:
+    enabled: true
+    sourceType: "git"
+    git:
+      repo: https://repo1.dso.mil/big-bang/apps/sandbox/podinfo.git
+      path: chart
+      # tag: null
+      # tag: 6.3.4
+      # branch: main
+      # existingSecret: ""
+      # credentials:
+      #   password: ""
+      #   username: ""
+    flux:
+      timeout: 5m
+    postRenderers: []
+    dependsOn:
+      - name: monitoring
+        namespace: bigbang
+    values:
+      replicaCount: 3

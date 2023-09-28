@@ -1,0 +1,8 @@
+kyverno:
+  enabled: false
+
+kyvernoPolicies:
+  enabled: false
+
+kyvernoReporter:
+  enabled: false

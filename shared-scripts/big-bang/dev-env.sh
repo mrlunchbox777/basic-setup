@@ -1,6 +1,16 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -l "big-bang" -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 LOG_DIR="/tmp/k3d-dev-logs"

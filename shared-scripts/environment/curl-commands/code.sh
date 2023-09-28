@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+# NOTE: don't run environment-validation here, it could cause a loop
+
 #
 # global defaults
 #

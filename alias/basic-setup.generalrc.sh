@@ -1,9 +1,8 @@
 # Run all the shell scripts in the sh folder (this is a duplicate of the shared-scripts/general/get-shared-scripts-dir.sh)
 shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path="$(cd $(dirname ./shared-scripts) && pwd -P)/shared-scripts"
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src/tools -type d -wholename "*basic-setup/shared-scripts")
+[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/.basic-setup -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find ./ -type d -wholename "*basic-setup/shared-scripts")
-[ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/src -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find $HOME/ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find /home/ -type d -wholename "*basic-setup/shared-scripts")
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
@@ -46,7 +45,7 @@ esac
 sd="$(general-get-source-and-dir "$source")"
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
-export BASICSETUPGENERALRCDIR="$dir"
+export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 
 if [ -d "$dir/sh/" ]; then
 	for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
@@ -59,8 +58,8 @@ if [ -d "$dir/$extra_folder/" ]; then
 	done
 fi
 
-export BASICSETUPGENERALRCDIR="$dir"
-export BASICSETUPGENERALRCHASRUN=true
+export BASIC_SETUP_GENERAL_RC_DIR="$dir"
+export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
 if [[ "$(general-command-installed bat)" == "true" ]]; then
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi

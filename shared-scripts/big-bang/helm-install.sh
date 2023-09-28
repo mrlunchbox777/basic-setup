@@ -1,6 +1,16 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -l "big-bang" -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 EXCLUDE_DEFAULT_YAML=false
@@ -30,14 +40,14 @@ function help {
 		description: runs helm install scripts
 		----------
 		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, this runs instead of the generic bigbang deploy.
-		-e|--exclude-default-yaml - (flag, default: false) Don't include chart/values.yaml and overrides/registry-values.yaml.
+		-e|--exclude-default-yaml - (flag, default: false) Don't include the default yaml files (listed below).
 		-f|--yaml-file            - (multi-option, default: empty array) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
 		-h|--help                 - (flag, default: false) Print this help message and exit.
 		-o|--override-files       - (multi-option, default: empty array) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
 		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
 		----------
 		note: first the default yaml files are added (unless excluded), then -f files are added in the order they are specified, then -o files are added in the order they are specified.
-		  default yaml files: chart/values.yaml, overrides/registry-values.yaml
+		  default yaml files (in order): chart/ingress-certs.yaml, docs/assets/configs/example/policy-overrides-k3d.yaml, ../overrides/registry-values.yaml
 		  default then -f then -o
 		----------
 		examples:
@@ -51,7 +61,8 @@ function help {
 # add the yaml files to the array
 add-yaml-files() {
 	if [ "$EXCLUDE_DEFAULT_YAML" == false ]; then
-		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/chart/values.yaml")")
+		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/chart/ingress-certs.yaml")")
+		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/docs/assets/configs/example/policy-overrides-k3d.yaml")")
 		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/../overrides/registry-values.yaml")")
 	fi
 
@@ -64,7 +75,7 @@ add-yaml-files() {
 	done
 
 	for yaml_file in "${COMBINED_YAML_FILES[@]}"; do
-		YAML_FILES_ARGS="$YAML_FILES_ARGS -f \"$yaml_file\""
+		YAML_FILES_ARGS="$YAML_FILES_ARGS -f $yaml_file"
 	done
 }
 
