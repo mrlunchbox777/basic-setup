@@ -172,8 +172,6 @@ done
 #
 [ $SHOW_HELP == true ] && help # don't exit so we get the install flux help as well
 
-sudo cat /dev/null # prompt for sudo password now
-
 args="$(build-args)"
 sed_string='s/-p .*\b/-p ******** /g'
 (($VERBOSITY > 1)) && echo "sed_string: $sed_string"
