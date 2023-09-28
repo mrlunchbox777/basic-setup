@@ -1,15 +1,15 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
+name: Feature Request
+description: File a feature request
+title: "[Feature]: "
+labels: ["feature", "triage"]
+projects: []
 assignees:
-  - octocat
+  - mrlunchbox777
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to fill out this feature request!
   - type: input
     id: contact
     attributes:
@@ -19,12 +19,12 @@ body:
     validations:
       required: true
   - type: textarea
-    id: what-happened
+    id: what-should-happen
     attributes:
-      label: What happened?
+      label: What-should happen?
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "A bug happened!"
+      value: "A feature should happen!"
     validations:
       required: true
   - type: textarea

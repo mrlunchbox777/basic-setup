@@ -1,15 +1,15 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
+name: Support Request
+description: File a support request
+title: "[Support]: "
+labels: ["support", "triage"]
+projects: []
 assignees:
-  - octocat
+  - mrlunchbox777
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to fill out this support request!
   - type: input
     id: contact
     attributes:
@@ -19,12 +19,12 @@ body:
     validations:
       required: true
   - type: textarea
-    id: what-happened
+    id: what-is-needed
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: What is needed?
+      description: Also tell us, what do you need?
+      placeholder: Tell us what you need!
+      value: "Some info!"
     validations:
       required: true
   - type: textarea
