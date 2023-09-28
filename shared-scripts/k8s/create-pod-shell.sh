@@ -8,7 +8,7 @@ pod_yaml="/tmp/$pod_name.yaml"
 sed \
 	-e "s|\$BASIC_SETUP_BASH_IMAGE_TO_USE|$BASIC_SETUP_BASH_IMAGE_TO_USE|g" \
 	-e "s|\$pod_name|$pod_name|g" \
-	"$BASICSETUPGENERALRCDIR/../resources/k8s-yaml/pod-shell.yaml" > "$pod_yaml"
+	"$BASIC_SETUP_GENERAL_RC_DIR/../resources/k8s-yaml/pod-shell.yaml" > "$pod_yaml"
 failed="false"
 {
 	kubectl apply -f "$pod_yaml"

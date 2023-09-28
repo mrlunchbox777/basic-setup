@@ -42,7 +42,7 @@
 autoload -U colors; colors
 autoload -Uz compinit
 compinit
-source "$BASICSETUPGENERALRCDIR/../submodules/zsh-kubectl-prompt/kubectl.zsh"
+source "$BASIC_SETUP_GENERAL_RC_DIR/../submodules/zsh-kubectl-prompt/kubectl.zsh"
 function right_prompt() {
 	local color="blue"
 
