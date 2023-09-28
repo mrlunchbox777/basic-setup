@@ -183,7 +183,7 @@ build-helm-install-args() {
 		local args="$args -e"
 	fi
 	for yaml_file in "${YAML_FILES[@]}"; do
-		local args="$args -f \"$yaml_file\""
+		local args="$args -f $yaml_file"
 	done
 	for override_file in "${OVERRIDE_FILES[@]}"; do
 		local args="$args -o $override_file"

@@ -67,7 +67,7 @@ add-yaml-files() {
 	fi
 
 	for yaml_file in "${YAML_FILES[@]}"; do
-		COMBINED_YAML_FILES+=("$yaml_file")
+		COMBINED_YAML_FILES+=("$(realpath "$yaml_file")")
 	done
 
 	for yaml_file in "${OVERRIDE_FILES[@]}"; do
