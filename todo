@@ -2,7 +2,6 @@ TODO
 
 add an option to support docker build images with cleanup
 all of the scripts in shared-scripts need to move to options rather than ordered parameters
-find and replace all BASICSETUP with BASIC_SETUP_
 consider creating an alias directory in shared-scripts full of links like bin to make the aliases available by PATH
 rather than cron, run these things as part of an update process with a touch file
 fix the cheatsheet docs
