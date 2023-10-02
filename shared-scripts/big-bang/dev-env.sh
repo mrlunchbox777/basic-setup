@@ -35,6 +35,7 @@ REGISTRY_PASSWORD=""
 WAIT_TIMEOUT=120
 
 USE_BIG_M5=false
+FIX_MOUNT_PATHS=false
 USE_PRIVATE_IP=false
 USE_METALLB=false
 ATTACH_SECONDARY_PUBLIC_IP=false
@@ -76,6 +77,7 @@ function help {
 		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./ instead of /tmp/k3d-dev-logs/.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		--k3d-b      - use BIG M5 instance. Default is m5a.4xlarge
+		--k3d-f      - fix mount paths - https://github.com/k3d-io/k3d/pull/1268
 		--k3d-p      - use private IP for security group and k3d cluster
 		--k3d-m      - create k3d cluster with metalLB
 		--k3d-a      - attach secondary Public IP (overrides -p and -m flags)
@@ -115,6 +117,9 @@ build-k3d-args() {
 	fi
 	if [ "$USE_BIG_M5" == true ]; then
 		local args="$args -b"
+	fi
+	if [ "$FIX_MOUNT_PATHS" == true ]; then
+		local args="$args -f"
 	fi
 	if [ "$USE_LOCAL_LOG" == true ]; then
 		local args="$args -l"
@@ -237,6 +242,11 @@ while (("$#")); do
 	# big flag
 	--k3d-b)
 		USE_BIG_M5=true
+		shift
+		;;
+	# fix mount paths flag
+	--k3d-f)
+		FIX_MOUNT_PATHS=true
 		shift
 		;;
 	# install command flag

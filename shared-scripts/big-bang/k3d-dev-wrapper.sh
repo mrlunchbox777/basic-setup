@@ -18,6 +18,7 @@ SHOW_HELP=false
 USE_LOCAL_LOG=false
 VERBOSITY=0
 USE_BIG_M5=false
+FIX_MOUNT_PATHS=false
 USE_PRIVATE_IP=false
 USE_METALLB=false
 ATTACH_SECONDARY_PUBLIC_IP=false
@@ -52,6 +53,7 @@ function help {
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
 		script flags (all flags below are passed to bb-k3d-dev.sh):
 		-b - use BIG M5 instance. Default is m5a.4xlarge
+		-f - fix mount paths - https://github.com/k3d-io/k3d/pull/1268
 		-p - use private IP for security group and k3d cluster
 		-m - create k3d cluster with metalLB
 		-a - attach secondary Public IP (overrides -p and -m flags)
@@ -75,6 +77,9 @@ build-args() {
 	fi
 	if [ "$USE_BIG_M5" == true ]; then
 		local args="$args -b"
+	fi
+	if [ "$FIX_MOUNT_PATHS" == true ]; then
+		local args="$args -f"
 	fi
 	if [ "$USE_PRIVATE_IP" == true ]; then
 		local args="$args -p"
@@ -153,6 +158,11 @@ while (("$#")); do
 	# big flag
 	-b)
 		USE_BIG_M5=true
+		shift
+		;;
+	# fix mount paths flag
+	-f)
+		FIX_MOUNT_PATHS=true
 		shift
 		;;
 	# destroy flag
