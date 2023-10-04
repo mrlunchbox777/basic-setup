@@ -88,6 +88,18 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
+# load environment variables
+if [ "$SKIP_ENV" == "false" ]; then
+	if [ ! -f "$ENV_FILE" ]; then
+		echo "Error: Environment file not found at $ENV_FILE" >&2
+		help
+		exit 1
+	fi
+fi
+if [ -f "$ENV_FILE" ]; then
+	export $(cat $ENV_FILE | sed 's/#.*//g' | xargs)
+fi
+
 if (( $(command -v general-get-source-and-dir >/dev/null 2>&1; echo $?) != 0 )); then
 	echo "general-get-source-and-dir not found, please ensure \$basic_setup_directory/shared-scripts/bin is in your path before running..." >&2
 	exit 1
@@ -96,18 +108,10 @@ fi
 # track directories
 cd "$DIR"
 
-# load environment variables
-if [ -f "$ENV_FILE" ]; then
-	export $(cat $ENV_FILE | sed 's/#.*//g' | xargs)
-fi
-
 # Set variables
 ## General variables
 should_do_alias_only=${BASIC_SETUP_SHOULD_DO_ALIAS_ONLY:-false}
 should_add_github_key=${BASIC_SETUP_SHOULD_ADD_GITHUB_KEY:-"true"}
-
-## Postmessage variables
-should_postmessage_zsh=${should_install_zsh}
 
 if [ "$should_add_github_key" == "true" ]; then
 	ssh-keyscan -t rsa github.com | ssh-keygen -lf -
