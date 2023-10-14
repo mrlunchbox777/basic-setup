@@ -13,6 +13,7 @@ fi
 #
 # global defaults
 #
+RUN_IN_BACKGROUND=false
 DOGFOOD_CONFIG_S3_PATH=""
 SHOW_HELP=false
 FORCE_NEW_CONFIG=false
@@ -32,9 +33,10 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: runs sshuttle to the dogfood cluster in the background and sets up the kubeconfig
+		description: runs sshuttle to the dogfood cluster and sets up the kubeconfig
 		----------
-		-f|--force    - (flag, default: $FORCE_NEW_CONFIG) Force a new dogfood kubeconfig to be downloaded.
+		-b|--background - (flag, default: $RUN_IN_BACKGROUND) Run sshuttle in the background.
+		-f|--force    - (flag, default: $FORCE_NEW_CONFIG) Force a new dogfood kubeconfig to be downloaded, requires -s.
 		-h|--help     - (flag, default: $SHOW_HELP) Print this help message and exit.
 		-i|--identity - (optional, default: "$PRIVATE_KEY_PATH") The private key to use for sshuttle.
 		-r|--range    - (optional, default: "$SSHUTTLE_IP_RANGE") The IP range to route through the bastion host.
@@ -56,6 +58,11 @@ function help {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# background flag
+	-b | --background)
+		RUN_IN_BACKGROUND=true
+		shift
+		;;
 	# force flag
 	-f | --force)
 		FORCE_NEW_CONFIG=true
@@ -155,5 +162,13 @@ if [ -f ~/.kube/config ]; then
 fi
 cp ~/.kube/dogfood.yaml ~/.kube/config
 
-# this will need sudo and will run in the background
-sshuttle --dns -vr $DOGFOOD_USER@$(aws ec2 describe-instances --filters Name=tag:Name,Values=dogfood-bastion --output json | jq -r '.Reservations[0].Instances[0].PublicIpAddress') $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"' &
+dogfood_host="$(aws ec2 describe-instances --filters Name=tag:Name,Values=dogfood-bastion --output json | jq -r '.Reservations[0].Instances[0].PublicIpAddress')"
+ssh-keyscan -t rsa $dogfood_host | ssh-keygen -lf -
+
+# this will need sudo
+if [ "$RUN_IN_BACKGROUND" == true ]; then
+	sshuttle --dns -vr $DOGFOOD_USER@$dogfood_host $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"' &
+else
+	sshuttle --dns -vr $DOGFOOD_USER@$dogfood_host $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"'
+fi
+
