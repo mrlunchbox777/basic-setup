@@ -5,12 +5,14 @@
 #
 SHOW_HELP=false
 VERBOSITY=0
-RC_FILES=( ".bashrc" ".zshrc" ".profile" ".zprofile")
+REQUIRE_ENV_FILE="${BASIC_SETUP_SHOULD_REQUIRE_ENV_FILE:-false}"
+RC_FILES="${BASIC_SETUP_RC_FILES:-".bashrc, .zshrc, .profile, .zprofile"}"
 
 #
 # computed values (often can't be alphabetical)
 #
 BASIC_SETUP_DIR=$(general-get-basic-setup-dir)
+IFS=", " read -r -a RC_FILES_ARRAY <<< "$RC_FILES"
 
 #
 # helper functions
@@ -23,7 +25,7 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: adds basic-setup's general-rc to the following files in \`$HOME\`: ${RC_FILES[@]}.
+		description: adds basic-setup's general-rc to the following files in \`$HOME\`: ${RC_FILES_ARRAY[@]}.
 		----------
 		-h|--help      - (flag, default: false) Print this help message and exit.
 		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
@@ -84,6 +86,6 @@ function update_rc {
 	fi
 }
 
-for rc_file in "${RC_FILES[@]}"; do
+for rc_file in "${RC_FILES_ARRAY[@]}"; do
 	update_rc "$rc_file"
 done
