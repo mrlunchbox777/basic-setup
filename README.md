@@ -34,13 +34,16 @@ curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bas
 
 ## Environment Variables
 
+Variable processing order is: environment file, environment variables, arguments (last wins).
+
 ### Manage Using .env
 
 This is the best way to manage environment variables for this tool.
 
 If you've already cloned the repo you can just copy the `.env`
 ```bash
-cp template.env .env
+mkdir -p ~/.basic-setup
+cp template.env ~/.basic-setup/.env
 ```
 
 Modify the `.env` file using the instructions listed there.
