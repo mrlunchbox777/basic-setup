@@ -9,7 +9,20 @@ USE_BIG_BANG=false
 USE_BIN=true
 GREP_STRING=""
 SHOW_HELP=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+
 
 #
 # helper functions
@@ -24,17 +37,17 @@ function help {
 		----------
 		description: Lists scripts managed by basic-setup.
 		----------
-		-a|--all       - (flag, default: false) List all scripts.
-		--aliases      - (flag, default: false) List aliases.
-		-b|--big-bang  - (flag, default: false) List big bang scripts.
-		--bin          - (flag, default: true) List bin scripts, pass --bin to turn it off.
-		-g|--grep      - (optional string, default: "") Grep the list of scripts for the given string.
-		-h|--help      - (flag, default: false) Print this help message and exit.
-		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--all      - (flag, current: $USE_ALL) List all scripts.
+		--aliases     - (flag, current: $USE_ALIASES) List aliases.
+		-b|--big-bang - (flag, current: $USE_BIG_BANG) List big bang scripts.
+		--bin         - (flag, current: $USE_BIN) List bin scripts, pass --bin to turn it off.
+		-g|--grep     - (optional string, current: "$GREP_STRING") Grep the list of scripts for the given string.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		list all scripts      - $command_for_help -a
-		list aliases          - $command_for_help --aliases --bin
+		list aliases only     - $command_for_help --aliases --bin
 		list bin and big-bang - $command_for_help -b
 		grep bin for general  - $command_for_help -g "general"
 		----------

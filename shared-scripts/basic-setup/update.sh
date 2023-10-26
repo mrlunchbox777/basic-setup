@@ -6,7 +6,19 @@
 # global defaults
 #
 SHOW_HELP=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -21,8 +33,8 @@ function help {
 		----------
 		description: Updates basic-setup to the latest version.
 		----------
-		-h|--help      - (flag, default: false) Print this help message and exit.
-		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		update basic-setup - $command_for_help
