@@ -20,13 +20,14 @@ INSTALL_COMMAND=""
 OVERRIDE_FILES=()
 YAML_FILES=()
 SHOW_HELP=false
+SHOW_FULL_HELP=false
 SKIP_FLUX=false
 SKIP_INSTALL=false
 SKIP_K3D=false
 SKIP_SECRET=false
 USE_LOCAL_LOG=false
 USE_REGISTRY_YAML=true
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 REGISTRY_URL="registry1.dso.mil"
 USE_EXISTING_SECRET=false
@@ -42,8 +43,16 @@ DESTROY=false
 USE_WEAVE=false
 
 #
+# load environment variables
+#
+. basic-setup-set-env
+
+#
 # computed values (often can't be alphabetical)
 #
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 DATE_TO_USE="$(date +%s)"
 LOG_FILE_NAME="k3d-dev-$DATE_TO_USE.log"
 LOG_FILE=""
@@ -62,42 +71,43 @@ function help {
 		description: runs big-bang-k3d-dev-wrapper, then runs the big-bang-install-flux-wrapper, then creates the namespace and secret, then runs the big-bang-install-helm
 		----------
 		dev-env flags:
-		-h|--help         - (flag, default: false) Print this help message and exit.
-		-i|--skip-install - (flag, default: false) Skips helm-install.
-		-k|--skip-k3d     - (flag, default: false) Skips the k3d.
-		-n|--namespace    - (flag, default: "bigbang") The namespace to use for the dev env, required if -s is not set.
-		-s|--skip-secret  - (flag, default: true) If the secret should be created.
-		-u|--skip-flux    - (flag, default: false) Skips flux commands.
-		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help         - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--skip-install - (flag, current: $SKIP_INSTALL) Skips helm-install.
+		-k|--skip-k3d     - (flag, current: $SKIP_K3D) Skips the k3d.
+		-n|--namespace    - (flag, current: "$DEV_ENV_NAMESPACE") The namespace to use for the dev env, required if -s is not set.
+		-s|--skip-secret  - (flag, current: $SKIP_SECRET) If the secret should be created.
+		-u|--skip-flux    - (flag, current: $SKIP_FLUX) Skips flux commands.
+		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--full-help       - (flag, current: $SHOW_FULL_HELP) Print the help message for all the scripts used in this script.
 
 		k3d script flags (all flags below are passed to big-bang-k3d-dev-wrapper):
-		-d|--k3d-d   - destroy related AWS resources
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./ instead of /tmp/k3d-dev-logs/.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
-		--k3d-b      - use BIG M5 instance. Default is m5a.4xlarge
-		--k3d-p      - use private IP for security group and k3d cluster
-		--k3d-m      - create k3d cluster with metalLB
-		--k3d-a      - attach secondary Public IP (overrides -p and -m flags)
-		--k3d-w      - install the weave CNI instead of the default flannel CNI
+		-d|--k3d-d   - (flag, current: $DESTROY) Destroy related AWS resources
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-l|--log     - (flag, current: $USE_LOCAL_LOG) Dump the log for k3d-dev to./ instead of /tmp/k3d-dev-logs/.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--k3d-b      - (flag, current: $USE_BIG_M5) Use BIG M5 instance. Default is m5a.4xlarge
+		--k3d-p      - (flag, current: $USE_PRIVATE_IP) Use private IP for security group and k3d cluster
+		--k3d-m      - (flag, current: $USE_METALLB) Create k3d cluster with metalLB
+		--k3d-a      - (flag, current: $ATTACH_SECONDARY_PUBLIC_IP) Attach secondary Public IP (overrides -p and -m flags)
+		--k3d-w      - (flag, current: $USE_WEAVE) Install the weave CNI instead of the default flannel CNI
 
 		flux script flags (all flags below are passed to big-bang-install-flux-wrapper):
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-m|--manual  - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
-		--flux-r     - (optional, default: registry1.dso.mil) registry url to use for flux installation
-		--flux-s     - (optional) use existing private-registry secret 
-		--flux-u     - (required) registry username to use for flux installation
-		--flux-p     - (optional, prompted if no existing secret) registry password to use for flux installation
-		--flux-w     - (optional, default: 120) how long to wait; in seconds, for each key flux resource component
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-m|--manual  - (flag, current: $USE_REGISTRY_YAML) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--flux-r     - (optional, current: "$REGISTRY_URL") Registry url to use for flux installation
+		--flux-s     - (optional, current: $USE_EXISTING_SECRET) Use existing private-registry secret 
+		--flux-u     - (required) Registry username to use for flux installation
+		--flux-p     - (optional, Prompted if no existing secret) registry password to use for flux installation
+		--flux-w     - (optional, current: $WAIT_TIMEOUT) how long to wait; in seconds, for each key flux resource component
 
 		helm install script flags (all flags below are passed to big-bang-helm-install):
-		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, this runs instead of the generic bigbang deploy.
-		-e|--exclude-default-yaml - (flag, default: false) Don't include chart/values.yaml and overrides/registry-values.yaml.
-		-f|--yaml-file            - (multi-option, default: empty array) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
-		-h|--help                 - (flag, default: false) Print this help message and exit.
-		-o|--override-files       - (multi-option, default: empty array) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
-		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--install-command      - (optional, current: "$INSTALL_COMMAND") name of install script in the override dir, this runs instead of the generic bigbang deploy.
+		-e|--exclude-default-yaml - (flag, current: $EXCLUDE_DEFAULT_YAML) Don't include chart/values.yaml and overrides/registry-values.yaml.
+		-f|--yaml-file            - (multi-option, current: (${YAML_FILES[@]})) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
+		-h|--help                 - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-o|--override-files       - (multi-option, current: (${OVERRIDE_FILES[@]})) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
+		-v|--verbose              - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		build a dev env                       - $command_for_help
@@ -359,6 +369,11 @@ while (("$#")); do
 		USE_EXISTING_SECRET=true
 		shift
 		;;
+	# full help flag
+	--full-help)
+		SHOW_FULL_HELP=true
+		shift
+		;;
 	# skip flux flag
 	-u | --skip-flux)
 		SKIP_FLUX=true
@@ -413,7 +428,16 @@ done
 #
 # Do the work
 #
-[ $SHOW_HELP == true ] && help && printf "\n\n -- running big-bang-k3d-dev-wrapper -h --\n\n" && (big-bang-k3d-dev-wrapper -h || return 0) && printf "\n\n -- running big-bang-install-flux-wrapper -h --\n\n" && (big-bang-install-flux-wrapper -h || return 0) && printf "\n\n -- running big-bang-helm-install -h --\n\n" && (big-bang-helm-install -h || return 0) && exit 0
+if [ $SHOW_HELP == true ]; then
+	help
+	if [ "$SHOW_FULL_HELP" == "false" ]; then
+		exit 0
+	else
+		printf "\n\n -- running big-bang-k3d-dev-wrapper -h --\n\n" && (big-bang-k3d-dev-wrapper -h || return 0)
+		printf "\n\n -- running big-bang-install-flux-wrapper -h --\n\n" && (big-bang-install-flux-wrapper -h || return 0)
+		printf "\n\n -- running big-bang-helm-install -h --\n\n" && (big-bang-helm-install -h || return 0) && exit 0
+	fi
+fi
 
 sudo cat /dev/null # prompt for sudo password now needed to update /etc/hosts
 

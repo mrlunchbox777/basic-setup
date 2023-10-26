@@ -15,6 +15,7 @@ fi
 #
 LOG_DIR="/tmp/k3d-dev-logs"
 SHOW_HELP=false
+SHOW_FULL_HELP=false
 USE_LOCAL_LOG=false
 VERBOSITY=0
 USE_BIG_M5=false
@@ -48,8 +49,10 @@ function help {
 		----------
 		wrapper flags:
 		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
+		-l|--log     - (flag, default: false) Dump the log for k3d-dev to $LOG_DIR/$LOG_FILE_NAME.
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		--full-help  - (flag, default: false) Print the help message for k3d-dev.sh and exit.
+
 		script flags (all flags below are passed to bb-k3d-dev.sh):
 		-b - use BIG M5 instance. Default is m5a.4xlarge
 		-p - use private IP for security group and k3d cluster
@@ -160,6 +163,11 @@ while (("$#")); do
 		DESTROY=true
 		shift
 		;;
+	# full help flag
+	--full-help)
+		SHOW_FULL_HELP=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -207,14 +215,19 @@ done
 #
 # Do the work
 #
-[ $SHOW_HELP == true ] && help # don't exit so we get the k3d-dev help as well
-
-sudo cat /dev/null # prompt for sudo password now
-
-# Prep the log file
 if [ "$USE_LOCAL_LOG" == true ]; then
 	LOG_DIR="."
 fi
+if [ $SHOW_HELP == true ]; then
+	help
+	if [ $SHOW_FULL_HELP == false ]; then
+		exit 0
+	fi
+else
+	sudo cat /dev/null # prompt for sudo password now
+fi
+
+# Prep the log file
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/$LOG_FILE_NAME"
 (($VERBOSITY > 0)) && echo "log_file: $LOG_FILE"

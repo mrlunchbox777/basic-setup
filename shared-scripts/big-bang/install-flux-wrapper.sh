@@ -39,6 +39,7 @@ function help {
 		-h|--help    - (flag, default: false) Print this help message and exit.
 		-m|--manual  - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml
 		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+
 		script flags (all flags below are passed to bb-install_flux.sh):
 		-h|--help                - print this help message and exit
 		-r|--registry-url        - (optional, default: registry1.dso.mil) registry url to use for flux installation
