@@ -36,9 +36,9 @@ function help {
 		----------
 		description: adds basic-setup's general-rc to the following files in \`$HOME\`: $RC_FILES.
 		----------
-		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-r|--rc-files  - (current: $RC_FILES) The rc files to add the general-rc to, also set with \`BASIC_SETUP_RC_FILES\`.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-r|--rc-files - (current: $RC_FILES) The rc files to add the general-rc to, also set with \`BASIC_SETUP_RC_FILES\`.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		update basic-setup - $command_for_help
