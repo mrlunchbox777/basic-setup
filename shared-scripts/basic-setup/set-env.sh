@@ -7,7 +7,7 @@ if (( $VERBOSITY > 0 )); then
 fi
 
 # skip if asked to
-if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" == "false" ]; then
+if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 	# use custom env file if asked to
 	if [ ! -z "$BASIC_SETUP_ENV_FILE" ]; then
 		# skip if custom file is the same as the original

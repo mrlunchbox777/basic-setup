@@ -3,16 +3,25 @@
 #
 # global defaults
 #
+RC_FILES=$BASIC_SETUP_RC_FILES
 SHOW_HELP=false
-VERBOSITY=0
-REQUIRE_ENV_FILE="${BASIC_SETUP_SHOULD_REQUIRE_ENV_FILE:-false}"
-RC_FILES="${BASIC_SETUP_RC_FILES:-".bashrc, .zshrc, .profile, .zprofile"}"
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
 
 #
 # computed values (often can't be alphabetical)
 #
+if [ -z "$RC_FILES" ]; then
+	RC_FILES="${BASIC_SETUP_RC_FILES:-".bashrc, .zshrc, .profile, .zprofile"}"
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 BASIC_SETUP_DIR=$(general-get-basic-setup-dir)
-IFS=", " read -r -a RC_FILES_ARRAY <<< "$RC_FILES"
 
 #
 # helper functions
@@ -25,10 +34,11 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: adds basic-setup's general-rc to the following files in \`$HOME\`: ${RC_FILES_ARRAY[@]}.
+		description: adds basic-setup's general-rc to the following files in \`$HOME\`: $RC_FILES.
 		----------
-		-h|--help      - (flag, default: false) Print this help message and exit.
-		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-r|--rc-files  - (current: $RC_FILES) The rc files to add the general-rc to, also set with \`BASIC_SETUP_RC_FILES\`.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		update basic-setup - $command_for_help
@@ -46,6 +56,17 @@ while (("$#")); do
 	-h | --help)
 		SHOW_HELP=true
 		shift
+		;;
+	# rc-files, optional argument
+	-r | --rc-files)
+		if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+			RC_FILES=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
 		;;
 	# verbosity multi-flag
 	-v | --verbose)
@@ -69,6 +90,7 @@ done
 #
 # Do the work
 #
+IFS=", " read -r -a rc_files_array <<< "$RC_FILES"
 [ $SHOW_HELP == true ] && help && exit 0
 
 function update_rc {
@@ -86,6 +108,6 @@ function update_rc {
 	fi
 }
 
-for rc_file in "${RC_FILES_ARRAY[@]}"; do
+for rc_file in "${rc_files_array[@]}"; do
 	update_rc "$rc_file"
 done

@@ -4,10 +4,9 @@
 current_dir="$(pwd)"
 env_path=""
 
-[ -f .env ] && env_path="$(pwd)/.env"
+[ -f .env ] && env_path="$current_dir/.env"
 mkdir -p "${HOME}/.basic-setup"
 cd "${HOME}/.basic-setup"
-[ -f .env ] && env_path="$(pwd)/.env"
 
 if (( $(command -v bash >/dev/null 2>&1; echo $?) != 0 )); then
 	# TODO: install bash automatically
