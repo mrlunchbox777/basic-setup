@@ -49,10 +49,10 @@ function help {
 		----------
 		description: 
 		----------
-		-a|--alias   - (flag, default: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_SHOULD_DO_ALIAS_ONLY\`.
-		-g|--github  - (flag, default: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_SHOULD_ADD_GITHUB_KEY\`.
-		-h|--help    - (flag, default: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose - (multi-flag, default: $VERBOSITY) Increase the verbosity by 1, minimum can be set with \`BASIC_SETUP_VERBOSITY\`.
+		-a|--alias   - (flag, current: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_SHOULD_DO_ALIAS_ONLY\`.
+		-g|--github  - (flag, current: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_SHOULD_ADD_GITHUB_KEY\`.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		NOTE: variable processing order is: environment file, environment variables, arguments (last wins).
 		----------
