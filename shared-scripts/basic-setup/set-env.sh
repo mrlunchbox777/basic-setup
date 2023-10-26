@@ -1,9 +1,9 @@
 ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
 if (( $VERBOSITY > 0 )); then
-	echo "Attempting .env file load with..."
-	echo "BASIC_SETUP_SHOULD_SKIP_ENV_FILE=$BASIC_SETUP_SHOULD_SKIP_ENV_FILE"
-	echo "ORIGINAL_ENV_FILE=$ORIGINAL_ENV_FILE"
-	echo "BASIC_SETUP_ENV_FILE=$BASIC_SETUP_ENV_FILE"
+	echo "Attempting .env file load with..." >&2
+	echo "BASIC_SETUP_SHOULD_SKIP_ENV_FILE=$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" >&2
+	echo "ORIGINAL_ENV_FILE=$ORIGINAL_ENV_FILE" >&2
+	echo "BASIC_SETUP_ENV_FILE=$BASIC_SETUP_ENV_FILE" >&2
 fi
 
 # skip if asked to
@@ -17,7 +17,7 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 				echo "Error: Environment file expected, but not found at $BASIC_SETUP_ENV_FILE" >&2
 				exit 1
 			else
-				(( $VERBOSITY > 0 )) && echo "Using custom env file at $BASIC_SETUP_ENV_FILE..."
+				(( $VERBOSITY > 0 )) && echo "Using custom env file at $BASIC_SETUP_ENV_FILE..." >&2
 			fi
 		fi
 	# otherwise use the original env file if it exists
@@ -28,20 +28,20 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 	if [ -f "$BASIC_SETUP_ENV_FILE" ]; then
 		# if custom, copy the env file to the expected location
 		if [ "$BASIC_SETUP_ENV_FILE" != "$ORIGINAL_ENV_FILE" ]; then
-			(( $VERBOSITY > 0 )) && echo "Copying $BASIC_SETUP_ENV_FILE to $ORIGINAL_ENV_FILE..."
+			(( $VERBOSITY > 0 )) && echo "Copying $BASIC_SETUP_ENV_FILE to $ORIGINAL_ENV_FILE..." >&2
 			mkdir -p "${HOME}/.basic-setup"
 			cp "$BASIC_SETUP_ENV_FILE" "$ORIGINAL_ENV_FILE"
 		fi
-		(( $VERBOSITY > 0 )) && echo "Loading environment variables from $ORIGINAL_ENV_FILE..."
+		(( $VERBOSITY > 0 )) && echo "Loading environment variables from $ORIGINAL_ENV_FILE..." >&2
 		# load the env file
 		vals=($(cat $ORIGINAL_ENV_FILE | sed 's/#.*//g' | xargs))
 		if [ ! -z "$vals" ]; then
-			(( $VERBOSITY > 0 )) && echo "Setting environment variables..."
-			(( $VERBOSITY > 1 )) && echo "${vals[@]}"
+			(( $VERBOSITY > 0 )) && echo "Setting environment variables..." >&2
+			(( $VERBOSITY > 1 )) && echo "${vals[@]}" >&2
 		fi
 		export "${vals[@]}"
-		(( $VERBOSITY > 1 )) && echo "showing the test value (\\\`TEST=\$TEST\\\`)- \`TEST=$TEST\`"
+		(( $VERBOSITY > 1 )) && echo "showing the test value (\\\`TEST=\$TEST\\\`)- \`TEST=$TEST\`" >&2
 	else
-		(( $VERBOSITY > 0 )) && echo "No environment file found at $BASIC_SETUP_ENV_FILE..."
+		(( $VERBOSITY > 0 )) && echo "No environment file found at $BASIC_SETUP_ENV_FILE..." >&2
 	fi
 fi
