@@ -4,13 +4,14 @@
 # global defaults
 #
 ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
-BASIC_SETUP_SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_SHOULD_ADD_GITHUB_KEY:-true}
-BASIC_SETUP_SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_SHOULD_DO_ALIAS_ONLY:-false}
+SHOULD_ADD_GITHUB_KEY=$BASIC_SETUP_SHOULD_ADD_GITHUB_KEY
+SHOULD_DO_ALIAS_ONLY=$BASIC_SETUP_SHOULD_DO_ALIAS_ONLY
 SHOW_HELP=false
-SKIP_ENV="${BASIC_SETUP_SHOULD_SKIP_ENV_FILE:-false}"
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
+#
 # load environment variables
+#
 . basic-setup-set-env
 
 #
@@ -19,6 +20,15 @@ VERBOSITY=0
 if (( $(command -v general-get-source-and-dir >/dev/null 2>&1; echo $?) != 0 )); then
 	echo "general-get-source-and-dir not found, please ensure \$basic_setup_directory/shared-scripts/bin is in your path before running..." >&2
 	exit 1
+fi
+if [ -z "$SHOULD_ADD_GITHUB_KEY" ]; then
+	SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_SHOULD_ADD_GITHUB_KEY:-true}
+fi
+if [ -z "$SHOULD_DO_ALIAS_ONLY" ]; then
+	SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_SHOULD_DO_ALIAS_ONLY:-false}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 INITIAL_DIR="$(pwd)"
 SOURCE="${BASH_SOURCE[0]}"
@@ -39,12 +49,12 @@ function help {
 		----------
 		description: 
 		----------
-		-a|--alias    - (flag, default: false) Only add aliases, also set with \`BASIC_SETUP_SHOULD_DO_ALIAS_ONLY\`.
-		-g|--github   - (flag, default: true) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_SHOULD_ADD_GITHUB_KEY\`.
-		-h|--help     - (flag, default: false) Print this help message and exit.
-		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--alias   - (flag, default: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_SHOULD_DO_ALIAS_ONLY\`.
+		-g|--github  - (flag, default: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_SHOULD_ADD_GITHUB_KEY\`.
+		-h|--help    - (flag, default: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, default: $VERBOSITY) Increase the verbosity by 1, minimum can be set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
-		NOTE: variable processing order is: environment variables, environment file, arguments (last wins).
+		NOTE: variable processing order is: environment file, environment variables, arguments (last wins).
 		----------
 		examples:
 		update basic-setup - $command_for_help
@@ -60,12 +70,12 @@ while (("$#")); do
 	case "$1" in
 	# alias only flag
 	-a | --alias)
-		BASIC_SETUP_SHOULD_DO_ALIAS_ONLY=true
+		SHOULD_DO_ALIAS_ONLY=true
 		shift
 		;;
 	# github flag
 	-g | --github)
-		BASIC_SETUP_SHOULD_ADD_GITHUB_KEY=false
+		SHOULD_ADD_GITHUB_KEY=false
 		shift
 		;;
 	# help flag
@@ -100,12 +110,12 @@ done
 # track directories
 cd "$DIR"
 
-if [ "$BASIC_SETUP_SHOULD_ADD_GITHUB_KEY" == "true" ]; then
+if [ "$SHOULD_ADD_GITHUB_KEY" == "true" ]; then
 	ssh-keyscan -t rsa github.com | ssh-keygen -lf -
 fi
 
 git-submodule-update-all
-if [ "$BASIC_SETUP_SHOULD_DO_ALIAS_ONLY" == "false" ]; then
+if [ "$SHOULD_DO_ALIAS_ONLY" == "false" ]; then
 	environment-validation -i -c -v
 fi
 git-add-basic-setup-gitconfig
