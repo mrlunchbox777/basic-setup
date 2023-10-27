@@ -14,6 +14,7 @@ fi
 # global defaults
 #
 SHOW_HELP=false
+SHOW_FULL_HELP=false
 USE_REGISTRY_YAML=true
 VERBOSITY=0
 REGISTRY_URL="registry1.dso.mil"
@@ -47,6 +48,7 @@ function help {
 		-u|--registry-username   - (required) registry username to use for flux installation
 		-p|--registry-password   - (optional, prompted if no existing secret) registry password to use for flux installation
 		-w|--wait-timeout        - (optional, default: 120) how long to wait; in seconds, for each key flux resource component
+		--full-help  - (flag, default: false) Print the help message for install-flux.sh and exit.
 		----------
 		examples:
 		run install flux reading yaml           - $command_for_help
@@ -171,7 +173,12 @@ done
 #
 # Do the work
 #
-[ $SHOW_HELP == true ] && help # don't exit so we get the install flux help as well
+if [ $SHOW_HELP == true ]; then
+	help
+	if [ $SHOW_FULL_HELP == false ]; then
+		exit 0
+	fi
+fi
 
 args="$(build-args)"
 sed_string='s/-p .*\b/-p ******** /g'

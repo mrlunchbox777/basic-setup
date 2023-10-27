@@ -85,6 +85,7 @@ function help {
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-l|--log     - (flag, current: $USE_LOCAL_LOG) Dump the log for k3d-dev to./ instead of /tmp/k3d-dev-logs/.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--full-help  - (flag, default: $SHOW_FULL_HELP) Print the help message for k3d-dev.sh and exit.
 		--k3d-b      - (flag, current: $USE_BIG_M5) Use BIG M5 instance. Default is m5a.4xlarge
 		--k3d-p      - (flag, current: $USE_PRIVATE_IP) Use private IP for security group and k3d cluster
 		--k3d-m      - (flag, current: $USE_METALLB) Create k3d cluster with metalLB
@@ -100,6 +101,7 @@ function help {
 		--flux-u     - (required) Registry username to use for flux installation
 		--flux-p     - (optional, Prompted if no existing secret) registry password to use for flux installation
 		--flux-w     - (optional, current: $WAIT_TIMEOUT) how long to wait; in seconds, for each key flux resource component
+		--full-help  - (flag, default: false) Print the help message for install-flux.sh and exit.
 
 		helm install script flags (all flags below are passed to big-bang-helm-install):
 		-c|--install-command      - (optional, current: "$INSTALL_COMMAND") name of install script in the override dir, this runs instead of the generic bigbang deploy.
@@ -108,6 +110,8 @@ function help {
 		-h|--help                 - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-o|--override-files       - (multi-option, current: (${OVERRIDE_FILES[@]})) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
 		-v|--verbose              - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		----------
+		NOTE: the -h for for helm install will only show if --full-help is set.
 		----------
 		examples:
 		build a dev env                       - $command_for_help
@@ -144,6 +148,9 @@ build-k3d-args() {
 	if [ "$USE_WEAVE" == true ]; then
 		local args="$args -w"
 	fi
+	if [ "$SHOW_FULL_HELP" == true ]; then
+		local args="$args --full-help"
+	fi
 	for i in $(seq 1 $VERBOSITY); do
 		local args="$args -v"
 	done
@@ -173,6 +180,9 @@ build-flux-args() {
 	fi
 	if [ -n "$REGISTRY_PASSWORD" ]; then
 		local args="$args -p $REGISTRY_PASSWORD"
+	fi
+	if [ "$SHOW_FULL_HELP" == true ]; then
+		local args="$args --full-help"
 	fi
 	for i in $(seq 1 $VERBOSITY); do
 		local args="$args -v"
