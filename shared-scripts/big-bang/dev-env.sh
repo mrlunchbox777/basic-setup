@@ -74,7 +74,7 @@ function help {
 		-h|--help         - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-i|--skip-install - (flag, current: $SKIP_INSTALL) Skips helm-install.
 		-k|--skip-k3d     - (flag, current: $SKIP_K3D) Skips the k3d.
-		-n|--namespace    - (flag, current: "$DEV_ENV_NAMESPACE") The namespace to use for the dev env, required if -s is not set.
+		-n|--namespace    - (optional, current: "$DEV_ENV_NAMESPACE") The namespace to use for the dev env, required if -s is not set.
 		-s|--skip-secret  - (flag, current: $SKIP_SECRET) If the secret should be created.
 		-u|--skip-flux    - (flag, current: $SKIP_FLUX) Skips flux commands.
 		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
