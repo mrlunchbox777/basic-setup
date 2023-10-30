@@ -152,6 +152,8 @@ function install_version {
 			sudo rm -rf /usr/local/go
 			sudo tar -C /usr/local -xzf $filename > /dev/null
 			rm -rf $filename
+			sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
+			sudo ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt
 		EOF
 	)"
 	if [ "$FORCE" == true ]; then
