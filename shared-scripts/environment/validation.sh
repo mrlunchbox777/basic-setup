@@ -175,6 +175,10 @@ function check_for_latest_basic_setup_git {
 			local current_branch="$(git branch --show-current)"
 			local upstream="$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"
 			local diff="$(git rev-list ${current_branch}...${upstream} --count)"
+			if [[ -z "$diff" ]]; then
+				error_message="Error checking for latest, git unable to get diff on branch $current_branch. Please ensure you have a remote set up. You can also skip this step with \`export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN=\"true\"\`"
+				false
+			fi
 			if (( $diff > 0 )); then
 				# TODO: offer an interactive way to update here
 				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir} or run \`basic-setup-update\` for main."
