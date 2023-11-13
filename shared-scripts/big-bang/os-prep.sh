@@ -14,27 +14,28 @@ fi
 
 set -e
 trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
-# TODO: tool validation
 
 #
 # global defaults
 #
-BACKUP_ONLY=false
-BASE_OUT_DIR="$HOME/.basic-setup/big-bang/os-prep/"
-DRY_RUN=false
-FORCE=false
-OPEN_FILE=""
-PERSIST=false
-RESTORE_ARCHIVE_FILE=""
-SHOULD_CLEAN=false
-SHOULD_LIST=false
 SHOW_HELP=false
-TARGET_FS_FILE_MAX=131072
-TARGET_OPEN_FILE_COUNT_LIMIT=131072
-TARGET_PROCESS_LIMIT=8192
-TARGET_VM_MAX_MAP_COUNT=524288
-VERBOSITY=0
 
+BACKUP_ONLY=${BASIC_SETUP_BIG_BANG_OS_PREP_BACKUP_ONLY:-""}
+BASE_OUT_DIR=${BASIC_SETUP_BIG_BANG_OS_PREP_BASE_OUT_DIR:-""}
+DRY_RUN=${BASIC_SETUP_BIG_BANG_OS_PREP_DRY_RUN:-""}
+FORCE=${BASIC_SETUP_BIG_BANG_OS_PREP_FORCE:-""}
+OPEN_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_OPEN_FILE:-""}
+PERSIST=${BASIC_SETUP_BIG_BANG_OS_PREP_PERSIST:-""}
+RESTORE_ARCHIVE_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_RESTORE_ARCHIVE_FILE:-""}
+SHOULD_CLEAN=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_CLEAN:-""}
+SHOULD_LIST=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_LIST:-""}
+TARGET_FS_FILE_MAX=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_FS_FILE_MAX:-""}
+TARGET_OPEN_FILE_COUNT_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_OPEN_FILE_COUNT_LIMIT:-""}
+TARGET_PROCESS_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_PROCESS_LIMIT:-""}
+TARGET_VM_MAX_MAP_COUNT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_VM_MAX_MAP_COUNT:-""}
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+# TODO: offer a way to pass in additional modules
 TARGET_MODULUES=(
 	"br_netfilter" # suze docs - https://www.suse.com/support/kb/doc/?id=000020241
 	"nf_nat_redirect" # suze docs
@@ -44,8 +45,56 @@ TARGET_MODULUES=(
 )
 
 #
+# load environment variables
+#
+. basic-setup-set-env || true
+
+#
 # computed values (often can't be alphabetical)
 #
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+if [ -z "$BACKUP_ONLY" ]; then
+	BACKUP_ONLY=${BASIC_SETUP_BIG_BANG_OS_PREP_BACKUP_ONLY:-false}
+fi
+if [ -z "$BASE_OUT_DIR" ]; then
+	BASE_OUT_DIR=${BASIC_SETUP_BIG_BANG_OS_PREP_BASE_OUT_DIR:-"$HOME/.basic-setup/big-bang/os-prep/"}
+fi
+if [ -z "$DRY_RUN" ]; then
+	DRY_RUN=${BASIC_SETUP_BIG_BANG_OS_PREP_DRY_RUN:-false}
+fi
+if [ -z "$FORCE" ]; then
+	FORCE=${BASIC_SETUP_BIG_BANG_OS_PREP_FORCE:-false}
+fi
+if [ -z "$OPEN_FILE" ]; then
+	OPEN_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_OPEN_FILE:-""}
+fi
+if [ -z "$PERSIST" ]; then
+	PERSIST=${BASIC_SETUP_BIG_BANG_OS_PREP_PERSIST:-false}
+fi
+if [ -z "$RESTORE_ARCHIVE_FILE" ]; then
+	RESTORE_ARCHIVE_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_RESTORE_ARCHIVE_FILE:-""}
+fi
+if [ -z "$SHOULD_CLEAN" ]; then
+	SHOULD_CLEAN=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_CLEAN:-false}
+fi
+if [ -z "$SHOULD_LIST" ]; then
+	SHOULD_LIST=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_LIST:-false}
+fi
+if [ -z "$TARGET_FS_FILE_MAX" ]; then
+	TARGET_FS_FILE_MAX=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_FS_FILE_MAX:-131072}
+fi
+if [ -z "$TARGET_OPEN_FILE_COUNT_LIMIT" ]; then
+	TARGET_OPEN_FILE_COUNT_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_OPEN_FILE_COUNT_LIMIT:-131072}
+fi
+if [ -z "$TARGET_PROCESS_LIMIT" ]; then
+	TARGET_PROCESS_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_PROCESS_LIMIT:-8192}
+fi
+if [ -z "$TARGET_VM_MAX_MAP_COUNT" ]; then
+	TARGET_VM_MAX_MAP_COUNT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_VM_MAX_MAP_COUNT:-524288}
+fi
+
 HAS_SYSTEMCTL="$( (( $(command -v systemctl >/dev/null 2>&1; echo $?) == 0 )) && echo true || echo false )"
 RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
@@ -77,18 +126,18 @@ function help {
 		----------
 		description: Prepares the OS for running Big Bang - https://github.com/DoD-Platform-One/big-bang/blob/master/docs/guides/deployment-scenarios/quickstart.md#step-4-configure-host-operating-system-prerequisites
 		----------
-		-b|--backup-only - (flag, default: false) Exit after backup.
-		-c|--clean       - (flag, default: false) Delete everything in $BASE_OUT_DIR and exit.
-		-d|--dry-run     - (flag, default: false) Writes out deletes and updates, still creates (not restores) backups.
-		-f|--force       - (flag, default: false) Skip all confirmations.
-		-h|--help        - (flag, default: false) Print this help message and exit.
-		-l|--list        - (flag, default: false) Print the possible restore points and exit.
-		-o|--open        - (optional, default: 'latest') Archive to run the --open-command against and exit. Pass 'latest' to restore from latest archive file.
-		-p|--persist     - (flag, default: false) Persist the changes through a restart (write files).
-		-r|--restore     - (optional, default: 'latest') Archive to restore settings from and exit. Pass 'latest' to restore from latest archive file.
-		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
-		--open-command   - (optional, default: '$OPEN_COMMAND') The command to run with -o. \$OPEN_FILE will be replaced by -o.
-		--out            - (optional, default: '$ARCHIVE_FILE') Absolute path of out archive.
+		-b|--backup-only - (flag, current: $BACKUP_ONLY) Exit after backup, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_BACKUP_ONLY\`.
+		-c|--clean       - (flag, current: $SHOULD_CLEAN) Delete everything in $BASE_OUT_DIR and exit, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_CLEAN\`.
+		-d|--dry-run     - (flag, current: $DRY_RUN) Writes out deletes and updates, still creates (not restores) backups, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_DRY_RUN\`.
+		-f|--force       - (flag, current: $FORCE) Skip all confirmations, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_FORCE\`.
+		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit
+		-l|--list        - (flag, current: $SHOULD_LIST) Print the possible restore points and exit, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_LIST\`.
+		-o|--open        - (optional, current: "$OPEN_FILE") Runs from archive to run the --open-command against and exit, if used as a flag it will use latest, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_OPEN_FILE\`.
+		-p|--persist     - (flag, current: $PERSIST) Persist the changes through a restart (write files), also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_PERSIST\`.
+		-r|--restore     - (optional, current: "$RESTORE_ARCHIVE_FILE") Runs from archive to restore settings from and exit, if used as a flag it will use latest, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_RESTORE_ARCHIVE_FILE\`.
+		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--open-command   - (optional, default: "$OPEN_COMMAND") The command to run with -o. \$OPEN_FILE will be replaced by -o, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_OPEN_COMMAND\`.
+		--out            - (optional, current: "$ARCHIVE_FILE") Absolute path of out archive, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_ARCHIVE_FILE\`.
 		----------
 		note: The Unix timestamp when this command was run was used several times above, it is '$RUN_TIMESTAMP'.
 		----------

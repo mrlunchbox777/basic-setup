@@ -14,18 +14,42 @@ fi
 # global defaults
 #
 SHOW_HELP=false
-CLUSTER_NAME="k3d-k3s-default"
-CLUSTER_USER="ubuntu"
-CLUSTER_IP=""
-VERBOSITY=0
-AWS_USERNAME=""
-SSH_KEY_PATH=""
+
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+CLUSTER_NAME=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_NAME:-""}
+CLUSTER_USER=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_USER:-""}
+CLUSTER_IP=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_IP:-""}
+AWS_USERNAME=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_AWS_USERNAME:-""}
+SSH_KEY_PATH=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_SSH_KEY_PATH:-""}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
 
 #
 # computed values (often can't be alphabetical)
 #
 DEFAULT_AWS_USERNAME=$(aws sts get-caller-identity | jq -r '.Arn' | sed 's|.*/||')
 DEFAULT_SSH_KEY_PATH="${HOME}/.ssh/${DEFAULT_AWS_USERNAME}-dev.pem"
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+if [ -z "$CLUSTER_NAME" ]; then
+	CLUSTER_NAME=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_NAME:-"k3d-k3s-default"}
+fi
+if [ -z "$CLUSTER_USER" ]; then
+	CLUSTER_USER=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_USER:-"ubuntu"}
+fi
+if [ -z "$CLUSTER_IP" ]; then
+	CLUSTER_IP=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_IP:-""}
+fi
+if [ -z "$AWS_USERNAME" ]; then
+	AWS_USERNAME=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_AWS_USERNAME:-"$DEFAULT_AWS_USERNAME"}
+fi
+if [ -z "$SSH_KEY_PATH" ]; then
+	SSH_KEY_PATH=${BASIC_SETUP_BIG_BANG_SSH_CLUSTER_SSH_KEY_PATH:-"$DEFAULT_SSH_KEY_PATH"}
+fi
 
 #
 # helper functions
@@ -40,13 +64,13 @@ function help {
 		----------
 		description: runs helm registry login, with good defaults
 		----------
-		-a|--aws-username - (optional, default: "$DEFAULT_AWS_USERNAME") the AWS username to use for the SSH key, -s takes precedence.
-		-h|--help         - (flag, default: false) Print this help message and exit.
-		-i|--ip           - (optional, default: "") the IP of the cluster, found with \`big-bang-get-cluster-ip\` if blank.
-		-n|--name         - (optional, default: "$CLUSTER_NAME") the name of the cluster.
-		-s|--ssh-key      - (optional, default: "$DEFAULT_SSH_KEY_PATH") the path to the SSH key to use, takes precedence over -a.
-		-u|--user         - (optional, default: "$CLUSTER_USER") the user to SSH into the cluster as.
-		-v|--verbose      - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--aws-username - (optional, current: "$AWS_USERNAME") the AWS username to use for the SSH key, -s takes precedence, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_AWS_USERNAME\`.
+		-h|--help         - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--ip           - (optional, current: "$CLUSTER_IP") the IP of the cluster, found with \`big-bang-get-cluster-ip\` if blank, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_IP\`.
+		-n|--name         - (optional, current: "$CLUSTER_NAME") the name of the cluster, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_NAME\`.
+		-s|--ssh-key      - (optional, current: "$SSH_KEY_PATH") the path to the SSH key to use, takes precedence over -a, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_SSH_KEY_PATH\`.
+		-u|--user         - (optional, current: "$CLUSTER_USER") the user to SSH into the cluster as, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_USER\`.
+		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		login to the default registry - $command_for_help

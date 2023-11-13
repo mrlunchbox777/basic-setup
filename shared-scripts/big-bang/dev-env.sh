@@ -13,34 +13,41 @@ fi
 #
 # global defaults
 #
-LOG_DIR="/tmp/k3d-dev-logs"
-DEV_ENV_NAMESPACE="bigbang"
-EXCLUDE_DEFAULT_YAML=false
+SHOW_HELP=false
+
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+DEV_ENV_NAMESPACE=${BASIC_SETUP_BIG_BANG_DEV_ENV_NAMESPACE:-""}
+SHOW_FULL_HELP=${BASIC_SETUP_BIG_BANG_DEV_ENV_SHOW_FULL_HELP:-""}
+SKIP_K3D=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_K3D:-""}
+SKIP_FLUX=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_FLUX:-""}
+SKIP_INSTALL=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_INSTALL:-""}
+SKIP_SECRET=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_SECRET:-""}
+
+# k3d-dev defaults
+USE_BIG_M5=""
+USE_PRIVATE_IP=""
+USE_METALLB=""
+ATTACH_SECONDARY_PUBLIC_IP=""
+USE_WEAVE=""
+
+DESTROY=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY:-""}
+USE_LOCAL_LOG=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG:-""}
+
+# flux defaults
+REGISTRY_URL=""
+USE_EXISTING_SECRET=""
+REGISTRY_USERNAME=""
+REGISTRY_PASSWORD=""
+WAIT_TIMEOUT=""
+
+USE_REGISTRY_YAML=${BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML:-""}
+
+# helm install defaults
 INSTALL_COMMAND=""
 OVERRIDE_FILES=()
 YAML_FILES=()
-SHOW_HELP=false
-SHOW_FULL_HELP=false
-SKIP_FLUX=false
-SKIP_INSTALL=false
-SKIP_K3D=false
-SKIP_SECRET=false
-USE_LOCAL_LOG=false
-USE_REGISTRY_YAML=true
-VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
-REGISTRY_URL="registry1.dso.mil"
-USE_EXISTING_SECRET=false
-REGISTRY_USERNAME=""
-REGISTRY_PASSWORD=""
-WAIT_TIMEOUT=120
-
-USE_BIG_M5=false
-USE_PRIVATE_IP=false
-USE_METALLB=false
-ATTACH_SECONDARY_PUBLIC_IP=false
-DESTROY=false
-USE_WEAVE=false
+EXCLUDE_DEFAULT_YAML=${BASIC_SETUP_BIG_BANG_HELM_INSTALL_EXCLUDE_DEFAULT_YAML:-""}
 
 #
 # load environment variables
@@ -53,9 +60,39 @@ USE_WEAVE=false
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
-DATE_TO_USE="$(date +%s)"
-LOG_FILE_NAME="k3d-dev-$DATE_TO_USE.log"
-LOG_FILE=""
+if [ -z "$SHOW_FULL_HELP" ]; then
+	SHOW_FULL_HELP=${BASIC_SETUP_BIG_BANG_DEV_ENV_SHOW_FULL_HELP:-false}
+fi
+if [ -z "$DEV_ENV_NAMESPACE" ]; then
+	DEV_ENV_NAMESPACE=${BASIC_SETUP_BIG_BANG_DEV_ENV_NAMESPACE:-"bigbang"}
+fi
+if [ -z "$SKIP_SECRET" ]; then
+	SKIP_SECRET=${BASIC_SETUP_DEV_ENV_SKIP_SECRET:-false}
+fi
+if [ -z "$SKIP_K3D" ]; then
+	SKIP_K3D=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_K3D:-false}
+fi
+if [ -z "$SKIP_FLUX" ]; then
+	SKIP_FLUX=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_FLUX:-false}
+fi
+if [ -z "$SKIP_INSTALL" ]; then
+	SKIP_INSTALL=${BASIC_SETUP_BIG_BANG_DEV_ENV_SKIP_INSTALL:-false}
+fi
+
+if [ -z "$DESTROY" ]; then
+	DESTROY=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY:-false}
+fi
+if [ -z "$USE_LOCAL_LOG" ]; then
+	USE_LOCAL_LOG=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG:-false}
+fi
+
+if [ -z "$USE_REGISTRY_YAML" ]; then
+	USE_REGISTRY_YAML=${BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML:-true}
+fi
+
+if [ -z "$EXCLUDE_DEFAULT_YAML" ]; then
+	EXCLUDE_DEFAULT_YAML=${BAISC_SETUP_BIG_BANG_HELM_INSTALL_EXCLUDE_DEFAULT_YAML:-false}
+fi
 
 #
 # helper functions
@@ -78,45 +115,48 @@ function help {
 		-s|--skip-secret  - (flag, current: $SKIP_SECRET) If the secret should be created.
 		-u|--skip-flux    - (flag, current: $SKIP_FLUX) Skips flux commands.
 		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
-		--full-help       - (flag, current: $SHOW_FULL_HELP) Print the help message for all the scripts used in this script.
+		--full-help       - (flag, current: $SHOW_FULL_HELP) Print the help message for all the scripts used in this script, overrides the subscripts environment variables, also set with \`BASIC_SETUP_BIG_BANG_DEV_ENV_SHOW_FULL_HELP\`.
+
+		The following script parameters may have defaults set in those scripts, see the help for those scripts for more info (pass --full-help).
 
 		k3d script flags (all flags below are passed to big-bang-k3d-dev-wrapper):
-		-d|--k3d-d   - (flag, current: $DESTROY) Destroy related AWS resources
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-l|--log     - (flag, current: $USE_LOCAL_LOG) Dump the log for k3d-dev to./ instead of /tmp/k3d-dev-logs/.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
-		--full-help  - (flag, default: $SHOW_FULL_HELP) Print the help message for k3d-dev.sh and exit.
-		--k3d-b      - (flag, current: $USE_BIG_M5) Use BIG M5 instance. Default is m5a.4xlarge
-		--k3d-p      - (flag, current: $USE_PRIVATE_IP) Use private IP for security group and k3d cluster
-		--k3d-m      - (flag, current: $USE_METALLB) Create k3d cluster with metalLB
-		--k3d-a      - (flag, current: $ATTACH_SECONDARY_PUBLIC_IP) Attach secondary Public IP (overrides -p and -m flags)
-		--k3d-w      - (flag, current: $USE_WEAVE) Install the weave CNI instead of the default flannel CNI
+		-d|--k3d-d   - -d, current: "$DESTROY", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY\`
+		-h|--help    - -h, current: "$SHOW_HELP"
+		-l|--log     - -l, current: "$USE_LOCAL_LOG", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG\`
+		-v|--verbose - -v, current: $VERBOSITY, also set with \`BASIC_SETUP_VERBOSITY\`
+		--k3d-b      - -b, current: "$USE_BIG_M5", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_BIG_M5\`
+		--k3d-p      - -p, current: "$USE_PRIVATE_IP", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_PRIVATE_IP\`
+		--k3d-m      - -m, current: "$USE_METALLB", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_METALLB\`
+		--k3d-a      - -a, current: "$ATTACH_SECONDARY_PUBLIC_IP", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_ATTACH_SECONDARY_PUBLIC_IP\`
+		--k3d-w      - -w, current: "$USE_WEAVE", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_WEAVE\`
+		--full-help  - --full-help, current: "$SHOW_FULL_HELP", also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_SHOW_FULL_HELP\`
 
 		flux script flags (all flags below are passed to big-bang-install-flux-wrapper):
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-m|--manual  - (flag, current: $USE_REGISTRY_YAML) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml for flux
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
-		--flux-r     - (optional, current: "$REGISTRY_URL") Registry url to use for flux installation
-		--flux-s     - (optional, current: $USE_EXISTING_SECRET) Use existing private-registry secret 
-		--flux-u     - (required) Registry username to use for flux installation
-		--flux-p     - (optional, Prompted if no existing secret) registry password to use for flux installation
-		--flux-w     - (optional, current: $WAIT_TIMEOUT) how long to wait; in seconds, for each key flux resource component
-		--full-help  - (flag, default: false) Print the help message for install-flux.sh and exit.
+		-h|--help    - -h|--help, current: "$SHOW_HELP", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_SHOW_HELP\`
+		-m|--manual  - -m|--manual, current: "$USE_REGISTRY_YAML", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML\`
+		-v|--verbose - -v|--verbose, current: $VERBOSITY, also set with \`BASIC_SETUP_VERBOSITY\`
+		--flux-r     - -r|--registry-url, current: "$REGISTRY_URL", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_REGISTRY_URL\`
+		--flux-s     - -s|--use-existing-secret, current: "$USE_EXISTING_SECRET", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_USE_EXISTING_SECRET\`
+		--flux-u     - -u|--registry-username, current: "$REGISTRY_USERNAME", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_REGISTRY_USERNAME\`
+		--flux-p     - -p|--registry-password, current: "$REGISTRY_PASSWORD", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_REGISTRY_PASSWORD\`
+		--flux-w     - -w|--wait-timeout, current: $WAIT_TIMEOUT, also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_WAIT_TIMEOUT\`
+		--full-help  - --full-help, current: "$SHOW_FULL_HELP", also set with \`BASIC_SETUP_BIG_BANG_INSTALL_FLUX_WRAPPER_SHOW_FULL_HELP\`
 
 		helm install script flags (all flags below are passed to big-bang-helm-install):
-		-c|--install-command      - (optional, current: "$INSTALL_COMMAND") name of install script in the override dir, this runs instead of the generic bigbang deploy.
-		-e|--exclude-default-yaml - (flag, current: $EXCLUDE_DEFAULT_YAML) Don't include chart/values.yaml and overrides/registry-values.yaml.
-		-f|--yaml-file            - (multi-option, current: (${YAML_FILES[@]})) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
-		-h|--help                 - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-o|--override-files       - (multi-option, current: (${OVERRIDE_FILES[@]})) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
-		-v|--verbose              - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-c|--install-command      - -c|--install-command, current: "$INSTALL_COMMAND"
+		-e|--exclude-default-yaml - -e|--exclude-default-yaml, current: $EXCLUDE_DEFAULT_YAML, also set with \`BAISC_SETUP_HELM_INSTALL_EXCLUDE_DEFAULT_YAML\`
+		-f|--yaml-file            - -f|--yaml-file, current: (${YAML_FILES[@]})
+		-h|--help                 - -h|--help, current: "$SHOW_HELP"
+		-o|--override-files       - -o|--override-files, current: (${OVERRIDE_FILES[@]})
+		-v|--verbose              - -v|--verbose, current: $VERBOSITY, also set with \`BASIC_SETUP_VERBOSITY\`
 		----------
-		NOTE: the -h for for helm install will only show if --full-help is set.
+		NOTE: the -h for for helm install, flux, and k3d-dev will only show if --full-help is set.
 		----------
 		examples:
 		build a dev env                       - $command_for_help
 		destoy a dev env                      - $command_for_help -d
 		build a dev env with an override yaml - $command_for_help -o default-disables.yaml
+		build a dev env with an external yaml - $command_for_help -f /tmp/foo/bar.yaml
 		----------
 	EOF
 }

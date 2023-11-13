@@ -14,14 +14,48 @@ fi
 # global defaults
 #
 SHOW_HELP=false
-SHOW_FULL_HELP=false
-USE_REGISTRY_YAML=true
-VERBOSITY=0
-REGISTRY_URL="registry1.dso.mil"
-USE_EXISTING_SECRET=false
-REGISTRY_USERNAME=""
-REGISTRY_PASSWORD=""
-WAIT_TIMEOUT=120
+
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+SHOW_FULL_HELP=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_SHOW_FULL_HELP:-""}
+USE_REGISTRY_YAML=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML:-""}
+REGISTRY_URL=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_URL:-""}
+USE_EXISTING_SECRET=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_EXISTING_SECRET:-""}
+REGISTRY_USERNAME=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_USERNAME:-""}
+REGISTRY_PASSWORD=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_PASSWORD:-""}
+WAIT_TIMEOUT=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_WAIT_TIMEOUT:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+if [ -z "$SHOW_FULL_HELP" ]; then
+	SHOW_FULL_HELP=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_SHOW_FULL_HELP:-false}
+fi
+if [ -z "$USE_REGISTRY_YAML" ]; then
+	USE_REGISTRY_YAML=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML:-true}
+fi
+if [ -z "$REGISTRY_URL" ]; then
+	REGISTRY_URL=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_URL:-"registry1.dso.mil"}
+fi
+if [ -z "$USE_EXISTING_SECRET" ]; then
+	USE_EXISTING_SECRET=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_EXISTING_SECRET:-false}
+fi
+if [ -z "$REGISTRY_USERNAME" ]; then
+	REGISTRY_USERNAME=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_USERNAME:-""}
+fi
+if [ -z "$REGISTRY_PASSWORD" ]; then
+	REGISTRY_PASSWORD=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_PASSWORD:-""}
+fi
+if (( $WAIT_TIMEOUT == -1 )); then
+	WAIT_TIMEOUT=${BASIC_SETUP_INSTALL_FLUX_WRAPPER_WAIT_TIMEOUT:-120}
+fi
 
 #
 # helper functions
@@ -37,9 +71,10 @@ function help {
 		description: runs bb-install_flux.sh directly from the repo so that it doesn't fail
 		----------
 		wrapper flags:
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-m|--manual  - (flag, default: true) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-m|--manual  - (flag, current: $USE_REGISTRY_YAML) Use prompting or other args to auth, instead of the default of using overrides/registry-values.yaml, also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_REGISTRY_YAML\`.
+		-v|--verbose - (multi-flag, default: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--full-help  - (flag, current: $SHOW_FULL_HELP) Print the help message for install-flux.sh and exit with no error.
 
 		script flags (all flags below are passed to bb-install_flux.sh):
 		-h|--help                - print this help message and exit
@@ -48,7 +83,14 @@ function help {
 		-u|--registry-username   - (required) registry username to use for flux installation
 		-p|--registry-password   - (optional, prompted if no existing secret) registry password to use for flux installation
 		-w|--wait-timeout        - (optional, default: 120) how long to wait; in seconds, for each key flux resource component
-		--full-help  - (flag, default: false) Print the help message for install-flux.sh and exit.
+
+		current values for the script flags:
+		-h | --help                - $SHOW_HELP
+		-r | --registry-url        - "$REGISTRY_URL", also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_URL\`
+		-s | --use-existing-secret - $USE_EXISTING_SECRET, also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_USE_EXISTING_SECRET\`
+		-u | --registry-username   - "$REGISTRY_USERNAME", also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_USERNAME\`
+		-p | --registry-password   - "$(echo "$REGISTRY_PASSWORD" | sed 's/./*/g')", also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_PASSWORD\`
+		-w | --wait-timeout        - $WAIT_TIMEOUT, also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_WAIT_TIMEOUT\`
 		----------
 		examples:
 		run install flux reading yaml           - $command_for_help
@@ -94,6 +136,11 @@ while (("$#")); do
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
+		shift
+		;;
+	# full help flag
+	--full-help)
+		SHOW_FULL_HELP=true
 		shift
 		;;
 	# manual auth flag

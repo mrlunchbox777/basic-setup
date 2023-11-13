@@ -19,7 +19,7 @@ zzz_helper_export_registry_credentials_help() {
 	command_for_help="$(basename "$0")"
 	cat <<- EOF
 		----------
-		usage: $command_for_help <arguments>
+		usage: . $command_for_help
 		----------
 		description: A script that should be sourced to get the credentials for the bigbang registry from the overrides/registry-values.yaml file
 		----------
@@ -32,7 +32,7 @@ zzz_helper_export_registry_credentials_help() {
 		----------
 		examples:
 		get the commands - . $command_for_help
-		get the error output - . $command_for_help >$command_for_help.log 2>&1
+		get the error output - . $command_for_help >${command_for_help}.log 2>&1
 		----------
 	EOF
 }
@@ -67,6 +67,7 @@ zzz_helper_export_registry_credentials_is_null_or_whitespace() {
 #
 zzz_helper_export_registry_credentials_is_sourced || { echo "Error: This script should be sourced, not run." >&2; zzz_helper_export_registry_credentials_help; exit 1; }
 
+# TODO: offer other ways to find credential files with env vars
 override_dir="$(big-bang-get-repo-dir)/../overrides"
 if [ ! -d "$override_dir" ]; then
 	echo "Error: $override_dir does not exist" >&2
