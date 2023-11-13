@@ -3,10 +3,12 @@
 #
 # global defaults
 #
-ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
-SHOULD_ADD_GITHUB_KEY=$BASIC_SETUP_SHOULD_ADD_GITHUB_KEY
-SHOULD_DO_ALIAS_ONLY=$BASIC_SETUP_SHOULD_DO_ALIAS_ONLY
 SHOW_HELP=false
+# TODO: allow this to be changed
+ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
+
+SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_ADD_GITHUB_KEY:-""}
+SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_DO_ALIAS_ONLY:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -22,10 +24,10 @@ if (( $(command -v general-get-source-and-dir >/dev/null 2>&1; echo $?) != 0 ));
 	exit 1
 fi
 if [ -z "$SHOULD_ADD_GITHUB_KEY" ]; then
-	SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_SHOULD_ADD_GITHUB_KEY:-true}
+	SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_ADD_GITHUB_KEY:-true}
 fi
 if [ -z "$SHOULD_DO_ALIAS_ONLY" ]; then
-	SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_SHOULD_DO_ALIAS_ONLY:-false}
+	SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_DO_ALIAS_ONLY:-false}
 fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
@@ -49,8 +51,8 @@ function help {
 		----------
 		description: 
 		----------
-		-a|--alias   - (flag, current: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_SHOULD_DO_ALIAS_ONLY\`.
-		-g|--github  - (flag, current: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_SHOULD_ADD_GITHUB_KEY\`.
+		-a|--alias   - (flag, current: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_DO_ALIAS_ONLY\`.
+		-g|--github  - (flag, current: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_ADD_GITHUB_KEY\`.
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------

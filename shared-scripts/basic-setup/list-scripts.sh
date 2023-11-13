@@ -3,12 +3,13 @@
 #
 # global defaults
 #
-USE_ALL=false
-USE_ALIASES=false
-USE_BIG_BANG=false
-USE_BIN=true
-GREP_STRING=""
 SHOW_HELP=false
+
+GREP_STRING=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_GREP_STRING:-""}
+USE_ALL=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALL:-""}
+USE_ALIASES=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALIASES:-""}
+USE_BIG_BANG=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIG_BANG:-""}
+USE_BIN=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIN:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -22,7 +23,21 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
-
+if [ -z "$GREP_STRING" ]; then
+	GREP_STRING=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_GREP_STRING:-""}
+fi
+if [ -z "$USE_ALL" ]; then
+	USE_ALL=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALL:-false}
+fi
+if [ -z "$USE_ALIASES" ]; then
+	USE_ALIASES=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALIASES:-false}
+fi
+if [ -z "$USE_BIG_BANG" ]; then
+	USE_BIG_BANG=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIG_BANG:-false}
+fi
+if [ -z "$USE_BIN" ]; then
+	USE_BIN=${BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIN:-true}
+fi
 
 #
 # helper functions
@@ -37,11 +52,11 @@ function help {
 		----------
 		description: Lists scripts managed by basic-setup.
 		----------
-		-a|--all      - (flag, current: $USE_ALL) List all scripts.
-		--aliases     - (flag, current: $USE_ALIASES) List aliases.
-		-b|--big-bang - (flag, current: $USE_BIG_BANG) List big bang scripts.
-		--bin         - (flag, current: $USE_BIN) List bin scripts, pass --bin to turn it off.
-		-g|--grep     - (optional string, current: "$GREP_STRING") Grep the list of scripts for the given string.
+		-a|--all      - (flag, current: $USE_ALL) List all scripts, also set with \`BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALL\`.
+		--aliases     - (flag, current: $USE_ALIASES) List aliases, also set with \`BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_ALIASES\`.
+		-b|--big-bang - (flag, current: $USE_BIG_BANG) List big bang scripts, also set with \`BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIG_BANG\`.
+		--bin         - (flag, current: $USE_BIN) List bin scripts, pass --bin to turn it off, also set with \`BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_USE_BIN\`.
+		-g|--grep     - (optional string, current: "$GREP_STRING") Grep the list of scripts for the given string, also set with \`BASIC_SETUP_BASIC_SETUP_LIST_SCRIPTS_GREP_STRING\`.
 		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------

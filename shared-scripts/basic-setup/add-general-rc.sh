@@ -3,8 +3,9 @@
 #
 # global defaults
 #
-RC_FILES=$BASIC_SETUP_RC_FILES
 SHOW_HELP=false
+
+RC_FILES=${BASIC_SETUP_BASIC_SETUP_ADD_GENERAL_RC_RC_FILES:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -16,7 +17,7 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 # computed values (often can't be alphabetical)
 #
 if [ -z "$RC_FILES" ]; then
-	RC_FILES="${BASIC_SETUP_RC_FILES:-".bashrc, .zshrc, .profile, .zprofile"}"
+	RC_FILES="${BASIC_SETUP_BASIC_SETUP_ADD_GENERAL_RC_RC_FILES:-".bashrc, .zshrc, .profile, .zprofile"}"
 fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
@@ -37,7 +38,7 @@ function help {
 		description: adds basic-setup's general-rc to the following files in \`$HOME\`: $RC_FILES.
 		----------
 		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-r|--rc-files - (current: $RC_FILES) The rc files to add the general-rc to, also set with \`BASIC_SETUP_RC_FILES\`.
+		-r|--rc-files - (current: $RC_FILES) The rc files to add the general-rc to, also set with \`BASIC_SETUP_BASIC_SETUP_ADD_GENERAL_RC_RC_FILES\`.
 		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
