@@ -16,3 +16,6 @@ function general-how-function-wrapper() {
 	how-function $@
 }
 alias howa='general-how-function-wrapper'
+
+# This must be an alias because you want the current shell to change directories
+alias cd-basic-setup='cd "$(general-get-basic-setup-dir)"'
