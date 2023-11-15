@@ -14,6 +14,7 @@ fi
 # global defaults
 #
 SHOW_HELP=false
+REMOVE_ALL=${BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -27,6 +28,9 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
+if [ -z "$REMOVE_ALL" ]; then
+	REMOVE_ALL=${BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL:-false}
+fi
 
 #
 # helper functions
@@ -39,15 +43,14 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: remove all local docker containers
+		description: remove all local docker containers, images, and volumes
 		----------
+		-a|--remove-all - (flag, current: $REMOVE_ALL) Remove all docker data, also set with \`BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL\`.
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
-		note: Adapted from and for more info see - https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
-		----------
 		examples:
-		remove all docker containers - $command_for_help
+		clear docker data - $command_for_help
 		----------
 	EOF
 }
@@ -58,6 +61,11 @@ function help {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# remove all flag
+	-a | --remove-all)
+		REMOVE_ALL=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -87,20 +95,8 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-CONTAINERS="$(docker ps -a -q)"
-if [ -z "$CONTAINERS" ]; then
-	if (( $VERBOSITY > 0 )); then
-		echo "No containers to remove"
-	fi
-	exit 0
-fi
-
-if (( $VERBOSITY < 1 )); then
-	docker stop $CONTAINERS >/dev/null
-	docker wait $CONTAINERS >/dev/null
-	docker rm $CONTAINERS
+if [ $REMOVE_ALL == true ]; then
+	docker-full-clear
 else
-	docker stop $CONTAINERS
-	docker wait $CONTAINERS
-	docker rm $CONTAINERS
+	docker-remove-containers
 fi

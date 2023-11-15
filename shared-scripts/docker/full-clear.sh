@@ -87,6 +87,32 @@ done
 
 docker-remove-containers
 docker network prune -f
-docker rmi -f $(docker images --filter dangling=true -qa)
-docker volume rm $(docker volume ls --filter dangling=true -q)
-docker rmi -f $(docker images -qa)
+
+images=$(docker images --filter dangling=true -qa)
+if [ ! -z "$images" ]; then
+	if (( $VERBOSITY > 0 )); then
+		docker rmi -f $images
+	else
+		docker rmi -f $images >/dev/null
+	fi
+fi
+
+volumes=$(docker volume ls --filter dangling=true -q)
+if [ ! -z "$volumes" ]; then
+	if (( $VERBOSITY > 0 )); then
+		docker volume rm $volumes
+	else
+		docker volume rm $volumes >/dev/null
+	fi
+fi
+
+images=$(docker images -qa)
+if [ ! -z "$images" ]; then
+	if (( $VERBOSITY > 0 )); then
+		docker rmi -f $images
+	else
+		docker rmi -f $images >/dev/null
+	fi
+fi
+
+docker system prune -a -f
