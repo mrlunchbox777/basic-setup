@@ -3,7 +3,7 @@
 #
 # Environment Validation
 #
-validation="$(environment-validation -l "core" 2>&1)"
+validation="$(environment-validation -c -l "core" 2>&1)"
 if [ ! -z "$validation" ]; then
 	echo "Validation error:" >&2
 	echo "$validation" >&2
