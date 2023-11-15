@@ -87,5 +87,20 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-docker stop $(docker ps -aq)
-docker rm $(docker ps -aq)
+CONTAINERS="$(docker ps -a -q)"
+if [ -z "$CONTAINERS" ]; then
+	if (( $VERBOSITY > 0 )); then
+		echo "No containers to remove"
+	fi
+	exit 0
+fi
+
+if (( $VERBOSITY < 1 )); then
+	docker stop $CONTAINERS >/dev/null 2>&1
+	docker wait $CONTAINERS >/dev/null 2>&1
+	docker rm $CONTAINERS
+else
+	docker stop $CONTAINERS
+	docker wait $CONTAINERS
+	docker rm $CONTAINERS
+fi
