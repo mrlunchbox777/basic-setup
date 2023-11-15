@@ -1,4 +1,8 @@
 #! /usr/bin/env bash
+#
+# Environment Validation
+#
+# skipping environment validation because this script doesn't require any other packages
 
 #
 # global defaults
