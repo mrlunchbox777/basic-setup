@@ -52,6 +52,8 @@ function help {
 		examples:
 		login to the default registry - $command_for_help
 		----------
+		note: this only works for single cluster kubeconfigs
+		---
 	EOF
 }
 
@@ -101,4 +103,5 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
+# This seems like it'll only work for single cluster kubeconfigs
 yq '.clusters[] | select(.name == "'$CLUSTER_NAME'").cluster.server' ~/.kube/config | sed 's|^http[s]*://||' | sed 's|:6443$||'
