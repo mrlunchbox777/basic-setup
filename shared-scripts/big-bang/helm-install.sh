@@ -63,7 +63,7 @@ add-yaml-files() {
 	if [ "$EXCLUDE_DEFAULT_YAML" == false ]; then
 		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/chart/ingress-certs.yaml")")
 		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/docs/assets/configs/example/policy-overrides-k3d.yaml")")
-		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/docs/assets/configs/example/dev-ssot-values.yaml")")
+		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/docs/assets/configs/example/dev-sso-values.yaml")")
 		COMBINED_YAML_FILES+=("$(realpath "${BIG_BANG_DIR}/../overrides/registry-values.yaml")")
 	fi
 
