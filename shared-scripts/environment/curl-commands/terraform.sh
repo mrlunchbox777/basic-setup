@@ -78,7 +78,7 @@ function get_all_versions {
 		echo "$COMMAND_NAME git-github-repo-versions failed" 1>&2
 		exit 1
 	fi
-	echo "$all_versions"
+	echo "$all_versions" | sed 's/^v//g'
 }
 
 # STANDARD FUNCTION: get the latest version or override
