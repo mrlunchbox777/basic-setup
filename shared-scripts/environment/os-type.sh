@@ -10,7 +10,19 @@ TEST_CYGWIN=false
 TEST_MINGW=false
 TEST_LINUX=false
 TEST_MAC=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -25,12 +37,12 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-c|--cygwin  - (flag, default: false) Test if the OS is Cygwin and exit, mutually exclusive test os flag.
-		-g|--mingw   - (flag, default: false) Test if the OS is MinGw and exit, mutually exclusive test os flag.
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--linux   - (flag, default: false) Test if the OS is Linux and exit, mutually exclusive test os flag.
-		-m|--mac     - (flag, default: false) Test if the OS is Mac and exit, mutually exclusive test os flag.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--cygwin  - (flag, current: $TEST_CYGWIN) Echo if the OS is Cygwin and exit, mutually exclusive test os flag.
+		-g|--mingw   - (flag, current: $TEST_MINGW) Echo if the OS is MinGw and exit, mutually exclusive test os flag.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-l|--linux   - (flag, current: $TEST_LINUX) Echo if the OS is Linux and exit, mutually exclusive test os flag.
+		-m|--mac     - (flag, current: $TEST_MAC) Echo if the OS is Mac and exit, mutually exclusive test os flag.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`..
 		----------
 		examples:
 		get os type          - $command_for_help

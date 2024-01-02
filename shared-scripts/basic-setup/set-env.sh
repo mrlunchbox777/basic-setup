@@ -1,3 +1,24 @@
+# TODO: add a description of this file
+
+# NOTE: don't run environment-validation here, it could cause a loop
+
+#
+# Error handling (off instead of on)
+#
+SET_E_AFTER=true
+if [[ $- =~ e ]]; then
+	set +e
+else
+	SET_E_AFTER=false
+fi
+
+# set e to the right value after running the script
+function update_e {
+	if [ "$SET_E_AFTER" == "true" ]; then
+		set -e
+	fi
+}
+
 ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
 if (( $VERBOSITY > 0 )); then
 	echo "Attempting .env file load with..." >&2
@@ -15,7 +36,7 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 			# ensure custom file exists
 			if [ ! -f "$BASIC_SETUP_ENV_FILE" ]; then
 				echo "Error: Environment file expected, but not found at $BASIC_SETUP_ENV_FILE" >&2
-				exit 1
+				update_e && exit 1
 			else
 				(( $VERBOSITY > 0 )) && echo "Using custom env file at $BASIC_SETUP_ENV_FILE..." >&2
 			fi
@@ -25,7 +46,7 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 		export BASIC_SETUP_ENV_FILE="$ORIGINAL_ENV_FILE"
 	fi
 	# load the env file if it exists
-	if [ -f "$BASIC_SETUP_ENV_FILE" ]; then
+	if [ ! -z "$BASIC_SETUP_ENV_FILE" ] && [ -f "$BASIC_SETUP_ENV_FILE" ]; then
 		# if custom, copy the env file to the expected location
 		if [ "$BASIC_SETUP_ENV_FILE" != "$ORIGINAL_ENV_FILE" ]; then
 			(( $VERBOSITY > 0 )) && echo "Copying $BASIC_SETUP_ENV_FILE to $ORIGINAL_ENV_FILE..." >&2
@@ -45,3 +66,5 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 		(( $VERBOSITY > 0 )) && echo "No environment file found at $BASIC_SETUP_ENV_FILE..." >&2
 	fi
 fi
+
+update_e

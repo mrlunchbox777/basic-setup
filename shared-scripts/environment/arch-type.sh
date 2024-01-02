@@ -1,12 +1,26 @@
 #! /usr/bin/env bash
 
+# NOTE: don't run environment-validation here, it could cause a loop
+
 #
 # global defaults
 #
 SHOW_HELP=false
 TEST_ARM=false
 TEST_X64=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -21,10 +35,10 @@ function help {
 		----------
 		description: Returns the architecture type (only x64, and arm64 supported right now)
 		----------
-		-a|--arm64   - (flag, default: false) Test if the architecture is arm64 compatible and exit, mutually exclusive test arch flag.
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-x|--x64     - (flag, default: false) Test if the architecture is x86_64 compatible and exit, mutually exclusive test arch flag.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--arm64   - (flag, current: $TEST_ARM) Echo if the architecture is arm64 compatible and exit, mutually exclusive test arch flag.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-x|--x64     - (flag, current: $TEST_X64) Echo if the architecture is x86_64 compatible and exit, mutually exclusive test arch flag.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		get arch type          - $command_for_help

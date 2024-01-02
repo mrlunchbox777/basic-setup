@@ -13,12 +13,20 @@ INCLUDE_PRERELEASE_VERSIONS=false
 SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
-VERBOSITY=0
 HELP_INSTALL_PAGE="https://helm.sh/docs/intro/install/"
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
 
 #
 # computed values (often can't be alphabetical)
 #
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 COMMAND_FOR_HELP="$(basename "$0")"
 COMMAND_NAME="$(echo "$COMMAND_FOR_HELP" | sed 's/.sh//g')"
 LATEST_VERSION_OVERRIDE="${BASIC_SETUP_AWS_CLI_LATEST_VERSION_OVERRIDE}"
@@ -37,15 +45,15 @@ function help {
 		----------
 		description: This script will error, but can install $COMMAND_NAME using curl.
 		----------
-		-a|--all-versions    - (flag, default: false) Print the currently available versions of $COMMAND_NAME and exit.
-		-f|--force           - (flag, default: false) Run the -i commands instead of printing them.
-		-h|--help            - (flag, default: false) Print this help message and exit.
-		-i|--install-version - (optional, default: "latest") Print commands to install (-f to actually install) the given version of $COMMAND_NAME (pass latest for the -l version) and exit.
-		-l|--latest-version  - (flag, default: false) Print the latest available version of $COMMAND_NAME and exit.
-		-p|--prerelease      - (flag, default: false) Include prerelease versions as available versions of $COMMAND_NAME for the other commands.
-		-r|--read-version    - (flag, default: false) Print the currently installed version of $COMMAND_NAME (or empty string) and exit.
-		-t|--test-version    - (flag, default: false) error if -l does not equal -r and exit.
-		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--all-versions    - (flag, current: $GET_ALL_VERSIONS) Print the currently available versions of $COMMAND_NAME and exit.
+		-f|--force           - (flag, current: $FORCE) Run the -i commands instead of printing them.
+		-h|--help            - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--install-version - (optional, current: "${TARGET_VERSION:-"latest"}") Print commands to install (-f to actually install) the given version of $COMMAND_NAME (pass latest for the -l version) and exit.
+		-l|--latest-version  - (flag, current: $GET_LATEST_VERSION) Print the latest available version of $COMMAND_NAME and exit.
+		-p|--prerelease      - (flag, current: $INCLUDE_PRERELEASE_VERSIONS) Include prerelease versions as available versions of $COMMAND_NAME for the other commands.
+		-r|--read-version    - (flag, current: $GET_INSTALLED_VERSION) Print the currently installed version of $COMMAND_NAME (or empty string) and exit.
+		-t|--test-version    - (flag, current: $TEST_VERSION) error if -l does not equal -r and exit.
+		-v|--verbose         - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: this script errors out by default, you need to pass a flag.
 		note: install page - $HELP_INSTALL_PAGE
