@@ -2,15 +2,7 @@
 
 # Adapted from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
 
-#
-# Environment Validation
-#
-validation="$(environment-validation -c -l "core" 2>&1)"
-if [ ! -z "$validation" ]; then
-	echo "Validation error:" >&2
-	echo "$validation" >&2
-	exit 1
-fi
+# skip environment validation so that running a *.rc file doesn't take forever
 
 #
 # global defaults
