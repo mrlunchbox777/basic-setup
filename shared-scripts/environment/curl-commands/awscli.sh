@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed aws)" == false ]; then
+	if [ "$(general-command-installed -c aws)" == false ]; then
 		echo ""
 	else
 		aws --version | sed 's/ /\n/g' | head -n 1 | sed 's|/|\n|g' | tail -n 1

@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed k9s)" == false ]; then
+	if [ "$(general-command-installed -c k9s)" == false ]; then
 		echo ""
 	else
 		k9s version -s | grep Version | awk '{print $2}'

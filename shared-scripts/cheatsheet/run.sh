@@ -244,7 +244,7 @@ for cheatsheet_to_show in "${CHEATSHEETS_TO_SHOW[@]}"; do
 	echo "" >> "$cs_tmp_name"
 done
 
-if [ "$(general-command-installed bat)" == false ]; then
+if [ "$(general-command-installed -c bat)" == false ]; then
 	less "$cs_tmp_name"
 else
 	bat -l md "$cs_tmp_name"

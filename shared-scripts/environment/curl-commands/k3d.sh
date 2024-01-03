@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed k3d)" == false ]; then
+	if [ "$(general-command-installed -c k3d)" == false ]; then
 		echo ""
 	else
 		k3d --version | grep k3d | awk '{print $3}'

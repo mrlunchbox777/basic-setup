@@ -34,7 +34,7 @@ if (( $VERBOSITY == -1 )); then
 fi
 INITIAL_DIR="$(pwd)"
 SOURCE="${BASH_SOURCE[0]}"
-SD="$(general-get-source-and-dir "$SOURCE")"
+SD="$(general-get-source-and-dir -s "$SOURCE")"
 SOURCE="$(echo "$sd" | jq -r .source)"
 DIR="$(echo "$sd" | jq -r .dir)"
 
@@ -125,4 +125,4 @@ basic-setup-add-general-rc
 
 # move back to original dir and update user
 cd "$INITIAL_DIR"
-general-send-message "init script complete, consider changing your shell 'chsh -s \"\$(which zsh)\"', you should probably restart your terminal and/or your computer"
+general-send-message -m "init script complete, consider changing your shell 'chsh -s \"\$(which zsh)\"', you should probably restart your terminal and/or your computer"

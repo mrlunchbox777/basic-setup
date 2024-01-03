@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed yq)" == false ]; then
+	if [ "$(general-command-installed -c yq)" == false ]; then
 		echo ""
 	else
 		echo "$(yq --version | awk '{print $4}')"

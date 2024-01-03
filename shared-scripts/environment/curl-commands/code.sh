@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed code)" == false ]; then
+	if [ "$(general-command-installed -c code)" == false ]; then
 		echo ""
 	else
 		echo "$(code --version | head -n 1)"

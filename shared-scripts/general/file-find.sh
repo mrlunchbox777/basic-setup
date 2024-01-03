@@ -13,8 +13,9 @@ fi
 #
 # global defaults
 #
-START_DATE=""
-END_DATE=""
+MAX_DEPTH=2147483647
+TARGET_FILE=""
+SEARCH_DIR="./"
 SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
@@ -29,9 +30,6 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
-if [ -z "$END_DATE" ]; then
-	END_DATE=$(date)
-fi
 
 #
 # helper functions
@@ -44,15 +42,17 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: calculate the difference between two iso/rfc dates (in seconds)
+		description: find a file by name
 		----------
-		-e|--end     - (optional, current: "$END_DATE") The end date to compare to, must be in iso/rfc format.
+		-f|--file    - (required, current: "$TARGET_FILE") The file to find.
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-s|--start   - (required, current: "$START_DATE") The start date to compare to, must be in iso/rfc format.
+		-m|--maxdepth- (optional, current: "$MAX_DEPTH") The maximum depth to search recursively.
+		-s|--search  - (optional, current: "$SEARCH_DIR") The directory to search in.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		find difference between two dates - $command_for_help -s 2020-01-01 -e 2020-01-02
+		find .bashrc - $command_for_help -f .bashrc -s ~
+		find README.md in current dir - $command_for_help -f README.md
 		----------
 	EOF
 }
@@ -63,10 +63,10 @@ function help {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# end date, optional argument
-	-e|--end)
+	# file to find, required argument
+	-f | --file)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			END_DATE="$2"
+			TARGET_FILE="$2"
 			shift 2
 		else
 			echo "Error: Argument for $1 is missing" >&2
@@ -79,10 +79,20 @@ while (("$#")); do
 		SHOW_HELP=true
 		shift
 		;;
-	# start date, required argument
-	-s|--start)
+	-m | --maxdepth)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			START_DATE="$2"
+			MAX_DEPTH="$2"
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# directory to search, optional argument
+	-s | --search)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			SEARCH_DIR="$2"
 			shift 2
 		else
 			echo "Error: Argument for $1 is missing" >&2
@@ -114,14 +124,32 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-# error if no start date is specified
-if [ -z "$START_DATE" ]; then
-	echo "Error: No start date specified" >&2
+# error if no file is specified
+if [ -z "$TARGET_FILE" ]; then
+	echo "Error: No file specified" >&2
 	help
 	exit 1
 fi
 
-START_SECONDS=$(date +%s -d "$START_DATE")
-END_SECONDS=$(date +%s -d "$END_DATE")
-DIFF=$(( $END_SECONDS-$START_SECONDS ))
-echo $DIFF
+# error if no directory is specified
+if [ -z "$SEACH_DIR" ]; then
+	echo "Error: No directory specified" >&2
+	help
+	exit 1
+fi
+
+# error if the directory doesn't exist
+if [ ! -d "$SEACH_DIR" ]; then
+	echo "Error: Directory does not exist: $SEACH_DIR" >&2
+	help
+	exit 1
+fi
+
+# error if max depth is not a number
+if ! [[ "$MAX_DEPTH" =~ ^[0-9]+$ ]]; then
+	echo "Error: Max depth is not a number: $MAX_DEPTH" >&2
+	help
+	exit 1
+fi
+
+sudo find "$SEACH_DIR" -maxdepth $MAX_DEPTH -type f -iname "$TARGET_FILE"

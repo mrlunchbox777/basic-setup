@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed go)" == false ]; then
+	if [ "$(general-command-installed -c go)" == false ]; then
 		echo ""
 	else
 		echo "$(go version | awk '{print $3}')"

@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed helm)" == false ]; then
+	if [ "$(general-command-installed -c helm)" == false ]; then
 		echo ""
 	else
 		echo "$(helm version --template='{{.Version}}')"

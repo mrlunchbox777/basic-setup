@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed kubectl)" == false ]; then
+	if [ "$(general-command-installed -c kubectl)" == false ]; then
 		echo ""
 	else
 		kubectl version --output=json | jq -r '.clientVersion.gitVersion'

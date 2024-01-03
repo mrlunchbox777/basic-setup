@@ -86,7 +86,7 @@ how-function() {
 	fi
 
 	if [ -z "$how_after" ]; then
-		if [ "$(echo "$(general-command-installed bat)" | sed 's/true//' | wc -m)" -eq 1 ]; then
+		if [ "$(echo "$(general-command-installed -c bat)" | sed 's/true//' | wc -m)" -eq 1 ]; then
 			echo "$how_output" | bat -l "$LANGUAGE"
 		else
 			echo "$how_output"

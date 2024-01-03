@@ -68,7 +68,7 @@ function help {
 
 # STANDARD OUTPUT, CUSTOM LOGIC: get the installed version (version only, as get_all_versions)
 function get_installed_version {
-	if [ "$(general-command-installed terraform)" == false ]; then
+	if [ "$(general-command-installed -c terraform)" == false ]; then
 		echo ""
 	else
 		echo "$(terraform version | head -n 1 | awk '{print $2}' | sed 's/v//g')"

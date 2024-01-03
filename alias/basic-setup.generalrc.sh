@@ -42,7 +42,7 @@ case "$CURRENT_SHELL" in
 		;;
 esac
 
-sd="$(general-get-source-and-dir "$source")"
+sd="$(general-get-source-and-dir -s "$source")"
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
@@ -60,6 +60,6 @@ fi
 
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
-if [[ "$(general-command-installed bat)" == "true" ]]; then
+if [[ "$(general-command-installed -c bat)" == "true" ]]; then
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi

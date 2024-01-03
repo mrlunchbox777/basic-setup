@@ -92,7 +92,7 @@ function help {
 
 # ensure a specific command is installed
 function is_command_installed {
-	general-command-installed "$1"
+	general-command-installed -c "$1"
 }
 
 # select the correct package manager and return it's content for a given package
