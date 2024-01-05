@@ -8,6 +8,7 @@ shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
 		echo -e "error finding shared-scripts..." >&2
+		# TODO: should this exit? Gracefully maybe?
 		exit 1
 fi
 
@@ -17,6 +18,10 @@ export PATH="$shared_scripts_path/bin:$PATH"
 export PATH="$shared_scripts_path/big-bang/bin:$PATH"
 # Include the shared-scripts/alias in the PATH
 export PATH="$shared_scripts_path/alias/bin:$PATH"
+# Include ~/.local/bin in the PATH
+if [ -d $HOME/.local/bin ]; then
+	export PATH="$HOME/.local/bin:$PATH"
+fi
 
 source=""
 
