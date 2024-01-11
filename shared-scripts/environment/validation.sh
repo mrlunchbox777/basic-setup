@@ -27,6 +27,7 @@ function update_e {
 #
 # global defaults
 #
+# TODO: make more/all of these configurable
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
 CUSTOM_LABELS=false
 ERROR_MESSAGES=0
@@ -37,11 +38,26 @@ RUN_INSTALLS=false
 SHOW_HELP=false
 SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "curl" "pacman" "dnf" "winget")
 TARGET_BRANCH="main"
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# Skip everything if this is set
+#
+if [ "$BASIC_SETUP_SKIP_ENVIRONMENT_VALIDATION" == "true" ]; then
+	exit 0
+fi
 
 #
 # computed values (often can't be alphabetical)
 #
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 ALLOW_CURL_INSTALLS="${BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS:-false}"
 DEFAULT_OVERRIDE_DIR="$(general-get-basic-setup-dir)/resources/install/index.d"
 PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
@@ -68,13 +84,13 @@ function help {
 		----------
 		description: This script will validate that everything that is needed is included in your environment.
 		----------
-		-c|--allow-curl  - (flag, default: false) Allow curl installs and validations, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS=true'.
-		-f|--force       - (flag, default: false) Force the validation (don't skip if previously passed).
-		-h|--help        - (flag, default: false) Print this help message and exit.
-		-i|--install     - (flag, default: false) Run installs and upgrade as needed instead of erroring.
-		-l|--label       - (multi-optional, default: "core") The union of label(s) that should be used to filter the packages, any addition will replace the default.
-		-s|--skip-latest - (flag, default: false) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
-		-v|--verbose     - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--allow-curl  - (flag, current: $ALLOW_CURL_INSTALLS) Allow curl installs and validations, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS=true'.
+		-f|--force       - (flag, current: $FORCE) Force the validation (don't skip if previously passed).
+		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--install     - (flag, current: $RUN_INSTALLS) Run installs and upgrade as needed instead of erroring.
+		-l|--label       - (multi-optional, current: (${LABELS[@]}) The union of label(s) that should be used to filter the packages, any addition will replace the default.
+		-s|--skip-latest - (flag, current: $SKIP_LATEST_CHECK) Skip latest check, this can also be set with 'export BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK=true'.
+		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1.
 		----------
 		note: This script will error out if the environment is misconfigured. It should also tell you what can be done to correct the issue.
 		note: This script will not install anything by default, you must pass the -i|--install flag to do so.
@@ -90,7 +106,7 @@ function help {
 
 # ensure a specific command is installed
 function is_command_installed {
-	general-command-installed "$1"
+	general-command-installed -c "$1"
 }
 
 # select the correct package manager and return it's content for a given package
