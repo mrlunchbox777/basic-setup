@@ -1,14 +1,6 @@
 #! /usr/bin/env bash
 
-#
-# Environment Validation
-#
-validation="$(environment-validation -c -l "core" 2>&1)"
-if [ ! -z "$validation" ]; then
-	echo "Validation error:" >&2
-	echo "$validation" >&2
-	exit 1
-fi
+# skip environment validation to prevent loops
 
 #
 # global defaults
