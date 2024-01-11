@@ -1,6 +1,13 @@
 #! /usr/bin/env bash
 
 #
+# Skip everything if this is set
+#
+if [ "$BASIC_SETUP_SKIP_ENVIRONMENT_VALIDATION" == "true" ]; then
+	exit 0
+fi
+
+#
 # Error handling
 #
 SET_E_AFTER=true
