@@ -46,6 +46,13 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 . basic-setup-set-env
 
 #
+# Skip everything if this is set
+#
+if [ "$BASIC_SETUP_SKIP_ENVIRONMENT_VALIDATION" == "true" ]; then
+	exit 0
+fi
+
+#
 # computed values (often can't be alphabetical)
 #
 if (( $VERBOSITY == -1 )); then
