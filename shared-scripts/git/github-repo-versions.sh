@@ -1,6 +1,16 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -c -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 GITHUB_REPO=false
@@ -11,8 +21,21 @@ SEMANTIC_PREFIX=""
 SEMANTIC_VERSIONING=false
 TAGS=false
 USE_CURL=false
-VERBOSITY=0
 VERSION_KIND=""
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+
 
 #
 # helper functions
@@ -28,14 +51,14 @@ function help {
 		----------
 		description: Returns the OS type (Linux, Mac, Cygwin, MinGw)
 		----------
-		-c|--curl            - (flag, default: false) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
-		-g|--github-repo     - (required) The frontend url of the github repo, e.g. '${example_github_repo}'.
-		-h|--help            - (flag, default: false) Print this help message and exit.
-		-r|--releases        - (flag, default: false) Get the release versions, mutually exclusive with -t (one is required), requires -c.
-		-p|--semantic-prefix - (flag, default: "") The tag prefix for the sematic versioning, requires no -c.
-		-s|--semantic        - (flag, default: false) sort and filter with semantic versioning, requires no -c.
-		-t|--tags            - (flag, default: false) Get the tag versions, mutually exclusive with -r (one is required).
-		-v|--verbose         - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--curl            - (flag, current: $USE_CURL) use github api instead of a local "clone -n" to get metadata, can cause rate limiting'.
+		-g|--github-repo     - (required, current: "$GITHUB_REPO") The frontend url of the github repo, e.g. '${example_github_repo}'.
+		-h|--help            - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-r|--releases        - (flag, current: $RELEASES) Get the release versions, mutually exclusive with -t (one is required), requires -c.
+		-p|--semantic-prefix - (flag, current: "$SEMANTIC_PREFIX") The tag prefix for the sematic versioning, requires no -c.
+		-s|--semantic        - (flag, current: $SEMANTIC_VERSIONING) sort and filter with semantic versioning, requires no -c.
+		-t|--tags            - (flag, current: $TAGS) Get the tag versions, mutually exclusive with -r (one is required).
+		-v|--verbose         - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: -r or -t must be specified
 		----------
