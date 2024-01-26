@@ -3,11 +3,11 @@ kind: Pod
 metadata:
   labels:
     app: "$POD_NAME"
-    app.kubernetes.io/name: "node-shell"
+    app.kubernetes.io/name: "test-pod"
     app.kubernetes.io/instance: "$POD_NAME"
     app.kubernetes.io/version: "1.0.0"
-    app.kubernetes.io/component: "node-shell"
-    app.kubernetes.io/part-of: "node-shell"
+    app.kubernetes.io/component: "test-pod"
+    app.kubernetes.io/part-of: "test-pod"
     app.kubernetes.io/managed-by: "basic-setup"
   name: "$POD_NAME"
   namespace: "$NAMESPACE"
@@ -15,16 +15,10 @@ metadata:
 spec:
   containers:
   - args:
-      - "-t"
-      - "1"
-      - "-m"
-      - "-u"
-      - "-i"
-      - "-n"
-      - "sleep"
-      - "14000"
+      - "-f"
+      - "/dev/null"
     command:
-      - "nsenter"
+      - "tail"
     image: "$IMAGE_TO_USE"
     name: "$POD_NAME"
     resources:
@@ -33,12 +27,6 @@ spec:
         memory: 128Mi
     securityContext:
       privileged: true
-  dnsPolicy: ClusterFirst
-  hostPID: true
-  hostIPC: true
-  hostNetwork: true
-  nodeSelector:
-    "kubernetes.io/hostname": "$NODE_NAME"
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:

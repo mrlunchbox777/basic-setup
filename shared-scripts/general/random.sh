@@ -15,6 +15,7 @@ fi
 #
 MIN=0
 MAX=10
+RANDOM_MAX=32767
 SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
@@ -41,7 +42,7 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: generate a random number between two values, max can be at most 32767
+		description: generate a random number between two values
 		----------
 		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-l|--lower|--min - (optional, current: $MIN) The minimum value to return.
@@ -129,20 +130,19 @@ if (( $MIN < 0 )); then
 	exit 1
 fi
 
-# error if max is greater than 32767
-if (( $MAX > 32767 )); then
-	echo "Error: max ($MAX) is greater than 32767" >&2
-	exit 1
+# handle max greater than $RANDOM_MAX
+RANGE_CHUNK_COUNT=$(($MAX/$RANDOM_MAX))
+RANGE_CHUNK_SELECTION=1
+if (( $RANGE_CHUNK_COUNT > 1 )); then
+	# pick a valid "range chunk" at random
+	RANGE_CHUNK_SELECTION=$(general-random -l 1 -u $RANGE_CHUNK_COUNT)
+	# correct if min is below range chunk
+	if (( $MIN < ($RANDOM_MAX * ($RANGE_CHUNK_SELECTION - 1)) )); then
+		MIN=$(($RANDOM_MAX * ($RANGE_CHUNK_SELECTION - 1) ))
+	fi
+	MAX=$(($RANDOM_MAX * $RANGE_CHUNK_SELECTION))
 fi
 
-tempminvar=$1
-if [ -z "$tempminvar" ]; then
-	tempminvar=0
-fi
-tempmaxvar=$2
-if [ -z "$tempmaxvar" ]; then
-	tempmaxvar=10
-fi
 MAX=$(($MAX-$MIN+1))
 RANDOM_VAL=$((RANDOM))
 echo $(($MIN + ($RANDOM_VAL % $MAX)))

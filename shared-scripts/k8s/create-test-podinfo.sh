@@ -13,10 +13,9 @@ fi
 #
 # global defaults
 #
-COMMAND_TO_RUN=${BASIC_SETUP_K8S_CREATE_POD_SHELL_COMMAND:-""}
 SHOW_HELP=false
-IMAGE_TO_USE=${BASIC_SETUP_K8S_CREATE_POD_SHELL_IMAGE_TO_USE:-""}
-NAMESPACE=${BASIC_SETUP_K8S_CREATE_POD_SHELL_NAMESPACE:-""}
+IMAGE_TO_USE=${BASIC_SETUP_K8S_CREATE_TEST_POD_IMAGE_TO_USE:-""}
+NAMESPACE=${BASIC_SETUP_K8S_CREATE_TEST_POD_NAMESPACE:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -30,14 +29,11 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
-if [ -z "$COMMAND_TO_RUN" ]; then
-	COMMAND_TO_RUN=${BASIC_SETUP_K8S_CREATE_POD_SHELL_COMMAND:-""}
-fi
 if [ -z "$IMAGE_TO_USE" ]; then
-	IMAGE_TO_USE=${BASIC_SETUP_K8S_CREATE_POD_SHELL_IMAGE_TO_USE:-"$BASIC_SETUP_ALPINE_IMAGE_TO_USE"}
+	IMAGE_TO_USE=${BASIC_SETUP_K8S_CREATE_TEST_POD_IMAGE_TO_USE:-"stefanprodan/podinfo"}
 fi
 if [ -z "$NAMESPACE" ]; then
-	NAMESPACE=${BASIC_SETUP_K8S_CREATE_POD_SHELL_NAMESPACE:-"kube-system"}
+	NAMESPACE=${BASIC_SETUP_K8S_CREATE_TEST_POD_NAMESPACE:-"kube-system"}
 fi
 
 #
@@ -51,16 +47,15 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: execute an interactive command (default (ba)sh) in a kubernetes pod
+		description: create a test pod in the cluster, default pod is podinfo
 		----------
-		-c|--command   - (optional, current: "$COMMAND_TO_RUN") The command to run in the shell, also set with \`BASIC_SETUP_K8S_CREATE_POD_SHELL_COMMAND\`.
 		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-i|--image     - (optional, current: "$IMAGE_TO_USE") The image to use for the pod, also set with \`BASIC_SETUP_K8S_CREATE_POD_SHELL_IMAGE_TO_USE\`.
-		-n|--namespace - (optional, current: "$NAMESPACE") The namespace to create the pod in, also set with \`BASIC_SETUP_K8S_CREATE_POD_SHELL_NAMESPACE\`.
+		-i|--image     - (optional, current: "$IMAGE_TO_USE") The image to use for the pod, also set with \`BASIC_SETUP_K8S_CREATE_TEST_POD_IMAGE_TO_USE\`.
+		-n|--namespace - (optional, current: "$NAMESPACE") The namespace to create the pod in, also set with \`BASIC_SETUP_K8S_CREATE_TEST_POD_NAMESPACE\`.
 		-v|--verbose   - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		create pod shell - $command_for_help
+		create test pod - $command_for_help
 		----------
 	EOF
 }
@@ -71,17 +66,6 @@ function help {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# command, required argument
-	-c | --command)
-		if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
-			COMMAND_TO_RUN="$2"
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -134,18 +118,18 @@ done
 
 [ $SHOW_HELP == true ] && help && exit 0
 
-POD_NAME=$(echo "pod-shell-$(uuid)")
+POD_NAME=$(echo "test-podinfo-$(uuid)")
 POD_YAML="/tmp/$POD_NAME.yaml"
 # TODO make this make sense for windows nodes
 sed \
 	-e "s|\$IMAGE_TO_USE|$IMAGE_TO_USE|g" \
 	-e "s|\$POD_NAME|$POD_NAME|g" \
 	-e "s|\$NAMESPACE|$NAMESPACE|g" \
-	"$BASIC_SETUP_GENERAL_RC_DIR/../resources/k8s-yaml/test-pod.yaml" > "$POD_YAML"
+	"$BASIC_SETUP_GENERAL_RC_DIR/../resources/k8s-yaml/test-podinfo.yaml" > "$POD_YAML"
 FAILED="false"
 {
 	kubectl apply -f "$POD_YAML"
-	echo "Pod scheduled, waiting for running"
+	(($VERBOSITY>0)) && echo "Pod scheduled, waiting for running"
 	POD_SHELL_READY="false"
 	while [[ "$POD_SHELL_READY" == "false" ]]; do
 		POD_EXISTS=$(kubectl get pod $POD_NAME -n $NAMESPACE --no-headers --ignore-not-found)
@@ -160,22 +144,11 @@ FAILED="false"
 			fi
 		fi
 	done
-	if [ -z "$COMMAND_TO_RUN" ]; then
-		COMMAND_TO_RUN="(( \$(command -v bash >/dev/null 2>&1; echo \$?) == 0 )) && bash || sh"
-	fi
-	kubectl exec $POD_NAME -n $NAMESPACE -it -- sh -c "$COMMAND_TO_RUN"
 } || {
 	FAILED="true"
 }
 
-POD_EXISTS=$(kubectl get pod $POD_NAME -n $NAMESPACE --no-headers --ignore-not-found)
-if [[ ! -z "$POD_EXISTS" ]]; then
-	echo "Cleaning up pod-shell pod"
-	kubectl delete pod $POD_NAME -n $NAMESPACE
-fi
-rm "$POD_YAML"
-
-if [[ "$FAILED" == "true" ]]; then
-	echo "Failure detected, check logs, exiting..."
+if [ "$FAILED" == "true" ]; then
+	echo "Failed to create pod, see above for details" >&2
 	exit 1
 fi
