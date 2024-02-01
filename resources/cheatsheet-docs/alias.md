@@ -43,10 +43,6 @@ Please see the kubernetes cheatsheet - `cs -k`
 
 * `export PATH="$PATH:$HOME/go/bin"`
 
-## SSH
-
-* Runs `ssh-redo-ssh-agent`
-
 ## XServer
 
 * reserved for future use
