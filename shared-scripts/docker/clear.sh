@@ -46,8 +46,8 @@ function help {
 		description: remove all local docker containers, images, and volumes
 		----------
 		-a|--remove-all - (flag, current: $REMOVE_ALL) Remove all docker data, also set with \`BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL\`.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help       - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose    - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		clear docker data - $command_for_help
