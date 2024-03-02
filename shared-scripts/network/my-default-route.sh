@@ -26,14 +26,14 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$GET_FIRST" ]; then
 	GET_FIRST=${BASIC_SETUP_NETWORK_MY_DEFAULT_ROUTE_GET_FIRST:-false}
 fi
 if [ -z "$GET_LAST" ]; then
 	GET_LAST=${BASIC_SETUP_NETWORK_MY_ROUTE_DEVICE_GET_LAST:-false}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #
@@ -50,9 +50,9 @@ function help {
 		description: show the default routes, one per line
 		----------
 		-f|--get-first - (flag, current: $GET_FIRST) Get the first default network device route, mutually exclusive with last, also set with \`BASIC_SETUP_NETWORK_MY_DEFAULT_ROUTE_GET_FIRST\`.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-l|--get-last - (flag, current: $GET_LAST) Get the last default network device route, mutually exclusive with first, also set with \`BASIC_SETUP_NETWORK_MY_DEFAULT_ROUTE_GET_LAST\`.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-l|--get-last  - (flag, current: $GET_LAST) Get the last default network device route, mutually exclusive with first, also set with \`BASIC_SETUP_NETWORK_MY_DEFAULT_ROUTE_GET_LAST\`.
+		-v|--verbose   - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		show the default network device route(s) - $command_for_help

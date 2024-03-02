@@ -45,8 +45,8 @@ function help {
 		----------
 		description: check if the script is running on WSL
 		----------
-		-h|--help             - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose          - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		NOTE: You can also set the "windows user dir" with the environment variable "BASIC_SETUP_WSL_WINDOWS_USER_DIR".
 		----------
