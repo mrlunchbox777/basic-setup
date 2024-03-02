@@ -31,8 +31,8 @@ function update_e {
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
 CUSTOM_LABELS=false
 ERROR_MESSAGES=0
-LABELS=("core")
 FORCE=false
+LABELS=("core")
 PREVIOUSLY_VALIDATED_FILE_NAME=".environment_validated_by_environment-validation"
 RUN_INSTALLS=false
 SHOW_HELP=false

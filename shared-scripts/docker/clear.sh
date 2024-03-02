@@ -13,8 +13,8 @@ fi
 #
 # global defaults
 #
-SHOW_HELP=false
 REMOVE_ALL=${BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL:-""}
+SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -25,11 +25,11 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$REMOVE_ALL" ]; then
 	REMOVE_ALL=${BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL:-false}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #

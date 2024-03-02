@@ -7,9 +7,6 @@
 #
 # global defaults
 #
-SHOW_HELP=false
-# TODO: start here
-
 # The majority of these don't support environment variables because they are intended to be flags
 CHEATSHEETS_TO_SHOW=()
 SHOW_ALIAS=false
@@ -18,6 +15,7 @@ SHOW_BASE=false
 SHOW_COMPILATION=false
 SHOW_DOCKER=false
 SHOW_GENERAL=false
+SHOW_HELP=false
 SHOW_INDEX=false
 SHOW_KUBERNETES=false
 SHOW_METRICS=false

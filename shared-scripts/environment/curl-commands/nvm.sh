@@ -9,11 +9,11 @@ FORCE=false
 GET_ALL_VERSIONS=false
 GET_INSTALLED_VERSION=false
 GET_LATEST_VERSION=false
+HELP_INSTALL_PAGE="https://github.com/nvm-sh/nvm#installing-and-updating"
 INCLUDE_PRERELEASE_VERSIONS=false
 SHOW_HELP=false
 TARGET_VERSION=""
 TEST_VERSION=false
-HELP_INSTALL_PAGE="https://github.com/nvm-sh/nvm#installing-and-updating"
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
