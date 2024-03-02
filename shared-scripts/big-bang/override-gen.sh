@@ -48,6 +48,8 @@ function help {
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		upsert basic big bang overrides - $command_for_help
 		----------

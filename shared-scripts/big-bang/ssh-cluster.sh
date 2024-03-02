@@ -71,6 +71,8 @@ function help {
 		-u|--user         - (optional, current: "$CLUSTER_USER") the user to SSH into the cluster as, also set with \`BASIC_SETUP_BIG_BANG_SSH_CLUSTER_CLUSTER_USER\`.
 		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		login to the default registry - $command_for_help
 		----------

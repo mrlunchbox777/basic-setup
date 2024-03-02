@@ -149,7 +149,8 @@ function help {
 		-o|--override-files       - -o|--override-files, current: (${OVERRIDE_FILES[@]})
 		-v|--verbose              - -v|--verbose, current: $VERBOSITY, also set with \`BASIC_SETUP_VERBOSITY\`
 		----------
-		NOTE: the -h for for helm install, flux, and k3d-dev will only show if --full-help is set.
+		note: the -h for for helm install, flux, and k3d-dev will only show if --full-help is set.
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		build a dev env                       - $command_for_help

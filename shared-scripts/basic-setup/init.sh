@@ -55,7 +55,7 @@ function help {
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
-		NOTE: variable processing order is: environment file, environment variables, arguments (last wins).
+		note: variable processing order is: environment file, environment variables, arguments (last wins).
 		----------
 		examples:
 		update basic-setup - $command_for_help

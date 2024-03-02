@@ -91,6 +91,8 @@ function help {
 		-p | --registry-password   - "$(echo "$REGISTRY_PASSWORD" | sed 's/./*/g')", also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_REGISTRY_PASSWORD\`
 		-w | --wait-timeout        - $WAIT_TIMEOUT, also set with \`BASIC_SETUP_INSTALL_FLUX_WRAPPER_WAIT_TIMEOUT\`
 		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		run install flux reading yaml           - $command_for_help
 		run install flux reading yaml show args - $command_for_help -v

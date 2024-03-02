@@ -70,8 +70,8 @@ function help {
 		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_GET_POD_BY_LABEL_KEY\`.
 		----------
-		NOTE: If multiple pods are found, the first pod will be used unless \`--force-pod\` is used.
-		NOTE: To ensure the correct image was found, execute \`cat /etc/hostname\` in the shell.
+		note: If multiple pods are found, the first pod will be used unless \`--force-pod\` is used.
+		note: To ensure the correct image was found, execute \`cat /etc/hostname\` in the shell.
 		----------
 		examples:
 		get shell for pod - $command_for_help -l "example-node"

@@ -138,6 +138,7 @@ function help {
 		--out            - (optional, current: "$ARCHIVE_FILE") Absolute path of out archive, also set with \`BASIC_SETUP_BIG_BANG_OS_PREP_ARCHIVE_FILE\`.
 		----------
 		note: The Unix timestamp when this command was run was used several times above, it is '$RUN_TIMESTAMP'.
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		setup                 - $command_for_help -p -v

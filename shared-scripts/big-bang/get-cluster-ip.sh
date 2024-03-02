@@ -49,11 +49,12 @@ function help {
 		-n|--name    - (optional, current: "$CLUSTER_NAME") the name of the cluster, also set with \`BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME\`.
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
+		note: this only works for single cluster kubeconfigs
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		login to the default registry - $command_for_help
 		----------
-		note: this only works for single cluster kubeconfigs
-		---
 	EOF
 }
 

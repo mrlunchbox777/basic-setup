@@ -74,6 +74,7 @@ function help {
 		-v|--verbose    - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: if you need to download the dogfood kubeconfig you must provide -s, which you can find here - https://repo1.dso.mil/big-bang/team/deployments/bigbang#connecting-to-the-dogfood-api-server.
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		prep to connect to the dogfood cluster - $command_for_help

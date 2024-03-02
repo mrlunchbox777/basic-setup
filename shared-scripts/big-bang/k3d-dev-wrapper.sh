@@ -106,6 +106,8 @@ function help {
 		-w - $USE_WEAVE, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_WEAVE\`
 		-h - $SHOW_HELP
 		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		create dev environment      - $command_for_help
 		create big dev environment  - $command_for_help -b

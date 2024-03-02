@@ -61,6 +61,8 @@ function help {
 		-u|--username - (optional, current: "$USERNAME") username for the registry, will pull from registry-values.yaml override file if empty, can be set with \`BAISIC_SETUP_BIG_BANG_HELM_LOGIN_USERNAME\`.
 		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		----------
 		examples:
 		login to the default registry - $command_for_help
 		----------

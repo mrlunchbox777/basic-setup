@@ -25,10 +25,11 @@ zzz_helper_export_registry_credentials_help() {
 		----------
 		(There are no parameters to this script, it should be sourced)
 		----------
-		notes: exported variables below
+		note: exported variables below
 		- export REGISTRY_USERNAME="\${REGISTRY_USERNAME:-}"
 		- export REGISTRY_PASSWORD="\${REGISTRY_PASSWORD:-}"
 		- export REGISTRY_URL="\${REGISTRY_URL:-}"
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		get the commands - . $command_for_help
