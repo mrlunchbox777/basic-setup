@@ -2197,6 +2197,62 @@
       "pinned-version": null
     },
     {
+      "command": "xclip",
+      "description": "xclip is a command line utility that is designed to run on any system with an X11 implementation. It provides an interface to X selections (\"the clipboard\") from the command line. It can read data from standard in or a file and place it in an X selection for pasting into other X applications. xclip can also print an X selection to standard out, which can then be redirected to a file or another program.",
+      "enabled": true,
+      "install-page": "https://github.com/astrand/xclip",
+      "labels": [
+        "all"
+      ],
+      "name": "xclip",
+      "package-managers": [
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "apt-get",
+          "notes": "",
+          "package-name": "xclip"
+        },
+        {
+          "arguments": "--cask",
+          "enabled": true,
+          "manager-name": "brew",
+          "notes": "",
+          "package-name": "xclip"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "curl",
+          "notes": "With it being on most package managers it doesn't need a curl script.",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "dnf",
+          "notes": "TODO: needs dependencies support to be installed (epel-release -> xclip).",
+          "package-name": ""
+        },
+        {
+          "arguments": "",
+          "enabled": true,
+          "manager-name": "pacman",
+          "notes": "",
+          "package-name": "xclip"
+        },
+        {
+          "arguments": "",
+          "enabled": false,
+          "manager-name": "winget",
+          "notes": "Windows doesn't have xclip.",
+          "package-name": ""
+        }
+      ],
+      "pinned-version": null
+    },
+
+    {
       "command": "yq",
       "description": "A lightweight and portable command-line YAML processor.",
       "enabled": true,
