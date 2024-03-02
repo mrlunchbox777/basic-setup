@@ -35,7 +35,7 @@ bash shared-scripts/basic-setup/init.sh | tee basic-setup-sh-output.log
 ## end of basic setup
 echo "\n\n"
 echo "**********************************************************"
-echo "* Finished Basic Setup" 
+echo "* Finished Basic Setup"
 echo "*   Check -"
 echo "*     $basic_setup_dir/basic-setup-sh-output.log"
 echo "*   It will have logs and outputs on everything installed."

@@ -14,12 +14,12 @@ metadata:
 
 spec:
   containers:
-  - image: "$IMAGE_TO_USE"
-    name: "$POD_NAME"
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
+    - image: "$IMAGE_TO_USE"
+      name: "$POD_NAME"
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:
