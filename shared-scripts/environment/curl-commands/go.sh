@@ -159,7 +159,7 @@ function install_version {
 			curl -L -s "https://go.dev/dl/${filename}" -o "$filename"
 			sudo rm -rf /usr/local/go
 			sudo tar -C /usr/local -xzf $filename > /dev/null
-			rm -rf $filename /usr/local/bin/go /usr/local/bin/gofmt
+			sudo rm -rf $filename /usr/local/bin/go /usr/local/bin/gofmt
 			sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
 			sudo ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt
 		EOF
