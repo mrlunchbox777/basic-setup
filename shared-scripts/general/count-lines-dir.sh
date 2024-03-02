@@ -99,4 +99,4 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-find "$@" -type f | sed "s/^/'/;s/$/'/" | xargs cat | wc -l
+find "$TARGET_DIR" -type f | sed "s/^/'/;s/$/'/" | xargs cat | wc -l
