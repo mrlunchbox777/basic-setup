@@ -40,6 +40,7 @@ fi
 #
 
 # script help message
+# TODO: support and add a comment for using without -c
 help() {
 	command_for_help="$(basename "$0")"
 	cat <<- EOF

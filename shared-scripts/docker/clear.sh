@@ -43,7 +43,7 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: remove all local docker containers, images, and volumes
+		description: remove either all local docker containers or  all local docker containers, images, and volumes
 		----------
 		-a|--remove-all - (flag, current: $REMOVE_ALL) Remove all docker data, also set with \`BASIC_SETUP_DOCKER_CLEAR_REMOVE_ALL\`.
 		-h|--help       - (flag, current: $SHOW_HELP) Print this help message and exit.
