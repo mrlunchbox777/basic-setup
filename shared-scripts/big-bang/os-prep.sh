@@ -18,8 +18,6 @@ trap 'echo ❌ exit at ${0}:${LINENO}, command was: ${BASH_COMMAND} 1>&2' ERR
 #
 # global defaults
 #
-SHOW_HELP=false
-
 BACKUP_ONLY=${BASIC_SETUP_BIG_BANG_OS_PREP_BACKUP_ONLY:-""}
 BASE_OUT_DIR=${BASIC_SETUP_BIG_BANG_OS_PREP_BASE_OUT_DIR:-""}
 DRY_RUN=${BASIC_SETUP_BIG_BANG_OS_PREP_DRY_RUN:-""}
@@ -28,6 +26,7 @@ OPEN_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_OPEN_FILE:-""}
 PERSIST=${BASIC_SETUP_BIG_BANG_OS_PREP_PERSIST:-""}
 RESTORE_ARCHIVE_FILE=${BASIC_SETUP_BIG_BANG_OS_PREP_RESTORE_ARCHIVE_FILE:-""}
 SHOULD_CLEAN=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_CLEAN:-""}
+SHOW_HELP=false
 SHOULD_LIST=${BASIC_SETUP_BIG_BANG_OS_PREP_SHOULD_LIST:-""}
 TARGET_FS_FILE_MAX=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_FS_FILE_MAX:-""}
 TARGET_OPEN_FILE_COUNT_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_OPEN_FILE_COUNT_LIMIT:-""}
@@ -52,9 +51,6 @@ TARGET_MODULUES=(
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$BACKUP_ONLY" ]; then
 	BACKUP_ONLY=${BASIC_SETUP_BIG_BANG_OS_PREP_BACKUP_ONLY:-false}
 fi
@@ -94,21 +90,23 @@ fi
 if [ -z "$TARGET_VM_MAX_MAP_COUNT" ]; then
 	TARGET_VM_MAX_MAP_COUNT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_VM_MAX_MAP_COUNT:-524288}
 fi
-
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 HAS_SYSTEMCTL="$( (( $(command -v systemctl >/dev/null 2>&1; echo $?) == 0 )) && echo true || echo false )"
 RUN_TIMESTAMP="$(date +%s)"
 OPEN_COMMAND="t=\"/tmp/$RUN_TIMESTAMP/\"; mkdir -p \$t; tar xf \"\$OPEN_FILE\" --directory=\$t; code \$t"
 OUT_DIR="${BASE_OUT_DIR}backup-ran-${RUN_TIMESTAMP}/"
 ARCHIVE_FILE="$(echo "$OUT_DIR" | sed 's/.$//').tgz"
-MANIFEST_OUT_FILE="${OUT_DIR}manifest.json"
-TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
 CONFIG_FILES_OUT_DIR="${OUT_DIR}sysctl-d-backup/"
-ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
-MODULE_SETTINGS_OUT_FILE="${OUT_DIR}modules-backup"
-SWAP_SETTINGS_OUT_FILE="${OUT_DIR}swap-settings.json"
-SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
-RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
+MANIFEST_OUT_FILE="${OUT_DIR}manifest.json"
 MANIFEST_RESTORE_FILE="${RESTORE_DIR}manifest.json"
+MODULE_SETTINGS_OUT_FILE="${OUT_DIR}modules-backup"
+RESTORE_DIR="${BASE_OUT_DIR}restore-ran-${RUN_TIMESTAMP}/"
+SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
+SWAP_SETTINGS_OUT_FILE="${OUT_DIR}swap-settings.json"
+TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
+ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
 
 # TODO: finish the other setup steps
 # for updating the sudoers - https://stackoverflow.com/questions/10420713/regex-pattern-to-edit-etc-sudoers-file

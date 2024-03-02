@@ -13,10 +13,9 @@ fi
 #
 # global defaults
 #
-SHOW_HELP=false
 HAD_REGISTRY_CREDS=false
 HAD_REPO_CREDS=false
-
+SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #

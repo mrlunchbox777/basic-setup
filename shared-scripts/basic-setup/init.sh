@@ -6,7 +6,6 @@
 SHOW_HELP=false
 # TODO: allow this to be changed
 ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
-
 SHOULD_ADD_GITHUB_KEY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_ADD_GITHUB_KEY:-""}
 SHOULD_DO_ALIAS_ONLY=${BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_DO_ALIAS_ONLY:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
@@ -35,8 +34,8 @@ fi
 INITIAL_DIR="$(pwd)"
 SOURCE="${BASH_SOURCE[0]}"
 SD="$(general-get-source-and-dir -s "$SOURCE")"
-SOURCE="$(echo "$sd" | jq -r .source)"
-DIR="$(echo "$sd" | jq -r .dir)"
+SOURCE="$(echo "$SD" | jq -r .source)"
+DIR="$(echo "$SD" | jq -r .dir)"
 
 #
 # helper functions

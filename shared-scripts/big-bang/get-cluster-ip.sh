@@ -13,8 +13,8 @@ fi
 #
 # global defaults
 #
-SHOW_HELP=false
 CLUSTER_NAME="${BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME:-""}"
+SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -47,7 +47,7 @@ function help {
 		----------
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-n|--name    - (optional, current: "$CLUSTER_NAME") the name of the cluster, also set with \`BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME\`.
-		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		login to the default registry - $command_for_help

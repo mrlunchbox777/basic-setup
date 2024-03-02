@@ -12,13 +12,13 @@ fi
 #
 # global defaults
 #
-RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-""}
 DOGFOOD_CONFIG_S3_PATH="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH:-""}"
-SHOW_HELP=false
-FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-""}
 DOGFOOD_USER="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_USER:-""}"
-SSHUTTLE_IP_RANGE="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-""}"
+FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-""}
 PRIVATE_KEY_PATH="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH:-""}"
+RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-""}
+SHOW_HELP=false
+SSHUTTLE_IP_RANGE="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-""}"
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -29,23 +29,23 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if [ -z "$RUN_IN_BACKGROUND" ]; then
-	RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-false}
-fi
 if [ -z "$DOGFOOD_CONFIG_S3_PATH" ]; then
 	DOGFOOD_CONFIG_S3_PATH=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH:-""}
-fi
-if [ -z "$FORCE_NEW_CONFIG" ]; then
-	FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-false}
 fi
 if [ -z "$DOGFOOD_USER" ]; then
 	DOGFOOD_USER=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_USER:-"ec2-user"}
 fi
-if [ -z "$SSHUTTLE_IP_RANGE" ]; then
-	SSHUTTLE_IP_RANGE=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-"192.168.13.0/24"}
+if [ -z "$FORCE_NEW_CONFIG" ]; then
+	FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-false}
 fi
 if [ -z "$PRIVATE_KEY_PATH" ]; then
 	PRIVATE_KEY_PATH=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH:-"~/.ssh/id_rsa"}
+fi
+if [ -z "$RUN_IN_BACKGROUND" ]; then
+	RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-false}
+fi
+if [ -z "$SSHUTTLE_IP_RANGE" ]; then
+	SSHUTTLE_IP_RANGE=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-"192.168.13.0/24"}
 fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
@@ -65,13 +65,13 @@ function help {
 		description: runs sshuttle to the dogfood cluster and sets up the kubeconfig
 		----------
 		-b|--background - (flag, current: $RUN_IN_BACKGROUND) Run sshuttle in the background, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND\`.
-		-f|--force    - (flag, current: $FORCE_NEW_CONFIG) Force a new dogfood kubeconfig to be downloaded, requires -s, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG\`.
-		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-i|--identity - (optional, current: "$PRIVATE_KEY_PATH") The private key to use for sshuttle, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH\`.
-		-r|--range    - (optional, current: "$SSHUTTLE_IP_RANGE") The IP range to route through the bastion host, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE\`.
-		-s|--s3-path  - (optional, current: "$DOGFOOD_CONFIG_S3_PATH") The S3 path to the dogfood kubeconfig, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH\`.
-		-u|--username - (optional, current: "$DOGFOOD_USER") username for the bastion host, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_USER\`.
-		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-f|--force      - (flag, current: $FORCE_NEW_CONFIG) Force a new dogfood kubeconfig to be downloaded, requires -s, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG\`.
+		-h|--help       - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--identity   - (optional, current: "$PRIVATE_KEY_PATH") The private key to use for sshuttle, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH\`.
+		-r|--range      - (optional, current: "$SSHUTTLE_IP_RANGE") The IP range to route through the bastion host, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE\`.
+		-s|--s3-path    - (optional, current: "$DOGFOOD_CONFIG_S3_PATH") The S3 path to the dogfood kubeconfig, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH\`.
+		-u|--username   - (optional, current: "$DOGFOOD_USER") username for the bastion host, also set with \`BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_USER\`.
+		-v|--verbose    - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: if you need to download the dogfood kubeconfig you must provide -s, which you can find here - https://repo1.dso.mil/big-bang/team/deployments/bigbang#connecting-to-the-dogfood-api-server.
 		----------

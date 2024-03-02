@@ -8,7 +8,7 @@ shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
 		echo -e "error finding shared-scripts..." >&2
-		# TODO: should this exit? Gracefully maybe?
+		# TODO: https://github.com/mrlunchbox777/basic-setup/issues/41
 		exit 1
 fi
 

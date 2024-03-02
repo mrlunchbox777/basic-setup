@@ -12,6 +12,15 @@ else
 	SET_E_AFTER=false
 fi
 
+#
+# global variables
+#
+VERBOSITY="${VERBOSITY:-0}"
+
+#
+# helper functions
+#
+
 # set e to the right value after running the script
 function update_e {
 	if [ "$SET_E_AFTER" == "true" ]; then
@@ -19,8 +28,51 @@ function update_e {
 	fi
 }
 
+# script help message
+zzz_helper_set_env_help() {
+	command_for_help="$(basename "$0")"
+	cat <<- EOF
+		----------
+		usage: . $command_for_help
+		----------
+		description: A script that should be sourced to get the environment variables from the basic-setup environment file.
+		----------
+		(There are no parameters to this script, it should be sourced)
+		----------
+		notes: exported variables below
+		- export BASIC_SETUP_SHOULD_SKIP_ENV_FILE="\${BASIC_SETUP_SHOULD_SKIP_ENV_FILE:-}"
+		- export ORIGINAL_ENV_FILE="\${ORIGINAL_ENV_FILE:-}"
+		- export BASIC_SETUP_ENV_FILE="\${BASIC_SETUP_ENV_FILE:-}"
+		----------
+		examples:
+		set environment variables - . $command_for_help
+		get the error output      - . $command_for_help >${command_for_help}.log 2>&1
+		----------
+	EOF
+}
+
+# Check if the script is being sourced
+zzz_helper_set_env_is_sourced() {
+	if [ -n "$ZSH_VERSION" ]; then 
+		case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+	else  # Add additional POSIX-compatible shell names here, if needed.
+		case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
+	fi
+	local did_match=$(echo "$0" | grep -q ".*set\-env.*" >/dev/null 2>&1; echo $?)
+	if [ $did_match -eq 0 ]; then
+		return 1  # NOT sourced (file name matches this script).
+	else
+		return 0  # IS sourced.
+	fi
+}
+
+#
+# Do the work
+#
+zzz_helper_set_env_is_sourced || { echo "Error: This script (basic-setup-set-env) should be sourced, not run." >&2; update_e; zzz_helper_set_env_help; exit 1; }
+
 ORIGINAL_ENV_FILE="${HOME}/.basic-setup/.env"
-if (( $VERBOSITY > 0 )); then
+if (($VERBOSITY > 0)); then
 	echo "Attempting .env file load with..." >&2
 	echo "BASIC_SETUP_SHOULD_SKIP_ENV_FILE=$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" >&2
 	echo "ORIGINAL_ENV_FILE=$ORIGINAL_ENV_FILE" >&2
@@ -36,7 +88,7 @@ if [ "$BASIC_SETUP_SHOULD_SKIP_ENV_FILE" != "true" ]; then
 			# ensure custom file exists
 			if [ ! -f "$BASIC_SETUP_ENV_FILE" ]; then
 				echo "Error: Environment file expected, but not found at $BASIC_SETUP_ENV_FILE" >&2
-				update_e && exit 1
+				update_e && zzz_helper_set_env_help && exit 1
 			else
 				(( $VERBOSITY > 0 )) && echo "Using custom env file at $BASIC_SETUP_ENV_FILE..." >&2
 			fi

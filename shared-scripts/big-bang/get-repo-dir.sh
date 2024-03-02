@@ -42,7 +42,7 @@ function help {
 		description: Returns the full path of the the bigbang directory
 		----------
 		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		get bigbang repo dir - $command_for_help
