@@ -28,10 +28,10 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 # computed values (often can't be alphabetical)
 #
 if [ -z "$LABEL_KEY" ]; then
-	LABEL_KEY=${BASIC_SETUP_K8S_DELETE_POD_LABEL_KEY:-""}
+	LABEL_KEY=${BASIC_SETUP_K8S_DELETE_POD_LABEL_KEY:-"app.kubernetes.io/name"}
 fi
 if [ -z "$NAMESPACE" ]; then
-	NAMESPACE=${BASIC_SETUP_K8S_DELETE_POD_NAMESPACE:-""}
+	NAMESPACE=${BASIC_SETUP_K8S_DELETE_POD_NAMESPACE:-"kube-system"}
 fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
