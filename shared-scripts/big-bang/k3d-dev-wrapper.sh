@@ -13,20 +13,56 @@ fi
 #
 # global defaults
 #
-LOG_DIR="/tmp/k3d-dev-logs"
+ATTACH_SECONDARY_PUBLIC_IP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_ATTACH_SECONDARY_PUBLIC_IP:-""}
+DESTROY=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY:-""}
+LOG_DIR=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_LOG_DIR:-""}
+SHOW_FULL_HELP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_SHOW_FULL_HELP:-""}
 SHOW_HELP=false
-USE_LOCAL_LOG=false
-VERBOSITY=0
-USE_BIG_M5=false
-USE_PRIVATE_IP=false
-USE_METALLB=false
-ATTACH_SECONDARY_PUBLIC_IP=false
-DESTROY=false
-USE_WEAVE=false
+USE_BIG_M5=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_BIG_M5:-""}
+USE_LOCAL_LOG=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG:-""}
+USE_METALLB=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_METALLB:-""}
+USE_PRIVATE_IP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_PRIVATE_IP:-""}
+USE_WEAVE=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_WEAVE:-""}
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
 
 #
 # computed values (often can't be alphabetical)
 #
+if [ -z "$ATTACH_SECONDARY_PUBLIC_IP" ]; then
+	ATTACH_SECONDARY_PUBLIC_IP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_ATTACH_SECONDARY_PUBLIC_IP:-false}
+fi
+if [ -z "$DESTROY" ]; then
+	DESTROY=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY:-false}
+fi
+if [ -z "$LOG_DIR" ]; then
+	LOG_DIR=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_LOG_DIR:-"/tmp/k3d-dev-logs"}
+fi
+if [ -z "$SHOW_FULL_HELP" ]; then
+	SHOW_FULL_HELP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_SHOW_FULL_HELP:-false}
+fi
+if [ -z "$USE_BIG_M5" ]; then
+	USE_BIG_M5=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_BIG_M5:-false}
+fi
+if [ -z "$USE_LOCAL_LOG" ]; then
+	USE_LOCAL_LOG=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG:-false}
+fi
+if [ -z "$USE_METALLB" ]; then
+	USE_METALLB=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_METALLB:-false}
+fi
+if [ -z "$USE_PRIVATE_IP" ]; then
+	USE_PRIVATE_IP=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_PRIVATE_IP:-false}
+fi
+if [ -z "$USE_WEAVE" ]; then
+	USE_WEAVE=${BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_WEAVE:-false}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 DATE_TO_USE="$(date +%s)"
 LOG_FILE_NAME="k3d-dev-$DATE_TO_USE.log"
 LOG_FILE=""
@@ -47,9 +83,11 @@ function help {
 		description: runs k3d-dev.sh directly from the repo
 		----------
 		wrapper flags:
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-l|--log     - (flag, default: false) Dump the log for k3d-dev to./$LOG_FILE_NAME.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_SHOW_HELP\`.
+		-l|--log     - (flag, current: $USE_LOCAL_LOG) Dump the log for k3d-dev to ./$LOG_FILE_NAME instead of $LOG_DIR/$LOG_FILE_NAME, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_LOCAL_LOG\` (default log path can be set with \`BAISC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_LOG_DIR\` and \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_LOG_FILE_NAME\`).
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--full-help  - (flag, current: $SHOW_FULL_HELP) Print the help message for k3d-dev.sh and exit with no error, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_SHOW_FULL_HELP\`.
+
 		script flags (all flags below are passed to bb-k3d-dev.sh):
 		-b - use BIG M5 instance. Default is m5a.4xlarge
 		-p - use private IP for security group and k3d cluster
@@ -58,6 +96,17 @@ function help {
 		-d - destroy related AWS resources
 		-w - install the weave CNI instead of the default flannel CNI
 		-h - output help
+
+		current values for the script flags:
+		-b - $USE_BIG_M5, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_BIG_M5\`
+		-p - $USE_PRIVATE_IP, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_PRIVATE_IP\`
+		-m - $USE_METALLB, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_METALLB\`
+		-a - $ATTACH_SECONDARY_PUBLIC_IP, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_ATTACH_SECONDARY_PUBLIC_IP\`
+		-d - $DESTROY, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_DESTROY\`
+		-w - $USE_WEAVE, also set with \`BASIC_SETUP_BIG_BANG_K3D_DEV_WRAPPER_USE_WEAVE\`
+		-h - $SHOW_HELP
+		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		create dev environment      - $command_for_help
@@ -160,6 +209,11 @@ while (("$#")); do
 		DESTROY=true
 		shift
 		;;
+	# full help flag
+	--full-help)
+		SHOW_FULL_HELP=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -207,14 +261,19 @@ done
 #
 # Do the work
 #
-[ $SHOW_HELP == true ] && help # don't exit so we get the k3d-dev help as well
-
-sudo cat /dev/null # prompt for sudo password now
-
-# Prep the log file
 if [ "$USE_LOCAL_LOG" == true ]; then
 	LOG_DIR="."
 fi
+if [ $SHOW_HELP == true ]; then
+	help
+	if [ $SHOW_FULL_HELP == false ]; then
+		exit 0
+	fi
+else
+	sudo cat /dev/null # prompt for sudo password now
+fi
+
+# Prep the log file
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/$LOG_FILE_NAME"
 (($VERBOSITY > 0)) && echo "log_file: $LOG_FILE"

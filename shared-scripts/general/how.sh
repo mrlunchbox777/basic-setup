@@ -1,6 +1,16 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -c -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 AFTER_CONTEXT=0
@@ -8,13 +18,29 @@ BEFORE_CONTEXT=3
 COMMAND=""
 LANGUAGE="sh"
 SHOW_HELP=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $AFTER_CONTEXT == 0 )); then
+	AFTER_CONTEXT=$(( $BEFORE_CONTEXT + 2))
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
 #
 
 # script help message
+# TODO: support and add a comment for using without -c
 help() {
 	command_for_help="$(basename "$0")"
 	cat <<- EOF
@@ -23,12 +49,12 @@ help() {
 		----------
 		description: Like which, but with more context.
 		----------
-		-a|--after    - (optional, default: ((-b + 2))) The amount of context to grab after, only applies if -c is a script.
-		-b|--before   - (optional, default: 3) The amount of context to grab before, only applies if -c is a script.
-		-c|--command  - (required) The command to search for.
-		-h|--help     - (flag, default: false) Print this help message and exit.
-		-l|--language - (optional, default: "sh") The command to search for, only applies if -c is a script.
-		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--after    - (optional, current: $AFTER_CONTEXT) The amount of context to grab after, only applies if -c is a script.
+		-b|--before   - (optional, current: $BEFORE_CONTEXT) The amount of context to grab before, only applies if -c is a script.
+		-c|--command  - (required, current: $COMMAND) The command to search for.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-l|--language - (optional, current: "$LANGUAGE") The command to search for, only applies if -c is a script.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1.
 		----------
 		note: this will run down the chain of aliases and/or symbolic links until it finds the actual command.
 		note: howa is an alias for this command that will allow you to "how" other aliases. It's parameters are positional rather than flags.
@@ -121,6 +147,7 @@ while (("$#")); do
 		;;
 	# preserve positional arguments
 	*)
+		# TODO: support positional arguments
 		PARAMS="$PARAMS $1"
 		shift
 		;;
@@ -134,5 +161,4 @@ done
 [ $SHOW_HELP == true ] && help && exit 0
 
 [ -z "$COMMAND" ] && echo "Error: Argument for -c is missing" >&2 && help && exit 1
-AFTER_CONTEXT=$(( $BEFORE_CONTEXT + 2))
 how_function

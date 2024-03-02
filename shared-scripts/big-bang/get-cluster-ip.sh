@@ -13,9 +13,24 @@ fi
 #
 # global defaults
 #
+CLUSTER_NAME="${BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME:-""}"
 SHOW_HELP=false
-CLUSTER_NAME="k3d-k3s-default"
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if [ -z "$CLUSTER_NAME" ]; then
+	CLUSTER_NAME="${BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME:-"k3d-k3s-default"}"
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -30,15 +45,16 @@ function help {
 		----------
 		description: gets the IP of the k3d cluster
 		----------
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-n|--name    - (optional, default: "$CLUSTER_NAME") the name of the cluster.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-n|--name    - (optional, current: "$CLUSTER_NAME") the name of the cluster, also set with \`BASIC_SETUP_BIG_BANG_GET_CLUSTER_IP_CLUSTER_NAME\`.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		----------
+		note: this only works for single cluster kubeconfigs
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		login to the default registry - $command_for_help
 		----------
-		note: this only works for single cluster kubeconfigs
-		---
 	EOF
 }
 

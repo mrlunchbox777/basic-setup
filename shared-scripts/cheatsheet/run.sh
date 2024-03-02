@@ -1,8 +1,13 @@
 #! /usr/bin/env bash
+#
+# Environment Validation
+#
+# skipping environment validation because this script doesn't require any other packages
 
 #
 # global defaults
 #
+# The majority of these don't support environment variables because they are intended to be flags
 CHEATSHEETS_TO_SHOW=()
 SHOW_ALIAS=false
 SHOW_ALL=false
@@ -18,11 +23,19 @@ SHOW_NETWORKING=false
 SHOW_PROCESS_MANIPULATION=false
 SHOW_SYSTEM=false
 SHOW_TEXT_MANIPULATION=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
 
 #
 # computed values (often can't be alphabetical)
 #
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 BASIC_SETUP_DIR=$(general-get-basic-setup-dir)
 
 #
@@ -38,21 +51,21 @@ function help {
 		----------
 		description: pretty prints cheatsheets to the terminal
 		----------
-		-a|--alias                - (flag, default: false) Include alias.md.
-		--all                     - (flag, default: false) Show all cheatsheets, takes precendence.
-		-b|--base                 - (flag, default: false) Include base.md.
-		-c|--compilation          - (flag, default: false) Include compilation.md.
-		-d|--docker               - (flag, default: false) Include docker.md.
-		-g|--general              - (flag, default: false) Include general.md.
-		-h|--help                 - (flag, default: false) Print this help message and exit.
-		-i|--index                - (flag, default: false) Include index.md.
-		-k|--kubernetes           - (flag, default: false) Include kubernetes.md.
-		-m|--metrics              - (flag, default: false) Include metrics.md.
-		-n|--networking           - (flag, default: false) Include networking.md.
-		-p|--process-manipulation - (flag, default: false) Include process-manipulation.md.
-		-s|--system               - (flag, default: false) Include system.md.
-		-t|--text-manipulation    - (flag, default: false) Include text-manipulation.md.
-		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
+		-a|--alias                - (flag, current: $SHOW_ALIAS) Include alias.md.
+		--all                     - (flag, current: $SHOW_ALL) Show all cheatsheets, takes precendence.
+		-b|--base                 - (flag, current: $SHOW_BASE) Include base.md.
+		-c|--compilation          - (flag, current: $SHOW_COMPILATION) Include compilation.md.
+		-d|--docker               - (flag, current: $SHOW_DOCKER) Include docker.md.
+		-g|--general              - (flag, current: $SHOW_GENERAL) Include general.md.
+		-h|--help                 - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--index                - (flag, current: $SHOW_INDEX) Include index.md.
+		-k|--kubernetes           - (flag, current: $SHOW_KUBERNETES) Include kubernetes.md.
+		-m|--metrics              - (flag, current: $SHOW_METRICS) Include metrics.md.
+		-n|--networking           - (flag, current: $SHOW_NETWORKING) Include networking.md.
+		-p|--process-manipulation - (flag, current: $SHOW_PROCESS_MANIPULATION) Include process-manipulation.md.
+		-s|--system               - (flag, current: $SHOW_SYSTEM) Include system.md.
+		-t|--text-manipulation    - (flag, current: $SHOW_TEXT_MANIPULATION) Include text-manipulation.md.
+		-v|--verbose              - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		print cheatsheet index - $command_for_help -i
@@ -230,7 +243,7 @@ for cheatsheet_to_show in "${CHEATSHEETS_TO_SHOW[@]}"; do
 	echo "" >> "$cs_tmp_name"
 done
 
-if [ "$(general-command-installed bat)" == false ]; then
+if [ "$(general-command-installed -c bat)" == false ]; then
 	less "$cs_tmp_name"
 else
 	bat -l md "$cs_tmp_name"

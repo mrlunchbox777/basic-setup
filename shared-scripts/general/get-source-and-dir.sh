@@ -1,40 +1,123 @@
 #! /usr/bin/env bash
 
-# TODO: maybe we should look to handle calling from interactive rather than just scripts, also fix the help docs
-
 # Adapted from https://stackoverflow.com/questions/7665/how-to-resolve-symbolic-links-in-a-shell-script
-run_get_source_and_dir_help_string=""
-run_get_source_and_dir_help_string+="error - no source passed in\\n"
-run_get_source_and_dir_help_string+="pass in source using the following\\n"
-run_get_source_and_dir_help_string+="\\n"
-run_get_source_and_dir_help_string+="* sh - source=\"\$0\"\\n"
-run_get_source_and_dir_help_string+="* bash - source=\"\${BASH_SOURCE[0]}\"\\n"
-run_get_source_and_dir_help_string+="* zsh - source=\"\${(%):-%x}\"\\n"
-run_get_source_and_dir_help_string+="\\n"
-run_get_source_and_dir_help_string+="output - rgsd=(\"source\", \"dir\")\\n"
-run_get_source_and_dir_help_string+="to use run -\\n"
-run_get_source_and_dir_help_string+="  sd=\"\$(get-sandd \"\$source\")\"\\n"
-run_get_source_and_dir_help_string+="  or sd=\"\$(get-source-and-dir \"\$source\")\"\\n"
-run_get_source_and_dir_help_string+="    source=\"\$(echo \"\$sd\" | jq -r .source)\"\\n"
-run_get_source_and_dir_help_string+="    dir=\"\$(echo \"\$sd\" | jq -r .dir)\"\\n"
-run_get_source_and_dir_help_string+="\\n"
-run_get_source_and_dir_help_string+="after the eval statement\\n"
-run_get_source_and_dir_help_string+="* \$source will be set to source resolving symlinks relative to calling pwd\\n"
-run_get_source_and_dir_help_string+="* \$dir will be set to the absolute parent dir of \$source\\n"
 
-source="$1"
-dir=""
+# skip environment validation so that running a *.rc file doesn't take forever
 
-if [ -z "$source" ]; then
-	echo -e "$run_get_source_and_dir_help_string" >&2
-	[[ $- == *i* ]] && exit 1
+#
+# global defaults
+#
+DIR=""
+SHOW_HELP=false
+SOURCE=""
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
-while [ -L "$source" ]; do # resolve $source until the file is no longer a symlink
-	dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
-	source="$(readlink "$source")"
-	[[ $source != /* ]] && \
-		source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+#
+# helper functions
+#
+
+# script help message
+function help {
+	command_for_help="$(basename "$0")"
+	cat <<- EOF
+		----------
+		usage: $command_for_help <arguments>
+		----------
+		description: get the source and dir of a script
+		----------
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-s|--source  - (required, current: $SOURCE) The source to resolve, see below for more info.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		----------
+		notes:
+		to get script source per shell use the following:
+		* sh   - source="\$0"
+		* bash - source="\${BASH_SOURCE[0]}"
+		* zsh  - source="\${(%):-%x}"
+
+		output  - sd={"source": "\$source", "dir": "\$dir"}
+		.source - the source resolving symlinks relative to calling pwd
+		.dir    - the absolute parent dir of .source
+		----------
+		examples:
+		get source and dir - sd="\$($command_for_help -s "\$source")"; source="\$(echo "\$sd" | jq -r .source)"; dir="\$(echo "\$sd" | jq -r .dir)"
+		----------
+	EOF
+}
+
+#
+# CLI parsing
+#
+PARAMS=""
+while (("$#")); do
+	case "$1" in
+	# help flag
+	-h | --help)
+		SHOW_HELP=true
+		shift
+		;;
+	# source, required argument
+	-s | --source)
+		if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+			SOURCE="$2"
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# verbosity multi-flag
+	-v | --verbose)
+		((VERBOSITY+=1))
+		shift
+		;;
+	# unsupported flags and arguments
+	-* | --*=)
+		echo "Error: Unsupported flag $1" >&2
+		help
+		exit 1
+		;;
+	# preserve positional arguments
+	*)
+		PARAMS="$PARAMS $1"
+		shift
+		;;
+	esac
 done
-dir="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
-echo "{\"source\": \"$source\", \"dir\": \"$dir\"}"
+
+#
+# Do the work
+#
+[ $SHOW_HELP == true ] && help && exit 0
+
+if [ -z "$SOURCE" ]; then
+	echo "-s was empty" >&2
+	help
+	# only error if we are in an interactive shell
+	[[ $- =~ i ]] && exit 1 || exit 0
+fi
+
+# resolve $source until the file is no longer a symlink
+while [ -L "$SOURCE" ]; do
+	DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+	SOURCE="$(readlink "$SOURCE")"
+	# if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+	[[ $SOURCE != /* ]] && \
+		SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+SOURCE="$DIR/$(basename "$SOURCE")"
+echo "{\"source\": \"$SOURCE\", \"dir\": \"$DIR\"}"

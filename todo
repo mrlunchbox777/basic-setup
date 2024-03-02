@@ -1,5 +1,7 @@
 TODO
 
+move all todos to issues for better tracking
+add back positional parameters to a lot of commands, required args (how, kgp, kgpbl, etc)
 add an option to support docker build images with cleanup
 all of the scripts in shared-scripts need to move to options rather than ordered parameters
 consider creating an alias directory in shared-scripts full of links like bin to make the aliases available by PATH

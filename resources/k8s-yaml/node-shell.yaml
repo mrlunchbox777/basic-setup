@@ -2,9 +2,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    app: $pod_name
-  name: $pod_name
-  namespace: "kube-system"
+    app: "$POD_NAME"
+    app.kubernetes.io/name: "node-shell"
+    app.kubernetes.io/instance: "$POD_NAME"
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: "node-shell"
+    app.kubernetes.io/part-of: "node-shell"
+    app.kubernetes.io/managed-by: "basic-setup"
+  name: "$POD_NAME"
+  namespace: "$NAMESPACE"
 
 spec:
   containers:
@@ -19,8 +25,8 @@ spec:
       - "14000"
     command:
       - "nsenter"
-    image: $BASIC_SETUP_ALPINE_IMAGE_TO_USE
-    name: $pod_name
+    image: "$IMAGE_TO_USE"
+    name: "$POD_NAME"
     resources:
       limits:
         cpu: 500m
@@ -32,7 +38,7 @@ spec:
   hostIPC: true
   hostNetwork: true
   nodeSelector:
-    "kubernetes.io/hostname": "$node_name"
+    "kubernetes.io/hostname": "$NODE_NAME"
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:

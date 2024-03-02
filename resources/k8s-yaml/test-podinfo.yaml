@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: "$POD_NAME"
+    app.kubernetes.io/name: "test-podinfo"
+    app.kubernetes.io/instance: "$POD_NAME"
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: "test-podinfo"
+    app.kubernetes.io/part-of: "test-podinfo"
+    app.kubernetes.io/managed-by: "basic-setup"
+  name: "$POD_NAME"
+  namespace: "$NAMESPACE"
+
+spec:
+  containers:
+  - image: "$IMAGE_TO_USE"
+    name: "$POD_NAME"
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+  restartPolicy: "Never"
+  terminationGracePeriodSeconds: 0
+  tolerations:
+    - operator: "Exists"

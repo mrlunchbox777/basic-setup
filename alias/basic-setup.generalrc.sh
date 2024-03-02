@@ -8,6 +8,7 @@ shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
 		echo -e "error finding shared-scripts..." >&2
+		# TODO: https://github.com/mrlunchbox777/basic-setup/issues/41
 		exit 1
 fi
 
@@ -17,6 +18,10 @@ export PATH="$shared_scripts_path/bin:$PATH"
 export PATH="$shared_scripts_path/big-bang/bin:$PATH"
 # Include the shared-scripts/alias in the PATH
 export PATH="$shared_scripts_path/alias/bin:$PATH"
+# Include ~/.local/bin in the PATH
+if [ -d $HOME/.local/bin ]; then
+	export PATH="$HOME/.local/bin:$PATH"
+fi
 
 source=""
 
@@ -42,7 +47,7 @@ case "$CURRENT_SHELL" in
 		;;
 esac
 
-sd="$(general-get-source-and-dir "$source")"
+sd="$(general-get-source-and-dir -s "$source")"
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
@@ -60,6 +65,6 @@ fi
 
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
-if [[ "$(general-command-installed bat)" == "true" ]]; then
+if [[ "$(general-command-installed -c bat)" == "true" ]]; then
 	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi

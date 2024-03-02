@@ -13,12 +13,36 @@ fi
 #
 # global defaults
 #
+PASSWORD=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_PASSWORD:-""}
+REGISTRY=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_REGISTRY:-""}
 SHOW_HELP=false
-PASSWORD=""
-REGISTRY="registry1.dso.mil"
-USER_REGISTRY_CREDENTIALS=true
-USERNAME=""
-VERBOSITY=0
+USER_REGISTRY_CREDENTIALS=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_USER_REGISTRY_CREDENTIALS:-""}
+USERNAME=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_USERNAME:-""}
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if [ -z "$PASSWORD" ]; then
+	PASSWORD=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_PASSWORD:-""}
+fi
+if [ -z "$REGISTRY" ]; then
+	REGISTRY=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_REGISTRY:-"registry1.dso.mil"}
+fi
+if [ -z "$USER_REGISTRY_CREDENTIALS" ]; then
+	USER_REGISTRY_CREDENTIALS=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_USER_REGISTRY_CREDENTIALS:-true}
+fi
+if [ -z "$USERNAME" ]; then
+	USERNAME=${BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_USERNAME:-""}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -34,11 +58,13 @@ function help {
 		----------
 		description: runs docker login, with good defaults
 		----------
-		-h|--help     - (flag, default: false) Print this help message and exit.
-		-p|--password - (optional, default: "") password for the registry, will pull from registry-values.yaml override file if empty.
-		-r|--registry - (optional, default: "registry1.dso.mil") registry to login to.
-		-u|--username - (optional, default: "") username for the registry, will pull from registry-values.yaml override file if empty.
-		-v|--verbose  - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-p|--password - (optional, current: "$PASSWORD") password for the registry, will pull from registry-values.yaml override file if empty, also set with \`BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_PASSWORD\`.
+		-r|--registry - (optional, current: "$REGISTRY") registry to login to, also set with \`BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_REGISTRY\`.
+		-u|--username - (optional, current: "$USERNAME") username for the registry, will pull from registry-values.yaml override file if empty, also set with \`BASIC_SETUP_BIG_BANG_DOCKER_LOGIN_USERNAME\`.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		----------
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		login to the default registry - $command_for_help

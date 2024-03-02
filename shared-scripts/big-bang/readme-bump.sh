@@ -14,7 +14,19 @@ fi
 # global defaults
 #
 SHOW_HELP=false
-VERBOSITY=0
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 
 #
 # helper functions
@@ -29,10 +41,11 @@ function help {
 		----------
 		description: updates the readme for the bigbang helm chart
 		----------
-		-h|--help    - (flag, default: false) Print this help message and exit.
-		-v|--verbose - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: Adapted from and for more info see - https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		update the readme - $command_for_help

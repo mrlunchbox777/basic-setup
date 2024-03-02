@@ -1,14 +1,37 @@
 #! /usr/bin/env bash
 
 #
+# Environment Validation
+#
+validation="$(environment-validation -c -l "core" 2>&1)"
+if [ ! -z "$validation" ]; then
+	echo "Validation error:" >&2
+	echo "$validation" >&2
+	exit 1
+fi
+
+#
 # global defaults
 #
 ARGS=""
 SHOW_HELP=false
 USE_INIT=true
-USE_REMOTE=false
 USE_RECURSIVE=true
-VERBOSITY=0
+USE_REMOTE=false
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
+
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
+# computed values (often can't be alphabetical)
+#
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
+
 
 #
 # helper functions
@@ -24,11 +47,11 @@ function help {
 		----------
 		description: Updates (and inits if needed) all submodules to the pinned version.
 		----------
-		-h|--help      - (flag, default: false) Print this help message and exit.
-		-i|--init      - (flag, default: true) Init submodules that have not been init-ed yet, pass -i to turn it off.
-		-r|--remote    - (flag, default: false) Update to the remote instead of what the repo has pinned.
-		-R|--recursive - (flag, default: true) Recursively update submodules, pass -R to turn it off.
-		-v|--verbose   - (multi-flag, default: 0) Increase the verbosity by 1.
+		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-i|--init      - (flag, current: $USE_INIT) Init submodules that have not been init-ed yet, pass -i to turn it off.
+		-r|--remote    - (flag, current: $USE_REMOTE) Update to the remote instead of what the repo has pinned.
+		-R|--recursive - (flag, current: $USE_RECURSIVE) Recursively update submodules, pass -R to turn it off.
+		-v|--verbose   - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		update to pinned - $command_for_help

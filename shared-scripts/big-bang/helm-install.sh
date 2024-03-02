@@ -13,15 +13,28 @@ fi
 #
 # global defaults
 #
-EXCLUDE_DEFAULT_YAML=false
-SHOW_HELP=false
-VERBOSITY=0
+COMBINED_YAML_FILES=()
+EXCLUDE_DEFAULT_YAML=${BAISC_SETUP_BIG_BANG_HELM_INSTALL_EXCLUDE_DEFAULT_YAML:-""}
 INSTALL_COMMAND=""
 OVERRIDE_FILES=()
+SHOW_HELP=false
+VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 YAML_FILES=()
-COMBINED_YAML_FILES=()
 
+#
+# load environment variables
+#
+. basic-setup-set-env
+
+#
 # computed values (often can't be alphabetical)
+#
+if [ -z "$EXCLUDE_DEFAULT_YAML" ]; then
+	EXCLUDE_DEFAULT_YAML=${BAISC_SETUP_BIG_BANG_HELM_INSTALL_EXCLUDE_DEFAULT_YAML:-false}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
+fi
 BIG_BANG_DIR="$(big-bang-get-repo-dir)"
 YAML_FILES_ARGS=""
 
@@ -39,16 +52,17 @@ function help {
 		----------
 		description: runs helm install scripts
 		----------
-		-c|--install-command      - (flag, default: empty string) name of install script in the override dir, this runs instead of the generic bigbang deploy.
-		-e|--exclude-default-yaml - (flag, default: false) Don't include the default yaml files (listed below).
-		-f|--yaml-file            - (multi-option, default: empty array) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
-		-h|--help                 - (flag, default: false) Print this help message and exit.
-		-o|--override-files       - (multi-option, default: empty array) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
-		-v|--verbose              - (multi-flag, default: 0) Increase the verbosity by 1.
+		-c|--install-command      - (flag, current: \"$INSTALL_COMMAND\") name of install script in the override dir, this runs instead of the generic bigbang deploy.
+		-e|--exclude-default-yaml - (flag, current: $EXCLUDE_DEFAULT_YAML) Don't include the default yaml files (listed below), also set with \`BAISC_SETUP_BIG_BANG_HELM_INSTALL_EXCLUDE_DEFAULT_YAML\`.
+		-f|--yaml-file            - (multi-option, current: (${YAML_FILES[@]})) Any number of yaml files in the override dir to include with -f on the install command, e.g. ~/extra-value.yaml.
+		-h|--help                 - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-o|--override-files       - (multi-option, current: (${OVERRIDE_FILES[@]})) Any number of files in the override dir to include with -f on the install command, e.g. registry-values.yaml.
+		-v|--verbose              - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: first the default yaml files are added (unless excluded), then -f files are added in the order they are specified, then -o files are added in the order they are specified.
 		  default yaml files (in order): chart/ingress-certs.yaml, docs/assets/configs/example/policy-overrides-k3d.yaml, ../overrides/registry-values.yaml
 		  default then -f then -o
+		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
 		examples:
 		run basic big bang install                     - $command_for_help
