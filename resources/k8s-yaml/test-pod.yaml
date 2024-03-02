@@ -14,19 +14,19 @@ metadata:
 
 spec:
   containers:
-  - args:
-      - "-f"
-      - "/dev/null"
-    command:
-      - "tail"
-    image: "$IMAGE_TO_USE"
-    name: "$POD_NAME"
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    securityContext:
-      privileged: true
+    - args:
+        - "-f"
+        - "/dev/null"
+      command:
+        - "tail"
+      image: "$IMAGE_TO_USE"
+      name: "$POD_NAME"
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+      securityContext:
+        privileged: true
   restartPolicy: "Never"
   terminationGracePeriodSeconds: 0
   tolerations:

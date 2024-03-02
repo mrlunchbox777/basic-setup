@@ -2244,14 +2244,13 @@
         {
           "arguments": "",
           "enabled": false,
-          "manager-name": "winget",
+          "manager-name": "xclip",
           "notes": "Windows doesn't have xclip.",
           "package-name": ""
         }
       ],
       "pinned-version": null
     },
-
     {
       "command": "yq",
       "description": "A lightweight and portable command-line YAML processor.",

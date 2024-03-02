@@ -78,7 +78,7 @@ function help {
 		script flags (all flags below are passed to bb-install_flux.sh):
 		-h|--help                - print this help message and exit
 		-r|--registry-url        - (optional, default: registry1.dso.mil) registry url to use for flux installation
-		-s|--use-existing-secret - (optional) use existing private-registry secret 
+		-s|--use-existing-secret - (optional) use existing private-registry secret
 		-u|--registry-username   - (required) registry username to use for flux installation
 		-p|--registry-password   - (optional, prompted if no existing secret) registry password to use for flux installation
 		-w|--wait-timeout        - (optional, default: 120) how long to wait; in seconds, for each key flux resource component

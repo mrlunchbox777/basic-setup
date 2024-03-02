@@ -14,25 +14,25 @@ metadata:
 
 spec:
   containers:
-  - args:
-      - "-t"
-      - "1"
-      - "-m"
-      - "-u"
-      - "-i"
-      - "-n"
-      - "sleep"
-      - "14000"
-    command:
-      - "nsenter"
-    image: "$IMAGE_TO_USE"
-    name: "$POD_NAME"
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-    securityContext:
-      privileged: true
+    - args:
+        - "-t"
+        - "1"
+        - "-m"
+        - "-u"
+        - "-i"
+        - "-n"
+        - "sleep"
+        - "14000"
+      command:
+        - "nsenter"
+      image: "$IMAGE_TO_USE"
+      name: "$POD_NAME"
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+      securityContext:
+        privileged: true
   dnsPolicy: ClusterFirst
   hostPID: true
   hostIPC: true

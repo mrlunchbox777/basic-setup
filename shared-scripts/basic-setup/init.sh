@@ -48,7 +48,7 @@ function help {
 		----------
 		usage: $command_for_help <arguments>
 		----------
-		description: 
+		description:
 		----------
 		-a|--alias   - (flag, current: $SHOULD_DO_ALIAS_ONLY) Only add aliases, also set with \`BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_DO_ALIAS_ONLY\`.
 		-g|--github  - (flag, current: $SHOULD_ADD_GITHUB_KEY) Add github.com to known_hosts (passing this sets it to false), also set with \`BASIC_SETUP_BASIC_SETUP_INIT_SHOULD_ADD_GITHUB_KEY\`.
