@@ -58,8 +58,8 @@ function help {
 		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-i|--image     - (optional, current: "$IMAGE_TO_USE") The image to use for the pod, also set with \`BASIC_SETUP_K8S_CREATE_NODE_SHELL_IMAGE_TO_USE\`.
 		-n|--namespace - (optional, current: "$NAMESPACE") The namespace to create the pod in, also set with \`BASIC_SETUP_K8S_CREATE_NODE_SHELL_NAMESPACE\`.
-		--node         - (optional, current: "$NODE_NAME") The name of the node to get shell on, default interactive.
 		-v|--verbose   - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--node         - (optional, current: "$NODE_NAME") The name of the node to get shell on, default interactive.
 		----------
 		note: this is often blocked by security policies, and is not recommended for production use
 		----------

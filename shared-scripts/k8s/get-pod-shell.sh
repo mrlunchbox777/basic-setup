@@ -184,5 +184,3 @@ for i in $(seq 0 $(($PODS_INFO_COUNT - 1))); do
 	(($VERBOSITY>0)) && echo "On pod \`$POD_INFO_NAME\` in namespace \`$POD_INFO_NAMESPACE\` running \`$COMMAND_TO_RUN\`"
 	kubectl exec $POD_INFO_NAME -n $POD_INFO_NAMESPACE -it -- sh -c "$COMMAND_TO_RUN"
 done
-
-

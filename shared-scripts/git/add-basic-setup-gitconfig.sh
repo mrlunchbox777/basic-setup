@@ -8,6 +8,7 @@
 SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
+# NOTE: we don't use general-get-basic-setup-dir here because it migh not be available yet
 if [ ! -z "$(command -v basic-setup-set-env)" ]; then
 	#
 	# load environment variables

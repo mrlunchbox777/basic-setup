@@ -234,14 +234,12 @@ BACKUP_DIR="$TARGET_DIR/$BACKUP_DIR_NAME"
 # error or prompt if backup directory exists
 if [ -d "$BACKUP_DIR" ]; then
 	if [ "$INTERACTIVE" == "true" ]; then
-		echo "\"$BACKUP_DIR\" exists, would you like to remove it? [y/n]: " && read
-		echo
-		if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-			rm -rf "$BACKUP_DIR"
-		else
+		message="\"$BACKUP_DIR\" exists, would you like to remove it? [y/n]: "
+		if [ "$(general-interactive-confirm -m "$message")" == false ]; then
 			echo "Didn't remove \"$BACKUP_DIR\", exiting..." >&2
 			exit 1
 		fi
+		rm -rf "$BACKUP_DIR"
 	else
 		echo "\"$BACKUP_DIR\" exists, exiting..." >&2
 		exit 1
