@@ -13,10 +13,10 @@ fi
 #
 # global defaults
 #
-RETURN_ALL=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_RETURN_ALL:-""}
 LABEL_KEY=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_KEY:-""}
 LABEL_VALUE=""
 NAMESPACE=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_NAMESPACE:-""}
+RETURN_ALL=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_RETURN_ALL:-""}
 SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
@@ -28,9 +28,6 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$LABEL_KEY" ]; then
 	LABEL_KEY=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_KEY:-"app.kubernetes.io/name"}
 fi
@@ -39,6 +36,9 @@ if [ -z "$NAMESPACE" ]; then
 fi
 if [ -z "$RETURN_ALL" ]; then
 	RETURN_ALL=${BASIC_SETUP_K8S_GET_POD_BY_LABEL_RETURN_ALL:-"false"}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #
@@ -57,9 +57,9 @@ function help {
 		-a|--return-all  - (flag, current: $RETURN_ALL) Return the raw kubectl output, in json, instead of the pod-id.
 		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-l|--label-value - (required, current: "$LABEL_VALUE") The label value to search for.
-		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_GET_POD_BY_LABEL_KEY\`.
 		-n|--namespace   - (optional, current: "$NAMESPACE") The namespace to search in, defaults to all (-A), also set with \`BASIC_SETUP_K8S_GET_POD_BY_LABEL_NAMESPACE\`.
 		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_GET_POD_BY_LABEL_KEY\`.
 		----------
 		note: use the recommended labels for your app, see https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
 		    - default label key: app.kubernetes.io/name

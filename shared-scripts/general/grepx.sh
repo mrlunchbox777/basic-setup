@@ -43,13 +43,13 @@ function help {
 		----------
 		description: grep for files containing a given expression and run a command on them.
 		----------
-		-c|--command  - (optional, current: $COMMAND) The command to run on each file.
-		-e|--expression  - (required, current: $EXPRESSION) The expression to search for.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-c|--command    - (optional, current: $COMMAND) The command to run on each file.
+		-e|--expression - (required, current: $EXPRESSION) The expression to search for.
+		-h|--help       - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose    - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		open found files in code - $command_for_help -e "TODO"
+		open found files in code   - $command_for_help -e "TODO"
 		count lines in found files - $command_for_help -e "TODO" -c "wc -l"
 		----------
 	EOF

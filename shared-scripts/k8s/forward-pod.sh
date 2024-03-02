@@ -29,9 +29,6 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$BIND_PORT" ]; then
 	BIND_PORT=${BASIC_SETUP_K8S_FORWARD_POD_BIND_PORT:-""}
 fi
@@ -40,6 +37,9 @@ if [ -z "$LABEL_KEY" ]; then
 fi
 if [ -z "$NAMESPACE" ]; then
 	NAMESPACE=${BASIC_SETUP_K8S_FORWARD_POD_NAMESPACE:-""}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #
@@ -58,10 +58,10 @@ function help {
 		-b|--bind-port   - (optional, current: "$BIND_PORT") The port to bind to on localhost, defaults to a random port (echoed with verbosity<0), also set with \`BASIC_SETUP_K8S_FORWARD_POD_BIND_PORT\`.
 		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-l|--label-value - (required, current: "$LABEL_VALUE") The label value to search for.
-		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_FORWARD_POD_LABEL_KEY\`.
 		-n|--namespace   - (optional, current: "$NAMESPACE") The namespace to search in, defaults to all (-A), also set with \`BASIC_SETUP_K8S_FORWARD_POD_NAMESPACE\`.
 		-p|--pod-port    - (optional, current: "$POD_PORT") The port to forward from the pod, also set with \`BASIC_SETUP_K8S_FORWARD_POD_POD_PORT\`.
 		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_FORWARD_POD_LABEL_KEY\`.
 		----------
 		note: podinfo is a good pod to test this with, but the default port is 9898 not 80
 		----------

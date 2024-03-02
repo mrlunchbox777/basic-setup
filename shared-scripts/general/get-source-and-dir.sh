@@ -8,8 +8,8 @@
 # global defaults
 #
 DIR=""
-SOURCE=""
 SHOW_HELP=false
+SOURCE=""
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -43,13 +43,13 @@ function help {
 		----------
 		notes:
 		to get script source per shell use the following:
-		* sh - source="\$0"
+		* sh   - source="\$0"
 		* bash - source="\${BASH_SOURCE[0]}"
-		* zsh - source="\${(%):-%x}"
+		* zsh  - source="\${(%):-%x}"
 
-		output - sd={"source": "\$source", "dir": "\$dir"}
+		output  - sd={"source": "\$source", "dir": "\$dir"}
 		.source - the source resolving symlinks relative to calling pwd
-		.dir - the absolute parent dir of .source
+		.dir    - the absolute parent dir of .source
 		----------
 		examples:
 		get source and dir - sd="\$($command_for_help -s "\$source")"; source="\$(echo "\$sd" | jq -r .source)"; dir="\$(echo "\$sd" | jq -r .dir)"

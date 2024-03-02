@@ -13,8 +13,8 @@ fi
 #
 # global defaults
 #
-TARGET_DIR="./"
 SHOW_HELP=false
+TARGET_DIR="./"
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #

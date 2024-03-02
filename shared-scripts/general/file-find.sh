@@ -15,8 +15,8 @@ fi
 #
 MAX_DEPTH=2147483647
 TARGET_FILE=""
-SEARCH_DIR="./"
 SHOW_HELP=false
+SEARCH_DIR="./"
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -44,14 +44,14 @@ function help {
 		----------
 		description: find a file by name
 		----------
-		-f|--file    - (required, current: "$TARGET_FILE") The file to find.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-m|--maxdepth- (optional, current: "$MAX_DEPTH") The maximum depth to search recursively.
-		-s|--search  - (optional, current: "$SEARCH_DIR") The directory to search in.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-f|--file     - (required, current: "$TARGET_FILE") The file to find.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-m|--maxdepth - (optional, current: "$MAX_DEPTH") The maximum depth to search recursively.
+		-s|--search   - (optional, current: "$SEARCH_DIR") The directory to search in.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		find .bashrc - $command_for_help -f .bashrc -s ~
+		find .bashrc                  - $command_for_help -f .bashrc -s ~
 		find README.md in current dir - $command_for_help -f README.md
 		----------
 	EOF

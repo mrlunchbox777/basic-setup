@@ -14,9 +14,9 @@ fi
 # global defaults
 #
 ALL_INFO=false
-SHOW_HELP=false
 NAME=${BASIC_SETUP_K8S_GET_DEPLOY_IMAGE_NAME:-""}
 NAMESPACE=${BASIC_SETUP_K8S_GET_DEPLOY_IMAGE_NAMESPACE:-""}
+SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -27,14 +27,14 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$NAME" ]; then
 	NAME=${BASIC_SETUP_K8S_GET_DEPLOY_IMAGE_NAME:-""}
 fi
 if [ -z "$NAMESPACE" ]; then
 	NAMESPACE=${BASIC_SETUP_K8S_GET_DEPLOY_IMAGE_NAMESPACE:-""}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #

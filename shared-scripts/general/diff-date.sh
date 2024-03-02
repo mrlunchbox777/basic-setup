@@ -26,11 +26,11 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$END_DATE" ]; then
 	END_DATE=$(date)
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #
@@ -52,7 +52,8 @@ function help {
 		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		find difference between two dates - $command_for_help -s 2020-01-01 -e 2020-01-02
+		find difference between two dates    - $command_for_help -s 2020-01-01 -e 2020-01-02
+		find difference between date and now - $command_for_help -s 2020-01-01
 		----------
 	EOF
 }

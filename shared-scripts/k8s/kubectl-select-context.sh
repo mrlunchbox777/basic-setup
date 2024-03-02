@@ -42,9 +42,9 @@ function help {
 		----------
 		description: set the current kubernetes context
 		----------
-		-c|--context     - (optional, current: "$CONTEXT") The kubernetes context to use, default interactive.
-		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-c|--context - (optional, current: "$CONTEXT") The kubernetes context to use, default interactive.
+		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		set context interactively - $command_for_help

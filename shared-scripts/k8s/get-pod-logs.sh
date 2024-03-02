@@ -14,10 +14,10 @@ fi
 # global defaults
 #
 ALL_LOGS=${BASIC_SETUP_K8S_GET_POD_LOGS_ALL_LOGS:-""}
-SHOW_HELP=false
 LABEL_KEY=${BASIC_SETUP_K8S_GET_POD_LOGS_LABEL_KEY:-""}
 LABEL_VALUE=""
 NAMESPACE=${BASIC_SETUP_K8S_GET_POD_LOGS_NAMESPACE:-""}
+SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -28,9 +28,6 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
-if (( $VERBOSITY == -1 )); then
-	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
-fi
 if [ -z "$ALL_LOGS" ]; then
 	ALL_LOGS=${BASIC_SETUP_K8S_GET_POD_LOGS_ALL_LOGS:-"false"}
 fi
@@ -39,6 +36,9 @@ if [ -z "$LABEL_KEY" ]; then
 fi
 if [ -z "$NAMESPACE" ]; then
 	NAMESPACE=${BASIC_SETUP_K8S_GET_POD_LOGS_NAMESPACE:-""}
+fi
+if (( $VERBOSITY == -1 )); then
+	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
 #
@@ -57,9 +57,9 @@ function help {
 		-a|--all-logs    - (flag, current: $ALL_LOGS) Return all images for the deployment, instead of just the last one, also set with \`BASIC_SETUP_K8S_GET_DEPLOY_IMAGE_ALL_IMAGES\`.
 		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
 		-l|--label-value - (required, current: "$LABEL_VALUE") The label value to search for.
-		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_GET_POD_LOGS_LABEL_KEY\`.
 		-n|--namespace   - (optional, current: "$NAMESPACE") The namespace the deployment is in, also set with \`BASIC_SETUP_K8S_GET_POD_LOGS_NAMESPACE\`.
 		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		--label-key      - (optional, current: "$LABEL_KEY") The label key to search for, also set with \`BASIC_SETUP_K8S_GET_POD_LOGS_LABEL_KEY\`.
 		----------
 		examples:
 		get pod logs - $command_for_help -l "my-app" -n "my-namespace"

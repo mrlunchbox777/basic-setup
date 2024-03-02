@@ -43,8 +43,8 @@ function help {
 		description: echos the current date in ISO-8601 format
 		----------
 		-g|--granularity - (optional, current: "$GRANULARITY") The granularity of the date to print.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		get the current date - $command_for_help

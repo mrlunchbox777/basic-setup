@@ -15,8 +15,8 @@ fi
 #
 MAX_DEPTH=2147483647
 SEARCH_DIR="./"
-TARGET_DIR=""
 SHOW_HELP=false
+TARGET_DIR=""
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
 #
@@ -44,14 +44,14 @@ function help {
 		----------
 		description: find a directory by name
 		----------
-		-d|--dir     - (required, current: "$TARGET_DIR") The directory to count lines in.
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-m|--maxdepth- (optional, current: "$MAX_DEPTH") The maximum depth to search recursively.
-		-s|--search  - (optional, current: "$SEARCH_DIR") The directory to search in.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-d|--dir      - (required, current: "$TARGET_DIR") The directory to count lines in.
+		-h|--help     - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-m|--maxdepth - (optional, current: "$MAX_DEPTH") The maximum depth to search recursively.
+		-s|--search   - (optional, current: "$SEARCH_DIR") The directory to search in.
+		-v|--verbose  - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
-		find .config/ - $command_for_help -d .config -s ~
+		find .config/                - $command_for_help -d .config -s ~
 		find bin dirs in current dir - $command_for_help -d bin
 		----------
 	EOF

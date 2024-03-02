@@ -42,9 +42,9 @@ function help {
 		----------
 		description: set the current kubernetes namespace
 		----------
-		-h|--help        - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-n|--namespace   - (optional, current: "$NAMESPACE") The namespace to search in, default interactive.
-		-v|--verbose     - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-h|--help      - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-n|--namespace - (optional, current: "$NAMESPACE") The namespace to search in, default interactive.
+		-v|--verbose   - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		examples:
 		set namespace interactively - $command_for_help

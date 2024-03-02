@@ -7,7 +7,7 @@ how-function() {
 	local VERBOSITY="$5"
 
 	if [ -z "$COMMAND" ]; then
-		echo "Error: Argument for -c is missing" >&2
+		echo "Error: Argument for -c (\$1) is missing" >&2
 		how --help
 		return 1
 	fi
@@ -94,8 +94,8 @@ how-function() {
 	else
 		echo "--"
 		echo "$COMMAND is an alias for $how_after"
-		echo "running 'howa \"$how_after\" \"$AFTER_CONTEXT\" \"$BEFORE_CONTEXT\" \"$LANGUAGE\" $VERBOSITY'"
+		echo "running 'howa \"$how_after\" \"$BEFORE_CONTEXT\" \"$AFTER_CONTEXT\" \"$LANGUAGE\" $VERBOSITY'"
 		echo "--"
-		how-function "$how_after" "$AFTER_CONTEXT" "$BEFORE_CONTEXT" "$LANGUAGE" $VERBOSITY
+		how-function "$how_after" "$BEFORE_CONTEXT" "$AFTER_CONTEXT" "$LANGUAGE" $VERBOSITY
 	fi
 }

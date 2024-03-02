@@ -5,8 +5,8 @@
 #
 # global defaults
 #
-TARGET=""
 SHOW_HELP=false
+TARGET=""
 VERBOSITY=0
 
 #

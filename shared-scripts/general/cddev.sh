@@ -10,8 +10,6 @@ if [ ! -z "$validation" ]; then
 	exit 1
 fi
 
-# TODO: start here
-
 #
 # global defaults
 #
