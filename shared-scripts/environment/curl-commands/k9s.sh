@@ -200,6 +200,11 @@ while (("$#")); do
 			shift 1
 		fi
 		;;
+	# help flag
+	-h | --help)
+		SHOW_HELP=true
+		shift
+		;;
 	# Get latest version flag
 	-l | --latest-version)
 		GET_LATEST_VERSION=true
@@ -218,11 +223,6 @@ while (("$#")); do
 	# Test version flag
 	-t | --test-version)
 		TEST_VERSION=true
-		shift
-		;;
-	# help flag
-	-h | --help)
-		SHOW_HELP=true
 		shift
 		;;
 	# verbosity multi-flag

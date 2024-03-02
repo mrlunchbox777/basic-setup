@@ -289,16 +289,6 @@ create-registry-secret() {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# attach secondary ip flag
-	--k3d-a)
-		ATTACH_SECONDARY_PUBLIC_IP=true
-		shift
-		;;
-	# big flag
-	--k3d-b)
-		USE_BIG_M5=true
-		shift
-		;;
 	# install command flag
 	-c | --install-command)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -331,6 +321,59 @@ while (("$#")); do
 			exit 1
 		fi
 		;;
+	# registry password, optional argument
+	--flux-p)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			REGISTRY_PASSWORD=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# registry, optional argument
+	--flux-r)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			REGISTRY_URL=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# manual auth flag
+	--flux-s)
+		USE_EXISTING_SECRET=true
+		shift
+		;;
+	--flux-u)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			REGISTRY_USERNAME=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# wait timeout, optional argument
+	--flux-w)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			WAIT_TIMEOUT=$2
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
+	# full help flag
+	--full-help)
+		SHOW_FULL_HELP=true
+		shift
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -345,14 +388,34 @@ while (("$#")); do
 		SKIP_K3d=true
 		shift
 		;;
-	# use local log flag
-	-l | --log)
-		USE_LOCAL_LOG=true
+	# attach secondary ip flag
+	--k3d-a)
+		ATTACH_SECONDARY_PUBLIC_IP=true
+		shift
+		;;
+	# big flag
+	--k3d-b)
+		USE_BIG_M5=true
 		shift
 		;;
 	# metal lb flag
 	--k3d-m)
 		USE_METALLB=true
+		shift
+		;;
+	# private ip flag
+	--k3d-p)
+		USE_PRIVATE_IP=true
+		shift
+		;;
+	# weave flag
+	--k3d-w)
+		USE_WEAVE=true
+		shift
+		;;
+	# use local log flag
+	-l | --log)
+		USE_LOCAL_LOG=true
 		shift
 		;;
 	# manual auth flag
@@ -382,46 +445,9 @@ while (("$#")); do
 			exit 1
 		fi
 		;;
-	# private ip flag
-	--k3d-p)
-		USE_PRIVATE_IP=true
-		shift
-		;;
-	# registry password, optional argument
-	--flux-p)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			REGISTRY_PASSWORD=$2
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
-	# registry, optional argument
-	--flux-r)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			REGISTRY_URL=$2
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
 	# skip secret
 	-s | --skip-secret)
 		SKIP_INSTALL=true
-		shift
-		;;
-	# manual auth flag
-	--flux-s)
-		USE_EXISTING_SECRET=true
-		shift
-		;;
-	# full help flag
-	--full-help)
-		SHOW_FULL_HELP=true
 		shift
 		;;
 	# skip flux flag
@@ -430,32 +456,6 @@ while (("$#")); do
 		shift
 		;;
 	# registry username, optional argument
-	--flux-u)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			REGISTRY_USERNAME=$2
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
-	# weave flag
-	--k3d-w)
-		USE_WEAVE=true
-		shift
-		;;
-	# wait timeout, optional argument
-	--flux-w)
-		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-			WAIT_TIMEOUT=$2
-			shift 2
-		else
-			echo "Error: Argument for $1 is missing" >&2
-			help
-			exit 1
-		fi
-		;;
 	# verbosity multi-flag
 	-v | --verbose)
 		((VERBOSITY+=1))

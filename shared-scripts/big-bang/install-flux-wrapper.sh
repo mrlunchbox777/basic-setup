@@ -134,14 +134,14 @@ build-args() {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
-	# help flag
-	-h | --help)
-		SHOW_HELP=true
-		shift
-		;;
 	# full help flag
 	--full-help)
 		SHOW_FULL_HELP=true
+		shift
+		;;
+	# help flag
+	-h | --help)
+		SHOW_HELP=true
 		shift
 		;;
 	# manual auth flag

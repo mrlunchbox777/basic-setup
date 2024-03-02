@@ -74,6 +74,11 @@ while (("$#")); do
 			exit 1
 		fi
 		;;
+	# help flag
+	-h | --help)
+		SHOW_HELP=true
+		shift
+		;;
 	# maximum depth, optional argument
 	-m | --maxdepth)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -84,11 +89,6 @@ while (("$#")); do
 			help
 			exit 1
 		fi
-		;;
-	# help flag
-	-h | --help)
-		SHOW_HELP=true
-		shift
 		;;
 	# search directory, optional argument
 	-s | --search)

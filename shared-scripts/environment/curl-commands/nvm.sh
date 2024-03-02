@@ -153,6 +153,11 @@ while (("$#")); do
 		FORCE=true
 		shift
 		;;
+	# help flag
+	-h | --help)
+		SHOW_HELP=true
+		shift
+		;;
 	# The version to install, optional argument
 	-i | --install-version)
 		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
@@ -181,11 +186,6 @@ while (("$#")); do
 	# Test version flag
 	-t | --test-version)
 		TEST_VERSION=true
-		shift
-		;;
-	# help flag
-	-h | --help)
-		SHOW_HELP=true
 		shift
 		;;
 	# verbosity multi-flag
