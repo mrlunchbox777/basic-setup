@@ -13,6 +13,7 @@ fi
 #
 # global defaults
 #
+BIGBANG_PATH=${BAISC_SETUP_BIG_BANG_GET_REPO_DIR_BIGBANG_PATH:-""}
 SHOW_HELP=false
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
@@ -24,6 +25,9 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
+if [ -z "$BIGBANG_PATH" ]; then
+	BIGBANG_PATH=${BAISC_SETUP_BIG_BANG_GET_REPO_DIR_BIGBANG_PATH:-""}
+fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
@@ -41,8 +45,9 @@ function help {
 		----------
 		description: Returns the full path of the the bigbang directory
 		----------
-		-h|--help    - (flag, current: $SHOW_HELP) Print this help message and exit.
-		-v|--verbose - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
+		-b|--bigbang-path - (optional, current: "$BIGBANG_PATH") The path to the bigbang repo, also set with \`BAISC_SETUP_BIG_BANG_GET_REPO_DIR_BIGBANG_PATH\`. If not set, the script will search for the bigbang repo in the following directories: ./, $HOME/src, $HOME/, /home/, /.
+		-h|--help         - (flag, current: $SHOW_HELP) Print this help message and exit.
+		-v|--verbose      - (multi-flag, current: $VERBOSITY) Increase the verbosity by 1, also set with \`BASIC_SETUP_VERBOSITY\`.
 		----------
 		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
 		----------
@@ -58,6 +63,17 @@ function help {
 PARAMS=""
 while (("$#")); do
 	case "$1" in
+	# bigbang path argument
+	-b | --bigbang-path)
+		if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+			BIGBANG_PATH="$2"
+			shift 2
+		else
+			echo "Error: Argument for $1 is missing" >&2
+			help
+			exit 1
+		fi
+		;;
 	# help flag
 	-h | --help)
 		SHOW_HELP=true
@@ -87,7 +103,13 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-bigbang_k3d_path=$(find ./ -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
+if [ -z "$BIGBANG_PATH" ]; then
+	initial_path="$(pwd)"
+else
+	initial_path="$BIGBANG_PATH"
+fi
+
+bigbang_k3d_path=$(find "$initial_path" -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
 [ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/src -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
 [ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/ -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
 [ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find /home/ -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
