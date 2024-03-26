@@ -159,7 +159,7 @@ run-k3d-dev() {
 # do parsing on the log file to get the hosts and kubectl changes
 update-hosts-and-kubectl() {
 	(($VERBOSITY > 0)) && echo "Updating /etc/hosts and ~/.kube/config"
-	new_hosts_file_line="$(grep \.bigbang\.dev "$LOG_FILE")"
+	new_hosts_file_line="$(grep \.dev\.bigbang\.mil "$LOG_FILE")"
 	if [ -z "$new_hosts_file_line" ]; then
 		echo "Error: no hosts file line found in $LOG_FILE" >&2
 		exit 1
@@ -182,7 +182,7 @@ update-hosts-and-kubectl() {
 
 	(($VERBOSITY > 0)) && echo "new_hosts_file_line: $new_hosts_file_line"
 	(($VERBOSITY > 0)) && echo "new_kubectl_file: $new_kubectl_file"
-	sudo sed -i '/.*\.bigbang\.dev.*/d' /etc/hosts # remove old entries
+	sudo sed -i '/.*\.dev\.bigbang\.mil.*/d' /etc/hosts # remove old entries
 	echo "$new_hosts_file_line" | sudo tee -a /etc/hosts >/dev/null # add new entries
 	mv ~/.kube/config ~/.kube/config-$DATE_TO_USE.bak # backup old config
 	cp $new_kubectl_file ~/.kube/config # copy new config
