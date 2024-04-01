@@ -15,6 +15,7 @@ fi
 DOGFOOD_CONFIG_S3_PATH="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH:-""}"
 DOGFOOD_USER="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_USER:-""}"
 FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-""}
+KUBE_DIR="$HOME/.kube"
 PRIVATE_KEY_PATH="${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH:-""}"
 RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-""}
 SHOW_HELP=false
@@ -29,6 +30,8 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 #
 # computed values (often can't be alphabetical)
 #
+DEFAULT_KUBECONFIG="$KUBE_DIR/config"
+DOGFOOD_KUBECONFIG="$KUBE_DIR/dogfood.yaml"
 if [ -z "$DOGFOOD_CONFIG_S3_PATH" ]; then
 	DOGFOOD_CONFIG_S3_PATH=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_DOGFOOD_CONFIG_S3_PATH:-""}
 fi
@@ -39,13 +42,13 @@ if [ -z "$FORCE_NEW_CONFIG" ]; then
 	FORCE_NEW_CONFIG=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_FORCE_NEW_CONFIG:-false}
 fi
 if [ -z "$PRIVATE_KEY_PATH" ]; then
-	PRIVATE_KEY_PATH=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH:-"~/.ssh/id_rsa"}
+	PRIVATE_KEY_PATH=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_PRIVATE_KEY_PATH:-"$HOME/.ssh/id_rsa"}
 fi
 if [ -z "$RUN_IN_BACKGROUND" ]; then
 	RUN_IN_BACKGROUND=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_RUN_IN_BACKGROUND:-false}
 fi
 if [ -z "$SSHUTTLE_IP_RANGE" ]; then
-	SSHUTTLE_IP_RANGE=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-"192.168.13.0/24"}
+	SSHUTTLE_IP_RANGE=${BASIC_SETUP_BIG_BANG_DOGFOOD_PREP_SSHUTTLE_IP_RANGE:-"192.168.28.0/24"}
 fi
 if (( $VERBOSITY == -1 )); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
@@ -75,6 +78,7 @@ function help {
 		----------
 		note: if you need to download the dogfood kubeconfig you must provide -s, which you can find here - https://repo1.dso.mil/big-bang/team/deployments/bigbang#connecting-to-the-dogfood-api-server.
 		note: everything under big-bang will be moved to https://repo1.dso.mil/big-bang/product/packages/bbctl eventually
+		note: when upgrading dogfood-prep, you may need to update the IP range and filters to match the new cluster
 		----------
 		examples:
 		prep to connect to the dogfood cluster - $command_for_help
@@ -173,32 +177,36 @@ done
 
 sudo cat /dev/null # prompt for sudo password now
 
-if [ ! -d ~/.kube ]; then
-	mkdir ~/.kube
+if [ ! -d "$KUBE_DIR" ]; then
+	mkdir "$KUBE_DIR"
 fi
 if [ "$FORCE_NEW_CONFIG" == true ]; then
-	rm -f ~/.kube/dogfood.yaml
+	rm -f "$DOGFOOD_KUBECONFIG"
 fi
-if [ ! -f ~/.kube/dogfood.yaml ]; then
+if [ ! -f "$DOGFOOD_KUBECONFIG" ]; then
 	if [ -z "$DOGFOOD_CONFIG_S3_PATH" ]; then
-		echo "Error: dogfood config not found at ~/.kube/dogfood.yaml and no S3 path provided" >&2
+		echo "Error: dogfood config not found at \"$DOGFOOD_KUBECONFIG\" and no S3 path provided" >&2
 		help
 		exit 1
 	fi
-	aws s3 cp $DOGFOOD_CONFIG_S3_PATH ~/.kube/dogfood.yaml
+	aws s3 cp "$DOGFOOD_CONFIG_S3_PATH" "$DOGFOOD_KUBECONFIG"
 fi
-if [ -f ~/.kube/config ]; then
-	mv ~/.kube/config ~/.kube/config-$(date +%s).bak
+if [ -f "$DEFAULT_KUBECONFIG" ]; then
+	BACKUP_KUBECONFIG="$$KUBE_DIR/config-$(date +%s).bak"
+	if (( $VERBOSITY > 0 )); then
+		echo "backing up existing kubeconfig to \"$BACKUP_KUBECONFIG\""
+	fi
+	mv "$DEFAULT_KUBECONFIG" "$BACKUP_KUBECONFIG"
 fi
-cp ~/.kube/dogfood.yaml ~/.kube/config
+cp "$DOGFOOD_KUBECONFIG" "$DEFAULT_KUBECONFIG"
 
-dogfood_host="$(aws ec2 describe-instances --filters Name=tag:Name,Values=dogfood-bastion --output json | jq -r '.Reservations[0].Instances[0].PublicIpAddress')"
-ssh-keyscan -t rsa $dogfood_host | ssh-keygen -lf -
+DOGFOOD_HOST="$(aws ec2 describe-instances --filters Name=tag:Name,Values=dogfood2-bastion --output json | jq -r '.Reservations[0].Instances[0].PublicIpAddress')"
+ssh-keyscan -t rsa $DOGFOOD_HOST | ssh-keygen -lf -
 
 # this will need sudo
 if [ "$RUN_IN_BACKGROUND" == true ]; then
-	sshuttle --dns -vr $DOGFOOD_USER@$dogfood_host $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"' &
+	sshuttle --dns -vr $DOGFOOD_USER@$DOGFOOD_HOST $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"' &
 else
-	sshuttle --dns -vr $DOGFOOD_USER@$dogfood_host $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"'
+	sshuttle --dns -vr $DOGFOOD_USER@$DOGFOOD_HOST $SSHUTTLE_IP_RANGE --ssh-cmd 'ssh -i "'$PRIVATE_KEY_PATH'"'
 fi
 
