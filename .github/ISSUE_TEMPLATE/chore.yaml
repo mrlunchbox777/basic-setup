@@ -1,0 +1,44 @@
+name: Chore Request
+description: Request a chore to be completed
+title: "[Chore]: "
+labels: ["chore", "triage"]
+projects: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this chore request!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: textarea
+    id: what-is-the-chore
+    attributes:
+      label: Chore Description
+      description: What chore are you requesting?
+      placeholder: Tell us what you need done!
+      value: "renovate dependencies in the project"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Test
+      description: How can we test the chore you're requesting?
+      placeholder: Give us a step-by-step guide to test the chore. If the chore is not testable, please provide a reason.
+      value: "1. Build the project\n2. Run the tests\n3. See the chore completed"
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

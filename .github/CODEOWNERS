@@ -1,0 +1,17 @@
+# Find more info athttps://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# these global owners will be requested for
+# review when someone opens a pull request.
+* @mrlunchbox777
+
+# These owners own the CODEOWNERS file. This is a security
+# practice to ensure that the people that can add or remove
+# code owners is a small subset.
+/.github/CODEOWNERS @mrlunchbox777
+
+# These owners own the rest of the .github directory to limit
+# the number of people that can change these configuration,
+# meta, and project defining docs.
+/.github/ @mrlunchbox777

@@ -4,7 +4,7 @@ The code in basic-setup repository is always used at your own risk, all other st
 
 ## In Development
 
-This project is currently in beta with no real versions and should only be used in specifically approved use cases in highly secured environments.
+This project is currently in beta with no real versions and should only be used in specifically approved use cases in highly sensitive environments.
 
 ## Implementation
 

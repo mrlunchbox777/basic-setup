@@ -9,3 +9,5 @@ install/minikube*
 *.deb
 /shared-scripts/big-bang/bin/*
 !/shared-scripts/big-bang/bin/.gitkeep
+test.out
+bin/

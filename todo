@@ -1,5 +1,7 @@
 TODO
 
+move to golang
+update the root makefile to support all of basic-setup, not just bsctl
 move all todos to issues for better tracking
 add back positional parameters to a lot of commands, required args (how, kgp, kgpbl, etc)
 add an option to support docker build images with cleanup
