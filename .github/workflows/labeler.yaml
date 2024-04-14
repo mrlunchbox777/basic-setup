@@ -12,8 +12,8 @@ jobs:
     steps:
     - id: label-the-PR
       uses: actions/labeler@v5
-      with:
-        configuration-path: '.github/labeler.yaml'
+      # with:
+      #   configuration-path: '.github/labeler.yaml'
     - id: run-tests
       if: contains(steps.label-the-PR.outputs.all-labels, 'source')
       run: |
