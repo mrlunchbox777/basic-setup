@@ -1,8 +1,7 @@
 name: Feature Request
 description: File a feature request
-title: "[Feature]: "
+title: "feature: "
 labels: ["feature", "triage"]
-projects: []
 assignees:
   - mrlunchbox777
 body:
@@ -19,20 +18,35 @@ body:
     validations:
       required: true
   - type: textarea
-    id: what-should-happen
+    id: description
     attributes:
-      label: What-should happen?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A feature should happen!"
+      label: Feature Description
+      description: What feature are you requesting?
+      placeholder: Tell us, in summary, what you want added or changed!
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Why do you think this feature should be added?
+      placeholder: Tell us why you think this feature should be added!
     validations:
       required: true
   - type: textarea
-    id: logs
+    id: what-should-happen
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      label: What-should happen?
+      description: What feature are you requesting? Please include as much detail as possible.
+      placeholder: Tell us, in detail, what you want added or changed!
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Test
+      description: How can we test the feature you're requesting? In other words, what acceptance criteria should be met?
+      placeholder: Give us a step-by-step guide to test the feature. If the feature is not testable, please provide a reason.
+    validations:
+      required: true
   - type: checkboxes
     id: terms
     attributes:

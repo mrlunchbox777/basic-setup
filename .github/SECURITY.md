@@ -23,3 +23,25 @@ These are not currently supported, but should eventually be supported.
 
 * Local interpretation exclusivity should be supported, then the only risk is the code on the system and this repo.
 
+## Reporting
+
+To report a security vulnerability send an email to mrlunchbox777@gmail.com with the following information:
+
+```markdown
+# Security Vulnerability Report
+
+## Version
+_The vulnerable version(s) of the software_
+
+## Environment
+_At a minimum please include OS_
+
+## Relevant CVE
+_If applicable_
+
+## What is Vulnerable?
+_Provide as much detail as possible_
+
+## Steps to Reproduce
+_If not applicable please provide why_
+```

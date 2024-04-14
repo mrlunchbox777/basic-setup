@@ -1,8 +1,9 @@
 name: Chore Request
 description: Request a chore to be completed
-title: "[Chore]: "
+title: "chore: "
 labels: ["chore", "triage"]
-projects: []
+assignees:
+  - mrlunchbox777
 body:
   - type: markdown
     attributes:
@@ -22,7 +23,6 @@ body:
       label: Chore Description
       description: What chore are you requesting?
       placeholder: Tell us what you need done!
-      value: "renovate dependencies in the project"
     validations:
       required: true
   - type: textarea
@@ -31,7 +31,6 @@ body:
       label: Steps to Test
       description: How can we test the chore you're requesting?
       placeholder: Give us a step-by-step guide to test the chore. If the chore is not testable, please provide a reason.
-      value: "1. Build the project\n2. Run the tests\n3. See the chore completed"
     validations:
       required: true
   - type: checkboxes

@@ -1,6 +1,6 @@
 name: Missing Attribution Report
 description: File a missing attribution report
-title: "[attribution]: "
+title: "attribution: "
 labels: ["attribution", "triage"]
 assignees:
   - mrlunchbox777
@@ -23,7 +23,6 @@ body:
       label: What was used?
       description: Where did you find the code that you believe is missing attribution?
       placeholder: Give us a link to where we used it!
-      value: "Here is a link to the code - `https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md`!"
     validations:
       required: true
   - type: textarea
@@ -31,8 +30,7 @@ body:
     attributes:
       label: Where is it from?
       description: Where is the code from that you believe is missing attribution?
-      placeholder: Give us a link to what we used!
-      value: "Here is a link to the code - `https://www.contributor-covenant.org/version/2/1/code_of_conduct.html`!"
+      placeholder: Give us a link to where it's from!
     validations:
       required: true
   - type: textarea
@@ -40,8 +38,7 @@ body:
     attributes:
       label: What license is it under?
       description: What license is the code that you believe is missing attribution under?
-      placeholder: Give us a link to the license!
-      value: "Here is a link to the license - `https://github.com/EthicalSource/contributor_covenant/blob/release/LICENSE.md`!"
+      placeholder: Give us a link to the license it's under!
     validations:
       required: true
   - type: textarea
@@ -50,7 +47,6 @@ body:
       label: Contact Information
       description: How can we get in touch with the original author?
       placeholder: Give us a link to the author's contact info!
-      value: "Here is a link to the author's contact info - `https://ethicalsource.dev/contact/`"
     validations:
       required: false
   - type: checkboxes
@@ -70,8 +66,7 @@ body:
     attributes:
       label: Additional Information
       description: Is there anything else you'd like to add?
-      placeholder: ex. I found this code in a file called `example.js` in the `src` directory. It seems to be from a library called `example-library`. I think it's missing attribution because...
-      value: "I found this code in a file called `CODE_OF_CONDUCT.md` in the `.github` directory. It seems to be from a library called `Contributor Covenant`. I think it's missing attribution because I couldn't find it in the `README.md` file."
+      placeholder: "ex. I found this code in a file called `CODE_OF_CONDUCT.md` in the `.github` directory. It seems to be from a library called `Contributor Covenant`. I think it's missing attribution because I couldn't find it in the `README.md` file."
     validations:
       required: false
   - type: checkboxes
