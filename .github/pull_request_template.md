@@ -2,6 +2,8 @@ Thanks for contributing!
 
 ## Background
 
+To pass the semanic-prs check, ensure you prefix your title with one of the `.types` in [semanic.yml](https://github.com/mrlunchbox777/basic-setup/blob/main/.github/semantic.yml)
+
 <details><summary>Issue</summary>What issue are you resolving with this PR? Please provide the number or link. _NOTE:_ If you don't have an issue for this work, please create one before creating this PR.</details>
 
 __Response:__ #1
