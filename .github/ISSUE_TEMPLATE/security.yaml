@@ -1,0 +1,55 @@
+name: Security Vulnerability Report
+description: File a security vulnerability report
+title: "[Security]: "
+labels: ["security", "triage"]
+projects: []
+assignees:
+  - mrlunchbox777
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this security vulnerability report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: textarea
+    id: what-is-vulnerable
+    attributes:
+      label: What is vulnerable?
+      description: Also tell us, what do you think is vulnerable?
+      placeholder: Tell us what you found!
+      value: "A vulnerability is present in the not-a-bug library!"
+    validations:
+      required: true
+  - type: textarea
+    id: cve
+    attributes:
+      label: Relevant CVE
+      description: If you have a CVE number, please provide it here. You can also provide a link to the CVE (https://cve.mitre.org/cve/search_cve_list.html).
+      placeholder: Give us the CVE number or a link to the CVE!
+      value: CVE-2021-12345
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce the vulnerability?
+      placeholder: Give us a step-by-step guide to reproduce the vulnerability, if possible.
+      value: "1. Go to the homepage\n2. Click on the button\n3. See the vulnerability"
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

@@ -1,0 +1,84 @@
+name: Missing Attribution Report
+description: File a missing attribution report
+title: "[attribution]: "
+labels: ["attribution", "triage"]
+assignees:
+  - mrlunchbox777
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this missing attribution report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: textarea
+    id: what-was-used
+    attributes:
+      label: What was used?
+      description: Where did you find the code that you believe is missing attribution?
+      placeholder: Give us a link to where we used it!
+      value: "Here is a link to the code - `https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md`!"
+    validations:
+      required: true
+  - type: textarea
+    id: where-is-it-from
+    attributes:
+      label: Where is it from?
+      description: Where is the code from that you believe is missing attribution?
+      placeholder: Give us a link to what we used!
+      value: "Here is a link to the code - `https://www.contributor-covenant.org/version/2/1/code_of_conduct.html`!"
+    validations:
+      required: true
+  - type: textarea
+    id: what-license
+    attributes:
+      label: What license is it under?
+      description: What license is the code that you believe is missing attribution under?
+      placeholder: Give us a link to the license!
+      value: "Here is a link to the license - `https://github.com/EthicalSource/contributor_covenant/blob/release/LICENSE.md`!"
+    validations:
+      required: true
+  - type: textarea
+    id: contact-info
+    attributes:
+      label: Contact Information
+      description: How can we get in touch with the original author?
+      placeholder: Give us a link to the author's contact info!
+      value: "Here is a link to the author's contact info - `https://ethicalsource.dev/contact/`"
+    validations:
+      required: false
+  - type: checkboxes
+    id: solution
+    attributes:
+      label: Desired Solution
+      description: We want to make sure we're solving this in a way that works for you. What would you like to see happen?
+      options:
+        - label: Provide attribution
+          required: false
+        - label: Remove the code
+          required: false
+        - label: Contact the original author (please provide contact details above)
+          required: false
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Is there anything else you'd like to add?
+      placeholder: ex. I found this code in a file called `example.js` in the `src` directory. It seems to be from a library called `example-library`. I think it's missing attribution because...
+      value: "I found this code in a file called `CODE_OF_CONDUCT.md` in the `.github` directory. It seems to be from a library called `Contributor Covenant`. I think it's missing attribution because I couldn't find it in the `README.md` file."
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
