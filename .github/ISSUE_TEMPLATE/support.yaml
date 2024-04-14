@@ -1,8 +1,7 @@
 name: Support Request
 description: File a support request
-title: "[Support]: "
+title: "support: "
 labels: ["support", "triage"]
-projects: []
 assignees:
   - mrlunchbox777
 body:
@@ -18,13 +17,34 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the software are you using?
+      placeholder: ex. 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: What environment are you using?
+      placeholder: ex. Windows 10, MacOS 11.0.1, Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: description
+    attributes:
+      label: Support Description
+      description: What, in summary, do you need help with?
+      placeholder: Tell us what you see!
   - type: textarea
     id: what-is-needed
     attributes:
-      label: What is needed?
-      description: Also tell us, what do you need?
+      label: Support Details
+      description: What do you need help with? Please include as much detail as possible.
       placeholder: Tell us what you need!
-      value: "Some info!"
     validations:
       required: true
   - type: textarea
