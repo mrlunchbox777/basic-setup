@@ -1,0 +1,42 @@
+# Add 'root' label to any root file changes
+# Quotation marks are required for the leading asterisk
+root:
+- changed-files:
+  - any-glob-to-any-file: '*'
+
+# Add 'meta' label to any change to files within the .github sub-folder
+meta:
+- changed-files:
+  - any-glob-to-any-file: '.github/**/*'
+
+# Add 'documentation' label to any change to files within the docs sub-folder or any .md file
+documentation:
+- changed-files:
+  - any-glob-to-any-file:
+    - docs/**
+- changed-files:
+  - any-glob-to-any-file: '**/*.md'
+
+# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
+source:
+- all:
+  - changed-files:
+    - any-glob-to-any-file: 'bsctl/**/*'
+    - all-globs-to-all-files: '**/*.go'
+    - all-globs-to-all-files: '**/*.bash'
+    - all-globs-to-all-files: '**/*.sh'
+    - all-globs-to-all-files: '**/*.zsh'
+    - all-globs-to-all-files: '!src/docs/*'
+
+# Add 'alias' label to any change to files within the alias sub-folders
+alias:
+- changed-files:
+  - any-glob-to-any-file: 'alias/**/*'
+  - any-glob-to-any-file: 'shared-scripts/alias/**/*'
+  - any-glob-to-any-file: 'shared-scripts/bin/**/*'
+
+# Add 'submodule' label to any change to files within the submodule sub-folders
+submodule:
+- changed-files:
+  - any-glob-to-any-file: 'submodules/**/*'
+  - any-glob-to-any-file: '.gitmodules'

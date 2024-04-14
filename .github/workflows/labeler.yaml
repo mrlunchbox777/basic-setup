@@ -1,0 +1,30 @@
+name: Pull Request Labeling
+
+on:
+  - pull_request
+
+jobs:
+  labeler:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - id: label-the-PR
+      uses: actions/labeler@v5
+      with:
+        configuration-path: '.github/labeler.yaml'
+    - id: run-tests
+      if: contains(steps.label-the-PR.outputs.all-labels, 'source')
+      run: |
+        echo "Running tests..."
+        # Put your commands for running backend tests here
+
+  size-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: size-label
+        uses: "pascalgn/size-label-action@v0.4.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          IGNORED: ".*\n!.gitignore\n!.github\n!LICENSE\n!README.md\n!Makefile\n!basic-setup.gitconfig\n!.gitmodules\n!.editorconfig"

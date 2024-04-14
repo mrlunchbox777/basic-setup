@@ -23,16 +23,13 @@ All of these checkboxes are required for PR's to be considered.
 
 ### PR Checks
 
-[ ] I answered all of the background questions
-
-[ ] I have added sensible labels to the associated issue and this PR
-
-[ ] I have added/updated tests for all added/modified code, and all tests are passing
-
-[ ] I have added documentation, as appropriate, including CHANGELOG and version updates as needed
+- [ ] I answered all of the background questions
+- [ ] I have added sensible labels to the associated issue and this PR
+- [ ] I have added/updated tests for all added/modified code, and all tests are passing
+- [ ] I have added documentation, as appropriate, including CHANGELOG and version updates as needed
 
 ### Code of Conduct
 
-By sumbitting this PR, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
+By submitting this PR, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
 
-[ ] I agree to follow this project's Code of Conduct
+- [ ] I agree to follow this project's Code of Conduct
