@@ -1,7 +1,7 @@
 name: Support Request
 description: File a support request
 title: "support: "
-labels: ["support", "triage"]
+labels: ["kind/support", "status/triage"]
 assignees:
   - mrlunchbox777
 body:

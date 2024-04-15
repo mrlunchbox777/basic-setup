@@ -1,7 +1,7 @@
 name: Feature Request
 description: File a feature request
 title: "feature: "
-labels: ["feature", "triage"]
+labels: ["kind/feature", "status/triage"]
 assignees:
   - mrlunchbox777
 body:
