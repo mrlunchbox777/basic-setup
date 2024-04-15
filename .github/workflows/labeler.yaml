@@ -15,7 +15,7 @@ jobs:
       with:
         configuration-path: '.github/labeler.yaml'
     - id: run-tests
-      if: contains(steps.label-the-PR.outputs.all-labels, 'source')
+      if: contains(steps.label-the-PR.outputs.all-labels, 'changes/source')
       run: |
         echo "Running tests..."
         # Put your commands for running backend tests here
