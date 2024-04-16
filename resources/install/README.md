@@ -99,7 +99,12 @@ TODO:
                      * on the package manager.
                      * @type string
                      */
-                    "package-name": null
+                    "package-name": null,
+                    /**
+                     * The string representing the bash command that
+                     * returns 0 if it is installed and >0 if it isn't
+                     */
+                    "installed-command": ""
                 }
             ],
             /**
@@ -138,7 +143,8 @@ TODO:
                     "enabled": true,
                     "manager-name": "apt-get",
                     "notes": "The arg argument is required because I said so.",
-                    "package-name": "exmpl-pkg"
+                    "package-name": "exmpl-pkg",
+                    "installed-command": "[ -z \"$(which expl-pkg)\" ]"
                 },
                 ...
             ],
