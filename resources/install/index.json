@@ -17,42 +17,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Version 1 is available, but causes more issues than installing manually.",
-          "package-name": "awscli"
+          "package-name": "awscli",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "Curling for the aws is better than brew.",
-          "package-name": "awscli"
+          "package-name": "awscli",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "awscli"
+          "package-name": "awscli",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Version 1 is available, but causes more issues than installing manually.",
-          "package-name": "aws-cli"
+          "package-name": "aws-cli",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Amazon.AWSCLI"
+          "package-name": "Amazon.AWSCLI",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -73,42 +79,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "bat"
+          "package-name": "bat",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "bat"
+          "package-name": "bat",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "bat"
+          "package-name": "bat",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "bat"
+          "package-name": "bat",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "This is on choco if you really want it.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -129,42 +141,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "You must add the repo as described here - https://code.visualstudio.com/docs/setup/linux",
-          "package-name": "code"
+          "package-name": "code",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "visual-studio-code"
+          "package-name": "visual-studio-code",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "code"
+          "package-name": "code",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "You must add the repo as described here - https://computingforgeeks.com/install-visual-studio-code-on-fedora/?expand_article=1",
-          "package-name": "code"
+          "package-name": "code",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "code"
+          "package-name": "code",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Microsoft.VisualStudioCode"
+          "package-name": "Microsoft.VisualStudioCode",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -185,42 +203,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "curl"
+          "package-name": "curl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "curl"
+          "package-name": "curl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "curl"
+          "package-name": "curl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "curl"
+          "package-name": "curl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "cURL.cURL"
+          "package-name": "cURL.cURL",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -242,42 +266,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "docker.io"
+          "package-name": "docker.io",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "docker"
+          "package-name": "docker",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "TODO: This should be supported for rhel.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "You need to add the repo first - https://download.docker.com/linux/rhel/docker-ce.repo.",
-          "package-name": "docker-ce"
+          "package-name": "docker-ce",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "docker"
+          "package-name": "docker",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Docker.DockerDesktop"
+          "package-name": "Docker.DockerDesktop",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -298,42 +328,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "firefox"
+          "package-name": "firefox",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "firefox"
+          "package-name": "firefox",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "firefox"
+          "package-name": "firefox",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "firefox"
+          "package-name": "firefox",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Mozilla.Firefox"
+          "package-name": "Mozilla.Firefox",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -354,42 +390,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "gcc"
+          "package-name": "gcc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "gcc"
+          "package-name": "gcc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "gcc"
+          "package-name": "gcc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "gcc"
+          "package-name": "gcc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -409,42 +451,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "gimp"
+          "package-name": "gimp",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "gimp"
+          "package-name": "gimp",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "gimp"
+          "package-name": "gimp",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "gimp"
+          "package-name": "gimp",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "GIMP.GIMP"
+          "package-name": "GIMP.GIMP",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -467,42 +515,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "git"
+          "package-name": "git",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "git"
+          "package-name": "git",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "git"
+          "package-name": "git",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "git"
+          "package-name": "git",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Git.Git"
+          "package-name": "Git.Git",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -524,42 +578,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Only old versions available.",
-          "package-name": "golang"
+          "package-name": "golang",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "go"
+          "package-name": "go",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "go"
+          "package-name": "go",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Only old versions available.",
-          "package-name": "golang"
+          "package-name": "golang",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "go"
+          "package-name": "go",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (TODO: eventually windows will be supported through curl instead).",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -582,42 +642,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "gpg"
+          "package-name": "gpg",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "gnupg"
+          "package-name": "gnupg",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "gnupg2"
+          "package-name": "gnupg2",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "gnupg"
+          "package-name": "gnupg",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "GnuPG.GnuPG"
+          "package-name": "GnuPG.GnuPG",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -639,42 +705,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "You must add the repo as described here - https://helm.sh/docs/intro/install/#from-apt-debianubuntu",
-          "package-name": "helm"
+          "package-name": "helm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "helm"
+          "package-name": "helm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "helm"
+          "package-name": "helm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "helm"
+          "package-name": "helm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "helm"
+          "package-name": "helm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Helm.Helm"
+          "package-name": "Helm.Helm",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -697,42 +769,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "jq"
+          "package-name": "jq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "jq"
+          "package-name": "jq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "jq"
+          "package-name": "jq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "jq"
+          "package-name": "jq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "jqlang.jq"
+          "package-name": "jqlang.jq",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -754,42 +832,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "k3d"
+          "package-name": "k3d",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "k3d"
+          "package-name": "k3d",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -811,42 +895,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "k9s"
+          "package-name": "k9s",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "k9s"
+          "package-name": "k9s",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "k9s"
+          "package-name": "k9s",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -866,42 +956,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "kdeconnect"
+          "package-name": "kdeconnect",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "Not available yet, https://binary-factory.kde.org/view/MacOS/job/kdeconnect-kde_Nightly_macos/.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script. TODO: Should be added soon for MacOS",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "kdeconnectd"
+          "package-name": "kdeconnectd",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "kdeconnect"
+          "package-name": "kdeconnect",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "KDE.KDEConnect"
+          "package-name": "KDE.KDEConnect",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -921,42 +1017,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "kleopatra"
+          "package-name": "kleopatra",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "Not available for MacOS.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "kleopatra"
+          "package-name": "kleopatra",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "kleopatra"
+          "package-name": "kleopatra",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "It has a different name, but is the same app.",
-          "package-name": "GnuPG.Gpg4win"
+          "package-name": "GnuPG.Gpg4win",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -978,42 +1080,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "There is a tap for this, but to keep it simple we will use the curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "kpt"
+          "package-name": "kpt",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1035,42 +1143,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
-          "package-name": "kubectl"
+          "package-name": "kubectl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "kubectl"
+          "package-name": "kubectl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "kubectl"
+          "package-name": "kubectl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "You must add the repo as described here - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management",
-          "package-name": "kubectl"
+          "package-name": "kubectl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "kubectl"
+          "package-name": "kubectl",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Kubernetes.kubectl"
+          "package-name": "Kubernetes.kubectl",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1091,42 +1205,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "kustomize"
+          "package-name": "kustomize",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being part of kubectl we really don't need it",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "kustomize"
+          "package-name": "kustomize",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1147,42 +1267,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "libreoffice"
+          "package-name": "libreoffice",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "libreoffice"
+          "package-name": "libreoffice",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "libreoffice"
+          "package-name": "libreoffice",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "libreoffice-still"
+          "package-name": "libreoffice-still",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "TheDocumentFoundation.LibreOffice"
+          "package-name": "TheDocumentFoundation.LibreOffice",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1202,42 +1328,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "mailutils"
+          "package-name": "mailutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "mailutils"
+          "package-name": "mailutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "mailx"
+          "package-name": "mailx",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "mailutils"
+          "package-name": "mailutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1258,42 +1390,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "make"
+          "package-name": "make",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "make"
+          "package-name": "make",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "make"
+          "package-name": "make",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "make"
+          "package-name": "make",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "This is not exactly GNU Make, but it is a port of it.",
-          "package-name": "GnuWin32.Make"
+          "package-name": "GnuWin32.Make",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1314,42 +1452,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "moreutils"
+          "package-name": "moreutils",
+          "installed-command": "[ -z \"$(dpkg -l moreutils 2>&1 >/dev/null)\" ]"
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "moreutils"
+          "package-name": "moreutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "moreutils"
+          "package-name": "moreutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "moreutils"
+          "package-name": "moreutils",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "This doesn't exist on windows.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1370,42 +1514,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "nvm"
+          "package-name": "nvm",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "nvm"
+          "package-name": "nvm",
+          "installed-command": "[ -z \"$(which nvm)\" ]"
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": "java-latest-openjdk"
+          "package-name": "java-latest-openjdk",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1426,42 +1576,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "ohmyzsh"
+          "package-name": "ohmyzsh",
+          "installed-command": "[ -z \"$(which omz)\" ]"
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "pacman",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1482,42 +1638,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "This may install an older version of OpenJDK.",
-          "package-name": "default-jdk"
+          "package-name": "default-jdk",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "openjdk"
+          "package-name": "openjdk",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "TODO: We might consider adding a curl script for this so you can always get latest (specifically for apt).",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "java-latest-openjdk"
+          "package-name": "java-latest-openjdk",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "jdk-openjdk"
+          "package-name": "jdk-openjdk",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1540,42 +1702,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "openssh-client"
+          "package-name": "openssh-client",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "openssh"
+          "package-name": "openssh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "openssh-clients"
+          "package-name": "openssh-clients",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "openssh"
+          "package-name": "openssh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "This is not exactly openssh, but it is a port of it.",
-          "package-name": "Microsoft.OpenSSH.Beta"
+          "package-name": "Microsoft.OpenSSH.Beta",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1596,42 +1764,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "python3"
+          "package-name": "python3",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "python3"
+          "package-name": "python3",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "python3"
+          "package-name": "python3",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "python"
+          "package-name": "python",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "It is available, but you have to include the version as part of the package name so it will not be included here (eventually windows will be supported through curl instead).",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1651,42 +1825,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "remmina"
+          "package-name": "remmina",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "brew",
           "notes": "Linux only.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "remmina"
+          "package-name": "remmina",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "remmina"
+          "package-name": "remmina",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Linux only.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1709,42 +1889,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "sshuttle"
+          "package-name": "sshuttle",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "sshuttle"
+          "package-name": "sshuttle",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "sshuttle"
+          "package-name": "sshuttle",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "sshuttle"
+          "package-name": "sshuttle",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1766,42 +1952,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "You must add the repo as described here - https://www.hashicorp.com/official-packaging-guide",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "terraform"
+          "package-name": "terraform",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "terraform"
+          "package-name": "terraform",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "terraform"
+          "package-name": "terraform",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Hashicorp.Terraform"
+          "package-name": "Hashicorp.Terraform",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1822,42 +2014,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "This is a frustratingly old version.",
-          "package-name": "tldr"
+          "package-name": "tldr",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "tldr"
+          "package-name": "tldr",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "tldr"
+          "package-name": "tldr",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "tldr"
+          "package-name": "tldr",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "tldr"
+          "package-name": "tldr",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1878,42 +2076,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "tmux"
+          "package-name": "tmux",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "tmux"
+          "package-name": "tmux",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "tmux"
+          "package-name": "tmux",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "tmux"
+          "package-name": "tmux",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1934,42 +2138,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "uuid"
+          "package-name": "uuid",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "ossp-uuid"
+          "package-name": "ossp-uuid",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "uuid"
+          "package-name": "uuid",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "util-linux-libs"
+          "package-name": "util-linux-libs",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -1990,42 +2200,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "virtualbox"
+          "package-name": "virtualbox",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "virtualbox"
+          "package-name": "virtualbox",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "TODO: this should be supported and used by default, the package manager versions are often out of date.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "virtualbox"
+          "package-name": "virtualbox",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "Oracle.VirtualBox"
+          "package-name": "Oracle.VirtualBox",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2045,42 +2261,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "vlc"
+          "package-name": "vlc",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "vlc"
+          "package-name": "vlc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "TODO: This should be supported for rhel.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "vlc"
+          "package-name": "vlc",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "VideoLAN.VLC"
+          "package-name": "VideoLAN.VLC",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2101,42 +2323,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "wget"
+          "package-name": "wget",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "wget"
+          "package-name": "wget",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "wget"
+          "package-name": "wget",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "wget"
+          "package-name": "wget",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "GNU.Wget2"
+          "package-name": "GNU.Wget2",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2156,42 +2384,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "wine"
+          "package-name": "wine",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "wine-stable"
+          "package-name": "wine-stable",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "wine"
+          "package-name": "wine",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "wine"
+          "package-name": "wine",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Windows doesn't need wine.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2211,42 +2445,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "xclip"
+          "package-name": "xclip",
+          "installed-command": ""
         },
         {
           "arguments": "--cask",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "xclip"
+          "package-name": "xclip",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "TODO: needs dependencies support to be installed (epel-release -> xclip).",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "xclip"
+          "package-name": "xclip",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "xclip",
           "notes": "Windows doesn't have xclip.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2267,42 +2507,48 @@
           "enabled": false,
           "manager-name": "apt-get",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "yq"
+          "package-name": "yq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "curl",
           "notes": "",
-          "package-name": "yq"
+          "package-name": "yq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "dnf",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "yq"
+          "package-name": "yq",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "winget",
           "notes": "",
-          "package-name": "MikeFarah.yq"
+          "package-name": "MikeFarah.yq",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
@@ -2323,42 +2569,48 @@
           "enabled": true,
           "manager-name": "apt-get",
           "notes": "",
-          "package-name": "zsh"
+          "package-name": "zsh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "brew",
           "notes": "",
-          "package-name": "zsh"
+          "package-name": "zsh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "curl",
           "notes": "With it being on most package managers it doesn't need a curl script.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "dnf",
           "notes": "",
-          "package-name": "zsh"
+          "package-name": "zsh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": true,
           "manager-name": "pacman",
           "notes": "",
-          "package-name": "zsh"
+          "package-name": "zsh",
+          "installed-command": ""
         },
         {
           "arguments": "",
           "enabled": false,
           "manager-name": "winget",
           "notes": "Not available.",
-          "package-name": ""
+          "package-name": "",
+          "installed-command": ""
         }
       ],
       "pinned-version": null
