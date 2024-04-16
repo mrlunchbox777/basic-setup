@@ -9,7 +9,7 @@ shared_scripts_path="../shared-scripts"
 if [ ! -d "$shared_scripts_path" ]; then
 		echo -e "error finding shared-scripts..." >&2
 		echo -e "exiting gracefully without initializing basic-setup..." >&2
-		exit 0
+		return
 fi
 
 # Include the shared-scripts/bin in the PATH
@@ -56,7 +56,7 @@ esac
 } || {
 	echo "error getting source and dir..." >&2
 	echo "exiting gracefully without initializing basic-setup..." >&2
-	exit 0
+	return
 }
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
@@ -69,7 +69,7 @@ if [ -d "$dir/sh/" ]; then
 		} || {
 			echo "error sourcing $dir/sh/$basic_setup_generalrc_sh_f" >&2
 			echo "exiting gracefully without initializing the rest of basic-setup..." >&2
-			exit 0
+			return
 		}
 	done
 fi
@@ -80,7 +80,7 @@ if [ -d "$dir/$extra_folder/" ]; then
 		} || {
 			echo "error sourcing $dir/$extra_folder/$basic_setup_generalrc_sh_f" >&2
 			echo "exiting gracefully without initializing the rest of basic-setup..." >&2
-			exit 0
+			return
 		}
 	done
 fi
@@ -94,5 +94,5 @@ export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
 } || {
 	echo "error setting MANPAGER..." >&2
 	echo "exiting gracefully without initializing the rest of basic-setup..." >&2
-	exit 0
+	return
 }
