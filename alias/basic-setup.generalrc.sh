@@ -8,8 +8,8 @@ shared_scripts_path="../shared-scripts"
 [ ! -d "$shared_scripts_path" ] && shared_scripts_path=$(find / -type d -wholename "*basic-setup/shared-scripts")
 if [ ! -d "$shared_scripts_path" ]; then
 		echo -e "error finding shared-scripts..." >&2
-		# TODO: https://github.com/mrlunchbox777/basic-setup/issues/41
-		exit 1
+		echo -e "exiting gracefully without initializing basic-setup..." >&2
+		exit 0
 fi
 
 # Include the shared-scripts/bin in the PATH
