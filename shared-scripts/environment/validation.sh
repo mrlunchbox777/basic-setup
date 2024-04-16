@@ -106,7 +106,18 @@ function help {
 
 # ensure a specific command is installed
 function is_command_installed {
-	general-command-installed -c "$1"
+	local command_name="$1"
+	local command_installed_command="$2"
+	if [ ! -z "$command_installed_command" ] && [ "$command_installed_command" != "null" ]; then
+		local output="$(echo $command_installed_command | bash)"
+		if $output; then
+			echo "true"
+		else
+			echo "false"
+		fi
+	else
+		general-command-installed -c "$1"
+	fi
 }
 
 # select the correct package manager and return it's content for a given package
@@ -375,7 +386,6 @@ function check_for_latest_package_from_package_manager {
 function should_be_installed {
 	local package_content=$1
 	local command_name=$(echo "$package_content" | jq -r '.command')
-	local is_command_installed=$(is_command_installed "$command_name")
 	local human_name=$(echo "$package_content" | jq -r '.name')
 	local extra=$(echo "$package_content" | jq -r '."install-page"')
 	local package_manager_content="$(get_package_manager_content "$package_content")"
@@ -387,6 +397,8 @@ function should_be_installed {
 		local package_manager_name=$(echo "$package_manager_content" | jq -r '."manager-name"')
 		local package_manager_install_command=$(get_package_manager_install_command "$package_manager_name" "$package_name")
 	fi
+	local installed_command=$(echo "$package_manager_content" | jq -r '."installed-command"')
+	local is_command_installed=$(is_command_installed "$command_name" "$installed_command")
 	if [ "$is_command_installed" == "false" ]; then
 		if [ "$RUN_INSTALLS" == false ]; then
 			(($VERBOSITY > 1)) && echo "$command_name failed"
