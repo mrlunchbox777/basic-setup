@@ -26,7 +26,11 @@ fi
 source=""
 
 . "$shared_scripts_path/bin/general-identify-shell-function"
-export CURRENT_SHELL="$(identify-shell-function | sed -r 's/[\ -]//g' )"
+{
+	export CURRENT_SHELL="$(identify-shell-function | sed -r 's/[\ -]//g' )"
+} || {
+	export CURRENT_SHELL="sh"
+}
 echo "shell - $CURRENT_SHELL"
 
 case "$CURRENT_SHELL" in
@@ -47,24 +51,48 @@ case "$CURRENT_SHELL" in
 		;;
 esac
 
-sd="$(general-get-source-and-dir -s "$source")"
+{
+	sd="$(general-get-source-and-dir -s "$source")"
+} || {
+	echo "error getting source and dir..." >&2
+	echo "exiting gracefully without initializing basic-setup..." >&2
+	exit 0
+}
 source="$(echo "$sd" | jq -r .source)"
 dir="$(echo "$sd" | jq -r .dir)"
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 
 if [ -d "$dir/sh/" ]; then
 	for basic_setup_generalrc_sh_f in $(ls -p $dir/sh/ | grep -v /); do
-		. $dir/sh/$basic_setup_generalrc_sh_f
+		{
+			. $dir/sh/$basic_setup_generalrc_sh_f
+		} || {
+			echo "error sourcing $dir/sh/$basic_setup_generalrc_sh_f" >&2
+			echo "exiting gracefully without initializing the rest of basic-setup..." >&2
+			exit 0
+		}
 	done
 fi
 if [ -d "$dir/$extra_folder/" ]; then
 	for basic_setup_generalrc_sh_f in $(ls -p $dir/$extra_folder/ | grep -v /); do
-		. $dir/$extra_folder/$basic_setup_generalrc_sh_f
+		{
+			. $dir/$extra_folder/$basic_setup_generalrc_sh_f
+		} || {
+			echo "error sourcing $dir/$extra_folder/$basic_setup_generalrc_sh_f" >&2
+			echo "exiting gracefully without initializing the rest of basic-setup..." >&2
+			exit 0
+		}
 	done
 fi
 
 export BASIC_SETUP_GENERAL_RC_DIR="$dir"
 export BASIC_SETUP_GENERAL_RC_HAS_RUN=true
-if [[ "$(general-command-installed -c bat)" == "true" ]]; then
-	export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-fi
+{
+	if [[ "$(general-command-installed -c bat)" == "true" ]]; then
+		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+	fi
+} || {
+	echo "error setting MANPAGER..." >&2
+	echo "exiting gracefully without initializing the rest of basic-setup..." >&2
+	exit 0
+}
