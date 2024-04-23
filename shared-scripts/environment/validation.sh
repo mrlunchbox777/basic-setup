@@ -27,7 +27,6 @@ function update_e {
 #
 # global defaults
 #
-# TODO: make more/all of these configurable
 BASIC_SETUP_DATA_DIRECTORY="$HOME/.basic-setup/"
 CUSTOM_LABELS=false
 ERROR_MESSAGES=0
@@ -61,15 +60,12 @@ fi
 ALLOW_CURL_INSTALLS="${BASIC_SETUP_ENVIRONMENT_VALIDATION_ALLOW_CURL_INSTALLS:-false}"
 DEFAULT_OVERRIDE_DIR="$(general-get-basic-setup-dir)/resources/install/index.d"
 PACKAGES="$(cat "$(general-get-basic-setup-dir)/resources/install/index.json")"
-# TODO: make this override do something
 PACKAGES_OVERRIDE_DIR="${BASIC_SETUP_ENVIRONMENT_VALIDATION_INDEX_OVERRIDE_DIRECTORY_PATH:-$DEFAULT_OVERRIDE_DIR}"
 PACKAGES_OVERRIDE_DIR="$([ ! -z "$PACKAGES_OVERRIDE_DIR" ] && [ -d "$PACKAGES_OVERRIDE_DIR" ] && echo "$PACKAGES_OVERRIDE_DIR" || echo "")"
 SKIP_LATEST_CHECK="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_LATEST_CHECK:-false}"
 SKIP_PORCELAIN="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_PORCELAIN:-false}"
 SKIP_EVERYTHING="${BASIC_SETUP_ENVIRONMENT_VALIDATION_SKIP_EVERYTHING:-false}"
 TARGET_BRANCH="${BASIC_SETUP_ENVIRONMENT_VALIDATION_TARGET_BRANCH:-$TARGET_BRANCH}"
-
-# TODO: add verbosity to everything
 
 #
 # helper functions
@@ -157,7 +153,6 @@ function get_package_manager_content {
 function check_for_jq {
 	local is_jq_installed=$(is_command_installed "jq")
 	if [ $is_jq_installed == false ]; then
-		# TODO maybe install it instead
 		echo "\`jq\` must be installed to get a list of to be installed packages. Please follow these instructions - https://stedolan.github.io/jq/download/"
 		help
 		update_e
@@ -183,7 +178,6 @@ function check_for_skip {
 	PREVIOUSLY_VALIDATED_FILE_NAME="${PREVIOUSLY_VALIDATED_FILE_NAME}_$(echo "${LABELS[@]}" | sed 's/ /_/g')_${ALLOW_CURL_INSTALLS}"
 	mkdir -p $BASIC_SETUP_DATA_DIRECTORY
 	if [ "$FORCE" != "true" ] && [ "$(find "$BASIC_SETUP_DATA_DIRECTORY" -maxdepth 1 -name $PREVIOUSLY_VALIDATED_FILE_NAME -mmin -1440)" ]; then
-	# TODO: add verbose and push this out
 	# echo "previously validated - skipping" 1>&2
 		update_e
 		exit 0
@@ -192,9 +186,6 @@ function check_for_skip {
 
 # check for latest
 function check_for_latest_basic_setup_git {
-	# TODO: add a flag to make all of this optional (or maybe optional by default)
-	# TODO: add a check that ensures this is checked at generalrc
-	# TODO: do the tooling checks as well (maybe as part of the tooling)
 	local old_dir="$(pwd)"
 	local exit_code=0
 	local error_message=""
@@ -214,7 +205,6 @@ function check_for_latest_basic_setup_git {
 				false
 			fi
 			if (( $diff > 0 )); then
-				# TODO: offer an interactive way to update here
 				error_message="Branch '${current_branch}' not at latest (or you haven't pushed your changes), please update ${basic_setup_dir} or run \`basic-setup-update\` for main."
 				false
 			else
@@ -243,10 +233,6 @@ function check_for_latest_basic_setup_git {
 
 # Check for the tools described in the packages after filtering
 function check_for_tools {
-	# TODO: merge config override
-	# Merge file paths - https://stackoverflow.com/a/36218044
-	# jq -s 'reduce .[] as $item ({}; . * $item)'
-	# this will need to be done per item to ensure they are there
 	local labels="$(printf '%s\n' "${LABELS[@]}" | jq -R . | jq -sc .)"
 	(($VERBOSITY > 0)) && echo "checking for tools with labels: ${labels[@]}"
 	local packages_keys="$(echo $PACKAGES | jq -r '.packages[] | select(any(.labels; . | contains('$labels')) and .enabled == true) | .name')"
@@ -259,7 +245,6 @@ function check_for_tools {
 
 # ensure the OS specific tooling is installed (e.g. GNU Mac tools)
 function check_for_os_specific_tooling {
-	# TODO: find a way to force gnu-sed on OSX - https://gist.github.com/andre3k1/e3a1a7133fded5de5a9ee99c87c6fa0d
 	if [ "$(environment-os-type --mac)" == "true" ]; then
 		if [ "$(brew list --formula | grep coreutils)" != "coreutils" ]; then
 			echo "unable to find coreutils. Install with brew install coreutils" 1>&2
@@ -376,8 +361,6 @@ function check_for_latest_package_from_package_manager {
 		fi
 	fi
 	if [ "$package_manager" == "winget" ]; then
-		# TODO: implement this WINDOWS
-		# https://learn.microsoft.com/en-us/windows/package-manager/winget/list#list-with-update
 		(($VERBOSITY > 0)) && echo "not implemented...." 1>&2
 	fi
 }
@@ -406,7 +389,6 @@ function should_be_installed {
 			echo "$message" 1>&2
 			((ERROR_MESSAGES+=1))
 		else
-			# TODO: maybe batch these
 			$package_manager_install_command
 		fi
 	else
