@@ -34,7 +34,7 @@ body:
   - type: textarea
     id: what-should-happen
     attributes:
-      label: What-should happen?
+      label: What should happen?
       description: What feature are you requesting? Please include as much detail as possible.
       placeholder: Tell us, in detail, what you want added or changed!
     validations:
