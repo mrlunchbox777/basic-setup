@@ -14,10 +14,8 @@ Below you'll find the [schema](#json-schema) that the index.json will take as we
 
 ## NOTES
 
-TODO:
-
-* currently the `"pinned-version"` attribute is not supported
-* os/arch labels are not automatically applied when running and would have to be filtered manually
+* currently the `"pinned-version"` attribute is not supported - [github issue](https://github.com/mrlunchbox777/basic-setup/issues/129)
+* os/arch labels are not automatically applied when running and would have to be filtered manually - [github issue](https://github.com/mrlunchbox777/basic-setup/issues/130)
 
 ### JSON Schema
 
@@ -225,5 +223,3 @@ Below are some premade commands to interact with `index.json` files.
     * `jq -r '.packages[] | select(.command == "zsh")' index.json`
 * Get the name and command that invokes each package
     * `jq -r '.packages[] | "Name - \(.name) | Command - \(.command)"' index.json`
-
-TODO: add label searching here

@@ -37,8 +37,6 @@ fi
 # script help message
 function help {
 	command_for_help="$(basename "$0")"
-	# TODO: add ability to specify helm registry creds
-	# TODO: add ability to specify git repo creds
 	cat <<- EOF
 		----------
 		usage: $command_for_help <arguments>
@@ -119,7 +117,6 @@ fi
 
 cp -f $basic_setup_dir/resources/big-bang-overrides/* "$override_dir/"
 
-# TODO: handle if repo/registry creds are passed in
 if [ "$HAD_REGISTRY_CREDS" == true ]; then
 	(($VERBOSITY > 0)) && echo "Restoring registry-values.yaml" >&2
 	cp -f "$override_dir/registry-values.yaml.bak" "$override_dir/registry-values.yaml"

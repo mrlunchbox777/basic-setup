@@ -40,9 +40,7 @@ Run it with `-h` for more information, particularly pay attention to labels.
 
 ## Big Bang Support
 
-There are several scripts to support big-bang specifically.
-
-TODO: add more info, specifically about `big-bang-dev-env` `big-bang-docker-login` `big-bang-helm-login` `big-bang-override-gen` `big-bang-relink-scripts` `big-bang-readme-bump`
+There are several scripts to support big-bang specifically. These will be removed as bbctl implements their functionality.
 
 ## Update
 

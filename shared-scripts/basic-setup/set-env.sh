@@ -1,4 +1,4 @@
-# TODO: add a description of this file
+# A script that should be sourced to get the environment variables from the basic-setup environment file.
 
 # NOTE: don't run environment-validation here, it could cause a loop
 

@@ -10,7 +10,6 @@ we should support some standard add repo commands for the package managers (this
 ## other curls that are nice to have
 
 * discord
-* gsed (for mac)
 * lens
 * slack
 * teams
@@ -32,11 +31,3 @@ we should support some standard add repo commands for the package managers (this
 * steam
 * vlc
 * virtualbox as curl (specifically for redhat)...
-
-### Notes
-
-for both coreutils and gsed, you need to add them to path to override the defaults
-
-PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"

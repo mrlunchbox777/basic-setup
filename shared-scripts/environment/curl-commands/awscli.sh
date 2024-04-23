@@ -155,7 +155,6 @@ function install_version {
 			EOF
 		)"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: NEEDS TESTING
 		local dowload_name="AWSCLIV2.pkg"
 		local command_to_run="$(
 			cat <<- EOF

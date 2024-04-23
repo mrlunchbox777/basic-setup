@@ -55,7 +55,6 @@ zzz_helper_export_registry_credentials_is_sourced() {
 
 # is null or whitespace
 zzz_helper_export_registry_credentials_is_null_or_whitespace() {
-	# TODO: fix this for zsh
 	if [ -z "$1" ] || [ -z "${1// }" ] || [ -z "${1//	}" ] || [ -z "${1//\n}" ] || [ -z "${1//\r}" ] || [[ "$1" == "null" ]]; then
 		return 0
 	else
@@ -68,7 +67,6 @@ zzz_helper_export_registry_credentials_is_null_or_whitespace() {
 #
 zzz_helper_export_registry_credentials_is_sourced || { echo "Error: This script should be sourced, not run." >&2; zzz_helper_export_registry_credentials_help; exit 1; }
 
-# TODO: offer other ways to find credential files with env vars
 override_dir="$(big-bang-get-repo-dir)/../overrides"
 if [ ! -d "$override_dir" ]; then
 	echo "Error: $override_dir does not exist" >&2

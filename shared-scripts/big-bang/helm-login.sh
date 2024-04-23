@@ -45,7 +45,6 @@ fi
 # helper functions
 #
 
-# TODO: support a local bigbang deploy (for bringing in a new addon)
 # script help message
 function help {
 	command_for_help="$(basename "$0")"

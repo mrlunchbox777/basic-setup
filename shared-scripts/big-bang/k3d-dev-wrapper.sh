@@ -71,8 +71,6 @@ LOG_FILE=""
 # helper functions
 #
 
-# TODO: add a thing to clean up old kubeconfigs
-
 # script help message
 function help {
 	command_for_help="$(basename "$0")"
