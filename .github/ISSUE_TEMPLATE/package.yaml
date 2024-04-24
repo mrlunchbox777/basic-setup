@@ -47,7 +47,7 @@ body:
       label: Steps to Test
       description: How can we test the feature you're requesting? In other words, what acceptance criteria should be met?
       placeholder: Give us a step-by-step guide to test the feature. If the feature is not testable, please provide a reason.
-      value: 1. `jq '.packages[] | select(.name = "PACKAGE NAME")' resources/install/index.json` should return the details for managing the PACKAGE NAME package
+      value: 1. `jq '.packages[] | select(.name = "PACKAGE_NAME")' resources/install/index.json` should return the details for managing the PACKAGE_NAME package
     validations:
       required: true
   - type: checkboxes
