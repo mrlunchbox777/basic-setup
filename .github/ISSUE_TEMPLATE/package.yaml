@@ -1,7 +1,7 @@
 name: New Package Support Request
 description: Request support for a new package
 title: "feature: Support PACKAGE_NAME"
-labels: ["kind/feature", "status/triage", "priority/5"]
+labels: ["kind/feature", "status/triage", "priority/5", "changes/resources"]
 assignees:
   - mrlunchbox777
 body:

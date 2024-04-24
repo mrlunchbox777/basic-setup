@@ -9,7 +9,6 @@ we should support some standard add repo commands for the package managers (this
 
 ## other curls that are less important
 
-* azcli
 * calibre
 * dotnet
 * golang
