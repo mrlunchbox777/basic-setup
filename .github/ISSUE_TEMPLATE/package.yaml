@@ -1,0 +1,61 @@
+name: New Package Support Request
+description: Request support for a new package
+title: "feature: PACKAGE_NAME"
+labels: ["kind/feature", "status/triage", "priority/5"]
+assignees:
+  - mrlunchbox777
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request! Ensure, at a minimum, you change all instances of `PACKAGE_NAME` to the name of the package you're requesting support for.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: What feature are you requesting?
+      placeholder: Tell us, in summary, what you want added or changed!
+      value: Add [PACKAGE_NAME](download url) to the managed packages.
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Why do you think this feature should be added?
+      placeholder: Tell us why you think this feature should be added!
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should happen?
+      description: What feature are you requesting? Please include as much detail as possible.
+      placeholder: Tell us, in detail, what you want added or changed!
+      value: PACKAGE_NAME should be a package in the index file.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Test
+      description: How can we test the feature you're requesting? In other words, what acceptance criteria should be met?
+      placeholder: Give us a step-by-step guide to test the feature. If the feature is not testable, please provide a reason.
+      value: 1. `jq '.packages[] | select(.name = "PACKAGE NAME")' resources/install/index.json` should return the details for managing the PACKAGE NAME package
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/mrlunchbox777/basic-setup/tree/main/.github/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+
