@@ -7,18 +7,8 @@ we should support some standard add repo commands for the package managers (this
 * docker.io - https://docs.docker.com/engine/install/
 * mattermost
 
-## other curls that are nice to have
-
-* discord
-* lens
-* slack
-* teams
-* todoist
-* zoom
-
 ## other curls that are less important
 
-* asbru
 * azcli
 * calibre
 * dotnet
