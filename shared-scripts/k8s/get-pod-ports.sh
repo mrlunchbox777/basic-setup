@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-## TODO: Clean output (will require cleaning output of everything else)
-
 #
 # Environment Validation
 #

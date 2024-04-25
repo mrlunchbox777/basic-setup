@@ -136,7 +136,6 @@ done
 
 POD_NAME=$(echo "pod-shell-$(uuid)")
 POD_YAML="/tmp/$POD_NAME.yaml"
-# TODO make this make sense for windows nodes
 sed \
 	-e "s|\$IMAGE_TO_USE|$IMAGE_TO_USE|g" \
 	-e "s|\$POD_NAME|$POD_NAME|g" \

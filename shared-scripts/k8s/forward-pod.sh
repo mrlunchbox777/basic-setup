@@ -222,7 +222,6 @@ TEMP_FILE_NAME=""
 	if (( $VERBOSITY > 1 )); then
 		echo "Forwarding pod $POD_ID_NAME port $POD_PORT to localhost:$BOUND_PORT"
 	fi
-	# TODO support open for mac here - https://superuser.com/questions/911735/how-do-i-use-xdg-open-from-xdg-utils-on-mac-osx
 	xdg-open http://localhost:$BOUND_PORT </dev/null >/dev/null 2>&1 & disown
 } || {
 	FAILED="true"

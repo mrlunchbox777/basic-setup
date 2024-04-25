@@ -40,7 +40,6 @@ fi
 #
 
 # script help message
-# TODO: support and add a comment for using without -c
 help() {
 	command_for_help="$(basename "$0")"
 	cat <<- EOF
@@ -147,7 +146,6 @@ while (("$#")); do
 		;;
 	# preserve positional arguments
 	*)
-		# TODO: support positional arguments
 		PARAMS="$PARAMS $1"
 		shift
 		;;

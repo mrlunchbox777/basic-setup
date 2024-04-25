@@ -2,8 +2,6 @@
 
 # NOTE: don't run environment-validation here, it could cause a loop
 
-# TODO: make this more fully fledged
-
 #
 # global defaults
 #
@@ -92,6 +90,4 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-# TODO: support commands that work differently like omz, nvm, moreutils, etc.
-# TODO: consolidate on returning true or false, returning 0 or 1, exiting 0 or 1, etc.
 (($(command -v "$COMMAND_TO_TEST" >/dev/null 2>&1; echo $?) == 0)) && echo true || echo false

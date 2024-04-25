@@ -15,7 +15,6 @@ fi
 #
 SHOW_HELP=false
 # no curl
-# TODO: support more package managers
 SUPPORTED_PACKAGE_MANAGERS=("apt-get" "brew" "pacman" "dnf" "winget")
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
