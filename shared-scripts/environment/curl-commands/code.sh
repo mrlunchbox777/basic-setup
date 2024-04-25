@@ -131,7 +131,6 @@ function install_version {
 	local os_string=""
 	local extension=""
 	local unzip_command=""
-	# TODO: support checkums
 	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
 	if [ "$TARGET_VERSION" != "latest" ]; then
 		echo "VS Code install version not supported - $TARGET_VERSION" 1>&2
@@ -151,7 +150,6 @@ function install_version {
 		local extension=".tar.gz"
 		local unzip_command="tar -xf"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: We should support this
 		local os_string="darwin"
 		local extension=".zip"
 		local unzip_command="unzip"
@@ -171,7 +169,6 @@ function install_version {
 		cat <<- EOF
 			curl -L -s "https://code.visualstudio.com/sha/download?build=stable&os=${os_param}" -o "$archive_name"
 			$unzip_command "$archive_name"
-			# TODO: support Mac here, the below is only for Linux
 			sudo rm -rf /usr/local/lib/vscode/ /usr/local/bin/code
 			sudo mkdir -p /usr/local/lib/vscode/
 			chmod +x "./${dirname}/bin/code"

@@ -169,7 +169,6 @@ NODE_EXISTS=$(echo "$NODES" | grep "$NODE_NAME")
 echo "Node found, creating pod to get shell"
 POD_NAME=$(echo "node-shell-$(uuid)")
 POD_YAML="/tmp/$POD_NAME.yaml"
-# TODO make this make sense for windows nodes
 sed \
 	-e "s|\$IMAGE_TO_USE|$IMAGE_TO_USE|g" \
 	-e "s|\$POD_NAME|$POD_NAME|g" \
@@ -196,10 +195,8 @@ EXCEPTION=""
 		fi
 	done
 	if [ -z "$COMMAND_TO_RUN" ]; then
-		# TODO make this make sense for windows nodes
 		COMMAND_TO_RUN="(( \$(command -v bash >/dev/null 2>&1; echo \$?) == 0 )) && bash || sh"
 	fi
-	# TODO make this make sense for windows nodes
 	kubectl exec $POD_NAME -n $NAMESPACE -it -- sh -c "$COMMAND_TO_RUN"
 } || {
 	EXCEPTION="$?"

@@ -130,7 +130,6 @@ function install_version {
 	local arch_type="$(environment-arch-type)"
 	local command_to_run=""
 	local os_string=""
-	# TODO: support checkums
 	(($VERBOSITY > 1)) && echo "attempting install for $os_type $arch_type"
 	if [ "$TARGET_VERSION" == "latest" ]; then
 		TARGET_VERSION="$(get_latest_version)"
@@ -147,7 +146,6 @@ function install_version {
 	if [ "$os_type" == "Linux" ]; then
 		local os_string="Linux"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: NEEDS TESTING
 		local os_string="Darwin"
 	else
 		echo "unsupported os type - $os_type" 1>&2

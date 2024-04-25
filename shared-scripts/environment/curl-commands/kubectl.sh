@@ -159,7 +159,6 @@ function install_version {
 			EOF
 		)"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: NEEDS TESTING
 		local command_to_run="$(
 			cat <<- EOF
 				curl -L -s "https://dl.k8s.io/${TARGET_VERSION}/bin/darwin/${arch_string}/kubectl" -o "$dowload_name"

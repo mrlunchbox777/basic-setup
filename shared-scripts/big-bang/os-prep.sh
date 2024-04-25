@@ -34,7 +34,6 @@ TARGET_PROCESS_LIMIT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_PROCESS_LIMIT:-""}
 TARGET_VM_MAX_MAP_COUNT=${BASIC_SETUP_BIG_BANG_OS_PREP_TARGET_VM_MAX_MAP_COUNT:-""}
 VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 
-# TODO: offer a way to pass in additional modules
 TARGET_MODULUES=(
 	"br_netfilter" # suze docs - https://www.suse.com/support/kb/doc/?id=000020241
 	"nf_nat_redirect" # suze docs
@@ -107,9 +106,6 @@ SWAP_FSTAB_OUT_FILE="${OUT_DIR}swap-fstab-backup"
 SWAP_SETTINGS_OUT_FILE="${OUT_DIR}swap-settings.json"
 TEMP_CONFIG_OUT_FILE="${OUT_DIR}sysctl-temp-config-backup.conf"
 ULIMIT_CONFIG_OUT_FILE="${OUT_DIR}ulimit-config-backup.json"
-
-# TODO: finish the other setup steps
-# for updating the sudoers - https://stackoverflow.com/questions/10420713/regex-pattern-to-edit-etc-sudoers-file
 
 #
 # helper functions
@@ -424,7 +420,6 @@ function get_backup_location {
 			jq empty $backup_location
 			exit 1
 		fi
-		# TODO: validate other file types that will be in there (.config, fstab, modules)
 		echo "$backup_location"
 	fi
 }

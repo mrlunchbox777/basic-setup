@@ -146,14 +146,12 @@ function install_version {
 	if [ "$os_type" == "Linux" ]; then
 		local os_string="linux"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: NEEDS TESTING
 		local os_string="darwin"
 	else
 		echo "unsupported os type - $os_type" 1>&2
 		exit 1
 	fi
 	local filename="${TARGET_VERSION}.${os_string}-${arch_string}.tar.gz"
-	# TODO: implement checksum verification (https://golang.org/dl/?mode=json)
 	local command_to_run="$(
 		cat <<- EOF
 			curl -L -s "https://go.dev/dl/${filename}" -o "$filename"

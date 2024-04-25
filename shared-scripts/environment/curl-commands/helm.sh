@@ -148,7 +148,6 @@ function install_version {
 		local os_string="linux"
 		local checksum_command="sha256sum --check"
 	elif [ "$os_type" == "Mac" ]; then
-		# TODO: NEEDS TESTING
 		local os_string="darwin"
 		local checksum_command="shasum -a 256 --check"
 	else

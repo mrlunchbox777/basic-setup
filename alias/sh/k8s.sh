@@ -1,5 +1,4 @@
 # adapted from https://betterprogramming.pub/useful-kubectl-aliases-that-will-speed-up-your-coding-54960185d10
-# TODO:these exports should be moved to defaults with options instead of environment variables
 export BASIC_SETUP_ALPINE_IMAGE_TO_USE="docker.io/alpine:3"
 export BASIC_SETUP_BASH_IMAGE_TO_USE="docker.io/bash:5"
 

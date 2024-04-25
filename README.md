@@ -68,12 +68,6 @@ curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bas
 
 You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-### Environment Specific Testing
-
-There are various places in the code that need testing because they require a specific kind of setup (OS, architecture, etc).
-
-You can find them with `grep --recursive '# TODO: NEEDS TESTING'`
-
 ## Other Projects
 As an orchestrator basic-setup relies heavily on external projects. When imported, they may or may not be specifically credited below or in the [bsctl README](/bsctl/README.md#other-projects); however, when code snippets are used, as much as possible, in no particular order, they will be listed with a link to their license below. Please report all missing attributions in an [issue](https://github.com/mrlunchbox777/basic-setup/issues/new?template=attribution.yaml)).
 
