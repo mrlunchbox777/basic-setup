@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-# TODO: this should be abstracted into a generic backup script with this script calling that with windows options
-
 #
 # Environment Validation
 #
