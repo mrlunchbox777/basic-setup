@@ -33,7 +33,7 @@ func NewVersionCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *
 		Long:    versionLong,
 		Example: versionExample,
 		Run: func(cmd *cobra.Command, args []string) {
-			cmdUtil.CheckErr(bsVersion(factory, streams))
+			cmdUtil.CheckErr(bsVersion(streams))
 		},
 	}
 
@@ -41,7 +41,7 @@ func NewVersionCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *
 }
 
 // query the cluster using helm module to get information on bigbang release
-func bsVersion(factory bsUtil.Factory, streams genericIOOptions.IOStreams) error {
+func bsVersion(streams genericIOOptions.IOStreams) error {
 	fmt.Fprintf(streams.Out, "basic-setup cli version %s\n", BasicSetupCliVersion)
 
 	return nil

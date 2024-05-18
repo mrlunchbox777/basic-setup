@@ -49,7 +49,6 @@ func NewRootCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cob
 var (
 	skipHelpList = []string{
 		"help",
-		"policy",
 	}
 )
 

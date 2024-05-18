@@ -67,8 +67,6 @@ func TestFooCompletion(t *testing.T) {
 	// Arrange
 	streams, in, out, errOut := genericIOOptions.NewTestIOStreams()
 	factory := bsTestUtil.GetFakeFactory()
-	bigBangRepoLocation := "/tmp/big-bang"
-	factory.GetViper().Set("big-bang-repo", bigBangRepoLocation)
 
 	// Act
 	if os.Getenv("BE_CRASHER") == "1" {

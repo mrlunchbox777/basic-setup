@@ -1,0 +1,57 @@
+{
+	"name": "bbctl",
+	// "image": "mcr.microsoft.com/devcontainers/go:1-1.22-bullseye",
+	"build": {
+		"dockerfile": "./Dockerfile",
+		"context": ".."
+	},
+	"mounts": [
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/vscode/.kube,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bbctl,target=/home/vscode/.bbctl,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/vscode/.gitconfig,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.config,target=/home/vscode/.config,type=bind,consistency=cached"
+	],
+	// skipping features because devbox is providing them
+	"features": {},
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"editor.formatOnSave": true,
+				"files.insertFinalNewline": true,
+				"[makefile]": {
+					"editor.insertSpaces": false,
+					"editor.detectIndentation": false
+				}
+			},
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"jetpack-io.devbox",
+				"hashicorp.terraform",
+				"ms-azuretools.vscode-docker",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"golang.go",
+				"redhat.vscode-yaml",
+				"streetsidesoftware.code-spell-checker",
+				"eamodio.gitlens",
+				"amazonwebservices.aws-toolkit-vscode",
+				"editorconfig.editorconfig",
+				"tim-koehler.helm-intellisense",
+				"ms-vscode.makefile-tools"
+			]
+		}
+	},
+	"remoteUser": "vscode",
+	"updateRemoteUserUID": true,
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"LOCAL_USER_DIR": "${localEnv:HOME}${localEnv:USERPROFILE}",
+		"LOCAL_USER": "${localEnv:USER}"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
+	"workspaceFolder": "${localWorkspaceFolder}"
+}

@@ -19,6 +19,12 @@ To contribute a change:
 7. Wait for a maintainer of the repository (see CODEOWNERS) to approve.
 8. If you have permissions to merge, you are responsible for merging. Otherwise, a CODEOWNER will merge the commit.
 
+### Contribution conditions
+
+1. The code must include a minimum of 80% unit test coverage
+1. The code must pass lint test
+1. Help resolve any security issues found in the mission ops pipeline
+
 
 # TODO: better define this
 
