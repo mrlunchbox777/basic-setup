@@ -22,17 +22,17 @@ var (
 
 		Bash:
 
-		$ source <(bbctl completion bash)
+		$ source <(bsctl completion bash)
 
 		To load completions for each session, execute once:
 
 		Linux:
 
-		$ bbctl completion bash > /etc/bash_completion.d/bbctl
+		$ bsctl completion bash > /etc/bash_completion.d/bsctl
 
 		macOS:
 
-		$ bbctl completion bash > /usr/local/etc/bash_completion.d/bbctl
+		$ bsctl completion bash > /usr/local/etc/bash_completion.d/bsctl
 
 		Zsh:
 
@@ -43,17 +43,17 @@ var (
 
 		To load completions for each session, execute once:
 
-		$ bbctl completion zsh > "${fpath[1]}/_bbctl"
+		$ bsctl completion zsh > "${fpath[1]}/_bsctl"
 
 		Note: You will need to start a new shell for this setup to take effect.
 
 		fish:
 
-		$ bbctl completion fish | source
+		$ bsctl completion fish | source
 
 		To load completions for each session, execute once:
 
-		$ bbctl completion fish > ~/.config/fish/completions/bbctl.fish `))
+		$ bsctl completion fish > ~/.config/fish/completions/bsctl.fish `))
 )
 
 // NewCompletionCmd - create a new Cobra completion command

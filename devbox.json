@@ -24,7 +24,7 @@
   },
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox for bbctl!'",
+      "echo 'Welcome to devbox for bsctl!'",
       "export GOPATH=$HOME/go",
       "export PATH=$GOPATH/bin:$PATH",
       "alias k=kubectl",
