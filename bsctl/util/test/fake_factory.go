@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/mrlunchbox777/basic-setup/bsctl/util/config"
 	bbLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
 	fakeLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
 )
@@ -38,13 +40,27 @@ type FakeFactory struct {
 	viperInstance *viper.Viper
 }
 
-// GetLoggingClient - get logging client
-func (f *FakeFactory) GetLoggingClient() bbLog.Client {
-	return f.GetLoggingClientWithLogger(nil)
+func (f *FakeFactory) GetConfigClient(cmd *cobra.Command) (*config.ConfigClient, error) {
+	return f.GetConfigClientWithParams(cmd, nil, nil)
+}
+func (f *FakeFactory) GetConfigClientWithParams(cmd *cobra.Command, loggingClient bbLog.Client, viperInstance *viper.Viper) (*config.ConfigClient, error) {
+	if loggingClient == nil {
+		loggingClient = f.GetLoggingClient()
+	}
+	if viperInstance == nil {
+		viperInstance = f.GetViper()
+	}
+	clientGetter := config.ClientGetter{}
+	return clientGetter.GetClient(cmd, &loggingClient, viperInstance)
 }
 
-// GetLoggingClientWithLogger - get logging client providing logger
-func (f *FakeFactory) GetLoggingClientWithLogger(logger *slog.Logger) bbLog.Client {
+// GetLoggingClient - get logging client
+func (f *FakeFactory) GetLoggingClient() bbLog.Client {
+	return f.GetLoggingClientWithParams(nil)
+}
+
+// GetLoggingClientWithParams - get logging client providing logger
+func (f *FakeFactory) GetLoggingClientWithParams(logger *slog.Logger) bbLog.Client {
 	var localFunc fakeLog.LoggingFunction
 	if f.loggingFunc == nil {
 		localFunc = func(args ...string) {
