@@ -9,6 +9,7 @@ import (
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
+	"github.com/mrlunchbox777/basic-setup/bsctl/static"
 	bsUtil "github.com/mrlunchbox777/basic-setup/bsctl/util"
 )
 
@@ -40,9 +41,12 @@ func NewVersionCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *
 	return cmd
 }
 
-// query the cluster using helm module to get information on bigbang release
 func bsVersion(streams genericIOOptions.IOStreams) error {
-	fmt.Fprintf(streams.Out, "basic-setup cli version %s\n", BasicSetupCliVersion)
+	constants, err := static.GetConstants()
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(streams.Out, "basic-setup cli version %s\n", constants.BasicSetupCliVersion)
 
 	return nil
 }
