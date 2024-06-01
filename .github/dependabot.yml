@@ -1,0 +1,94 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "dependabot[bot]"
+    commit-message:
+      prefix: "chore: github actions update"
+      include: "scope"
+    groups:
+      version-updates:
+        applies-to: "version-updates"
+        dependency-type: "production"
+      security-updates:
+        applies-to: "security-updates"
+        dependency-type: "production"
+    labels:
+      - "kind/chore"
+      - "status/review"
+      - "priority/1"
+      - "changes/meta"
+    reviewers:
+      - "mrlunchbox777"
+  - package-ecosystem: "devcontainers"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "dependabot[bot]"
+    commit-message:
+      prefix: "chore: devcontainers update"
+      include: "scope"
+    groups:
+      version-updates:
+        applies-to: "version-updates"
+        dependency-type: "production"
+      security-updates:
+        applies-to: "security-updates"
+        dependency-type: "production"
+    labels:
+      - "kind/chore"
+      - "status/review"
+      - "priority/1"
+      - "changes/meta"
+    reviewers:
+      - "mrlunchbox777"
+  - package-ecosystem: "gomod"
+    directory: "/bsctl"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "dependabot[bot]"
+    commit-message:
+      prefix: "chore: gomod update"
+      include: "scope"
+    groups:
+      version-updates:
+        applies-to: "version-updates"
+        dependency-type: "production"
+      security-updates:
+        applies-to: "security-updates"
+        dependency-type: "production"
+    labels:
+      - "kind/chore"
+      - "status/review"
+      - "priority/1"
+      - "changes/source"
+    reviewers:
+      - "mrlunchbox777"
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "dependabot[bot]"
+    commit-message:
+      prefix: "chore: docker update"
+      include: "scope"
+    groups:
+      version-updates:
+        applies-to: "version-updates"
+        dependency-type: "production"
+      security-updates:
+        applies-to: "security-updates"
+        dependency-type: "production"
+    labels:
+      - "kind/chore"
+      - "status/review"
+      - "priority/1"
+      - "changes/meta"
+    reviewers:
+      - "mrlunchbox777"
