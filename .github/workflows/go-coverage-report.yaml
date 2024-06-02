@@ -40,7 +40,7 @@ jobs:
       - name: Test
         run: |
           cd bsctl
-          go test -cover -coverprofile=../coverage.txt ./...
+          go test -cover -coverprofile=coverage.txt ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
@@ -58,3 +58,4 @@ jobs:
         with:
           coverage-artifact-name: "code-coverage" # can be omitted if you used this default value
           coverage-file-name: "coverage.txt" # can be omitted if you used this default value
+          root-package: "github.com/mrlunchbox777/basic-setup/bsctl/main.go"
