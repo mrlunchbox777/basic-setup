@@ -11,3 +11,4 @@ install/minikube*
 !/shared-scripts/big-bang/bin/.gitkeep
 test.out
 bin/
+coverage.txt

@@ -7,6 +7,7 @@ import (
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
+	"github.com/mrlunchbox777/basic-setup/bsctl/cmd/basic_setup"
 	bsUtil "github.com/mrlunchbox777/basic-setup/bsctl/util"
 )
 
@@ -40,6 +41,8 @@ func NewRootCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cob
 
 	cmd.AddCommand(NewCompletionCmd(factory, streams))
 	cmd.AddCommand(NewVersionCmd(factory, streams))
+
+	cmd.AddCommand(basic_setup.NewBasicSetupCmd(factory, streams))
 
 	addHelpCommandsRecursively(cmd)
 
