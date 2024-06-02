@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage
-          path: coverage.txt # Make sure to use the same file name you chose for the "-coverprofile" in the "Test" step
+          path: bsctl/coverage.txt # Make sure to use the same file name you chose for the "-coverprofile" in the "Test" step
 
   code_coverage:
     name: "Code coverage report"
