@@ -38,7 +38,9 @@ jobs:
         run: pwd && ls -laf
 
       - name: Test
-        run: go test -cover -coverprofile=coverage.txt ./bsctl/...
+        run: |
+          cd bsctl
+          go test -cover -coverprofile=coverage.txt ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
