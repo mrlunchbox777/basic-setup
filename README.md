@@ -11,7 +11,7 @@ Basic box setup, it's fairly customizable using bash and will work on gui-based 
 NOTE: This package will be moving to primarily [golang](https://go.dev/) instead of [bash](https://www.gnu.org/software/bash/) in the near future. This is primarily for portability, extensibility, and reusability.
 
 This will create a good basic setup for development workstations on Linux/Mac/WSL, given a label (as used in ./resources/install/index.json '.packages[].labels').
-
+../
 NOTE: it's currently only regularly tested on Linux, but if you find issues on any os please [report them](https://github.com/mrlunchbox777/basic-setup/issues/new/choose).
 
 ## If You Are New
@@ -67,6 +67,11 @@ curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bas
 ### Testing GUI
 
 You can run gui tests with [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+### Golang
+
+- `make test`
+- `make coverage`
 
 ## Other Projects
 As an orchestrator basic-setup relies heavily on external projects. When imported, they may or may not be specifically credited below or in the [bsctl README](/bsctl/README.md#other-projects); however, when code snippets are used, as much as possible, in no particular order, they will be listed with a link to their license below. Please report all missing attributions in an [issue](https://github.com/mrlunchbox777/basic-setup/issues/new?template=attribution.yaml)).
