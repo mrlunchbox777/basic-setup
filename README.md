@@ -11,7 +11,7 @@ Basic box setup, it's fairly customizable using bash and will work on gui-based 
 NOTE: This package will be moving to primarily [golang](https://go.dev/) instead of [bash](https://www.gnu.org/software/bash/) in the near future. This is primarily for portability, extensibility, and reusability.
 
 This will create a good basic setup for development workstations on Linux/Mac/WSL, given a label (as used in ./resources/install/index.json '.packages[].labels').
-../
+
 NOTE: it's currently only regularly tested on Linux, but if you find issues on any os please [report them](https://github.com/mrlunchbox777/basic-setup/issues/new/choose).
 
 ## If You Are New
