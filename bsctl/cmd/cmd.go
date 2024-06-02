@@ -60,11 +60,9 @@ func addHelpCommandsRecursively(cmd *cobra.Command, addRootHelp bool) {
 		cmd.AddCommand(bsHelp.NewHelpCmd(cmd))
 	}
 	for _, c := range cmd.Commands() {
-		if c.Use == "" {
-			continue
-		}
 		shouldSkip := false
 		for _, skip := range skipHelpList {
+			// Commands that don't have *.Use are covered by the test "Test_AllCommandsHaveUseNames"
 			if c.Use == skip {
 				shouldSkip = true
 			}

@@ -3,6 +3,7 @@ package cmd
 import (
 	"testing"
 
+	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
 
@@ -29,7 +30,7 @@ func TestCmd_RootUsage(t *testing.T) {
 	assert.Contains(t, commandUseNamesList, "completion [bash|zsh|fish]")
 }
 
-func TestK3d_RootNoSubcommand(t *testing.T) {
+func Test_RootNoSubcommand(t *testing.T) {
 	// Arrange
 	streams, in, out, errout := genericIOOptions.NewTestIOStreams()
 	factory := bbTestUtil.GetFakeFactory()
@@ -40,4 +41,23 @@ func TestK3d_RootNoSubcommand(t *testing.T) {
 	assert.Empty(t, in.String())
 	assert.Empty(t, errout.String())
 	assert.Empty(t, out.String())
+}
+
+func testAllSubCommands(t *testing.T, rootCommand *cobra.Command) {
+	assert.NotNil(t, rootCommand)
+	for _, command := range rootCommand.Commands() {
+		assert.NotEmpty(t, command.Use)
+		testAllSubCommands(t, command)
+	}
+}
+
+func Test_AllCommandsHaveUseNames(t *testing.T) {
+	// Arrange
+	streams, _, _, _ := genericIOOptions.NewTestIOStreams()
+	factory := bbTestUtil.GetFakeFactory()
+	// Act
+	cmd := NewRootCmd(factory, streams)
+	// Assert
+	assert.NotEmpty(t, cmd.Use)
+	testAllSubCommands(t, cmd)
 }
