@@ -21,6 +21,9 @@ jobs:
         # Put your commands for running backend tests here
 
   size-label:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: size-label
