@@ -44,7 +44,7 @@ func NewRootCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cob
 
 	cmd.AddCommand(basic_setup.NewBasicSetupCmd(factory, streams))
 
-	addHelpCommandsRecursively(cmd)
+	addHelpCommandsRecursively(cmd, false)
 
 	return cmd
 }
@@ -55,14 +55,14 @@ var (
 	}
 )
 
-func addHelpCommandsRecursively(cmd *cobra.Command) {
-	cmd.AddCommand(bsHelp.NewHelpCmd(cmd))
+func addHelpCommandsRecursively(cmd *cobra.Command, addRootHelp bool) {
+	if addRootHelp {
+		cmd.AddCommand(bsHelp.NewHelpCmd(cmd))
+	}
 	for _, c := range cmd.Commands() {
-		if c.Use == "" {
-			continue
-		}
 		shouldSkip := false
 		for _, skip := range skipHelpList {
+			// Commands that don't have *.Use are covered by the test "Test_AllCommandsHaveUseNames"
 			if c.Use == skip {
 				shouldSkip = true
 			}
@@ -70,6 +70,6 @@ func addHelpCommandsRecursively(cmd *cobra.Command) {
 		if shouldSkip {
 			continue
 		}
-		addHelpCommandsRecursively(c)
+		addHelpCommandsRecursively(c, true)
 	}
 }

@@ -17,8 +17,8 @@ ERROR=0
 
 	# Run tests
 	echo "Running tests in $PACKAGE_DIR..."
-	go test -v -coverprofile=test.out -cover ./...
-	go tool cover -html=test.out
+	go test -v -coverprofile=coverage.txt -cover ./...
+	go tool cover -html=coverage.txt
 } || {
 	ERROR=$?
 }
