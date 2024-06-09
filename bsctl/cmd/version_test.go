@@ -7,6 +7,7 @@ import (
 	genericCliOptions "k8s.io/cli-runtime/pkg/genericclioptions"
 
 	bsTestUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetVersion(t *testing.T) {
@@ -15,7 +16,7 @@ func TestGetVersion(t *testing.T) {
 	streams, _, buf, _ := genericCliOptions.NewTestIOStreams()
 
 	cmd := NewVersionCmd(factory, streams)
-	cmd.Run(cmd, []string{})
+	assert.Nil(t, cmd.RunE(cmd, []string{}))
 
 	if !strings.Contains(buf.String(), "basic-setup cli version ") {
 		t.Errorf("unexpected output: %s", buf.String())

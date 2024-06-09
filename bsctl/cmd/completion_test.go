@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -18,7 +19,7 @@ func TestBashCompletion(t *testing.T) {
 	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
 
 	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"bash"})
+	assert.Nil(t, cmd.RunE(cmd, []string{"bash"}))
 
 	if !strings.Contains(buf.String(), "bash completion") {
 		t.Errorf("unexpected output")
@@ -31,7 +32,7 @@ func TestZshCompletion(t *testing.T) {
 	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
 
 	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"zsh"})
+	assert.Nil(t, cmd.RunE(cmd, []string{"zsh"}))
 
 	if !strings.Contains(buf.String(), "zsh completion") {
 		t.Errorf("unexpected output")
@@ -44,25 +45,13 @@ func TestFishCompletion(t *testing.T) {
 	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
 
 	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"fish"})
+	assert.Nil(t, cmd.RunE(cmd, []string{"fish"}))
 
 	if !strings.Contains(buf.String(), "fish completion") {
 		t.Errorf("unexpected output")
 	}
 }
 
-// func TestFooCompletion(t *testing.T) {
-// 	factory := bsTestUtil.GetFakeFactory()
-
-// 	streams, _, buf, _ := genericCliOptions.NewTestIOStreams()
-
-// 	cmd := NewCompletionCmd(factory, streams)
-// 	cmd.Run(cmd, []string{"foo"})
-
-//		if buf.String() != "" {
-//			t.Errorf("unexpected output")
-//		}
-//	}
 func TestFooCompletion(t *testing.T) {
 	// Arrange
 	streams, in, out, errOut := genericIOOptions.NewTestIOStreams()
@@ -71,7 +60,11 @@ func TestFooCompletion(t *testing.T) {
 	// Act
 	if os.Getenv("BE_CRASHER") == "1" {
 		cmd := NewCompletionCmd(factory, streams)
-		cmd.Run(cmd, []string{"foo"})
+		err := cmd.RunE(cmd, []string{"foo"})
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			os.Exit(1)
+		}
 		return
 	}
 	runCrasherCommand := exec.Command(os.Args[0], "-test.run=TestFooCompletion")
