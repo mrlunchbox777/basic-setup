@@ -20,6 +20,9 @@ func (t *ReaderTee) Read(p []byte) (n int, err error) {
 	}
 
 	for _, target := range t.ReaderTrackers {
+		if target == nil {
+			continue
+		}
 		_, err = target.Write(p)
 		if err != nil {
 			allErrors = append(allErrors, err)
@@ -44,6 +47,9 @@ func (t *WriterTee) Write(p []byte) (n int, err error) {
 	}
 
 	for _, target := range t.TargetWriters {
+		if target == nil {
+			continue
+		}
 		_, err = target.Write(p)
 		if err != nil {
 			allErrors = append(allErrors, err)
