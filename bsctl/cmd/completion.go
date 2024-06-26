@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	genericCliOptions "k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
@@ -56,7 +55,7 @@ var (
 )
 
 // NewCompletionCmd - create a new Cobra completion command
-func NewCompletionCmd(factory bsUtil.Factory, streams genericCliOptions.IOStreams) *cobra.Command {
+func NewCompletionCmd(factory bsUtil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   completionUse,
 		Short:                 completionShort,
@@ -65,14 +64,15 @@ func NewCompletionCmd(factory bsUtil.Factory, streams genericCliOptions.IOStream
 		ValidArgs:             []string{"bash", "zsh", "fish"},
 		Args:                  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
 		RunE: func(cmd *cobra.Command, args []string) error {
+			streams := factory.GetStreams()
 			var err error
 			switch args[0] {
 			case "bash":
-				err = cmd.Root().GenBashCompletion(streams.Out)
+				err = cmd.Root().GenBashCompletion(streams.Out())
 			case "zsh":
-				err = cmd.Root().GenZshCompletion(streams.Out)
+				err = cmd.Root().GenZshCompletion(streams.Out())
 			case "fish":
-				err = cmd.Root().GenFishCompletion(streams.Out, true)
+				err = cmd.Root().GenFishCompletion(streams.Out(), true)
 			default:
 				err = fmt.Errorf("unsupported shell type %q", args[0])
 			}

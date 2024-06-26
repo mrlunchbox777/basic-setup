@@ -12,10 +12,14 @@ import (
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/cmd"
 	bsUtil "github.com/mrlunchbox777/basic-setup/bsctl/util"
-	bsK8sUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/k8s"
 )
 
 func main() {
+	factory := bsUtil.NewFactory()
+	run(factory)
+}
+
+func run(factory bsUtil.Factory) {
 	flags := pflag.NewFlagSet("bsctl", pflag.ExitOnError)
 	flags.String("basic-setup-repo",
 		"",
@@ -55,9 +59,7 @@ func main() {
 		}
 	})
 
-	factory := bsUtil.NewFactory()
-
-	bsCmd := cmd.NewRootCmd(factory, bsK8sUtil.GetIOStream())
+	bsCmd := cmd.NewRootCmd(factory)
 
 	flags.AddFlagSet(bsCmd.PersistentFlags())
 	pflag.CommandLine = flags

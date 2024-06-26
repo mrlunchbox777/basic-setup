@@ -4,21 +4,21 @@ import (
 	"strings"
 	"testing"
 
-	genericCliOptions "k8s.io/cli-runtime/pkg/genericclioptions"
-
 	bsTestUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetVersion(t *testing.T) {
+	// Arrange
 	factory := bsTestUtil.GetFakeFactory()
+	cmd := NewVersionCmd(factory)
+	store := factory.GetStreamsGetter().GetStreamStores()
 
-	streams, _, buf, _ := genericCliOptions.NewTestIOStreams()
-
-	cmd := NewVersionCmd(factory, streams)
+	// Act
 	assert.Nil(t, cmd.RunE(cmd, []string{}))
 
-	if !strings.Contains(buf.String(), "basic-setup cli version ") {
-		t.Errorf("unexpected output: %s", buf.String())
+	// Assert
+	if !strings.Contains(store.Out.String(), "basic-setup cli version ") {
+		t.Errorf("unexpected output: %s", store.Out.String())
 	}
 }

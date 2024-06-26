@@ -3,7 +3,6 @@ package cmd
 import (
 	bsHelp "github.com/mrlunchbox777/basic-setup/bsctl/cmd/help"
 	"github.com/spf13/cobra"
-	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
@@ -26,7 +25,7 @@ var (
 )
 
 // NewRootCmd - create a new Cobra root command
-func NewRootCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cobra.Command {
+func NewRootCmd(factory bsUtil.Factory) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:     cmdUse,
@@ -39,10 +38,10 @@ func NewRootCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cob
 	cmd.CompletionOptions.DisableNoDescFlag = true
 	cmd.CompletionOptions.DisableDescriptions = false
 
-	cmd.AddCommand(NewCompletionCmd(factory, streams))
-	cmd.AddCommand(NewVersionCmd(factory, streams))
+	cmd.AddCommand(NewCompletionCmd(factory))
+	cmd.AddCommand(NewVersionCmd(factory))
 
-	cmd.AddCommand(basic_setup.NewBasicSetupCmd(factory, streams))
+	cmd.AddCommand(basic_setup.NewBasicSetupCmd(factory))
 
 	addHelpCommandsRecursively(cmd, false)
 
