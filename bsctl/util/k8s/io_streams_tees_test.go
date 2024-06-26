@@ -147,7 +147,6 @@ func TestReaderTeeErrors(t *testing.T) {
 			// Arrange
 			var original io.Reader = bytes.NewBuffer(readValue)
 			var target io.Writer = &bytes.Buffer{}
-			expected := len(readValue)
 
 			if tt.errorOnOriginal {
 				original = bbUtilTestApiWrappers.CreateFakeWriter(t, true).ActualBuffer.(*bytes.Buffer)
@@ -170,8 +169,8 @@ func TestReaderTeeErrors(t *testing.T) {
 			if tt.errorOnOriginal {
 				assert.Error(t, err)
 				assert.Equal(t, "EOF", err.Error())
-				assert.Equal(t, expected, target.(*bytes.Buffer).Len())
-				assert.Equal(t, readValue, target.(*bytes.Buffer).Bytes())
+				assert.Equal(t, 0, target.(*bytes.Buffer).Len())
+				assert.Equal(t, []byte(nil), target.(*bytes.Buffer).Bytes())
 				assert.Equal(t, 0, actual)
 			} else if tt.errorOnTarget {
 				assert.Error(t, err)
@@ -179,6 +178,80 @@ func TestReaderTeeErrors(t *testing.T) {
 				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Bytes())
 				assert.Equal(t, len(readValue), actual)
+			} else if tt.nilTarget {
+				assert.NoError(t, err)
+				assert.Nil(t, target)
+			} else {
+				panic("unexpected test case")
+			}
+		})
+	}
+}
+
+func TestWriterTeeErrors(t *testing.T) {
+	writerValue := []byte("test")
+	tests := []struct {
+		name            string
+		errorOnOriginal bool
+		errorOnTarget   bool
+		nilTarget       bool
+	}{
+		{
+			name:            "error on original",
+			errorOnOriginal: true,
+			errorOnTarget:   false,
+			nilTarget:       false,
+		},
+		{
+			name:            "error on target",
+			errorOnOriginal: false,
+			errorOnTarget:   true,
+			nilTarget:       false,
+		},
+		{
+			name:            "nil target",
+			errorOnOriginal: false,
+			errorOnTarget:   false,
+			nilTarget:       true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			var original io.Writer = bytes.NewBuffer([]byte{})
+			var target io.Writer = &bytes.Buffer{}
+
+			if tt.errorOnOriginal {
+				original = bbUtilTestApiWrappers.CreateFakeWriter(t, true)
+			}
+			if tt.errorOnTarget {
+				target = bbUtilTestApiWrappers.CreateFakeWriter(t, true)
+			}
+			if tt.nilTarget {
+				target = nil
+			}
+			tee := &WriterTee{
+				Original:      original,
+				TargetWriters: []io.Writer{target},
+			}
+
+			// Act
+			actual, err := tee.Write(writerValue)
+
+			// Assert
+			if tt.errorOnOriginal {
+				assert.Error(t, err)
+				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, 0, target.(*bytes.Buffer).Len())
+				assert.Equal(t, []byte(nil), target.(*bytes.Buffer).Bytes())
+				assert.Equal(t, 0, actual)
+			} else if tt.errorOnTarget {
+				assert.Error(t, err)
+				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Len())
+				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Bytes())
+				assert.Equal(t, len(writerValue), actual)
 			} else if tt.nilTarget {
 				assert.NoError(t, err)
 				assert.Nil(t, target)
