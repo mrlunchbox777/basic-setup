@@ -36,4 +36,8 @@ func TestK3d_RootNoSubcommand(t *testing.T) {
 	assert.Empty(t, store.In.String())
 	assert.Empty(t, store.ErrOut.String())
 	assert.Contains(t, store.Out.String(), "Please provide a subcommand for basic-setup (see help)")
+	assert.Equal(t, 3, len(cmd.Commands()))
+	assert.Equal(t, "add-general-rc", cmd.Commands()[0].Use)
+	assert.Equal(t, "completion", cmd.Commands()[1].Use)
+	assert.Equal(t, "help [command]", cmd.Commands()[2].Use)
 }
