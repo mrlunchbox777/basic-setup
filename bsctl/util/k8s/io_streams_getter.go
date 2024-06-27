@@ -17,7 +17,7 @@ func GetIOStreamsGetter() IOStreamsGetter {
 
 // GetIOStreamsGetterConfigured - get io streams with or without stores
 func GetIOStreamsGetterConfigured(buffered bool) IOStreamsGetter {
-	getter := &IOStreamsStore{}
+	getter := &IOStreamsAndStores{}
 	realStreams := &IOStreamsConcrete{
 		InObj:     os.Stdin,
 		OutObj:    os.Stdout,
@@ -40,7 +40,7 @@ func GetIOStreamsGetterConfigured(buffered bool) IOStreamsGetter {
 // GetStoreOnlyStreams - get io stream with buffers
 func GetStoreOnlyStreams() IOStreamsGetter {
 	stores := NewStreamStores()
-	return &IOStreamsStore{
+	return &IOStreamsAndStores{
 		IOStreams:    NewStreamsStoreWrapper(stores),
 		StreamStores: stores,
 	}
