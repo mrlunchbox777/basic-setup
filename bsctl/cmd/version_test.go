@@ -1,24 +1,55 @@
 package cmd
 
 import (
-	"strings"
 	"testing"
 
+	"github.com/mrlunchbox777/basic-setup/bsctl/static"
 	bsTestUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetVersion(t *testing.T) {
-	// Arrange
-	factory := bsTestUtil.GetFakeFactory()
-	cmd := NewVersionCmd(factory)
-	store := factory.GetStreamsGetter().GetStreamStores()
+	tests := []struct {
+		name        string
+		expected    string
+		shouldError bool
+	}{
+		{
+			name:        "GetVersionNoError",
+			expected:    "basic-setup cli version 0.1.0\n",
+			shouldError: false,
+		},
+		{
+			// TODO: get the error from how bbctl does it
+			name:        "GetVersionError",
+			expected:    "",
+			shouldError: true,
+		},
+	}
 
-	// Act
-	assert.Nil(t, cmd.RunE(cmd, []string{}))
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			factory := bsTestUtil.GetFakeFactory()
+			cmd := NewVersionCmd(factory)
+			store := factory.GetStreamsGetter().GetStreamStores()
+			if test.shouldError {
+				readFileFunc := func(s string) ([]byte, error) {
+					return nil, assert.AnError
+				}
+				static.DefaultClient = static.NewConstantsClient(static.ReadFileFunc(readFileFunc))
+			}
 
-	// Assert
-	if !strings.Contains(store.Out.String(), "basic-setup cli version ") {
-		t.Errorf("unexpected output: %s", store.Out.String())
+			// Act
+			err := cmd.RunE(cmd, []string{})
+
+			// Assert
+			if test.shouldError {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
+			assert.Equal(t, test.expected, store.Out.String())
+		})
 	}
 }

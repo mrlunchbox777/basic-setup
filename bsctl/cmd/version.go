@@ -42,7 +42,7 @@ func NewVersionCmd(factory bsUtil.Factory) *cobra.Command {
 }
 
 func bsVersion(streams k8s.IOStreams) error {
-	constants, err := static.GetConstants()
+	constants, err := static.GetDefaultConstants()
 	if err != nil {
 		return err
 	}

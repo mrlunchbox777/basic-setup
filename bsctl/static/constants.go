@@ -9,14 +9,7 @@ import (
 var (
 	//go:embed resources
 	resources embed.FS
-	constants = Constants{}
 )
-
-func GetConstants() (Constants, error) {
-	constants.readFileFunc = resources.ReadFile
-	err := constants.readConstants()
-	return constants, err
-}
 
 type Readable interface {
 	readConstants() error
@@ -42,4 +35,38 @@ func (c *Constants) readConstants() error {
 	}
 	err = yaml.Unmarshal(yamlFile, c)
 	return err
+}
+
+// ConstantsClient is an interface that defines methods to interact with Constants
+type ConstantsClient interface {
+	GetConstants() (Constants, error)
+}
+
+// constantsClient is an implementation of the ConstantsClient interface
+type constantsClient struct {
+	readFileFunc ReadFileFunc
+}
+
+// NewConstantsClient creates a new ConstantsClient with the provided ReadFileFunc
+func NewConstantsClient(readFileFunc ReadFileFunc) ConstantsClient {
+	return &constantsClient{
+		readFileFunc: readFileFunc,
+	}
+}
+
+// GetConstants reads the constants from the YAML file and returns a Constants instance
+func (c *constantsClient) GetConstants() (Constants, error) {
+	constants := Constants{
+		readFileFunc: c.readFileFunc,
+	}
+	err := constants.readConstants()
+	return constants, err
+}
+
+// Default client using embedded resources
+var DefaultClient = NewConstantsClient(resources.ReadFile)
+
+// GetDefaultConstants returns constants using the default client
+func GetDefaultConstants() (Constants, error) {
+	return DefaultClient.GetConstants()
 }
