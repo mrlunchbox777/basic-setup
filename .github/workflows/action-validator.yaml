@@ -32,5 +32,5 @@ jobs:
       - name: Lint Actions
         run: |
           find .github/workflows -type f \( -iname \*.yaml -o -iname \*.yml \) \
-            | grep -v codql.yaml \
+            | grep -v codeql.yaml \
             | xargs -I {} action-validator --verbose {}
