@@ -11,17 +11,12 @@ on:
       - 'main'
 
 jobs:
-  checkout_repository:
-    name: "Checkout repository"
+  version_bump:
+    name: "Version Bump"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-  version_bump:
-    name: "Version Bump"
-    runs-on: ubuntu-latest
-    needs: checkout_repository
-    steps:
       - name: Version Bump
         run: |
           branchVersion=$(yq .BasicSetupCliVersion ./bsctl/static/resources/constants.yaml)
