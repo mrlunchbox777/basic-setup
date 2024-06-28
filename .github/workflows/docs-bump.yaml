@@ -63,3 +63,23 @@ jobs:
             echo "CHANGELOG version does not match constant version"
             exit 1
           fi
+
+          currentDay=$(date +%d)
+          branchDay=$(echo $branchLatestLog | sed 's/.* - \([0-9]*\)-\([0-9]*\)-\([0-9]*\)/\3/')
+          if [ "$currentDay" == "" ]; then
+            echo "Failed to get current day"
+            exit 1
+          fi
+
+          # Check if the date is the same as the current day or the day before or after (to account for timezones)
+          if [ "$currentDay" != "$branchDay" ] && [ "$(($currentDay-1))" != "$branchDay" ] && [ "$(($currentDay+1))" != "$branchDay" ]; then
+            echo "CHANGELOG date does not match current date"
+            exit 1
+          fi
+
+          currentYearAndMonth=$(date +%Y-%m)
+          branchYearAndMonth=$(echo $branchLatestLog | sed 's/.* - \([0-9]*\)-\([0-9]*\)-\([0-9]*\)/\1-\2/')
+          if [ "$currentYearAndMonth" != "$branchYearAndMonth" ]; then
+            echo "CHANGELOG year and month does not match current year and month"
+            exit 1
+          fi
