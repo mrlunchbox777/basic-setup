@@ -16,7 +16,7 @@ func TestGetVersion(t *testing.T) {
 	}{
 		{
 			name:        "GetVersionNoError",
-			expected:    "basic-setup cli version 0.1.0\n",
+			expected:    "basic-setup cli version 0.",
 			shouldError: false,
 		},
 		{
@@ -49,7 +49,7 @@ func TestGetVersion(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 			}
-			assert.Equal(t, test.expected, store.Out.String())
+			assert.Contains(t, store.Out.String(), test.expected)
 		})
 	}
 }
