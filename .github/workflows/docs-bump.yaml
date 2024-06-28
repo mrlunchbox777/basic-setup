@@ -11,8 +11,8 @@ on:
       - 'main'
 
 jobs:
-  version_bump:
-    name: "Version Bump"
+  docs_bump:
+    name: "Docs Bump"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -34,5 +34,25 @@ jobs:
 
           if [ "$branchVersion" == "$mainVersion" ]; then
             echo "Branch version not updated"
+            exit 1
+          fi
+      - name: CHANGELOG Bump
+        run: |
+          regex="## \\[[0-9]*\\.[0-9]*\\.[0-9]*\\] - [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}"
+          branchLatestLog=$(cat CHANGELOG.md | sed -n '/---/,$p' | sed '/---/d' | head -n 1 | grep "$regex")
+          mainLatestLog=$(curl -L https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/CHANGELOG.md 2>/dev/null | sed -n '/---/,$p' | sed '/---/d' | head -n 1 | grep "$regex")
+
+          if [ -z "$mainLatestLog" ]; then
+            echo "Failed to get latest log from github"
+            exit 1
+          fi
+
+          if [ -z "$branchLatestLog" ]; then
+            echo "Failed to get log from branch"
+            exit 1
+          fi
+
+          if [ "$branchLatestLog" == "$mainLatestLog" ]; then
+            echo "Branch log not updated"
             exit 1
           fi
