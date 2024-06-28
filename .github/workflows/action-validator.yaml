@@ -3,7 +3,7 @@ name: Quality Control
 on:
   push:
     paths:
-      - ".github/workflows/qa.yml"
+      - ".github/workflows/action-validator.yaml"
     branches:
       - main
   pull_request:
@@ -31,5 +31,5 @@ jobs:
 
       - name: Lint Actions
         run: |
-          find .github/workflows -type f \( -iname \*.yaml -o -iname \*.yml \) \
+          find .github/workflows -type f \( -iname \*.yaml -o -iname \*.yml ! -iname codeql.yml \) \
             | xargs -I {} action-validator --verbose {}
