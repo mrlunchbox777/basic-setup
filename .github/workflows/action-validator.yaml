@@ -1,4 +1,4 @@
-name: Quality Control
+name: Action Validator
 
 on:
   push:
@@ -30,7 +30,4 @@ jobs:
             action-validator 0.5.1
 
       - name: Lint Actions
-        run: |
-          find .github/workflows -type f \( -iname \*.yaml -o -iname \*.yml \) \
-            | grep -v codeql.yaml \
-            | xargs -I {} action-validator --verbose {}
+        run: ./bsctl/scripts/workflows/action-validator_check-actions_lint-actions.sh
