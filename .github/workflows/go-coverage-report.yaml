@@ -44,7 +44,7 @@ jobs:
       # coverage profile to a file. You will need the name of the file (e.g. "coverage.txt")
       # in the next step as well as the next job.
       - name: pwd
-        run: pwd && ls -laf && ls -laf ..
+        run: pwd && ls -laf && ls -laf .. && ls -laf ../..
 
       - name: Test
         run: |
