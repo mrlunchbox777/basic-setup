@@ -28,6 +28,7 @@ jobs:
   version_bump:
     name: "Version Bump"
     runs-on: ubuntu-latest
+    needs: checkout_repository
     steps:
       - name: Version Bump
         run: |
