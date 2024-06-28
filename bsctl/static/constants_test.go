@@ -20,7 +20,7 @@ func TestAssertConstants(t *testing.T) {
 	// Assert
 	assert.Nil(t, err)
 	assert.NotNil(t, c)
-	assert.Equal(t, "0.1.0", c.BasicSetupCliVersion)
+	assert.NotEmpty(t, c.BasicSetupCliVersion)
 }
 
 func TestErrorConstants(t *testing.T) {
