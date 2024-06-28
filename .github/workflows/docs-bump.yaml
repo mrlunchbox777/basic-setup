@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Version Bump
-        run: ./bsctl/scripts/workflow/docs-bump_docs-bump_version-bump.sh
+        run: ./bsctl/scripts/workflows/docs-bump_docs-bump_version-bump.sh
 
       - name: CHANGELOG Bump
-        run: ./bsctl/scripts/workflow/docs-bump_docs-bump_CHANGELOG-bump.sh
+        run: ./bsctl/scripts/workflows/docs-bump_docs-bump_CHANGELOG-bump.sh
