@@ -1,6 +1,7 @@
 package static
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,6 +22,7 @@ func TestAssertConstants(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, c)
 	assert.NotEmpty(t, c.BasicSetupCliVersion)
+	assert.True(t, strings.HasPrefix(c.BasicSetupCliVersion, "0."))
 }
 
 func TestErrorConstants(t *testing.T) {
