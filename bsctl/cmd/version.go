@@ -4,13 +4,12 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
-	cmdUtil "k8s.io/kubectl/pkg/cmd/util"
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/static"
 	bsUtil "github.com/mrlunchbox777/basic-setup/bsctl/util"
+	"github.com/mrlunchbox777/basic-setup/bsctl/util/k8s"
 )
 
 var (
@@ -27,26 +26,27 @@ var (
 )
 
 // NewVersionCmd - new version command
-func NewVersionCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cobra.Command {
+func NewVersionCmd(factory bsUtil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     versionUse,
 		Short:   versionShort,
 		Long:    versionLong,
 		Example: versionExample,
-		Run: func(cmd *cobra.Command, args []string) {
-			cmdUtil.CheckErr(bsVersion(streams))
+		RunE: func(cmd *cobra.Command, args []string) error {
+			streams := factory.GetStreams()
+			return bsVersion(streams)
 		},
 	}
 
 	return cmd
 }
 
-func bsVersion(streams genericIOOptions.IOStreams) error {
-	constants, err := static.GetConstants()
+func bsVersion(streams k8s.IOStreams) error {
+	constants, err := static.GetDefaultConstants()
 	if err != nil {
 		return err
 	}
-	fmt.Fprintf(streams.Out, "basic-setup cli version %s\n", constants.BasicSetupCliVersion)
+	fmt.Fprintf(streams.Out(), "basic-setup cli version %s\n", constants.BasicSetupCliVersion)
 
 	return nil
 }

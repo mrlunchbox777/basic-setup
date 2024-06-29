@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config"
+	bsUtilK8s "github.com/mrlunchbox777/basic-setup/bsctl/util/k8s"
+
 	bbLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
 )
 
@@ -17,6 +19,7 @@ type Factory interface {
 	GetLoggingClient() bbLog.Client                              // this can't bubble up an error, if it fails it will panic
 	GetLoggingClientWithParams(logger *slog.Logger) bbLog.Client // this can't bubble up an error, if it fails it will panic
 	GetViper() *viper.Viper
+	GetStreams() bsUtilK8s.IOStreams
 }
 
 // NewFactory - new factory method
@@ -62,4 +65,10 @@ func (f *UtilityFactory) GetLoggingClientWithParams(logger *slog.Logger) bbLog.C
 // GetViper - get viper
 func (f *UtilityFactory) GetViper() *viper.Viper {
 	return f.viperInstance
+}
+
+// GetStreams - get streams
+func (f *UtilityFactory) GetStreams() bsUtilK8s.IOStreams {
+	getter := bsUtilK8s.GetIOStreamsGetterConfigured(false)
+	return getter.GetIOStreams()
 }
