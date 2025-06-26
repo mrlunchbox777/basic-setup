@@ -9,8 +9,8 @@ import (
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config"
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/k8s"
-	bbLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
-	fakeLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
+	bbLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/log"
+	fakeLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/log"
 )
 
 // GetFakeFactory - get fake factory

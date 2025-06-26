@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 	genericIoOptions "k8s.io/cli-runtime/pkg/genericiooptions"
-	bbTestLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
+	bbTestLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/log"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
 )

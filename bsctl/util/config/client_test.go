@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
-	bbUtilLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
-	bbUtilTestLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
+	bbUtilLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/log"
+	bbUtilTestLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/log"
 )
 
 // NewClient tested in client_getter_test.go

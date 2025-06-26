@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	bbUtilTestApiWrappers "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/apiwrappers"
+	bbUtilTestApiWrappers "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/apiwrappers"
 )
 
 func TestRead(t *testing.T) {

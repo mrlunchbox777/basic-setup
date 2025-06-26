@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	bbLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
+	bbLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/log"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
 )
