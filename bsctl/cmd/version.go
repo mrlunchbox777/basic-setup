@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
-	cmdUtil "k8s.io/kubectl/pkg/cmd/util"
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
@@ -33,8 +32,8 @@ func NewVersionCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *
 		Short:   versionShort,
 		Long:    versionLong,
 		Example: versionExample,
-		Run: func(cmd *cobra.Command, args []string) {
-			cmdUtil.CheckErr(bsVersion(streams))
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return bsVersion(streams)
 		},
 	}
 
