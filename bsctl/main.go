@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"path"
@@ -53,7 +54,7 @@ func run(factory bsUtil.Factory, getHomeDirFunc GetHomeDirFunc, readInConfigFunc
 
 		homeDirname, err := getHomeDirFunc()
 		if err != nil {
-			slog.Default().Error("Error getting user home directory: %v", err)
+			slog.Default().Error(fmt.Sprintf("Error getting user home directory: %v", err.Error()))
 			panic(err)
 		}
 		viperInstance.SetConfigName("config")
@@ -68,7 +69,7 @@ func run(factory bsUtil.Factory, getHomeDirFunc GetHomeDirFunc, readInConfigFunc
 				slog.Default().Warn("Config file not found (~/.bsctl/config, /etc/bsctl/config, or ./config).")
 			} else {
 				// Config file was found but another error was produced
-				slog.Default().Error("Error reading config file: %v", err)
+				slog.Default().Error(fmt.Sprintf("Error reading config file: %v", err.Error()))
 				panic(err)
 			}
 		}
