@@ -256,8 +256,9 @@ func TestGetConfig(t *testing.T) {
 		viperInstance: v,
 	}
 	// Act
-	config := getConfig(&configClient)
+	config, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.Empty(t, in.String())
 	assert.Empty(t, out.String())
 	assert.Empty(t, errOut.String())
@@ -281,8 +282,10 @@ func TestGetConfigFailValidation(t *testing.T) {
 		viperInstance: v,
 	}
 	// Act
-	assert.Panics(t, func() { getConfig(&configClient) })
+	config, err := getConfig(&configClient)
 	// Assert
+	assert.Nil(t, config)
+	assert.Error(t, err)
 	assert.Empty(t, in.String())
 	assert.Empty(t, out.String())
 	assert.NotEmpty(t, errOut.String())
@@ -317,8 +320,9 @@ func TestReadConfig(t *testing.T) {
 	}
 	// Act
 	allSettings := v.AllSettings()
-	resultConfig := getConfig(&configClient)
+	resultConfig, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.NotNil(t, resultConfig)
 	assert.NotEmpty(t, allSettings)
 	assert.FileExists(t, path.Join(configDir, "config.yaml"))
@@ -357,8 +361,9 @@ func TestReadConfigAndOverride(t *testing.T) {
 	}
 	// Act
 	allSettings := v.AllSettings()
-	resultConfig := getConfig(&configClient)
+	resultConfig, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.NotNil(t, resultConfig)
 	assert.NotEmpty(t, allSettings)
 	assert.FileExists(t, path.Join(configDir, "config.yaml"))

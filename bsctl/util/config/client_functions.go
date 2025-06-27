@@ -58,14 +58,26 @@ func SetAndBindFlag(client *ConfigClient, name string, value interface{}, descri
 }
 
 // getConfig returns the global configuration.
-func getConfig(client *ConfigClient) *schemas.GlobalConfiguration {
+func getConfig(client *ConfigClient) (*schemas.GlobalConfiguration, error) {
 	var config schemas.GlobalConfiguration
-	(*client.loggingClient).HandleError("Error unmarshalling configuration: %v", client.viperInstance.Unmarshal(&config))
-	if client.command != nil {
-		(*client.loggingClient).HandleError("Error binding flags: %v", client.viperInstance.BindPFlags(client.command.PersistentFlags()))
+	err := client.viperInstance.Unmarshal(&config)
+	if err != nil {
+		return nil, err
 	}
-	(*client.loggingClient).HandleError("Error reconciling configuration: %v", config.ReconcileConfiguration(client.viperInstance))
+	if client.command != nil {
+		err = client.viperInstance.BindPFlags(client.command.PersistentFlags())
+		if err != nil {
+			return nil, err
+		}
+	}
+	err = config.ReconcileConfiguration(client.viperInstance)
+	if err != nil {
+		return nil, err
+	}
 	validator := validator.New()
-	(*client.loggingClient).HandleError("Error during validation for configuration: %v", validator.Struct(config))
-	return &config
+	err = validator.Struct(config)
+	if err != nil {
+		return nil, err
+	}
+	return &config, nil
 }

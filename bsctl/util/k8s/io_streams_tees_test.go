@@ -149,10 +149,10 @@ func TestReaderTeeErrors(t *testing.T) {
 			var target io.Writer = &bytes.Buffer{}
 
 			if tt.errorOnOriginal {
-				original = bbUtilTestApiWrappers.CreateFakeWriter(t, true).ActualBuffer.(*bytes.Buffer)
+				original = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, true, false).ActualBuffer.(*bytes.Buffer)
 			}
 			if tt.errorOnTarget {
-				target = bbUtilTestApiWrappers.CreateFakeWriter(t, true)
+				target = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, false, true).ActualBuffer.(*bytes.Buffer)
 			}
 			if tt.nilTarget {
 				target = nil
@@ -175,8 +175,8 @@ func TestReaderTeeErrors(t *testing.T) {
 			} else if tt.errorOnTarget {
 				assert.Error(t, err)
 				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
-				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Len())
-				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Bytes())
+				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Len())
+				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Bytes())
 				assert.Equal(t, len(readValue), actual)
 			} else if tt.nilTarget {
 				assert.NoError(t, err)
@@ -223,10 +223,10 @@ func TestWriterTeeErrors(t *testing.T) {
 			var target io.Writer = &bytes.Buffer{}
 
 			if tt.errorOnOriginal {
-				original = bbUtilTestApiWrappers.CreateFakeWriter(t, true)
+				original = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, false, true)
 			}
 			if tt.errorOnTarget {
-				target = bbUtilTestApiWrappers.CreateFakeWriter(t, true)
+				target = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, false, true)
 			}
 			if tt.nilTarget {
 				target = nil
@@ -249,8 +249,8 @@ func TestWriterTeeErrors(t *testing.T) {
 			} else if tt.errorOnTarget {
 				assert.Error(t, err)
 				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
-				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Len())
-				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeWriter).ActualBuffer.(*bytes.Buffer).Bytes())
+				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Len())
+				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Bytes())
 				assert.Equal(t, len(writerValue), actual)
 			} else if tt.nilTarget {
 				assert.NoError(t, err)

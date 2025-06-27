@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"errors"
 	"os"
+	"os/exec"
 	"testing"
 
 	utilTest "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
@@ -61,21 +62,28 @@ func TestRun(t *testing.T) {
 }
 
 func TestCobraOnInitializeInRunVersion(t *testing.T) {
+	type panicType int
+	const (
+		homeDir panicType = iota
+		readInConfig
+		none
+	)
+
 	tests := []struct {
 		name      string
 		args      []string
 		expected  string
 		err       string
-		panic     interface{} // *string
-		panicType string
+		panic     string
+		panicType panicType
 	}{
 		{
 			name:      "no extra args",
 			args:      []string{"bsctl"},
 			expected:  "",
 			err:       "",
-			panic:     nil,
-			panicType: "",
+			panic:     "",
+			panicType: none,
 		},
 		{
 			name: "version arg pass",
@@ -85,8 +93,8 @@ func TestCobraOnInitializeInRunVersion(t *testing.T) {
 			},
 			expected:  "basic-setup cli version",
 			err:       "Config file not found (~/.bsctl/config, /etc/bsctl/config, or ./config)",
-			panic:     nil,
-			panicType: "",
+			panic:     "",
+			panicType: none,
 		},
 		{
 			name: "version arg panic on get user home dir",
@@ -97,7 +105,7 @@ func TestCobraOnInitializeInRunVersion(t *testing.T) {
 			expected:  "",
 			err:       "",
 			panic:     "Error getting user home directory: user: Current not implemented on darwin/amd64",
-			panicType: "homeDir",
+			panicType: homeDir,
 		},
 		{
 			name: "version arg panic on read in config",
@@ -108,13 +116,21 @@ func TestCobraOnInitializeInRunVersion(t *testing.T) {
 			expected:  "",
 			err:       "",
 			panic:     "Error reading config file: viper: no configuration file loaded",
-			panicType: "readInConfig",
+			panicType: readInConfig,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
+			// Check if this test is a subprocess test
+			subprocessTestID := os.Getenv("BSCTL_SUBPROCESS_TEST_ID")
+			if subprocessTestID != "" {
+				// If it is we skip all tests except the one that matches the subprocess test ID
+				if subprocessTestID != tt.name {
+					t.Skipf("Skipping test %s as it is not the subprocess test", tt.name)
+				}
+			}
 			factory := utilTest.GetFakeFactory()
 			os.Args = tt.args
 			streams := factory.GetStreamsGetter().GetStreamStores()
@@ -123,31 +139,46 @@ func TestCobraOnInitializeInRunVersion(t *testing.T) {
 			var getHomeDirFunc GetHomeDirFunc
 			var readInConfigFunc GetReadInConfigFunc
 			switch tt.panicType {
-			case "homeDir":
+			case homeDir:
 				getHomeDirFunc = func() (string, error) {
-					return "", fmt.Errorf(tt.panic.(string))
+					return "", errors.New(tt.panic)
 				}
 				readInConfigFunc = viperInstance.ReadInConfig
-			case "readInConfig":
+			case readInConfig:
 				getHomeDirFunc = os.UserHomeDir
 				readInConfigFunc = func() error {
-					return fmt.Errorf(tt.panic.(string))
+					return errors.New(tt.panic)
 				}
-			case "":
+			case none:
+				fallthrough
+			default:
 				getHomeDirFunc = os.UserHomeDir
 				readInConfigFunc = viperInstance.ReadInConfig
 			}
-			panicked := false
+
 			// Act
-			if tt.panicType != "" {
-				panicked = assert.PanicsWithError(t, tt.panic.(string), func() {
+			var err error = nil
+			if tt.panicType != none {
+				if subprocessTestID != "" {
 					run(factory, getHomeDirFunc, readInConfigFunc)
-				})
+				} else {
+					cmd := exec.Command(os.Args[0], "-test.run=TestCobraOnInitializeInRunVersion")
+					cmd.Env = append(os.Environ(), "BSCTL_SUBPROCESS_TEST_ID="+tt.name)
+					cmd.Stdin = streams.In
+					cmd.Stdout = streams.Out
+					cmd.Stderr = streams.ErrOut
+					// Run the command and capture the error
+					err = cmd.Run()
+				}
 			} else {
 				run(factory, getHomeDirFunc, readInConfigFunc)
 			}
+
 			// Assert
-			assert.Equal(t, tt.panicType != "", panicked)
+			assert.NoError(t, err, "Expected no error, but got: %v", err)
+			if tt.panicType != none {
+				assert.Equal(t, streams.ErrOut.String(), tt.err)
+			}
 			assert.Contains(t, streams.Out.String(), tt.expected)
 			assert.Contains(t, streams.ErrOut.String(), tt.err)
 			assert.Empty(t, streams.In.String())

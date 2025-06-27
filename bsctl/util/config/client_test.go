@@ -18,20 +18,21 @@ import (
 func TestClientGetConfig(t *testing.T) {
 	// Arrange
 	expected := "test"
-	getConfigFunc := func(client *ConfigClient) *schemas.GlobalConfiguration {
+	getConfigFunc := func(client *ConfigClient) (*schemas.GlobalConfiguration, error) {
 		return &schemas.GlobalConfiguration{
 			BasicSetupRepo: expected,
-		}
+		}, nil
 	}
 	client := &ConfigClient{
 		getConfig: getConfigFunc,
 	}
 
 	// Act
-	actual := client.GetConfig()
+	actual, err := client.GetConfig()
 
 	// Assert
 	assert.NotNil(t, actual)
+	assert.NoError(t, err)
 	assert.Equal(t, expected, actual.BasicSetupRepo)
 }
 

@@ -11,7 +11,7 @@ import (
 )
 
 // GetConfigFunc type
-type GetConfigFunc func(*ConfigClient) *schemas.GlobalConfiguration
+type GetConfigFunc func(*ConfigClient) (*schemas.GlobalConfiguration, error)
 
 // SetAndBindFlagFunc type
 type SetAndBindFlagFunc func(*ConfigClient, string, interface{}, string) error
@@ -49,7 +49,7 @@ func NewClient(
 }
 
 // GetConfig returns the global configuration.
-func (client *ConfigClient) GetConfig() *schemas.GlobalConfiguration {
+func (client *ConfigClient) GetConfig() (*schemas.GlobalConfiguration, error) {
 	return client.getConfig(client)
 }
 
