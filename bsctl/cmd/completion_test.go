@@ -1,12 +1,11 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
 	"testing"
-
-	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
 
 	bsTestUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
 	"github.com/stretchr/testify/assert"
@@ -14,71 +13,60 @@ import (
 
 func TestBashCompletion(t *testing.T) {
 	factory := bsTestUtil.GetFakeFactory()
+	store := factory.GetStreamsGetter().GetStreamStores()
 
-	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
+	cmd := NewCompletionCmd(factory)
+	assert.Nil(t, cmd.RunE(cmd, []string{"bash"}))
 
-	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"bash"})
-
-	if !strings.Contains(buf.String(), "bash completion") {
+	if !strings.Contains(store.Out.String(), "bash completion") {
 		t.Errorf("unexpected output")
 	}
 }
 
 func TestZshCompletion(t *testing.T) {
 	factory := bsTestUtil.GetFakeFactory()
+	store := factory.GetStreamsGetter().GetStreamStores()
 
-	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
+	cmd := NewCompletionCmd(factory)
+	assert.Nil(t, cmd.RunE(cmd, []string{"zsh"}))
 
-	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"zsh"})
-
-	if !strings.Contains(buf.String(), "zsh completion") {
+	if !strings.Contains(store.Out.String(), "zsh completion") {
 		t.Errorf("unexpected output")
 	}
 }
 
 func TestFishCompletion(t *testing.T) {
 	factory := bsTestUtil.GetFakeFactory()
+	store := factory.GetStreamsGetter().GetStreamStores()
 
-	streams, _, buf, _ := genericIOOptions.NewTestIOStreams()
+	cmd := NewCompletionCmd(factory)
+	assert.Nil(t, cmd.RunE(cmd, []string{"fish"}))
 
-	cmd := NewCompletionCmd(factory, streams)
-	cmd.Run(cmd, []string{"fish"})
-
-	if !strings.Contains(buf.String(), "fish completion") {
+	if !strings.Contains(store.Out.String(), "fish completion") {
 		t.Errorf("unexpected output")
 	}
 }
 
-// func TestFooCompletion(t *testing.T) {
-// 	factory := bsTestUtil.GetFakeFactory()
-
-// 	streams, _, buf, _ := genericCliOptions.NewTestIOStreams()
-
-// 	cmd := NewCompletionCmd(factory, streams)
-// 	cmd.Run(cmd, []string{"foo"})
-
-//		if buf.String() != "" {
-//			t.Errorf("unexpected output")
-//		}
-//	}
 func TestFooCompletion(t *testing.T) {
 	// Arrange
-	streams, in, out, errOut := genericIOOptions.NewTestIOStreams()
 	factory := bsTestUtil.GetFakeFactory()
+	store := factory.GetStreamsGetter().GetStreamStores()
 
 	// Act
 	if os.Getenv("BE_CRASHER") == "1" {
-		cmd := NewCompletionCmd(factory, streams)
-		cmd.Run(cmd, []string{"foo"})
+		cmd := NewCompletionCmd(factory)
+		err := cmd.RunE(cmd, []string{"foo"})
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			os.Exit(1)
+		}
 		return
 	}
 	runCrasherCommand := exec.Command(os.Args[0], "-test.run=TestFooCompletion")
 	runCrasherCommand.Env = append(os.Environ(), "BE_CRASHER=1")
-	runCrasherCommand.Stderr = errOut
-	runCrasherCommand.Stdout = out
-	runCrasherCommand.Stdin = in
+	runCrasherCommand.Stderr = store.ErrOut
+	runCrasherCommand.Stdout = store.Out
+	runCrasherCommand.Stdin = store.In
 	err := runCrasherCommand.Run()
 
 	// Assert
@@ -86,9 +74,9 @@ func TestFooCompletion(t *testing.T) {
 		assert.Equal(t, 1, e.ExitCode())
 		assert.NotNil(t, runCrasherCommand)
 		assert.Equal(t, "exit status 1", e.Error())
-		assert.Equal(t, "error: unsupported shell type \"foo\"\n", errOut.String())
-		assert.Empty(t, in.String())
-		assert.Empty(t, out.String())
+		assert.Empty(t, store.In.String())
+		assert.Empty(t, store.Out.String())
+		assert.Equal(t, "error: unsupported shell type \"foo\"\n", store.ErrOut.String())
 		return
 	}
 	t.Fatalf("process ran with err %v, want exit status 1", err)

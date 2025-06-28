@@ -5,13 +5,13 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	bbLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
+	bbLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/log"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
 )
 
 // GetConfigFunc type
-type GetConfigFunc func(*ConfigClient) *schemas.GlobalConfiguration
+type GetConfigFunc func(*ConfigClient) (*schemas.GlobalConfiguration, error)
 
 // SetAndBindFlagFunc type
 type SetAndBindFlagFunc func(*ConfigClient, string, interface{}, string) error
@@ -49,7 +49,7 @@ func NewClient(
 }
 
 // GetConfig returns the global configuration.
-func (client *ConfigClient) GetConfig() *schemas.GlobalConfiguration {
+func (client *ConfigClient) GetConfig() (*schemas.GlobalConfiguration, error) {
 	return client.getConfig(client)
 }
 

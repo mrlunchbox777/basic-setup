@@ -7,16 +7,12 @@ import (
 )
 
 type GlobalConfiguration struct {
-	// Big Bang repository location: file path
-	BasicSetupRepo string `mapstructure:"basic-setup-repo" yaml:"basic-setup-repo" validate:"required"`
 	// Example configuration: object
 	ExampleConfiguration ExampleConfiguration `mapstructure:"example-config" yaml:"example-config"`
 }
 
 // ReconcileConfiguration recursively reconciles the configurations.
 func (g *GlobalConfiguration) ReconcileConfiguration(instance *viper.Viper) error {
-	g.BasicSetupRepo = instance.GetString("basic-setup-repo")
-
 	allErrors := []error{}
 	for _, subConfig := range g.getSubConfigurations() {
 		err := subConfig.ReconcileConfiguration(instance)

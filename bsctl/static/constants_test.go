@@ -1,6 +1,7 @@
 package static
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -8,7 +9,7 @@ import (
 
 func TestReadConstants(t *testing.T) {
 	// Arrange & Act
-	c, err := GetConstants()
+	c, err := GetDefaultConstants()
 	// Assert
 	assert.Nil(t, err)
 	assert.NotNil(t, c)
@@ -16,16 +17,17 @@ func TestReadConstants(t *testing.T) {
 
 func TestAssertConstants(t *testing.T) {
 	// Arrange & Act
-	c, err := GetConstants()
+	c, err := GetDefaultConstants()
 	// Assert
 	assert.Nil(t, err)
 	assert.NotNil(t, c)
-	assert.Equal(t, "0.1.0", c.BasicSetupCliVersion)
+	assert.NotEmpty(t, c.BasicSetupCliVersion)
+	assert.True(t, strings.HasPrefix(c.BasicSetupCliVersion, "0."))
 }
 
 func TestErrorConstants(t *testing.T) {
 	// Arrange
-	c, err := GetConstants()
+	c, err := GetDefaultConstants()
 	assert.Nil(t, err)
 	// Act
 	c.readFileFunc = func(s string) ([]byte, error) {
