@@ -5,13 +5,13 @@ import (
 	"io"
 )
 
-// ReaderTee - tees read data to multiple writers
+// ReaderTee - reads data from original to p and multiple writers
 type ReaderTee struct {
 	Original       io.Reader
 	ReaderTrackers []io.Writer
 }
 
-// Read - read data to original reader and write to all target writers
+// Read - read data from original reader into to p and all target writers
 func (t *ReaderTee) Read(p []byte) (n int, err error) {
 	var allErrors []error
 	count, err := t.Original.Read(p)
@@ -32,13 +32,13 @@ func (t *ReaderTee) Read(p []byte) (n int, err error) {
 	return count, errors.Join(allErrors...)
 }
 
-// WriterTee - tees written data to multiple writers
+// WriterTee - writes data to multiple writers
 type WriterTee struct {
 	Original      io.Writer
 	TargetWriters []io.Writer
 }
 
-// Write - write data to original writer and write to all target writers
+// Write - write data to original and all target writers
 func (t *WriterTee) Write(p []byte) (n int, err error) {
 	var allErrors []error
 	count, err := t.Original.Write(p)

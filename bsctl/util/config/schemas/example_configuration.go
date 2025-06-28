@@ -12,6 +12,8 @@ type ExampleConfiguration struct {
 	ShouldError bool `mapstructure:"example-config-should-error" yaml:"example-config-should-error"`
 	// ExtraConfigs is a list of extra configurations
 	ExtraConfigs []BaseConfiguration
+	// Will fail validation if set to above 10
+	FailValidationAbove10 int `mapstructure:"example-config-fail-validation-above-10" yaml:"example-config-fail-validation-above-10" validate:"max=10"`
 	// ShouldFailToMarshal is an optional field that can be set with an invalid value such that calling yaml.Marshal on the configuration will panic.
 	// This should never be set outside of unit tests.
 	ShouldFailToMarshal *any `yaml:"example-config-should-fail-to-marshal,omitempty"`
@@ -19,6 +21,9 @@ type ExampleConfiguration struct {
 
 // ReconcileConfiguration reconciles the configuration.
 func (u *ExampleConfiguration) ReconcileConfiguration(instance *viper.Viper) error {
+	if instance.IsSet("example-config-fail-validation-above-10") {
+		u.FailValidationAbove10 = instance.GetInt("example-config-fail-validation-above-10")
+	}
 	if instance.IsSet("example-config-should-error") {
 		u.ShouldError = instance.GetBool("example-config-should-error")
 	}

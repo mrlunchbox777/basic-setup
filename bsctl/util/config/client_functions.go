@@ -74,7 +74,7 @@ func getConfig(client *ConfigClient) (*schemas.GlobalConfiguration, error) {
 	if err != nil {
 		return nil, err
 	}
-	validator := validator.New()
+	validator := validator.New(validator.WithRequiredStructEnabled())
 	err = validator.Struct(config)
 	if err != nil {
 		return nil, err

@@ -115,7 +115,7 @@ func TestStreamTees(t *testing.T) {
 }
 
 func TestReaderTeeErrors(t *testing.T) {
-	readValue := []byte("test")
+	readValue := "test"
 	tests := []struct {
 		name            string
 		errorOnOriginal bool
@@ -145,14 +145,14 @@ func TestReaderTeeErrors(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			var original io.Reader = bytes.NewBuffer(readValue)
+			var original io.Reader = bytes.NewBuffer([]byte(readValue))
 			var target io.Writer = &bytes.Buffer{}
 
 			if tt.errorOnOriginal {
-				original = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, true, false).ActualBuffer.(*bytes.Buffer)
+				original = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, true, false)
 			}
 			if tt.errorOnTarget {
-				target = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, false, true).ActualBuffer.(*bytes.Buffer)
+				target = bbUtilTestApiWrappers.CreateFakeReaderWriter(t, false, true)
 			}
 			if tt.nilTarget {
 				target = nil
@@ -161,14 +161,17 @@ func TestReaderTeeErrors(t *testing.T) {
 				Original:       original,
 				ReaderTrackers: []io.Writer{target},
 			}
+			readBuffer := make([]byte, len(readValue))
 
 			// Act
-			actual, err := tee.Read(readValue)
+			actual, err := tee.Read(readBuffer)
 
 			// Assert
 			if tt.errorOnOriginal {
 				assert.Error(t, err)
-				assert.Equal(t, "EOF", err.Error())
+				// this will change when https://repo1.dso.mil/big-bang/apps/developer-tools/bbctl/-/merge_requests/89 is merged
+				// assert.Equal(t, "FakeReader intentionally errored", err.Error())
+				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
 				assert.Equal(t, 0, target.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bytes.Buffer).Bytes())
 				assert.Equal(t, 0, actual)

@@ -17,10 +17,12 @@ import (
 
 func TestClientGetConfig(t *testing.T) {
 	// Arrange
-	expected := "test"
+	expected := 5
 	getConfigFunc := func(client *ConfigClient) (*schemas.GlobalConfiguration, error) {
 		return &schemas.GlobalConfiguration{
-			BasicSetupRepo: expected,
+			ExampleConfiguration: schemas.ExampleConfiguration{
+				FailValidationAbove10: 5,
+			},
 		}, nil
 	}
 	client := &ConfigClient{
@@ -33,7 +35,7 @@ func TestClientGetConfig(t *testing.T) {
 	// Assert
 	assert.NotNil(t, actual)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, actual.BasicSetupRepo)
+	assert.Equal(t, expected, actual.ExampleConfiguration.FailValidationAbove10)
 }
 
 func TestClientSetAndBindFlag(t *testing.T) {
