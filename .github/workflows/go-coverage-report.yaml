@@ -31,6 +31,12 @@ jobs:
         with:
           go-version: ^1.22
 
+      - name: Build Go project
+        run: |
+          cd bsctl
+          go build -v -o bsctl ./...
+          echo "$PWD" >> $GITHUB_PATH
+
       - name: pwd
         run: pwd && ls -laf
 
