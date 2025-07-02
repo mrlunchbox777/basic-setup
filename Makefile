@@ -41,4 +41,4 @@ test:
 	cd ./bsctl; make test
 
 vet:
-	cd ./bsctl; vet
+	cd ./bsctl; make vet

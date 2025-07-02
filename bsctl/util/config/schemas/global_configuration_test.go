@@ -35,7 +35,7 @@ func TestReconcileConfiguration_GlobalConfiguration(t *testing.T) {
 		t.Run(tt.desc, func(t *testing.T) {
 			// Arrange
 			instance := viper.New()
-			instance.Set("basic-setup-repo", "test1") // root
+			instance.Set("example-config-fail-validation-above-10", 5)
 			if tt.willError {
 				instance.Set("example-config-should-error", true)
 			}
@@ -48,7 +48,7 @@ func TestReconcileConfiguration_GlobalConfiguration(t *testing.T) {
 				// we can't check the values because we don't know what they are because we don't know where it errored
 			} else {
 				assert.Nil(t, err)
-				assert.Equal(t, "test1", tt.arg.BasicSetupRepo)
+				assert.Equal(t, 5, tt.arg.ExampleConfiguration.FailValidationAbove10)
 			}
 		})
 	}
