@@ -21,8 +21,6 @@ updates:
       - "status/review"
       - "priority/1"
       - "changes/meta"
-    reviewers:
-      - "mrlunchbox777"
   - package-ecosystem: "devcontainers"
     directory: "/.devcontainer"
     schedule:
@@ -44,8 +42,6 @@ updates:
       - "status/review"
       - "priority/1"
       - "changes/meta"
-    reviewers:
-      - "mrlunchbox777"
   - package-ecosystem: "gomod"
     directory: "/bsctl"
     schedule:
@@ -67,8 +63,6 @@ updates:
       - "status/review"
       - "priority/1"
       - "changes/source"
-    reviewers:
-      - "mrlunchbox777"
   - package-ecosystem: "docker"
     directory: "/.devcontainer"
     schedule:
@@ -90,5 +84,3 @@ updates:
       - "status/review"
       - "priority/1"
       - "changes/meta"
-    reviewers:
-      - "mrlunchbox777"
