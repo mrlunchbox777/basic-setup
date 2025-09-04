@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/spf13/cobra v1.10.1
-	github.com/spf13/pflag v1.0.9
+	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.11.1
 	repo1.dso.mil/big-bang/product/packages/bbctl v0.0.0-20240502140051-39a4bf454fc7
