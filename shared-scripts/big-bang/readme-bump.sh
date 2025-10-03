@@ -89,8 +89,6 @@ done
 [ $SHOW_HELP == true ] && help && exit 0
 
 branch=${BRANCH:-master}
-# branch="bb-2418-create-maintenance-track-badge"
-
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/README.md.gotmpl
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/.helmdocsignore
 curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/_templates.gotmpl
