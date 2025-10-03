@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
-	cmdUtil "k8s.io/kubectl/pkg/cmd/util"
 	"k8s.io/kubectl/pkg/util/i18n"
 	"k8s.io/kubectl/pkg/util/templates"
 
@@ -26,15 +24,16 @@ var (
 )
 
 // NewAddGeneralRcCmd - new add-general-rc command
-func NewAddGeneralRcCmd(factory bsUtil.Factory, streams genericIOOptions.IOStreams) *cobra.Command {
+func NewAddGeneralRcCmd(factory bsUtil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     addGeneralRcUse,
 		Short:   addGeneralRcShort,
 		Long:    addGeneralRcLong,
 		Example: addGeneralRcExample,
-		Run: func(cmd *cobra.Command, args []string) {
-			_, err := streams.Out.Write([]byte(fmt.Sprintln("Please provide a subcommand for basic-setup (see help)")))
-			cmdUtil.CheckErr(err)
+		RunE: func(cmd *cobra.Command, args []string) error {
+			streams := factory.GetStreams()
+			_, err := streams.Out().Write([]byte(fmt.Sprintln("Please provide a subcommand for basic-setup (see help)")))
+			return err
 		},
 	}
 

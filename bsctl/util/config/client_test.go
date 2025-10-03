@@ -9,30 +9,33 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
-	bbUtilLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/log"
-	bbUtilTestLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
+	bbUtilLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/log"
+	bbUtilTestLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/log"
 )
 
 // NewClient tested in client_getter_test.go
 
 func TestClientGetConfig(t *testing.T) {
 	// Arrange
-	expected := "test"
-	getConfigFunc := func(client *ConfigClient) *schemas.GlobalConfiguration {
+	expected := 5
+	getConfigFunc := func(client *ConfigClient) (*schemas.GlobalConfiguration, error) {
 		return &schemas.GlobalConfiguration{
-			BasicSetupRepo: expected,
-		}
+			ExampleConfiguration: schemas.ExampleConfiguration{
+				FailValidationAbove10: 5,
+			},
+		}, nil
 	}
 	client := &ConfigClient{
 		getConfig: getConfigFunc,
 	}
 
 	// Act
-	actual := client.GetConfig()
+	actual, err := client.GetConfig()
 
 	// Assert
 	assert.NotNil(t, actual)
-	assert.Equal(t, expected, actual.BasicSetupRepo)
+	assert.NoError(t, err)
+	assert.Equal(t, expected, actual.ExampleConfiguration.FailValidationAbove10)
 }
 
 func TestClientSetAndBindFlag(t *testing.T) {
