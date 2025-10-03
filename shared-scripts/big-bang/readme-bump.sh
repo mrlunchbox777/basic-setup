@@ -88,8 +88,9 @@ done
 #
 [ $SHOW_HELP == true ] && help && exit 0
 
-curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/README.md.gotmpl
-curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/.helmdocsignore
-curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/master/docs/_templates.gotmpl
-docker run --rm -v "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.10.0 -s file -t /helm-docs/README.md.gotmpl -t /helm-docs/_templates.gotmpl --dry-run > README.md
+branch=${BRANCH:-master}
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/README.md.gotmpl
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/.helmdocsignore
+curl -LO https://repo1.dso.mil/big-bang/apps/library-charts/gluon/-/raw/$branch/docs/_templates.gotmpl
+docker run --rm -v "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:v1.14.0 -s file -t /helm-docs/README.md.gotmpl -t /helm-docs/_templates.gotmpl --dry-run > README.md
 rm .helmdocsignore README.md.gotmpl _templates.gotmpl
