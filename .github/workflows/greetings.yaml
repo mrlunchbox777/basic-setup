@@ -10,7 +10,8 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-    - uses: actions/first-interaction@v3
+    - name: Greet First Time Contributors
+      uses: actions/first-interaction@v3
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         issue_message: 'Thank you for opening your first issue. We will respond as soon as we can. Thank you for being part of our community'
