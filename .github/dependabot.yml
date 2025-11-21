@@ -4,6 +4,8 @@ updates:
     directory: "/.github/workflows"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     assignees:
       - "dependabot[bot]"
     commit-message:
@@ -25,6 +27,8 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     assignees:
       - "dependabot[bot]"
     commit-message:
@@ -46,6 +50,8 @@ updates:
     directory: "/bsctl"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     assignees:
       - "dependabot[bot]"
     commit-message:
@@ -67,6 +73,8 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     assignees:
       - "dependabot[bot]"
     commit-message:
