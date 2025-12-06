@@ -109,11 +109,13 @@ else
 	initial_path="$BIGBANG_PATH"
 fi
 
-bigbang_k3d_path=$(find "$initial_path" -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/src -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/ -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find /home/ -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find / -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
+relative_k3d_path="*/docs/reference/scripts/developer/k3d-dev.sh"
+bigbang_k3d_path=$(find "$initial_path" -type f -path "$relative_k3d_path")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find "$HOME/src/repo1/big-bang/bigbang" -type f -path "$relative_k3d_path")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find "$HOME/src" -type f -path "$relative_k3d_path")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find "$HOME/" -type f -path "$relative_k3d_path")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find "/home/" -type f -path "$relative_k3d_path")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find "/" -type f -path "$relative_k3d_path")
 if [ ! -f "$bigbang_k3d_path" ]; then
 	echo -e "error finding the k3d-dev script in the bigbang repo..." >&2
 	exit 1

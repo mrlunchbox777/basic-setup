@@ -15,7 +15,7 @@ alias identify-shell='general-identify-shell-function-wrapper'
 function general-how-function-wrapper() {
 	shared_scripts_dir=$(get-shared-scripts-dir)
 	. "$shared_scripts_dir/bin/general-how-function"
-	how-function $@
+	how-function "$@"
 }
 alias howa='general-how-function-wrapper'
 
