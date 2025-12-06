@@ -1,5 +1,7 @@
 # This must be an alias because as a script alias it creates an infinite loop
-alias tldr="tldr --auto-update-interval 10" # Update every 10 days
+if command -v tldr >/dev/null 2>&1 && [ ! -z "$(tldr -h 2>/dev/null | grep -- '--auto-update-interval')" ]; then
+	alias tldr="tldr --auto-update-interval 10" # Update every 10 days
+fi
 
 # This must be a sourced function because a script creates a new shell rather than reading the current one
 function general-identify-shell-function-wrapper() {
@@ -13,7 +15,7 @@ alias identify-shell='general-identify-shell-function-wrapper'
 function general-how-function-wrapper() {
 	shared_scripts_dir=$(get-shared-scripts-dir)
 	. "$shared_scripts_dir/bin/general-how-function"
-	how-function $@
+	how-function "$@"
 }
 alias howa='general-how-function-wrapper'
 
