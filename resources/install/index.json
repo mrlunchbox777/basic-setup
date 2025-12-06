@@ -1276,7 +1276,7 @@
           "manager-name": "brew",
           "notes": "",
           "package-name": "libreoffice",
-          "installed-command": "[ -z \"$(brew list -l -1 | grep '^libreoffice$')\" ]"
+          "installed-command": "[ -n \"$(brew list -l -1 | grep '^libreoffice$')\" ]"
         },
         {
           "arguments": "",
@@ -1461,7 +1461,7 @@
           "manager-name": "brew",
           "notes": "",
           "package-name": "moreutils",
-          "installed-command": "[ -z \"$(brew list -l -1 | grep '^moreutils$')\" ]"
+          "installed-command": "[ -n \"$(brew list -l -1 | grep '^moreutils$')\" ]"
         },
         {
           "arguments": "",
@@ -1523,7 +1523,7 @@
           "manager-name": "brew",
           "notes": "",
           "package-name": "nvm",
-          "installed-command": "[ -z \"$(brew list -l -1 | grep '^nvm$')\" ]"
+          "installed-command": "[ -n \"$(brew list -l -1 | grep '^nvm$')\" ]"
         },
         {
           "arguments": "",
