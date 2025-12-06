@@ -28,7 +28,7 @@ VERBOSITY=${BASIC_SETUP_VERBOSITY:--1}
 if [ -z "$BIGBANG_PATH" ]; then
 	BIGBANG_PATH=${BAISC_SETUP_BIG_BANG_GET_REPO_DIR_BIGBANG_PATH:-""}
 fi
-if (( $VERBOSITY == -1 )); then
+if (($VERBOSITY == -1)); then
 	VERBOSITY=${BASIC_SETUP_VERBOSITY:-0}
 fi
 
@@ -39,7 +39,7 @@ fi
 # script help message
 function help {
 	command_for_help="$(basename "$0")"
-	cat <<- EOF
+	cat <<-EOF
 		----------
 		usage: $command_for_help <arguments>
 		----------
@@ -81,7 +81,7 @@ while (("$#")); do
 		;;
 	# verbosity multi-flag
 	-v | --verbose)
-		((VERBOSITY+=1))
+		((VERBOSITY += 1))
 		shift
 		;;
 	# unsupported flags and arguments
@@ -109,11 +109,11 @@ else
 	initial_path="$BIGBANG_PATH"
 fi
 
-bigbang_k3d_path=$(find "$initial_path" -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/src -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/ -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find /home/ -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
-[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find / -type f -path "*/docs/assets/scripts/developer/k3d-dev.sh")
+bigbang_k3d_path=$(find "$initial_path" -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/src -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find $HOME/ -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find /home/ -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
+[ ! -f "$bigbang_k3d_path" ] && bigbang_k3d_path=$(find / -type f -path "*/docs/reference/scripts/developer/k3d-dev.sh")
 if [ ! -f "$bigbang_k3d_path" ]; then
 	echo -e "error finding the k3d-dev script in the bigbang repo..." >&2
 	exit 1
