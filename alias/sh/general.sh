@@ -1,5 +1,7 @@
 # This must be an alias because as a script alias it creates an infinite loop
-alias tldr="tldr --auto-update-interval 10" # Update every 10 days
+if [ ! -z "$(tldr -h | grep -- '--auto-update-interval')" ]; then
+	alias tldr="tldr --auto-update-interval 10" # Update every 30 days
+fi
 
 # This must be a sourced function because a script creates a new shell rather than reading the current one
 function general-identify-shell-function-wrapper() {
