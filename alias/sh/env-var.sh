@@ -26,6 +26,6 @@ if command -v brew >/dev/null 2>&1; then
 		fi
 		# add openjdk to PATH and set CPPFLAGS
 		export PATH="$OPENJDK_PREFIX/bin:$PATH"
-		export CPPFLAGS="-I$OPENJDK_PREFIX/include"
+		export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$OPENJDK_PREFIX/include"
 	fi
 fi
