@@ -8,8 +8,11 @@ if [ -z "$GEM_HOME" ]; then
 fi
 
 # if ruby is installed via brew, add its location to the PATH
-if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
-	export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+if command -v brew &> /dev/null; then
+	BREW_PREFIX="$(brew --prefix)"
+	if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
+		export PATH="$BREW_PREFIX/opt/ruby/bin:$PATH"
+	fi
 fi
 
 # if openjdk is installed via brew, set JAVA_HOME and related variables
