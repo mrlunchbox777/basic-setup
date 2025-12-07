@@ -8,7 +8,7 @@ if [ -z "$GEM_HOME" ]; then
 fi
 
 # if ruby is installed via brew, add its location to the PATH
-if command -v brew &> /dev/null; then
+if command -v brew >/dev/null 2>&1; then
 	BREW_PREFIX="$(brew --prefix)"
 	if [ -d "$BREW_PREFIX/opt/ruby/bin" ]; then
 		export PATH="$BREW_PREFIX/opt/ruby/bin:$PATH"
