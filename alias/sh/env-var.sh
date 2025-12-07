@@ -4,7 +4,9 @@
 # by an existing environment variable
 if [ -z "$GEM_HOME" ]; then
 	export GEM_HOME="$HOME/.gems"
-	export PATH="$GEM_HOME/bin:$PATH"
+	if [ -d "$GEM_HOME/bin" ]; then
+		export PATH="$GEM_HOME/bin:$PATH"
+	fi
 fi
 
 # if ruby is installed via brew, add its location to the PATH
