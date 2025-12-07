@@ -20,8 +20,8 @@ if command -v brew >/dev/null 2>&1; then
 	OPENJDK_PREFIX="$(brew --prefix openjdk 2>/dev/null)"
 	if [ -n "$OPENJDK_PREFIX" ] && [ -d "$OPENJDK_PREFIX/libexec/openjdk.jdk" ]; then
 		export JAVA_HOME="$OPENJDK_PREFIX/libexec/openjdk.jdk/Contents/Home"
-		# create a symlink for macOS to find the JDK if it's not already there
-		if [ ! -d "/Library/Java/JavaVirtualMachines/openjdk.jdk" ]; then
+		# create a symlink for macOS to find the JDK if it's not already there (we won't override an existing one)
+		if [ ! -L "/Library/Java/JavaVirtualMachines/openjdk.jdk" ]; then
 			sudo ln -sfn "$OPENJDK_PREFIX/libexec/openjdk.jdk" /Library/Java/JavaVirtualMachines/openjdk.jdk
 		fi
 		# add openjdk to PATH and set CPPFLAGS
