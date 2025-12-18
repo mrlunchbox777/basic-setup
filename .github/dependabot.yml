@@ -6,8 +6,8 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
-    assignees:
-      - "dependabot[bot]"
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: github actions update"
       include: "scope"
@@ -29,8 +29,8 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
-    assignees:
-      - "dependabot[bot]"
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: devcontainers update"
       include: "scope"
@@ -52,8 +52,8 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
-    assignees:
-      - "dependabot[bot]"
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: gomod update"
       include: "scope"
@@ -75,8 +75,8 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
-    assignees:
-      - "dependabot[bot]"
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: docker update"
       include: "scope"
