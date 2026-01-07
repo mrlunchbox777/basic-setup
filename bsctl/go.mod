@@ -3,7 +3,7 @@ module github.com/mrlunchbox777/basic-setup/bsctl
 go 1.25.0
 
 require (
-	github.com/go-playground/validator/v10 v10.30.0
+	github.com/go-playground/validator/v10 v10.30.1
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
