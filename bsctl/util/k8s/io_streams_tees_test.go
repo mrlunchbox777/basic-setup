@@ -169,15 +169,13 @@ func TestReaderTeeErrors(t *testing.T) {
 			// Assert
 			if tt.errorOnOriginal {
 				assert.Error(t, err)
-				// this will change when https://repo1.dso.mil/big-bang/apps/developer-tools/bbctl/-/merge_requests/89 is merged
-				// assert.Equal(t, "FakeReader intentionally errored", err.Error())
-				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, "FakeReader intentionally errored", err.Error())
 				assert.Equal(t, 0, target.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bytes.Buffer).Bytes())
 				assert.Equal(t, 0, actual)
 			} else if tt.errorOnTarget {
 				assert.Error(t, err)
-				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, "FakeReader intentionally errored", err.Error())
 				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Bytes())
 				assert.Equal(t, len(readValue), actual)
@@ -245,13 +243,13 @@ func TestWriterTeeErrors(t *testing.T) {
 			// Assert
 			if tt.errorOnOriginal {
 				assert.Error(t, err)
-				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, "FakeReader intentionally errored", err.Error())
 				assert.Equal(t, 0, target.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bytes.Buffer).Bytes())
 				assert.Equal(t, 0, actual)
 			} else if tt.errorOnTarget {
 				assert.Error(t, err)
-				assert.Equal(t, "FakeWriter intentionally errored", err.Error())
+				assert.Equal(t, "FakeReader intentionally errored", err.Error())
 				assert.Equal(t, 0, target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Len())
 				assert.Equal(t, []byte(nil), target.(*bbUtilTestApiWrappers.FakeReaderWriter).ActualBuffer.(*bytes.Buffer).Bytes())
 				assert.Equal(t, len(writerValue), actual)
