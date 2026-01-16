@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Go
         uses: actions/setup-go@v6
@@ -49,7 +49,7 @@ jobs:
           go test -v -cover -coverprofile=coverage.txt ./...
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: code-coverage
           path: bsctl/coverage.txt # Make sure to use the same file name you chose for the "-coverprofile" in the "Test" step
@@ -70,7 +70,7 @@ jobs:
           coverage-file-name: "coverage.txt" # can be omitted if you used this default value
 
       - name: Archive file changes
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: all-changed-files
           path: .github/outputs/all_changed_files.json # Make sure to use the same file name you chose for the "-coverprofile" in the "Test" step

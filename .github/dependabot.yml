@@ -4,8 +4,10 @@ updates:
     directory: "/.github/workflows"
     schedule:
       interval: "daily"
-    assignees:
-      - "dependabot[bot]"
+    cooldown:
+      default-days: 7
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: github actions update"
       include: "scope"
@@ -25,8 +27,10 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "daily"
-    assignees:
-      - "dependabot[bot]"
+    cooldown:
+      default-days: 7
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: devcontainers update"
       include: "scope"
@@ -46,8 +50,10 @@ updates:
     directory: "/bsctl"
     schedule:
       interval: "daily"
-    assignees:
-      - "dependabot[bot]"
+    cooldown:
+      default-days: 7
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: gomod update"
       include: "scope"
@@ -67,8 +73,10 @@ updates:
     directory: "/.devcontainer"
     schedule:
       interval: "daily"
-    assignees:
-      - "dependabot[bot]"
+    cooldown:
+      default-days: 7
+    reviewers:
+      - "mrlunchbox777"
     commit-message:
       prefix: "chore: docker update"
       include: "scope"

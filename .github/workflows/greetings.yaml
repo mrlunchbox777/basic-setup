@@ -4,13 +4,15 @@ on: [pull_request, issues]
 
 jobs:
   greeting:
+    name: Greet First Time Contributors
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
     steps:
-    - uses: actions/first-interaction@v3
+    - name: Greet First Time Contributors
+      uses: actions/first-interaction@v3
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'Thank you for opening your first issue. We will respond as soon as we can. Thank you for being part of our community'
-        pr-message: 'Thank you for being part of our community and opening a pull request. We will work with you as soon as possible to integrate your contribution.'
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        issue_message: 'Thank you for opening your first issue. We will respond as soon as we can. Thank you for being part of our community'
+        pr_message: 'Thank you for being part of our community and opening a pull request. We will work with you as soon as possible to integrate your contribution.'
