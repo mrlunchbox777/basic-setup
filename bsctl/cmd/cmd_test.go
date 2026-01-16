@@ -5,17 +5,15 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	genericIOOptions "k8s.io/cli-runtime/pkg/genericiooptions"
 
 	bbTestUtil "github.com/mrlunchbox777/basic-setup/bsctl/util/test"
 )
 
 func TestCmd_RootUsage(t *testing.T) {
 	// Arrange
-	streams, _, _, _ := genericIOOptions.NewTestIOStreams()
 	factory := bbTestUtil.GetFakeFactory()
 	// Act
-	cmd := NewRootCmd(factory, streams)
+	cmd := NewRootCmd(factory)
 	// Assert
 	assert.NotNil(t, cmd)
 	assert.Equal(t, "bsctl", cmd.Use)
@@ -32,15 +30,15 @@ func TestCmd_RootUsage(t *testing.T) {
 
 func Test_RootNoSubcommand(t *testing.T) {
 	// Arrange
-	streams, in, out, errout := genericIOOptions.NewTestIOStreams()
 	factory := bbTestUtil.GetFakeFactory()
+	store := factory.GetStreamsGetter().GetStreamStores()
 	// Act
-	cmd := NewRootCmd(factory, streams)
+	cmd := NewRootCmd(factory)
 	// Assert
 	assert.Nil(t, cmd.Execute())
-	assert.Empty(t, in.String())
-	assert.Empty(t, errout.String())
-	assert.Empty(t, out.String())
+	assert.Empty(t, store.In.String())
+	assert.Empty(t, store.ErrOut.String())
+	assert.Empty(t, store.Out.String())
 }
 
 func testAllSubCommands(t *testing.T, rootCommand *cobra.Command) {
@@ -53,10 +51,9 @@ func testAllSubCommands(t *testing.T, rootCommand *cobra.Command) {
 
 func Test_AllCommandsHaveUseNames(t *testing.T) {
 	// Arrange
-	streams, _, _, _ := genericIOOptions.NewTestIOStreams()
 	factory := bbTestUtil.GetFakeFactory()
 	// Act
-	cmd := NewRootCmd(factory, streams)
+	cmd := NewRootCmd(factory)
 	// Assert
 	assert.NotEmpty(t, cmd.Use)
 	testAllSubCommands(t, cmd)

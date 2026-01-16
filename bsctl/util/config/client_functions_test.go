@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 	genericIoOptions "k8s.io/cli-runtime/pkg/genericiooptions"
-	bbTestLog "repo1.dso.mil/big-bang/product/packages/bbctl/util/test/log"
+	bbTestLog "repo1.dso.mil/big-bang/apps/developer-tools/bbctl/util/test/log"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/util/config/schemas"
 )
@@ -62,7 +62,6 @@ func WriteConfigFile(t *testing.T, dirname string, config schemas.BaseConfigurat
 
 func GetDefaultConfig(t *testing.T) schemas.BaseConfiguration {
 	return &schemas.GlobalConfiguration{
-		BasicSetupRepo: "test",
 		ExampleConfiguration: schemas.ExampleConfiguration{
 			ShouldError:  false,
 			ExtraConfigs: []schemas.BaseConfiguration{},
@@ -248,7 +247,7 @@ func TestGetConfig(t *testing.T) {
 	}
 	loggingClient := bbTestLog.NewFakeClient(loggingFunc)
 	v := viper.New()
-	v.Set("basic-setup-repo", "test")
+	v.Set("example-config-fail-validation-above-10", 5) // This should not trigger a validation error
 	command := &cobra.Command{}
 	configClient := ConfigClient{
 		command:       command,
@@ -256,13 +255,14 @@ func TestGetConfig(t *testing.T) {
 		viperInstance: v,
 	}
 	// Act
-	config := getConfig(&configClient)
+	config, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.Empty(t, in.String())
 	assert.Empty(t, out.String())
 	assert.Empty(t, errOut.String())
 	assert.NotNil(t, config)
-	assert.Equal(t, "test", config.BasicSetupRepo)
+	assert.Equal(t, 5, config.ExampleConfiguration.FailValidationAbove10)
 }
 
 func TestGetConfigFailValidation(t *testing.T) {
@@ -275,18 +275,21 @@ func TestGetConfigFailValidation(t *testing.T) {
 	loggingClient := bbTestLog.NewFakeClient(loggingFunc)
 	command := &cobra.Command{}
 	v := viper.New()
+	v.Set("example-config-fail-validation-above-10", 11) // This should trigger a validation error
 	configClient := ConfigClient{
 		command:       command,
 		loggingClient: &loggingClient,
 		viperInstance: v,
 	}
 	// Act
-	assert.Panics(t, func() { getConfig(&configClient) })
+	config, err := getConfig(&configClient)
 	// Assert
+	assert.Nil(t, config)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "Error:Field validation for 'FailValidationAbove10' failed on the 'max' tag")
 	assert.Empty(t, in.String())
 	assert.Empty(t, out.String())
-	assert.NotEmpty(t, errOut.String())
-	assert.Contains(t, errOut.String(), "Error during validation for configuration")
+	assert.Empty(t, errOut.String())
 }
 
 func TestReadConfig(t *testing.T) {
@@ -317,8 +320,9 @@ func TestReadConfig(t *testing.T) {
 	}
 	// Act
 	allSettings := v.AllSettings()
-	resultConfig := getConfig(&configClient)
+	resultConfig, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.NotNil(t, resultConfig)
 	assert.NotEmpty(t, allSettings)
 	assert.FileExists(t, path.Join(configDir, "config.yaml"))
@@ -348,7 +352,7 @@ func TestReadConfigAndOverride(t *testing.T) {
 	v.SetConfigType("yaml")
 	v.AddConfigPath(configDir)
 	assert.NoError(t, v.ReadInConfig())
-	v.Set("basic-setup-repo", "test2")
+	v.Set("example-config-fail-validation-above-10", 5) // This should not trigger a validation error
 
 	configClient := ConfigClient{
 		getConfig:     getConfig,
@@ -357,8 +361,9 @@ func TestReadConfigAndOverride(t *testing.T) {
 	}
 	// Act
 	allSettings := v.AllSettings()
-	resultConfig := getConfig(&configClient)
+	resultConfig, err := getConfig(&configClient)
 	// Assert
+	assert.NoError(t, err)
 	assert.NotNil(t, resultConfig)
 	assert.NotEmpty(t, allSettings)
 	assert.FileExists(t, path.Join(configDir, "config.yaml"))
@@ -366,5 +371,5 @@ func TestReadConfigAndOverride(t *testing.T) {
 	assert.Empty(t, out.String())
 	assert.Empty(t, errOut.String())
 	assert.NotEqual(t, originalConfig, resultConfig)
-	assert.Equal(t, "test2", resultConfig.BasicSetupRepo)
+	assert.Equal(t, 5, resultConfig.ExampleConfiguration.FailValidationAbove10)
 }

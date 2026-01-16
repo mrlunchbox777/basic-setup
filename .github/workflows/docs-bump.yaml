@@ -1,0 +1,25 @@
+name: Docs Bump
+
+# We do not want to trigger the workflow for pushes to *any* branch because this
+# would trigger our jobs twice on pull requests (once from "push" event and once
+# from "pull_request->synchronize")
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  docs_bump:
+    name: "Docs Bump"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Version Bump
+        run: ./bsctl/scripts/workflows/docs-bump_docs-bump_version-bump.sh
+
+      - name: CHANGELOG Bump
+        run: ./bsctl/scripts/workflows/docs-bump_docs-bump_CHANGELOG-bump.sh

@@ -11,3 +11,4 @@ install/minikube*
 !/shared-scripts/big-bang/bin/.gitkeep
 bin/
 coverage.txt
+coverage.out

@@ -1,0 +1,33 @@
+name: Action Validator
+
+on:
+  push:
+    paths:
+      - ".github/workflows/action-validator.yaml"
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check_actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install action-validator with asdf
+        uses: asdf-vm/actions/install@v3
+        with:
+          tool_versions: |
+            action-validator 0.5.1
+
+      - name: Lint Actions
+        run: ./bsctl/scripts/workflows/action-validator_check-actions_lint-actions.sh
