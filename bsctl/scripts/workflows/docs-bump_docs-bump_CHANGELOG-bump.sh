@@ -28,7 +28,7 @@ fi
 
 currentDay=$(date +%d)
 branchDay=$(echo $branchLatestLog | sed 's/.* - \([0-9]*\)-\([0-9]*\)-\([0-9]*\)/\3/')
-if [ "$currentDay" == "" ]; then
+if [ -z "$currentDay" ]; then
     echo "Failed to get current day"
     exit 1
 fi
