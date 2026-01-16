@@ -14,9 +14,19 @@ name: CI
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    paths:
+      - 'bsctl/**/*.go'
+      - 'bsctl/go.mod'
+      - 'bsctl/go.sum'
+      - '.github/workflows/go-coverage-report.yaml'
   push:
     branches:
       - 'main'
+    paths:
+      - 'bsctl/**/*.go'
+      - 'bsctl/go.mod'
+      - 'bsctl/go.sum'
+      - '.github/workflows/go-coverage-report.yaml'
 
 jobs:
   unit_tests:

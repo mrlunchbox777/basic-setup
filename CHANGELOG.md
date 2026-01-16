@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.1.4] - 2026-01-16
+### Changed
+- Updated GitHub Actions dependencies: actions/checkout from v4 to v6, asdf-vm/actions from v3 to v4
+
 ## [0.1.3] - 2026-01-16
 ### Fixed
 - Updated test expectations after bbctl v1.5.0 upgrade - error messages changed from "FakeWriter intentionally errored" to "FakeReader intentionally errored"
