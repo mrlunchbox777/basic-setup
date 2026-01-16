@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	pFlag "github.com/spf13/pflag"
+	pflag "github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
 	"github.com/mrlunchbox777/basic-setup/bsctl/cmd"
@@ -33,7 +33,7 @@ func main() {
 }
 
 func run(factory bsUtil.Factory, getHomeDirFunc GetHomeDirFunc, readInConfigFunc GetReadInConfigFunc) {
-	flags := pFlag.NewFlagSet("bsctl", pFlag.ExitOnError)
+	flags := pflag.NewFlagSet("bsctl", pflag.ExitOnError)
 	flags.String("basic-setup-repo",
 		"",
 		"Location on the filesystem where the basic-setup repo is checked out")
@@ -78,7 +78,7 @@ func run(factory bsUtil.Factory, getHomeDirFunc GetHomeDirFunc, readInConfigFunc
 	bsCmd := cmd.NewRootCmd(factory)
 
 	flags.AddFlagSet(bsCmd.PersistentFlags())
-	pFlag.CommandLine = flags
+	pflag.CommandLine = flags
 
 	cobra.CheckErr(bsCmd.Execute())
 }

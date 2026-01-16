@@ -4,7 +4,7 @@
 # Environment Validation
 #
 validation="$(environment-validation -c -l "core" 2>&1)"
-if [ ! -z "$validation" ]; then
+if [ -n "$validation" ]; then
 	echo "Validation error:" >&2
 	echo "$validation" >&2
 	exit 1
@@ -113,7 +113,7 @@ done
 [ $SHOW_HELP == true ] && help && exit 0
 
 # set all namespaces flag
-if [ ! -z "$NAMESPACE" ]; then
+if [ -n "$NAMESPACE" ]; then
 	ALL_NAMESPACES=false
 fi
 
