@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
 # This script bumps the patch version in constants.yaml for Dependabot PRs
 

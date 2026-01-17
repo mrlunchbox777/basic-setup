@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
 # This script updates CHANGELOG.md for Dependabot PRs
 
@@ -42,11 +42,11 @@ fi
 echo "Adding CHANGELOG entry for version $new_version"
 echo "Entry: $changelog_entry"
 
-# Create the new changelog entry
+# Create the new changelog entry with proper variable expansion
+# Add one blank line at the end for separator between versions
 new_entry="## [$new_version] - $current_date
 ### Changed
 - $changelog_entry
-
 "
 
 # Find the line number where "---" appears (the separator after the header)
