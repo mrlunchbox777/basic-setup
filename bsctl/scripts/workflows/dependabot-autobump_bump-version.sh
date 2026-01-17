@@ -2,7 +2,7 @@
 
 # This script bumps the patch version in constants.yaml for Dependabot PRs
 
-set -e
+set -eo pipefail
 
 CONSTANTS_FILE="./bsctl/static/resources/constants.yaml"
 

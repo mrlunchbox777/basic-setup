@@ -2,7 +2,7 @@
 
 # This script updates CHANGELOG.md for Dependabot PRs
 
-set -e
+set -eo pipefail
 
 CHANGELOG_FILE="./CHANGELOG.md"
 CONSTANTS_FILE="./bsctl/static/resources/constants.yaml"
