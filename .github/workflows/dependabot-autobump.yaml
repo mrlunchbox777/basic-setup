@@ -1,0 +1,52 @@
+name: Dependabot Auto-Bump
+
+# This workflow automatically updates version and CHANGELOG when Dependabot creates a PR
+# It runs once when the PR is first opened and commits the changes back to the PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  auto-bump:
+    name: "Auto-bump version and CHANGELOG for Dependabot PRs"
+    runs-on: ubuntu-latest
+    # Only run on Dependabot PRs
+    if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          # Use the Dependabot PR ref
+          ref: ${{ github.event.pull_request.head.ref }}
+          # Use a token that can push to the PR branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump version
+        run: ./bsctl/scripts/workflows/dependabot-autobump_bump-version.sh
+
+      - name: Update CHANGELOG
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: ./bsctl/scripts/workflows/dependabot-autobump_update-changelog.sh
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add bsctl/static/resources/constants.yaml CHANGELOG.md
+          git commit -m "chore: auto-bump version and update CHANGELOG for Dependabot PR"
+          git push
