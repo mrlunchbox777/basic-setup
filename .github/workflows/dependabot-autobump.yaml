@@ -2,6 +2,16 @@ name: Dependabot Auto-Bump
 
 # This workflow automatically updates version and CHANGELOG when Dependabot creates a PR
 # It runs once when the PR is first opened and commits the changes back to the PR
+#
+# REQUIREMENTS:
+# - Repository setting "Allow GitHub Actions to create and approve pull requests" must be enabled
+# - This can be found in Settings > Actions > General > Workflow permissions
+#
+# HOW IT WORKS:
+# 1. Triggers only on Dependabot PRs when they are first opened
+# 2. Bumps the patch version in bsctl/static/resources/constants.yaml
+# 3. Adds a new entry to CHANGELOG.md with the dependency update details
+# 4. Commits these changes back to the Dependabot PR branch
 
 on:
   pull_request:
@@ -20,8 +30,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          # Use the Dependabot PR ref
+          # Checkout the PR branch (head ref) not the target branch
           ref: ${{ github.event.pull_request.head.ref }}
+          # Fetch full history for proper git operations
+          fetch-depth: 0
           # Use a token that can push to the PR branch
           token: ${{ secrets.GITHUB_TOKEN }}
 
