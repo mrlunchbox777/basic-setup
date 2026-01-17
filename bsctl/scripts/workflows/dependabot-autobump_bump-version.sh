@@ -19,12 +19,30 @@ if [ -z "$current_version" ]; then
     exit 1
 fi
 
-echo "Current version: $current_version"
+# Trim any leading/trailing whitespace
+sanitized_version=$(echo "$current_version" | xargs)
+
+# Validate that the version is in the expected SemVer format: MAJOR.MINOR.PATCH (numeric)
+if ! [[ "$sanitized_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: Version '$current_version' from $CONSTANTS_FILE is not in MAJOR.MINOR.PATCH format"
+    exit 1
+fi
+
+echo "Current version: $sanitized_version"
 
 # Parse version components
-major=$(echo "$current_version" | cut -d. -f1)
-minor=$(echo "$current_version" | cut -d. -f2)
-patch=$(echo "$current_version" | cut -d. -f3)
+IFS='.' read -r major minor patch <<< "$sanitized_version"
+
+# Validate version components are numeric
+if [ -z "$major" ] || [ -z "$minor" ] || [ -z "$patch" ]; then
+    echo "Error: Invalid version format '$sanitized_version' (expected MAJOR.MINOR.PATCH)"
+    exit 1
+fi
+
+if ! [[ "$major" =~ ^[0-9]+$ ]] || ! [[ "$minor" =~ ^[0-9]+$ ]] || ! [[ "$patch" =~ ^[0-9]+$ ]]; then
+    echo "Error: Version components must be numeric, got '$sanitized_version'"
+    exit 1
+fi
 
 # Bump patch version
 new_patch=$((patch + 1))

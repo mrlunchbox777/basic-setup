@@ -37,15 +37,34 @@ jobs:
           # Use a token that can push to the PR branch
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Check if auto-bump already applied
+        id: check_autobump
+        run: |
+          last_commit_message="$(git log -1 --pretty=%B || echo '')"
+          if echo "$last_commit_message" | grep -q "chore: auto-bump version and update CHANGELOG for Dependabot PR"; then
+            echo "already_bumped=true" >> "$GITHUB_OUTPUT"
+            echo "Auto-bump already applied, skipping"
+          else
+            echo "already_bumped=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Bump version
+        if: steps.check_autobump.outputs.already_bumped == 'false'
         run: ./bsctl/scripts/workflows/dependabot-autobump_bump-version.sh
 
       - name: Update CHANGELOG
+        if: steps.check_autobump.outputs.already_bumped == 'false'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: ./bsctl/scripts/workflows/dependabot-autobump_update-changelog.sh
 
       - name: Check for changes
+        if: steps.check_autobump.outputs.already_bumped == 'false'
         id: check_changes
         run: |
           if [[ -n $(git status -s) ]]; then
