@@ -4,6 +4,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.10] - 2026-03-06
+
+### Added
+
+- Agents validation workflow to enforce instruction paths, required headings, and frontmatter.
+- Skills manifest at `.agents/skills/manifest.md`.
+
+### Changed
+
+- Skills now include agentskills frontmatter (name/description) and documented expectations in `.agents/README.md`.
+
+---
+
 ## [0.1.9] - 2026-03-06
 
 ### Changed
