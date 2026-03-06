@@ -4,6 +4,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.9] - 2026-03-06
+
+### Changed
+
+- Moved skills to `.agents/skills/<name>/SKILL.md` for Project Agent compatibility.
+- Updated `AGENTS.md` links to point to the new skill locations.
+
+---
+
 ## [0.1.8] - 2026-03-06
 
 ### Added
