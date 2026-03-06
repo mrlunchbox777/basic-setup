@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed changelog validation to ignore leading blank lines after the divider and mirrored the tolerance when fetching main for comparison.
 - Corrected version bump skill `yq` example quoting so the full command renders properly.
 - Moved the main-branch short-circuit ahead of remote fetch in the docs-bump version check to avoid unnecessary network calls.
+- Added main-branch short-circuit to the changelog comparison workflow to avoid false failures on `main`.
 - Bump BasicSetup CLI version to 0.1.8.
 
 ---

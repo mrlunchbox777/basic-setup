@@ -1,6 +1,11 @@
 #! /usr/bin/env bash
 
 line_regex="## \\[[0-9]*\\.[0-9]*\\.[0-9]*\\] - [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}"
+if [ "${GITHUB_REF_NAME:-}" == "main" ] || [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" == "main" ]; then
+    echo "On main branch; skipping CHANGELOG comparison."
+    exit 0
+fi
+
 branchLatestLog=$(cat CHANGELOG.md | sed -n '/---/,$p' | sed '/---/d' | grep -m1 "$line_regex")
 mainLatestLog=$(curl -L https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/CHANGELOG.md 2>/dev/null | sed -n '/---/,$p' | sed '/---/d' | grep -m1 "$line_regex")
 constantVersion=$(yq .BasicSetupCliVersion ./bsctl/static/resources/constants.yaml)
