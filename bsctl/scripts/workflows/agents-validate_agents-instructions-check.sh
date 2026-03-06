@@ -75,6 +75,8 @@ main() {
   fi
 
   for skill in "${skills[@]}"; do
+    local skill_dir
+    local skill_name
     skill_dir="$(dirname "$skill")"
     skill_name="$(basename "$skill_dir")"
     check_frontmatter "$skill" "$skill_name"
