@@ -4,6 +4,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.9] - 2026-03-06
+
+### Changed
+
+- Bump k8s.io/cli-runtime from 0.35.1 to 0.35.2
+- Bump k8s.io/kubectl from 0.35.1 to 0.35.2
+
+---
+
 ## [0.1.8] - 2026-03-06
 
 ### Added
