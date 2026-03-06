@@ -14,7 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Clarified version bump guidance to capture staged/working copy changes and recent commits in changelog entries.
 - Updated docs-bump workflow to skip version divergence checks when running on main.
-- Fixed changelog validation to ignore leading blank lines after the divider.
+- Fixed changelog validation to ignore leading blank lines after the divider and mirrored the tolerance when fetching main for comparison.
+- Corrected version bump skill `yq` example quoting so the full command renders properly.
 - Bump BasicSetup CLI version to 0.1.8.
 
 ---
