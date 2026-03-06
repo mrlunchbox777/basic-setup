@@ -33,6 +33,10 @@ check_frontmatter() {
   if ! head -n1 "$file" | grep -q "^---"; then
     fail "Missing frontmatter start in ${file}"
   fi
+  # Ensure there is a matching closing frontmatter delimiter.
+  if ! awk 'NR>1 && /^---$/ {exit 0} END{exit 1}' "$file"; then
+    fail "Missing frontmatter end in ${file}"
+  fi
   local frontmatter
   frontmatter="$(awk 'BEGIN{in_block=0} /^---/{if(in_block){exit}else{in_block=1;next}} in_block{print}' "$file")"
   [[ -n "$frontmatter" ]] || fail "Missing frontmatter content in ${file}"
