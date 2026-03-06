@@ -4,12 +4,19 @@ This document outlines the coding standards and best practices for AI agents and
 
 ## Table of Contents
 
+- [Skills](#skills)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
 - [Testing Standards](#testing-standards)
 - [Version Bumping and CHANGELOG](#version-bumping-and-changelog)
 - [Linting and Code Quality](#linting-and-code-quality)
+
+---
+
+## Skills
+
+- [Version Bump Skill](skills/version-bump.md)
 
 ---
 
