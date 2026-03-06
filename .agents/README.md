@@ -10,6 +10,7 @@ Last updated: 2026-03-06
 - Skills: `.agents/skills/<name>/SKILL.md` (Project Agent format).
 - This file: `.agents/README.md` (canonical `.agents` entry).
 - Pointer: `.agents/instructions.md` → this file.
+- Only these paths are valid for agent instructions/skills; do not place instruction files elsewhere.
 
 ## Allowed tools and surfaces
 - Follow repository standards in `AGENTS.md` (Go, Bash, testing, documentation, versioning, linting).
@@ -23,4 +24,3 @@ Last updated: 2026-03-06
 ## Expectations for SKILL.md
 - Include: name/purpose, when to use/trigger, required context/prerequisites, steps, and expected outputs.
 - Keep links relative (e.g., `../other-skill/SKILL.md`) and avoid external dependencies unless noted in context.
-
