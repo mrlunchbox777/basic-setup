@@ -20,6 +20,7 @@ Last updated: 2026-03-06
 ## Skills index
 - Version Bump: `.agents/skills/version-bump/SKILL.md`
 - Update Changelog: `.agents/skills/update-changelog/SKILL.md`
+- Manifest: `.agents/skills/manifest.md`
 
 ## Expectations for SKILL.md
 - Include: name/purpose, when to use/trigger, required context/prerequisites, steps, and expected outputs.
