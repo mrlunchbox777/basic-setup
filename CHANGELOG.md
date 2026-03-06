@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Added version bump skill documentation and linked it from AGENTS.
+- Added version bump skill documentation and linked it from `AGENTS.md`.
 
 ### Changed
 
@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated docs-bump workflow to skip version divergence checks when running on main.
 - Fixed changelog validation to ignore leading blank lines after the divider and mirrored the tolerance when fetching main for comparison.
 - Corrected version bump skill `yq` example quoting so the full command renders properly.
+- Moved the main-branch short-circuit ahead of remote fetch in the docs-bump version check to avoid unnecessary network calls.
 - Bump BasicSetup CLI version to 0.1.8.
 
 ---

@@ -342,6 +342,7 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
 4. **Automated Bumping**
    - Dependabot PRs are automatically bumped via workflow
    - Manual PRs require manual version bump
+   - Every MR/PR/changeset should include a version bump and matching CHANGELOG entry unless explicitly exempted
    - Always bump version before merging
 
 ### Example CHANGELOG Entry

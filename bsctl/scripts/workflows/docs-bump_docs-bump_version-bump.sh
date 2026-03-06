@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
-branchVersion=$(yq .BasicSetupCliVersion ./bsctl/static/resources/constants.yaml)
-mainVersion=$(curl -L https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bsctl/static/resources/constants.yaml 2>/dev/null | yq .BasicSetupCliVersion)
-
 branchName="${GITHUB_REF_NAME:-$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")}"
 if [ "$branchName" == "main" ]; then
     echo "Running on main branch; skipping version divergence check"
     exit 0
 fi
+
+branchVersion=$(yq .BasicSetupCliVersion ./bsctl/static/resources/constants.yaml)
+mainVersion=$(curl -L https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bsctl/static/resources/constants.yaml 2>/dev/null | yq .BasicSetupCliVersion)
 
 if [ -z "$mainVersion" ]; then
     echo "Failed to get latest version from github"
