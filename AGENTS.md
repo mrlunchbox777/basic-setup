@@ -4,12 +4,20 @@ This document outlines the coding standards and best practices for AI agents and
 
 ## Table of Contents
 
+- [Skills](#skills)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
 - [Testing Standards](#testing-standards)
 - [Version Bumping and CHANGELOG](#version-bumping-and-changelog)
 - [Linting and Code Quality](#linting-and-code-quality)
+
+---
+
+## Skills
+
+- [Version Bump Skill](skills/version-bump.md)
+- [Update Changelog Skill](skills/update-changelog.md)
 
 ---
 
@@ -334,6 +342,7 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
 4. **Automated Bumping**
    - Dependabot PRs are automatically bumped via workflow
    - Manual PRs require manual version bump
+   - Every MR/PR/changeset should include a version bump and matching CHANGELOG entry unless explicitly exempted
    - Always bump version before merging
 
 ### Example CHANGELOG Entry
