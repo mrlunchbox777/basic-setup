@@ -25,3 +25,4 @@ Last updated: 2026-03-06
 ## Expectations for SKILL.md
 - Include: name/purpose, when to use/trigger, required context/prerequisites, steps, and expected outputs.
 - Keep links relative (e.g., `../other-skill/SKILL.md`) and avoid external dependencies unless noted in context.
+- Add YAML frontmatter per agentskills spec with `name` (matching directory) and `description` (what the skill does and when to use it).

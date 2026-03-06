@@ -1,3 +1,8 @@
+---
+name: version-bump
+description: Bumps the BasicSetup CLI version and adds a matching changelog entry; use when releasing or merging changes that require a new version.
+---
+
 # Version Bump Skill
 
 ## Owner/Contact

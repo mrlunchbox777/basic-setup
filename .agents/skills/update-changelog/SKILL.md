@@ -1,3 +1,8 @@
+---
+name: update-changelog
+description: Updates the existing changelog entry for the current version after a version bump; use to capture new changes without changing the version.
+---
+
 # Update Changelog Skill
 
 ## Owner/Contact
