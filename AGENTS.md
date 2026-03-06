@@ -17,6 +17,7 @@ This document outlines the coding standards and best practices for AI agents and
 ## Skills
 
 - [Version Bump Skill](skills/version-bump.md)
+- [Update Changelog Skill](skills/update-changelog.md)
 
 ---
 
