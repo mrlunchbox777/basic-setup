@@ -1,11 +1,22 @@
 # Update Changelog Skill
 
+## Owner/Contact
+- Repo maintainers (e.g., @mrlunchbox777).
+
 ## Purpose
 Update the existing changelog entry when the version is already bumped.
 
 ## When to use
 - Version already bumped for this branch/working copy and you need to record additional changes.
 - If no entry exists for the current version, run [Version Bump Skill](../version-bump/SKILL.md) first.
+
+## Prerequisites
+- Tools: `git`, editor.
+- Permissions to push branch changes.
+
+## Inputs
+- Current version from `bsctl/static/resources/constants.yaml`.
+- Summary of new work to capture (staged/unstaged changes and recent commits).
 
 ## Required context
 - Current version in `bsctl/static/resources/constants.yaml`.
