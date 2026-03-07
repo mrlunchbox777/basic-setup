@@ -16,8 +16,10 @@ This document outlines the coding standards and best practices for AI agents and
 
 ## Skills
 
-- [Version Bump Skill](skills/version-bump.md)
-- [Update Changelog Skill](skills/update-changelog.md)
+Skills follow the Opencode/Project Agent skill format and live under `.agents/skills/<name>/SKILL.md`. See `.agents/README.md` for the instructions index.
+
+- [Version Bump Skill](.agents/skills/version-bump/SKILL.md)
+- [Update Changelog Skill](.agents/skills/update-changelog/SKILL.md)
 
 ---
 
