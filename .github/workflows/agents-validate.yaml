@@ -32,5 +32,8 @@ jobs:
         with:
           submodules: true
 
+      - name: Install yq
+        uses: mikefarah/yq@v4
+
       - name: Validate agent instructions and skills
         run: ./bsctl/scripts/workflows/agents-validate_agents-instructions-check.sh
