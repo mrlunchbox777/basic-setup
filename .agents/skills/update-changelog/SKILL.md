@@ -9,11 +9,12 @@ description: Updates the existing changelog entry for the current version after 
 - Repo maintainers (e.g., @mrlunchbox777).
 
 ## Purpose
-Update the existing changelog entry when the version is already bumped.
+Update the current version changelog entry without changing the version.
 
 ## When to use
 - Version already bumped for this branch/working copy and you need to record additional changes.
-- If no entry exists for the current version, run [Version Bump Skill](../version-bump/SKILL.md) first.
+- The branch has a current-version changelog entry that is not merged to `main` yet; update that same entry instead of creating another version header.
+- If neither branch nor `main` has an entry for the current version, run [Version Bump Skill](../version-bump/SKILL.md) first.
 
 ## Prerequisites
 - Tools: `git`, editor.
@@ -25,14 +26,17 @@ Update the existing changelog entry when the version is already bumped.
 
 ## Required context
 - Current version in `bsctl/static/resources/constants.yaml`.
-- Latest changelog entry for that version at the top of `CHANGELOG.md` after the divider.
+- Whether `main` already contains that version entry (use `git show origin/main:CHANGELOG.md` or GitHub UI/API).
 
 ## Steps
-1. Confirm the version in `bsctl/static/resources/constants.yaml` matches the top `CHANGELOG.md` entry; if missing, run the bump skill.
-2. Gather changes since the last changelog update (staged/unstaged plus recent commits) using `git diff --stat` and `git log --oneline <base>..HEAD`.
-3. In `CHANGELOG.md`, update the Added/Changed/Fixed subsections for the current version with concise bullets covering the new work.
-4. Keep the version and date unchanged unless project conventions require a new release date.
-5. Validate with `git diff`; run tests if code changed.
+1. Read the current version from `bsctl/static/resources/constants.yaml`.
+2. Find the entry for that version in branch `CHANGELOG.md`.
+3. If the version exists in branch changelog (including when it is not yet merged to `main`), update that same entry in place.
+4. If branch entry is missing but `main` already has that version entry, cherry-pick/recreate that entry at the top and then update it.
+5. If branch and `main` both lack that version entry, stop and run [Version Bump Skill](../version-bump/SKILL.md).
+6. Update Added/Changed/Fixed bullets with concise, user-visible changes; avoid duplicate bullets and keep style consistent.
+7. Keep version and date unchanged while updating an existing entry.
+8. Validate with `git diff`; run tests if code changed.
 
 ## Outputs
 - Updated `CHANGELOG.md` entry for the current version reflecting all new work.
