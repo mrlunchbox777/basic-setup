@@ -69,7 +69,7 @@ main() {
 	require_file "${ROOT}/.agents/instructions.md"
 	require_dir "${ROOT}/.agents/skills"
 
-	# Ensure SKILL.md files live only under .agents/skills/**/SKILL.md
+	# Ensure SKILL.md files live only under .agents/skills/<name>/SKILL.md
 	mapfile -t unauthorized_skills < <(find "${ROOT}" \
 		\( -path "${ROOT}/.git" -o -path "${ROOT}/submodules" \) -prune -o \
 		-type f -name "SKILL.md" ! -path "${ROOT}/.agents/skills/*/SKILL.md" -print)
@@ -81,7 +81,7 @@ main() {
 
 	mapfile -t skills < <(find "${ROOT}/.agents/skills" -type f -name "SKILL.md")
 	if ((${#skills[@]} == 0)); then
-		fail "No skills found under .agents/skills/**/SKILL.md"
+		fail "No skills found under .agents/skills/<name>/SKILL.md"
 	fi
 
 	for skill in "${skills[@]}"; do

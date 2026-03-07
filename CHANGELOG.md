@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Skills now include agentskills frontmatter (name/description) and documented expectations in `.agents/README.md`.
+- Skills now include agent skills frontmatter (name/description) and documented expectations in `.agents/README.md`.
 - Updated CHANGELOG date validation to compare full dates (UTC) with a +/- 1 day tolerance, including month/year boundaries.
 - Updated the update-changelog skill to keep editing the branch's current-version entry when that version has not merged to `main` yet.
 - Updated the version-bump skill to delegate changelog content updates to the update-changelog skill instead of duplicating instructions.

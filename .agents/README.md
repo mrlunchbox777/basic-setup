@@ -14,7 +14,7 @@ Last updated: 2026-03-06
 
 ## Allowed tools and surfaces
 - Follow repository standards in `AGENTS.md` (Go, Bash, testing, documentation, versioning, linting).
-- Skills must reside under `.agents/skills/**/SKILL.md`.
+- Skills must reside under `.agents/skills/<name>/SKILL.md`.
 - Additional instruction files should live under `.agents/` when needed.
 
 ## Skills index
@@ -25,4 +25,4 @@ Last updated: 2026-03-06
 ## Expectations for SKILL.md
 - Include: name/purpose, when to use/trigger, required context/prerequisites, steps, and expected outputs.
 - Keep links relative (e.g., `../other-skill/SKILL.md`) and avoid external dependencies unless noted in context.
-- Add YAML frontmatter per agentskills spec with `name` (matching directory) and `description` (what the skill does and when to use it).
+- Add YAML frontmatter per agent skills spec with `name` (matching directory) and `description` (what the skill does and when to use it).
