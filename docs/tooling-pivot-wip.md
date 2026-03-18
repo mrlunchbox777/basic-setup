@@ -2,11 +2,33 @@
 
 This WIP document is the execution companion for [`docs/tooling-pivot-migration-plan.md`](tooling-pivot-migration-plan.md).
 
-It contains three things:
+It currently contains:
 
 1. Ready-to-run label commands
 2. Draft parent tracking issues (WS1-WS6)
 3. First-pass mapping of current open issues to keep/supersede/close actions
+4. Execution status log and immediate next-step queue
+
+## Current Snapshot (2026-03-17)
+
+- Coordination issue is active as sister tracker: `#285`.
+- WS parent trackers are active: `#274`-`#279`.
+- Superseding pivot implementation tracks are active: `#280`-`#284`.
+- WS2 execution child issues are active: `#287`-`#291`.
+- Superseded and out-of-scope legacy issues were commented and closed.
+- Remaining legacy issues are retargeted with updated acceptance criteria: `#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`.
+- WS3 wave-1 pilot set is defined and marked `status/pilot`: `#163`-`#168`.
+
+## Logged Next Steps
+
+1. **WS2 execution kickoff**
+   - Complete `#287` rubric/table output first, then execute classification batches `#288`-`#291`.
+2. **WS3 pilot implementation kickoff**
+   - Execute wave-1 pilot issues in this order: `#168`, `#167`, `#163`, `#164`, `#165`, `#166`.
+3. **WS3 pilot validation**
+   - Add/verify smoke-test evidence per issue and update `#276` with pass/fail notes.
+4. **WS4 readiness sync**
+   - After first WS2 + WS3 deliverables land, update `#277` with migration batch ordering and dependencies.
 
 ## 1) Label Commands
 

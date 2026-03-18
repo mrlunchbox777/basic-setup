@@ -8,6 +8,26 @@ This document defines the migration plan from `basic-setup` as a broad package-m
 
 Use this plan as the source of truth for issue triage, new issue creation, implementation order, and deprecation work.
 
+## Execution Tracking
+
+Active issue threads for this plan:
+
+- Coordination (sister issue): `#285`
+- WS1 Foundation: `#274`
+- WS2 Classification: `#275`
+- WS3 Pilot migration: `#276`
+- WS4 Backlog execution: `#277`
+- WS5 Deprecation: `#278`
+- WS6 Cleanup: `#279`
+
+Current implementation tracks created from this plan:
+
+- Baseline shell/tooling profile: `#280`
+- K8s/operator workstation profile: `#281`
+- Optional media/comms profile: `#282`
+- Replace package-manager/index abstraction policy: `#283`
+- Windows/WSL interop track: `#284`
+
 ## Decision
 
 We are pivoting from broad wrapper orchestration to a focused, composable stack.
