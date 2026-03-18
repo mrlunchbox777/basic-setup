@@ -50,6 +50,14 @@ Active tracking issues created from this plan:
 - WS5: #278
 - WS6: #279
 
+Superseding implementation issues created:
+
+- #280 `pivot: baseline shell/tooling profile catalog`
+- #281 `pivot: k8s/operator workstation profile and legacy script mapping`
+- #282 `pivot: optional media/comms profile catalog`
+- #283 `pivot: replace package-manager/index abstraction with mise+devbox policy`
+- #284 `pivot: windows/wsl interop and backup migration track`
+
 ### WS1 Parent Issue
 
 Title:
@@ -372,3 +380,11 @@ for n in 170 159 158 156 155 154 153 152 151 150 149 148 147 146 145 142 141 140
   gh issue edit "$n" --add-label "track/pivot-migration" --add-label "action/supersede"
 done
 ```
+
+### Execution Status (2026-03-17)
+
+- Labels created/updated for migration tracking and triage actions.
+- WS1-WS6 parent tracking issues created (`#274`-`#279`).
+- Superseding implementation issues created (`#280`-`#284`).
+- All open issues with `action/supersede` were commented and closed as superseded.
+- All open issues with `action/close-out-of-scope` were commented and closed as not planned under pivot scope.
