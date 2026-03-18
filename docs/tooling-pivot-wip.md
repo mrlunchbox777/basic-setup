@@ -392,3 +392,5 @@ done
 - Remaining retargeted legacy issues had pivot-specific acceptance criteria and links updated (`#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`).
 - Coordination issue `#285` was reclassified as a sister tracking/chore issue linked to WS1-WS6.
 - WS2 classification was split into child execution issues: `#287`-`#291`.
+- WS3 pilot planning completed in tracker `#276` with explicit criteria and Wave 1 selection (`#163`-`#168`).
+- Pilot issues `#163`-`#168` were updated to include command contract, platform matrix, smoke tests, and migration notes, and labeled `status/pilot`.
