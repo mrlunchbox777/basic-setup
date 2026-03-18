@@ -105,6 +105,18 @@ Exit criteria:
 
 - `basic-setup` has a clearly reduced scope and support statement.
 
+### WS6: Post-Migration Cleanup
+
+- Remove obsolete workflows, docs, and scripts that only supported the old broad-wrapper model.
+- Remove stale issue templates, labels, and automation paths that no longer apply.
+- Update contributor docs to reflect the steady-state architecture.
+- Validate that references to removed legacy paths are gone from README/docs/workflows.
+
+Exit criteria:
+
+- Legacy-only workflows/docs/scripts are removed or archived with explicit rationale.
+- Repository docs and automation reflect only the supported post-pivot model.
+
 ## Issue Management Plan
 
 ### Labels To Add
@@ -181,6 +193,7 @@ Create one parent issue per workstream with:
 - **Weeks 3-4**: WS2 classification and triage of existing open issues.
 - **Weeks 5-6**: WS3 pilot migration and stabilization.
 - **Weeks 7+**: WS4 batch migration, then WS5 deprecation steps.
+- **Final hardening window**: WS6 cleanup and repository simplification.
 
 Adjust pace based on contributor bandwidth; do not skip triage and classification.
 
@@ -198,3 +211,4 @@ The pivot is complete when:
 - High-value workflows no longer depend on broad wrapper abstraction.
 - `basic-setup` scope is documented as migration glue or intentionally narrowed utility.
 - New issues predominantly target `chezmoi`/`mise`/`devbox` layers.
+- Legacy-only workflows/docs/automation from the broad-wrapper model are cleaned up.

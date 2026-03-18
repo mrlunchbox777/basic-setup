@@ -5,7 +5,7 @@ This WIP document is the execution companion for [`docs/tooling-pivot-migration-
 It contains three things:
 
 1. Ready-to-run label commands
-2. Draft parent tracking issues (WS1-WS5)
+2. Draft parent tracking issues (WS1-WS6)
 3. First-pass mapping of current open issues to keep/supersede/close actions
 
 ## 1) Label Commands
@@ -37,9 +37,18 @@ gh label create "action/supersede" --color "B60205" --description "Replace with 
 gh label create "action/close-out-of-scope" --color "6A737D" --description "Out of scope after pivot decision" || gh label edit "action/close-out-of-scope" --color "6A737D" --description "Out of scope after pivot decision"
 ```
 
-## 2) Parent Tracking Issue Drafts (WS1-WS5)
+## 2) Parent Tracking Issue Drafts (WS1-WS6)
 
 Copy/paste each body into `gh issue create`.
+
+Active tracking issues created from this plan:
+
+- WS1: #274
+- WS2: #275
+- WS3: #276
+- WS4: #277
+- WS5: #278
+- WS6: #279
 
 ### WS1 Parent Issue
 
@@ -221,6 +230,43 @@ Finalize deprecation policy for broad-wrapper behavior and narrow legacy scope.
 - Reduced and explicit support statement for legacy `basic-setup`
 ```
 
+### WS6 Parent Issue
+
+Title:
+
+```text
+track: WS6 post-migration cleanup of legacy workflows/docs/scripts
+```
+
+Body:
+
+```markdown
+## Objective
+Remove or archive legacy-only workflows/docs/scripts after migration and deprecation milestones are complete.
+
+## Plan Reference
+`docs/tooling-pivot-migration-plan.md` (WS6)
+
+## Scope
+- Remove obsolete workflows and automation from broad-wrapper era
+- Remove or archive obsolete docs and script paths
+- Update contributor docs to steady-state architecture
+- Validate no stale references remain
+
+## Out of Scope
+- New feature development unrelated to migration cleanup
+
+## Child Tasks
+- [ ] Identify legacy-only workflows for removal
+- [ ] Remove/archive old docs and script paths
+- [ ] Update contributor and maintenance docs
+- [ ] Run final reference audit across repo
+
+## Exit Criteria
+- Repo automation and docs match the supported post-pivot architecture
+- Legacy-only artifacts are removed or explicitly archived
+```
+
 Create them with:
 
 ```bash
@@ -229,6 +275,7 @@ gh issue create --title "track: WS2 classify shared-scripts and map migration ta
 gh issue create --title "track: WS3 pilot migration of high-usage workflows" --body-file /tmp/ws3.md --label "track/pivot-migration"
 gh issue create --title "track: WS4 batch migration and backlog execution" --body-file /tmp/ws4.md --label "track/pivot-migration"
 gh issue create --title "track: WS5 deprecation and scope reduction for legacy basic-setup" --body-file /tmp/ws5.md --label "track/pivot-migration"
+gh issue create --title "track: WS6 post-migration cleanup of legacy workflows/docs/scripts" --body-file /tmp/ws6.md --label "track/pivot-migration"
 ```
 
 ## 3) First-Pass Triage Mapping
