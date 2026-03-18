@@ -388,3 +388,7 @@ done
 - Superseding implementation issues created (`#280`-`#284`).
 - All open issues with `action/supersede` were commented and closed as superseded.
 - All open issues with `action/close-out-of-scope` were commented and closed as not planned under pivot scope.
+- Parent-child links were added between WS tracking issues and pivot implementation issues via issue comments.
+- Remaining retargeted legacy issues had pivot-specific acceptance criteria and links updated (`#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`).
+- Coordination issue `#285` was reclassified as a sister tracking/chore issue linked to WS1-WS6.
+- WS2 classification was split into child execution issues: `#287`-`#291`.
