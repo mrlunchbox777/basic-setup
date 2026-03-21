@@ -12,9 +12,10 @@ It currently contains:
 ## Current Snapshot (2026-03-17)
 
 - Coordination issue is active as sister tracker: `#285`.
-- WS parent trackers are active: `#274`-`#279`.
+- WS parent trackers are active: `#274`, `#276`, `#277`, `#278`, `#279`.
+- WS2 tracker `#275` is completed and closed.
 - Superseding pivot implementation tracks are active: `#280`-`#284`.
-- WS2 execution child issues are active: `#287`-`#291`.
+- WS2 execution child issues `#287`-`#291` are completed and closed.
 - Superseded and out-of-scope legacy issues were commented and closed.
 - Remaining legacy issues are retargeted with updated acceptance criteria: `#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`.
 - WS3 wave-1 pilot set is defined and marked `status/pilot`: `#163`-`#168`.
@@ -22,8 +23,8 @@ It currently contains:
 ## Logged Next Steps
 
 1. **WS2 execution kickoff** (Completed)
-   - Completed `#287` rubric/table output in `docs/tooling-pivot-script-inventory.md`.
-   - Next in WS2: execute classification batches `#288`-`#291`.
+   - Completed `#287` rubric/table output and batch classifications `#288`-`#291` in `docs/tooling-pivot-script-inventory.md`.
+   - WS2 parent `#275` is closed.
 2. **WS3 pilot implementation kickoff**
    - Execute wave-1 pilot issues in this order: `#168`, `#167`, `#163`, `#164`, `#165`, `#166`.
 3. **WS3 pilot validation**
@@ -67,7 +68,7 @@ Copy/paste each body into `gh issue create`.
 Active tracking issues created from this plan:
 
 - WS1: #274
-- WS2: #275
+- WS2: #275 (completed/closed)
 - WS3: #276
 - WS4: #277
 - WS5: #278
@@ -416,5 +417,7 @@ done
 - Coordination issue `#285` was reclassified as a sister tracking/chore issue linked to WS1-WS6.
 - WS2 classification was split into child execution issues: `#287`-`#291`.
 - WS2 kickoff rubric/template issue `#287` was completed and closed.
+- WS2 batch issues `#288`-`#291` were completed and closed after inventory classification was captured.
+- WS2 parent tracker `#275` was completed and closed.
 - WS3 pilot planning completed in tracker `#276` with explicit criteria and Wave 1 selection (`#163`-`#168`).
 - Pilot issues `#163`-`#168` were updated to include command contract, platform matrix, smoke tests, and migration notes, and labeled `status/pilot`.

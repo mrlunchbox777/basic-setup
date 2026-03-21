@@ -14,7 +14,7 @@ Active issue threads for this plan:
 
 - Coordination (sister issue): `#285`
 - WS1 Foundation: `#274`
-- WS2 Classification: `#275`
+- WS2 Classification: `#275` (completed/closed)
 - WS3 Pilot migration: `#276`
 - WS4 Backlog execution: `#277`
 - WS5 Deprecation: `#278`
@@ -27,6 +27,11 @@ Current implementation tracks created from this plan:
 - Optional media/comms profile: `#282`
 - Replace package-manager/index abstraction policy: `#283`
 - Windows/WSL interop track: `#284`
+
+WS2 execution artifacts:
+
+- Script inventory and rubric: `docs/tooling-pivot-script-inventory.md`
+- WS2 child issues completed/closed: `#287`-`#291`
 
 ## Decision
 
