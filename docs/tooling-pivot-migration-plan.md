@@ -82,6 +82,8 @@ Exit criteria:
 
 ### WS2: Script Inventory And Classification
 
+Working inventory document: `docs/tooling-pivot-script-inventory.md`
+
 Classify scripts in `shared-scripts/` into:
 
 - **Migrate to dotfiles**: user-level scripts/aliases/functions.

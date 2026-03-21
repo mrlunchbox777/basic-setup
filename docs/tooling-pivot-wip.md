@@ -21,8 +21,9 @@ It currently contains:
 
 ## Logged Next Steps
 
-1. **WS2 execution kickoff**
-   - Complete `#287` rubric/table output first, then execute classification batches `#288`-`#291`.
+1. **WS2 execution kickoff** (Completed)
+   - Completed `#287` rubric/table output in `docs/tooling-pivot-script-inventory.md`.
+   - Next in WS2: execute classification batches `#288`-`#291`.
 2. **WS3 pilot implementation kickoff**
    - Execute wave-1 pilot issues in this order: `#168`, `#167`, `#163`, `#164`, `#165`, `#166`.
 3. **WS3 pilot validation**
@@ -414,5 +415,6 @@ done
 - Remaining retargeted legacy issues had pivot-specific acceptance criteria and links updated (`#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`).
 - Coordination issue `#285` was reclassified as a sister tracking/chore issue linked to WS1-WS6.
 - WS2 classification was split into child execution issues: `#287`-`#291`.
+- WS2 kickoff rubric/template issue `#287` was completed and closed.
 - WS3 pilot planning completed in tracker `#276` with explicit criteria and Wave 1 selection (`#163`-`#168`).
 - Pilot issues `#163`-`#168` were updated to include command contract, platform matrix, smoke tests, and migration notes, and labeled `status/pilot`.
