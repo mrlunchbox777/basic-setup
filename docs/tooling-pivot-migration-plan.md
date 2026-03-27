@@ -135,13 +135,17 @@ Exit criteria:
 ### WS6: Post-Migration Cleanup
 
 - Remove obsolete workflows, docs, and scripts that only supported the old broad-wrapper model.
-- Remove stale issue templates, labels, and automation paths that no longer apply.
-- Update contributor docs to reflect the steady-state architecture.
+- Remove or archive `docs/bsctl-migration/` once pivot work is complete, since it reflects the superseded "migrate to bsctl" strategy.
+- Remove stale issue templates, labels, and automation/CI pipeline paths that no longer apply.
+- Update contributor docs (including AGENTS/skills guidance) to reflect the steady-state architecture.
 - Validate that references to removed legacy paths are gone from README/docs/workflows.
 
 Exit criteria:
 
 - Legacy-only workflows/docs/scripts are removed or archived with explicit rationale.
+- `docs/bsctl-migration/` is removed or clearly archived, and all references to it are cleaned up.
+- CI/workflow pipeline paths are aligned to the supported post-pivot architecture with obsolete jobs removed.
+- Agent instructions and skill docs are aligned with the post-pivot architecture.
 - Repository docs and automation reflect only the supported post-pivot model.
 
 ## Issue Management Plan

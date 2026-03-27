@@ -4,6 +4,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.11] - 2026-03-26
+
+### Changed
+
+- Added tooling pivot migration planning docs and execution tracking for WS1-WS6, including active issue links and script classification inventory.
+- Updated WS6 cleanup scope to remove or archive `docs/bsctl-migration/` and clean stale references after pivot completion.
+- Clarified WS6 cleanup to include obsolete CI/workflow pipeline paths that only support the superseded migration strategy.
+
+---
+
 ## [0.1.10] - 2026-03-06
 
 ### Added
