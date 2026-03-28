@@ -11,27 +11,27 @@ It currently contains:
 
 ## Current Snapshot (2026-03-17)
 
-- Coordination issue is active as sister tracker: `#285`.
-- WS parent trackers are active: `#274`, `#276`, `#277`, `#278`, `#279`.
-- WS2 tracker `#275` is completed and closed.
-- Superseding pivot implementation tracks are active: `#280`-`#284`.
-- WS2 execution child issues `#287`-`#291` are completed and closed.
+- Coordination issue is active as sister tracker: #285.
+- WS parent trackers are active: #274, #276, #277, #278, #279.
+- WS2 tracker #275 is completed and closed.
+- Superseding pivot implementation tracks are active: #280-#284.
+- WS2 execution child issues #287-#291 are completed and closed.
 - Superseded and out-of-scope legacy issues were commented and closed.
-- Remaining legacy issues are retargeted with updated acceptance criteria: `#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`.
-- WS3 wave-1 pilot set is defined and marked `status/pilot`: `#163`-`#168`.
-- Dedicated Big Bang migration/retirement tracker is active: `#294`.
+- Remaining legacy issues are retargeted with updated acceptance criteria: #122, #123, #124, #160, #161, #163-#168, #181.
+- WS3 wave-1 pilot set is defined and marked `status/pilot`: #163-#168.
+- Dedicated Big Bang migration/retirement tracker is active: #294.
 
 ## Logged Next Steps
 
 1. **WS2 execution kickoff** (Completed)
-   - Completed `#287` rubric/table output and batch classifications `#288`-`#291` in `docs/tooling-pivot-script-inventory.md`.
-   - WS2 parent `#275` is closed.
+   - Completed #287 rubric/table output and batch classifications #288-#291 in `docs/tooling-pivot-script-inventory.md`.
+   - WS2 parent #275 is closed.
 2. **WS3 pilot implementation kickoff**
-   - Execute wave-1 pilot issues in this order: `#168`, `#167`, `#163`, `#164`, `#165`, `#166`.
+   - Execute wave-1 pilot issues in this order: #168, #167, #163, #164, #165, #166.
 3. **WS3 pilot validation**
-   - Add/verify smoke-test evidence per issue and update `#276` with pass/fail notes.
+   - Add/verify smoke-test evidence per issue and update #276 with pass/fail notes.
 4. **WS4 readiness sync**
-   - After first WS2 + WS3 deliverables land, update `#277` with migration batch ordering and dependencies.
+   - After first WS2 + WS3 deliverables land, update #277 with migration batch ordering and dependencies.
 
 ## 1) Label Commands
 
@@ -301,6 +301,8 @@ Remove or archive legacy-only workflows/docs/scripts after migration and depreca
 ```
 
 Create them with:
+
+These commands assume `/tmp/ws1.md` through `/tmp/ws6.md` were already created from the draft bodies above.
 
 ```bash
 gh issue create --title "track: WS1 foundation for tooling pivot (chezmoi + mise baseline)" --body-file /tmp/ws1.md --label "track/pivot-migration"

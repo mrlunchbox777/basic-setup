@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated WS6 cleanup scope to remove or archive `docs/bsctl-migration/`, clean stale references, and align CI/workflow pipeline paths to the post-pivot architecture.
 - Added explicit WS6 cleanup guidance for contributor docs, `AGENTS.md`, and `.agents/skills/*` instructions.
 - Addressed PR review feedback by correcting `shared-scripts/bin/*` inventory coverage, linking Big Bang migration to dedicated tracker `#294`, and making execution-tracking issue references auto-linkable.
+- Standardized remaining issue references in pivot WIP/inventory docs to plain `#...` for GitHub auto-linking and clarified the `/tmp/ws*.md` prerequisite for issue-creation commands.
 
 ---
 
