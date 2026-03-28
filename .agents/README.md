@@ -1,5 +1,5 @@
 # Agents Instructions
-Last updated: 2026-03-06
+Last updated: 2026-03-28
 
 ## Scope
 - Source of truth for agent guidance and skill locations in this repository.
@@ -20,6 +20,7 @@ Last updated: 2026-03-06
 ## Skills index
 - Version Bump: `.agents/skills/version-bump/SKILL.md`
 - Update Changelog: `.agents/skills/update-changelog/SKILL.md`
+- Sync Labels: `.agents/skills/sync-labels/SKILL.md`
 - Manifest: `.agents/skills/manifest.md`
 
 ## Expectations for SKILL.md

@@ -1,5 +1,5 @@
 # Skills Manifest
-Last updated: 2026-03-06
+Last updated: 2026-03-28
 
 - **version-bump**
   - Path: `.agents/skills/version-bump/SKILL.md`
@@ -7,3 +7,6 @@ Last updated: 2026-03-06
 - **update-changelog**
   - Path: `.agents/skills/update-changelog/SKILL.md`
   - Summary: Update the existing changelog entry for the current version.
+- **sync-labels**
+  - Path: `.agents/skills/sync-labels/SKILL.md`
+  - Summary: Sync issue/PR labels for kind, priority, status, changes, and size rules.
