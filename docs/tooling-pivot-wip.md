@@ -319,16 +319,16 @@ Snapshot source: open issues pulled from GitHub API on 2026-03-17.
 
 ### Keep + Retarget (high-value under new model)
 
-- `#181` add test coverage (retarget to migration validation coverage)
-- `#168` clean `get-pod-ports` output (retarget as k8s workflow reliability)
-- `#167` support mac/windows nodes for `forward-pod` (retarget under legacy shim then migrate)
-- `#166` support windows nodes for `create-test-pod-info` (retarget under legacy shim then migrate)
-- `#165` support windows nodes for `create-test-pod` (retarget under legacy shim then migrate)
-- `#164` support windows nodes for `create-pod-shell` (retarget under legacy shim then migrate)
-- `#163` support windows nodes for `create-node-shell` (retarget under legacy shim then migrate)
-- `#124` fix cheatsheet docs (retarget to current architecture docs)
-- `#123` create update command (retarget to migration-aware updater messaging)
-- `#122` positional params in bash scripts (merge intent with `#162`)
+- #181 add test coverage (retarget to migration validation coverage)
+- #168 clean `get-pod-ports` output (retarget as k8s workflow reliability)
+- #167 support mac/windows nodes for `forward-pod` (retarget under legacy shim then migrate)
+- #166 support windows nodes for `create-test-pod-info` (retarget under legacy shim then migrate)
+- #165 support windows nodes for `create-test-pod` (retarget under legacy shim then migrate)
+- #164 support windows nodes for `create-pod-shell` (retarget under legacy shim then migrate)
+- #163 support windows nodes for `create-node-shell` (retarget under legacy shim then migrate)
+- #124 fix cheatsheet docs (retarget to current architecture docs)
+- #123 create update command (retarget to migration-aware updater messaging)
+- #122 positional params in bash scripts (merge intent with #162)
 
 Recommended action for each: add `track/pivot-migration` and `action/retarget`, then edit acceptance criteria.
 
@@ -336,7 +336,7 @@ Recommended action for each: add `track/pivot-migration` and `action/retarget`, 
 
 #### Supersede Group A: package manager abstraction and install index breadth
 
-- `#169 #157 #134 #132 #130 #129 #119 #115`
+- #169 #157 #134 #132 #130 #129 #119 #115
 
 Create one new issue for each concern in pivot terms:
 
@@ -348,7 +348,7 @@ Then close originals with superseded links.
 
 #### Supersede Group B: support package/application requests as profile catalog work
 
-- `#170 #159 #158 #156 #155 #154 #153 #152 #151 #150 #149 #148 #147 #146 #145 #142 #141 #140 #139 #138 #137 #136 #108 #107 #106 #105 #104 #103 #102 #101 #100 #99 #98 #97 #96 #95 #94 #92 #91 #90 #89 #88 #87 #86 #85 #84 #83 #82 #81 #80 #79 #78 #77 #76 #75 #74 #73 #72 #71 #69 #68 #67 #66 #65 #64 #63 #62 #61 #42`
+- #170 #159 #158 #156 #155 #154 #153 #152 #151 #150 #149 #148 #147 #146 #145 #142 #141 #140 #139 #138 #137 #136 #108 #107 #106 #105 #104 #103 #102 #101 #100 #99 #98 #97 #96 #95 #94 #92 #91 #90 #89 #88 #87 #86 #85 #84 #83 #82 #81 #80 #79 #78 #77 #76 #75 #74 #73 #72 #71 #69 #68 #67 #66 #65 #64 #63 #62 #61 #42
 
 Create new issues by profile outcome instead of per-package-manager wrapper logic, for example:
 
@@ -360,15 +360,15 @@ Then close originals with superseded links.
 
 ### Close As Out-Of-Scope (or supersede if still needed)
 
-- `#135` reprioritize support feature requests (no longer needed as broad-wrapper planning artifact)
-- `#127` optimize `kgpp` (close if command is being retired; supersede if command is in pilot set)
-- `#126` handle upstream autoupdaters (close unless explicitly required by selected tooling)
-- `#128` interactive install bash/git in setup script (close if bootstrap is moving to chezmoi-driven flow)
-- `#125` add Windows support back (supersede if still needed for migration path)
-- `#161` consolidate on true/false returns (retarget if script remains in legacy layer)
-- `#160` improve command-installed (retarget if kept in migration glue)
-- `#131` docs: searching packages by labels (close/supersede depending on whether labels remain central)
-- `#162` positional params (supersede/merge with `#122` into one migration task)
+- #135 reprioritize support feature requests (no longer needed as broad-wrapper planning artifact)
+- #127 optimize `kgpp` (close if command is being retired; supersede if command is in pilot set)
+- #126 handle upstream autoupdaters (close unless explicitly required by selected tooling)
+- #128 interactive install bash/git in setup script (close if bootstrap is moving to chezmoi-driven flow)
+- #125 add Windows support back (supersede if still needed for migration path)
+- #161 consolidate on true/false returns (retarget if script remains in legacy layer)
+- #160 improve command-installed (retarget if kept in migration glue)
+- #131 docs: searching packages by labels (close/supersede depending on whether labels remain central)
+- #162 positional params (supersede/merge with #122 into one migration task)
 
 ### Triage Comment Templates
 
@@ -411,16 +411,16 @@ done
 ### Execution Status (2026-03-17)
 
 - Labels created/updated for migration tracking and triage actions.
-- WS1-WS6 parent tracking issues created (`#274`-`#279`).
-- Superseding implementation issues created (`#280`-`#284`).
+- WS1-WS6 parent tracking issues created (#274, #275, #276, #277, #278, #279).
+- Superseding implementation issues created (#280, #281, #282, #283, #284).
 - All open issues with `action/supersede` were commented and closed as superseded.
 - All open issues with `action/close-out-of-scope` were commented and closed as not planned under pivot scope.
 - Parent-child links were added between WS tracking issues and pivot implementation issues via issue comments.
-- Remaining retargeted legacy issues had pivot-specific acceptance criteria and links updated (`#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`).
-- Coordination issue `#285` was reclassified as a sister tracking/chore issue linked to WS1-WS6.
-- WS2 classification was split into child execution issues: `#287`-`#291`.
-- WS2 kickoff rubric/template issue `#287` was completed and closed.
-- WS2 batch issues `#288`-`#291` were completed and closed after inventory classification was captured.
-- WS2 parent tracker `#275` was completed and closed.
-- WS3 pilot planning completed in tracker `#276` with explicit criteria and Wave 1 selection (`#163`-`#168`).
-- Pilot issues `#163`-`#168` were updated to include command contract, platform matrix, smoke tests, and migration notes, and labeled `status/pilot`.
+- Remaining retargeted legacy issues had pivot-specific acceptance criteria and links updated (#122, #123, #124, #160, #161, #163, #164, #165, #166, #167, #168, #181).
+- Coordination issue #285 was reclassified as a sister tracking/chore issue linked to WS1-WS6.
+- WS2 classification was split into child execution issues: #287, #288, #289, #290, #291.
+- WS2 kickoff rubric/template issue #287 was completed and closed.
+- WS2 batch issues #288, #289, #290, #291 were completed and closed after inventory classification was captured.
+- WS2 parent tracker #275 was completed and closed.
+- WS3 pilot planning completed in tracker #276 with explicit criteria and Wave 1 selection (#163, #164, #165, #166, #167, #168).
+- Pilot issues #163, #164, #165, #166, #167, #168 were updated to include command contract, platform matrix, smoke tests, and migration notes, and labeled `status/pilot`.
