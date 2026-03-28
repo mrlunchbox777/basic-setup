@@ -1,3 +1,9 @@
+# Filesystem artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Basic setup specific
 /resources/install/index.d/*
 !/resources/install/index.d/.gitkeep
 /test*

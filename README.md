@@ -12,6 +12,8 @@ NOTE: This package will be moving to primarily [golang](https://go.dev/) instead
 
 This will create a good basic setup for development workstations on Linux/Mac/WSL, given a label (as used in ./resources/install/index.json '.packages[].labels').
 
+For the current migration direction toward `chezmoi` + `mise` (+ optional `devbox`), see the plan at [`docs/tooling-pivot-migration-plan.md`](docs/tooling-pivot-migration-plan.md).
+
 NOTE: it's currently only regularly tested on Linux, but if you find issues on any os please [report them](https://github.com/mrlunchbox777/basic-setup/issues/new/choose).
 
 ## If You Are New
