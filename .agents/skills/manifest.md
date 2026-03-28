@@ -9,4 +9,4 @@ Last updated: 2026-03-28
   - Summary: Update the existing changelog entry for the current version.
 - **sync-labels**
   - Path: `.agents/skills/sync-labels/SKILL.md`
-  - Summary: Sync issue/PR labels for kind, priority, status, changes, and size rules.
+  - Summary: Sync issue/PR labels for kind, priority, status, and change-type rules; `size/*` labels are CI-managed and PR-only.

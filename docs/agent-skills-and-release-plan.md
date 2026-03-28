@@ -126,7 +126,7 @@ Acceptance criteria:
 
 1. Parent trackers created: #295 and #296.
 2. Child issues created and linked in issue bodies to their parent tracker.
-3. Labels applied using repository issue templates (`feature`/`chore` + `status/triage`).
+3. Labels applied using repository issue templates (`kind/feature`, `kind/chore`, + `status/triage`).
 4. Execute in this order:
    - Agent skills: manage-issues -> review-response -> PR hygiene -> triage -> docs.
    - Release pipeline: scaffold -> validation -> tag/release -> runbook.

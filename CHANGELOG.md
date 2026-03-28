@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Updated skills indexes in `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` to include the new sync-labels skill.
 - Added `docs/agent-skills-and-release-plan.md` and mapped it to created tracker issues (#295-#311), including strict changelog-parse failure requirements for release creation.
+- Clarified `sync-labels` kind precedence for issue-template labels (including `kind/support`) and aligned size-label documentation to CI-managed PR-only behavior.
 
 ---
 

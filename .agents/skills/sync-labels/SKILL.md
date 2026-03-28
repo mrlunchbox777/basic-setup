@@ -1,6 +1,6 @@
 ---
 name: sync-labels
-description: Synchronizes issue and PR labels (kind, priority, status, changes, size) using repo rules; use when triaging, implementing, or preparing review.
+description: Synchronizes issue and PR labels (kind, priority, status, changes) using repo rules and observes CI-managed size labels; use when triaging, implementing, or preparing review.
 ---
 
 # Sync Labels Skill
@@ -45,16 +45,17 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 - Follow repository mapping in `.github/labeler.yaml`.
 
 ### 2) Kind labels
-- Must follow semantic definitions from `.github/semantic.yml` types:
-  - `attribution`, `bug`, `chore`, `feature`, `documentation`
-- Map semantic type to label family:
+- PR kind is derived from semantic definitions in `.github/semantic.yml` types:
   - `feature` -> `kind/feature`
   - `bug` -> `kind/bug`
   - `chore` -> `kind/chore`
   - `documentation` -> `kind/chore`
   - `attribution` -> `kind/attribution`
-- Issue and PR kind must match.
-- If issue and PR kind conflict, stop and raise to user for manual resolution.
+- Issue kind is valid if it is one of:
+  - `kind/feature`, `kind/bug`, `kind/chore`, `kind/support`, `kind/attribution`
+- `kind/support` is issue-template-only and has no direct semantic PR type equivalent.
+- If issue and PR kind differ, stop and raise to user for manual resolution.
+- Never auto-convert `kind/support` to another kind.
 
 ### 3) Priority labels
 - Apply based on impact importance:
@@ -66,7 +67,7 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 - If both issue and PR exist, use highest priority implied by either scope.
 
 ### 4) Size labels
-- Size labels are controlled by PR CI (`size-label` workflow).
+- Size labels are controlled by PR CI via the `size-label` job in `.github/workflows/labeler.yaml`.
 - Never add or override `size/*` before CI has run.
 - For issue sync, do not copy `size/*` from PR to issue.
 
@@ -75,6 +76,9 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 - Active implementation is `status/doing`.
 - Ready for review is `status/review`.
 - When both issue and PR exist and statuses differ, use the most recently updated artifact as source-of-truth and sync the other.
+
+### 6) Conflict examples
+- Example conflict: issue `kind/support` + PR semantic `feature` -> stop and ask user which kind/workflow should be canonical.
 
 ## Steps
 1. Identify target artifact(s): issue only, PR only, or linked issue+PR.
