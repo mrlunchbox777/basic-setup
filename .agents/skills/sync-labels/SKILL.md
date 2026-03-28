@@ -20,6 +20,16 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 - Tools: `gh` CLI authenticated for issues and pull requests.
 - Label families exist in the repository (`kind/*`, `priority/*`, `status/*`, `changes/*`, `size/*`).
 
+## Inputs
+- Target issue number, PR number, or linked issue+PR pair.
+- Optional explicit status intent (`status/triage`, `status/doing`, `status/review`) when user is intentionally transitioning state.
+- Optional priority override signal only when user explicitly declares security/CVE urgency.
+
+## Required context
+- Semantic type definitions from `.github/semantic.yml`.
+- File-to-label mapping rules from `.github/labeler.yaml`.
+- Current labels and `updatedAt` values for target issue/PR to resolve status precedence.
+
 ## Managed Label Families
 - `kind/*`
 - `priority/*`
