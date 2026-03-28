@@ -19,6 +19,7 @@ It currently contains:
 - Superseded and out-of-scope legacy issues were commented and closed.
 - Remaining legacy issues are retargeted with updated acceptance criteria: `#122`, `#123`, `#124`, `#160`, `#161`, `#163`-`#168`, `#181`.
 - WS3 wave-1 pilot set is defined and marked `status/pilot`: `#163`-`#168`.
+- Dedicated Big Bang migration/retirement tracker is active: `#294`.
 
 ## Logged Next Steps
 
