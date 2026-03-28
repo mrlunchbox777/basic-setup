@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Addressed PR review feedback by correcting `shared-scripts/bin/*` inventory coverage, linking Big Bang migration to dedicated tracker #294, and making execution-tracking issue references auto-linkable.
 - Standardized remaining issue references in pivot WIP/inventory docs to plain `#...` for GitHub auto-linking and clarified the `/tmp/ws*.md` prerequisite for issue-creation commands.
 - Converted remaining triage/execution issue references in `docs/tooling-pivot-wip.md` from backticked/ranged forms to explicit plain `#...` links for better navigability.
+- Expanded remaining issue ranges in `docs/tooling-pivot-wip.md` and `docs/tooling-pivot-migration-plan.md` into explicit issue lists so each tracker is individually clickable.
 
 ---
 

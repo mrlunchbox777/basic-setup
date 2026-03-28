@@ -14,17 +14,17 @@ It currently contains:
 - Coordination issue is active as sister tracker: #285.
 - WS parent trackers are active: #274, #276, #277, #278, #279.
 - WS2 tracker #275 is completed and closed.
-- Superseding pivot implementation tracks are active: #280-#284.
-- WS2 execution child issues #287-#291 are completed and closed.
+- Superseding pivot implementation tracks are active: #280, #281, #282, #283, #284.
+- WS2 execution child issues #287, #288, #289, #290, #291 are completed and closed.
 - Superseded and out-of-scope legacy issues were commented and closed.
-- Remaining legacy issues are retargeted with updated acceptance criteria: #122, #123, #124, #160, #161, #163-#168, #181.
-- WS3 wave-1 pilot set is defined and marked `status/pilot`: #163-#168.
+- Remaining legacy issues are retargeted with updated acceptance criteria: #122, #123, #124, #160, #161, #163, #164, #165, #166, #167, #168, #181.
+- WS3 wave-1 pilot set is defined and marked `status/pilot`: #163, #164, #165, #166, #167, #168.
 - Dedicated Big Bang migration/retirement tracker is active: #294.
 
 ## Logged Next Steps
 
 1. **WS2 execution kickoff** (Completed)
-   - Completed #287 rubric/table output and batch classifications #288-#291 in `docs/tooling-pivot-script-inventory.md`.
+   - Completed #287 rubric/table output and batch classifications #288, #289, #290, #291 in `docs/tooling-pivot-script-inventory.md`.
    - WS2 parent #275 is closed.
 2. **WS3 pilot implementation kickoff**
    - Execute wave-1 pilot issues in this order: #168, #167, #163, #164, #165, #166.

@@ -31,7 +31,7 @@ Current implementation tracks created from this plan:
 WS2 execution artifacts:
 
 - Script inventory and rubric: `docs/tooling-pivot-script-inventory.md`
-- WS2 child issues completed/closed: #287-#291
+- WS2 child issues completed/closed: #287, #288, #289, #290, #291
 
 ## Decision
 
