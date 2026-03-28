@@ -12,26 +12,26 @@ Use this plan as the source of truth for issue triage, new issue creation, imple
 
 Active issue threads for this plan:
 
-- Coordination (sister issue): `#285`
-- WS1 Foundation: `#274`
-- WS2 Classification: `#275` (completed/closed)
-- WS3 Pilot migration: `#276`
-- WS4 Backlog execution: `#277`
-- WS5 Deprecation: `#278`
-- WS6 Cleanup: `#279`
+- Coordination (sister issue): #285
+- WS1 Foundation: #274
+- WS2 Classification: #275 (completed/closed)
+- WS3 Pilot migration: #276
+- WS4 Backlog execution: #277
+- WS5 Deprecation: #278
+- WS6 Cleanup: #279
 
 Current implementation tracks created from this plan:
 
-- Baseline shell/tooling profile: `#280`
-- K8s/operator workstation profile: `#281`
-- Optional media/comms profile: `#282`
-- Replace package-manager/index abstraction policy: `#283`
-- Windows/WSL interop track: `#284`
+- Baseline shell/tooling profile: #280
+- K8s/operator workstation profile: #281
+- Optional media/comms profile: #282
+- Replace package-manager/index abstraction policy: #283
+- Windows/WSL interop track: #284
 
 WS2 execution artifacts:
 
 - Script inventory and rubric: `docs/tooling-pivot-script-inventory.md`
-- WS2 child issues completed/closed: `#287`-`#291`
+- WS2 child issues completed/closed: #287-#291
 
 ## Decision
 

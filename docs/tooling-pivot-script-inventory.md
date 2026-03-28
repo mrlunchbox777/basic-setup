@@ -80,7 +80,7 @@ Status: `#289` complete.
 | `shared-scripts/environment/curl-commands/*.sh` | 13 | `retire` | medium | `@mrlunchbox777` | `#283` | Replace broad curl-install model with policy in mise/devbox/chezmoi |
 | `shared-scripts/package-management/*.sh` | 1 | `retire` | high | `@mrlunchbox777` | `#283` | Broad package-manager abstraction is out of target model |
 | `shared-scripts/git/*.sh` | 3 | `chezmoi` | low | `@mrlunchbox777` | `#280` | User-level git helpers/config bootstrap |
-| `shared-scripts/bin/*` | 0 | `retire` | low | `@mrlunchbox777` | `#279` | Empty path; keep under cleanup watch |
+| `shared-scripts/bin/*` | 89 | `legacy-shim` | medium | `@mrlunchbox777` | `#279` | Wrapper command entrypoints retained for compatibility during migration; remove/replace in WS6 cleanup |
 
 Status: `#290` complete.
 
@@ -88,7 +88,7 @@ Status: `#290` complete.
 
 | Coverage pattern | File count | Proposed target | Priority | Owner | Replacement issue | Notes |
 | --- | ---: | --- | --- | --- | --- | --- |
-| `shared-scripts/big-bang/*.sh` | 15 | `legacy-shim` | medium | `@mrlunchbox777` | `#291` | Domain-specific operational scripts; keep as shim until explicit migration/retirement |
+| `shared-scripts/big-bang/*.sh` | 15 | `legacy-shim` | medium | `@mrlunchbox777` | `#294` | Domain-specific operational scripts; keep as shim until explicit migration/retirement under dedicated tracker |
 | `shared-scripts/big-bang/bin/.gitkeep` | 1 | `retire` | low | `@mrlunchbox777` | `#279` | Remove with final cleanup if no longer needed |
 
 Status: `#291` complete.
@@ -99,5 +99,5 @@ Verification snapshot used for WS2 execution:
 
 - Batch `#288`: 70 files classified
 - Batch `#289`: 28 files classified
-- Batch `#290`: 20 path entries covered (16 files + empty `bin` check)
+- Batch `#290`: 20 path entries covered (16 files + `bin` wrapper inventory)
 - Batch `#291`: 16 files classified
