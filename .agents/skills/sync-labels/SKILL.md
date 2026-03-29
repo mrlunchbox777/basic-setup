@@ -35,7 +35,7 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 - `priority/*`
 - `status/*`
 - `changes/*`
-- `size/*` (PR only; do not set manually before CI applies it)
+- `size/*` (PR observed-only; never mutate on PR, always remove from issues)
 
 ## Source Rules
 
@@ -68,8 +68,9 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 
 ### 4) Size labels
 - Size labels are controlled by PR CI via the `size-label` job in `.github/workflows/labeler.yaml`.
-- Never add or override `size/*` before CI has run.
-- For issue sync, do not copy `size/*` from PR to issue.
+- Never add, remove, or override `size/*` on PRs.
+- Always remove `size/*` labels from issues when present.
+- Never copy `size/*` from PR to issue.
 
 ### 5) Status labels
 - New issue starts as `status/triage`.
@@ -84,7 +85,7 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 1. Identify target artifact(s): issue only, PR only, or linked issue+PR.
 2. Collect current labels on both artifacts.
 3. Determine managed labels from rules above.
-4. Remove stale labels within managed families (except PR `size/*` not set by this skill).
+4. Remove stale labels within managed families, excluding any mutation of PR `size/*`; remove `size/*` from issues if present.
 5. Apply computed labels to issue and PR (respecting family-specific rules).
 6. If kind mismatch or ambiguous priority/status is detected, stop and ask user to resolve.
 7. Post a short sync comment summarizing what changed and why.
@@ -92,7 +93,8 @@ Keep issue and PR labels aligned with repository conventions and current workflo
 ## Safety Rules
 - Do not modify non-managed labels.
 - Do not guess kind when semantic signal is conflicting; escalate to user.
-- Do not set PR `size/*` labels manually.
+- Do not add, remove, or change PR `size/*` labels.
+- Always remove accidental `size/*` labels from issues.
 
 ## Outputs
 - Issue/PR labels synchronized across managed families.
