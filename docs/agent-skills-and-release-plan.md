@@ -3,7 +3,7 @@
 This document proposes two focused workstreams before continuing broader pivot execution:
 
 1. Expand baseline agent skills for issue/PR operations.
-2. Add a basic release pipeline that creates a tag and GitHub release.
+2. Add a release-candidate and promotion pipeline that gates tag/GitHub release publication behind approval.
 
 ## Workstream A: Agent Skills Expansion
 
@@ -63,64 +63,70 @@ Acceptance criteria:
 - #303 `skill: ws-status-sync` (sync tracker issue status from docs).
 - #301 `skill: release-notes-draft` (summarize merged changes since last tag).
 
-## Workstream B: Basic Release Pipeline
+## Workstream B: Release Candidate And Promotion Pipeline
 
 ### Parent Tracker
 
-- Issue: #296 (`feature: track basic release pipeline`)
-- Goal: Manual, predictable release flow that creates a tag and GitHub release.
+- Issue: #296 (`feature: track release candidate and promotion pipeline`)
+- Goal: Automatic release-candidate generation on `main` merges with manual approval before tag/release publication.
 
 ### Scope
 
-- Add a `workflow_dispatch` release workflow.
-- Validate version/changelog consistency before tag/release.
-- Create annotated tag and GitHub release notes from changelog entry.
+- Generate release candidates automatically from eligible merges to `main`.
+- Validate version/changelog consistency at candidate time.
+- Promote approved candidates to annotated tags and GitHub releases.
+- Keep changelog parsing mandatory for release publish.
+- Include a yank path for broken/compromised releases.
 
 ### Child Issues
 
-#### 1) #307 `workflow: release-dispatch scaffold`
+#### 1) #307 `workflow: release-candidate scaffold`
 
 Acceptance criteria:
 
-- Adds `.github/workflows/release.yml` with `workflow_dispatch`.
-- Inputs include `version`, `prerelease`, and optional `target_commitish`.
+- Candidate workflow triggers from eligible merges to `main`.
+- Captures immutable candidate metadata (`version`, pinned commit SHA, diagnostics).
+- Does not publish tags/releases directly.
 
-#### 2) #305 `release validation step`
+#### 2) #305 `release candidate validation gates`
 
 Acceptance criteria:
 
 - Validates semantic version format.
-- Validates `bsctl/static/resources/constants.yaml` version matches workflow input.
-- Validates top `CHANGELOG.md` entry matches workflow input.
+- Validates current version source (`bsctl/static/resources/constants.yaml`) matches candidate version.
+- Validates top `CHANGELOG.md` entry matches candidate version.
+- Fails candidate generation on mismatch.
 
 #### 3) #304 `tag creation + push`
 
 Acceptance criteria:
 
-- Creates annotated tag `vX.Y.Z`.
+- Creates annotated tag `vX.Y.Z` from approved candidate commit SHA.
 - Fails with clear message when tag already exists.
 
-#### 4) #306 `GitHub release creation`
+#### 4) #306 `promote candidate to GitHub release`
 
 Acceptance criteria:
 
-- Creates release using `gh release create` or API.
+- Creates release from approved candidate metadata.
 - Uses matching changelog section body for release notes.
 - Supports prerelease toggle.
 - Fails release creation when changelog parsing fails.
+- Verifies candidate metadata integrity before publish.
 
 #### 5) #308 `docs: release runbook`
 
 Acceptance criteria:
 
-- Documents prerequisites, dispatch inputs, and expected outcomes.
-- Includes failure handling and rollback notes for mistaken tags/releases.
+- Documents candidate trigger conditions, promotion approval flow, and expected outcomes.
+- Includes failure handling and rollback/yank notes for broken or compromised releases.
 
 ### Optional Hardening (Included)
 
-- #310 require all required checks on `main` before release.
+- #310 require promotion approval and required checks before release publish.
 - #309 attach build artifacts.
 - #311 improve strict changelog parsing diagnostics while preserving hard-fail behavior.
+- #314 add release yank and rollback workflow.
 
 ## Issue Creation Sequence
 
@@ -129,7 +135,7 @@ Acceptance criteria:
 3. Labels applied using repository issue templates (`kind/feature`, `kind/chore`, + `status/triage`).
 4. Execute in this order:
    - Agent skills: manage-issues -> review-response -> PR hygiene -> triage -> docs.
-   - Release pipeline: scaffold -> validation -> tag/release -> runbook.
+   - Release pipeline: candidate scaffold -> candidate validation -> promotion tag/release -> runbook -> yank flow.
 
 ## Suggested Labels
 
@@ -143,5 +149,5 @@ Acceptance criteria:
 
 1. `skill: manage-issues`
 2. `skill: review-response workflow`
-3. `workflow: release-dispatch scaffold`
+3. `workflow: release-candidate scaffold`
 4. `docs: release runbook`
