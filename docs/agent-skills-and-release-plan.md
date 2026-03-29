@@ -76,7 +76,7 @@ Acceptance criteria:
 - Validate version/changelog consistency at candidate time.
 - Promote approved candidates to annotated tags and GitHub releases.
 - Keep changelog parsing mandatory for release publish.
-- Include a code-based yank path for broken/compromised releases.
+- Include a code-based yank path for broken/compromised releases, including artifact removal and retagging to `-bad` suffix while preserving history for research.
 
 ### Child Issues
 
@@ -126,7 +126,7 @@ Acceptance criteria:
 - #310 require promotion approval and required checks before release publish.
 - #309 attach build artifacts.
 - #311 improve strict changelog parsing diagnostics while preserving hard-fail behavior.
-- #314 harden the release yank and rollback workflow (additional safeguards, stronger audit trail, standardized operations).
+- #314 harden the release yank and rollback workflow (artifact removal, `-bad` tag rename flow, additional safeguards, stronger audit trail, standardized operations).
 
 ## Issue Creation Sequence
 
