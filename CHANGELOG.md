@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Updated `docs/agent-skills-and-release-plan.md` and release tracker issues to use a release-candidate plus manual-promotion model, including explicit yank/rollback coverage.
+- Updated `docs/agent-skills-and-release-plan.md` to use a release-candidate plus manual-promotion model, including explicit code-based yank/rollback coverage.
 
 ---
 
