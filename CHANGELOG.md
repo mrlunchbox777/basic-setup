@@ -2,10 +2,29 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ---
-## [0.1.17] - 2026-04-03
+## [0.1.18] - 2026-04-03
+
+### Added
+
+- Added `.github/workflows/release.yml` scaffold for release-candidate generation on eligible `main` merges with immutable candidate metadata artifacts and no direct publish path.
+- Added `wip-pr-setup` skill at `.agents/skills/wip-pr-setup/SKILL.md` for standardized branch/PR setup, docs bump flow, and doing-state label sync.
+
 ### Changed
+
+- Updated agent skill indexes in `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` to include `wip-pr-setup`.
+- Updated `docs/agent-skills-and-release-plan.md` and issue #314 to require code-based yank handling with artifact removal and `-bad` tag rename while preserving research history.
+
+---
+
+## [0.1.17] - 2026-04-03
+
+### Changed
+
 - Bump github.com/go-playground/validator/v10 from 10.30.1 to 10.30.2
+
+---
 
 ## [0.1.16] - 2026-03-30
 ### Changed

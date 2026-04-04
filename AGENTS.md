@@ -21,6 +21,7 @@ Skills follow the Opencode/Project Agent skill format and live under `.agents/sk
 - [Version Bump Skill](.agents/skills/version-bump/SKILL.md)
 - [Update Changelog Skill](.agents/skills/update-changelog/SKILL.md)
 - [Sync Labels Skill](.agents/skills/sync-labels/SKILL.md)
+- [WIP PR Setup Skill](.agents/skills/wip-pr-setup/SKILL.md)
 
 ---
 
