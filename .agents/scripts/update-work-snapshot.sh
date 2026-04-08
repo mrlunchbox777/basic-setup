@@ -87,6 +87,8 @@ pr="n/a"
 pr_state="n/a"
 pr_mergeable="n/a"
 pr_review="n/a"
+pr_number=""
+pr_url=""
 
 if command -v gh >/dev/null 2>&1; then
     pr_data="$(gh pr view --json number,url,state,mergeable,reviewDecision --template '{{if .number}}{{.number}}{{"\t"}}{{.url}}{{"\t"}}{{.state}}{{"\t"}}{{.mergeable}}{{"\t"}}{{.reviewDecision}}{{end}}' 2>/dev/null || true)"

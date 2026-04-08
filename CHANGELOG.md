@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enforced single-line `--goal` and `--context` values in `.agents/scripts/update-work-snapshot.sh` to preserve snapshot field parsing.
 - Updated release candidate metadata defaults so manual dispatch without `target_commitish` records `target_ref` as the branch/ref name instead of duplicating the commit SHA.
 - Updated `.agents/skills/work-snapshot/SKILL.md` prerequisites to document the `python3` requirement used by the updater script.
+- Initialized optional PR metadata variables in `.agents/scripts/update-work-snapshot.sh` to avoid `set -u` unbound-variable failures when `gh pr view` returns no PR data.
 
 ---
 ## [0.1.18] - 2026-04-03
