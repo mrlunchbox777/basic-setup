@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with guidance on reading snapshot state at session start and checking staleness before execution.
+- Added a `Scope Control` section to `AGENTS.md` so agents pause on scope creep, ask whether to expand or defer, and when deferred, track follow-up work in a linked issue.
 - Hardened `.github/workflows/release.yml` to avoid `inputs.*` evaluation on non-dispatch events and generate `release-candidate/metadata.json` via `jq` with correct JSON escaping and boolean typing.
 - Updated `.agents/scripts/update-work-snapshot.sh` to fetch PR metadata in a single `gh pr view` call and fail clearly when `python3` is unavailable.
 - Updated `docs/agent-skills-and-release-plan.md` and parent tracker #295 to add follow-up issue #319 for CI-based issue/PR label-family synchronization validation as separate scope from #307.

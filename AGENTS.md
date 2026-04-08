@@ -6,6 +6,7 @@ This document outlines the coding standards and best practices for AI agents and
 
 - [Skills](#skills)
 - [Work Snapshot Usage](#work-snapshot-usage)
+- [Scope Control](#scope-control)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
@@ -44,6 +45,33 @@ Use `.agents/work-snapshot.local.md` as a local handoff aid, not as source-of-tr
 
 4. **Refresh after milestones**
    - Update the snapshot after major transitions (merge/rebase, conflict resolution, docs/version bumps, CI/check changes, review-state changes) and before ending a session.
+
+---
+
+## Scope Control
+
+When implementing work tied to an issue/PR, proactively detect scope creep and preserve reviewable units.
+
+1. **Detect scope creep early**
+   - Treat newly identified, non-blocking improvements as potential follow-up scope, not automatic additions.
+   - Examples: adjacent hardening, separate automation, or unrelated workflow polish.
+
+2. **Pause and classify discovered work**
+   - If work is required to complete the current acceptance criteria or fix a blocking defect, keep it in scope.
+   - If work is useful but not required, mark it out-of-scope for the current issue/PR.
+
+3. **Ask before expanding scope**
+   - Present out-of-scope work to the user and ask whether to expand current scope or defer.
+   - Default recommendation: keep the current PR focused and defer non-blocking work.
+
+4. **If deferring, open a follow-up issue**
+   - Create a new issue with clear summary, rationale, and acceptance criteria.
+   - Link it to the relevant parent tracker and cross-reference the current issue/PR.
+
+5. **Keep current PR focused and document the choice**
+   - Continue implementing only the scoped work in the current branch/PR unless user approves expansion.
+   - Add a short PR comment and/or PR body note stating what was deferred and where it will be tracked.
+   - Update planning docs when they maintain ordered execution lists.
 
 ---
 
