@@ -56,6 +56,18 @@ jobs:
           DISPATCH_TARGET_COMMITISH: ${{ github.event_name == 'workflow_dispatch' && inputs.target_commitish || '' }}
           DISPATCH_PRERELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs.prerelease || false }}
         run: |
+          write_output() {
+            key="$1"
+            value="$2"
+
+            if [[ "$value" == *$'\n'* ]] || [[ "$value" == *$'\r'* ]]; then
+              echo "Invalid multi-line value for output '$key'" >&2
+              exit 1
+            fi
+
+            printf '%s=%s\n' "$key" "$value" >> "$GITHUB_OUTPUT"
+          }
+
           version="$DISPATCH_VERSION"
           if [ -z "$version" ]; then
             version="$(yq '.BasicSetupCliVersion' bsctl/static/resources/constants.yaml | tr -d '"')"
@@ -75,11 +87,14 @@ jobs:
             target_ref="${{ github.ref_name }}"
           fi
 
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "prerelease=$DISPATCH_PRERELEASE" >> "$GITHUB_OUTPUT"
-          echo "target_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "target_ref=$target_ref" >> "$GITHUB_OUTPUT"
-          echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+          target_sha="$(git rev-parse HEAD)"
+          generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          write_output "version" "$version"
+          write_output "prerelease" "$DISPATCH_PRERELEASE"
+          write_output "target_sha" "$target_sha"
+          write_output "target_ref" "$target_ref"
+          write_output "generated_at" "$generated_at"
 
   candidate:
     runs-on: ubuntu-latest

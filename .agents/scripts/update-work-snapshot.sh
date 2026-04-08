@@ -166,7 +166,10 @@ if start in text and end in text:
         after = manual.strip("\n") + "\n"
     else:
         after = after.rstrip("\n") + "\n"
-    new_text = managed + "\n" + after
+    if before:
+        new_text = before + managed + "\n" + after
+    else:
+        new_text = managed + "\n" + after
 else:
     tail = text.strip("\n")
     if tail:
