@@ -5,6 +5,7 @@ This document outlines the coding standards and best practices for AI agents and
 ## Table of Contents
 
 - [Skills](#skills)
+- [Work Snapshot Usage](#work-snapshot-usage)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
@@ -22,6 +23,27 @@ Skills follow the Opencode/Project Agent skill format and live under `.agents/sk
 - [Update Changelog Skill](.agents/skills/update-changelog/SKILL.md)
 - [Sync Labels Skill](.agents/skills/sync-labels/SKILL.md)
 - [WIP PR Setup Skill](.agents/skills/wip-pr-setup/SKILL.md)
+- [Work Snapshot Skill](.agents/skills/work-snapshot/SKILL.md)
+
+---
+
+## Work Snapshot Usage
+
+Use `.agents/work-snapshot.local.md` as a local handoff aid, not as source-of-truth state.
+
+1. **Read at session start**
+   - If the snapshot exists, read it before taking action to recover intent, recent decisions, and proposed next steps.
+
+2. **Check staleness before relying on it**
+   - Treat `updated_at` as advisory only.
+   - Compare snapshot recency against current date/time and recent git activity (`git log`, current branch, PR/check status) before trusting operational details.
+
+3. **Prefer authoritative state for execution**
+   - Use git/GitHub state (working tree, commits, PR checks, mergeability) as the authoritative source for current truth.
+   - Use snapshot content mainly for context, rationale, and handoff continuity.
+
+4. **Refresh after milestones**
+   - Update the snapshot after major transitions (merge/rebase, conflict resolution, docs/version bumps, CI/check changes, review-state changes) and before ending a session.
 
 ---
 

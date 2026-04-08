@@ -1,5 +1,5 @@
 # Skills Manifest
-Last updated: 2026-03-29
+Last updated: 2026-04-03
 
 - **version-bump**
   - Path: `.agents/skills/version-bump/SKILL.md`
@@ -13,3 +13,6 @@ Last updated: 2026-03-29
 - **wip-pr-setup**
   - Path: `.agents/skills/wip-pr-setup/SKILL.md`
   - Summary: Set up branch/PR workflow for in-progress work, including docs bump checks and doing-state label sync.
+- **work-snapshot**
+  - Path: `.agents/skills/work-snapshot/SKILL.md`
+  - Summary: Refresh a compact git-ignored local handoff snapshot for fast session resume.
