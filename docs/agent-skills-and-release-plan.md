@@ -62,6 +62,7 @@ Acceptance criteria:
 
 - #303 `skill: ws-status-sync` (sync tracker issue status from docs).
 - #301 `skill: release-notes-draft` (summarize merged changes since last tag).
+- #319 `workflow: validate issue/PR label sync in CI` (add a PR check that enforces managed `kind/*`, `priority/*`, `status/*`, and `changes/*` label-family alignment while excluding CI-managed `size/*`).
 
 ## Workstream B: Release Candidate And Promotion Pipeline
 
@@ -134,7 +135,7 @@ Acceptance criteria:
 2. Child issues created and linked in issue bodies to their parent tracker.
 3. Labels applied using repository issue templates (`kind/feature`, `kind/chore`, + `status/triage`).
 4. Execute in this order:
-   - Agent skills: manage-issues -> review-response -> PR hygiene -> triage -> docs.
+   - Agent skills: manage-issues -> review-response -> PR hygiene -> label-sync CI validation -> triage -> docs.
    - Release pipeline: candidate scaffold -> candidate validation -> promotion tag/release -> runbook -> yank flow.
 
 ## Suggested Labels
