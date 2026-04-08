@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Added `.github/workflows/release.yml` scaffold for release-candidate generation on eligible `main` merges with immutable candidate metadata artifacts and no direct publish path.
-- Added local work snapshot support with `.agents/work-snapshot.local.md`, `make snapshot`, and `.agents/scripts/update-work-snapshot.sh` to speed up context handoffs between sessions.
+- Added local work snapshot support via `make snapshot` and `.agents/scripts/update-work-snapshot.sh`, which create/update the git-ignored local file `.agents/work-snapshot.local.md` to speed up context handoffs between sessions.
 - Added `wip-pr-setup` and `work-snapshot` skills for standardized WIP PR setup and local handoff snapshot maintenance.
 
 ### Changed

@@ -118,6 +118,11 @@ jobs:
           target_sha='${{ needs.preflight.outputs.target_sha }}'
           generated_at='${{ needs.preflight.outputs.generated_at }}'
           workflow_run_id='${{ github.run_id }}'
+          workflow_run_attempt='${{ github.run_attempt }}'
+          event_name='${{ github.event_name }}'
+          actor='${{ github.actor }}'
+          repository='${{ github.repository }}'
+          workflow='${{ github.workflow }}'
 
           if [ "$prerelease" = "true" ]; then
             prerelease_bool=true
@@ -131,6 +136,11 @@ jobs:
             --arg target_sha "$target_sha" \
             --arg generated_at "$generated_at" \
             --arg workflow_run_id "$workflow_run_id" \
+            --arg workflow_run_attempt "$workflow_run_attempt" \
+            --arg event_name "$event_name" \
+            --arg actor "$actor" \
+            --arg repository "$repository" \
+            --arg workflow "$workflow" \
             --argjson prerelease "$prerelease_bool" \
             '{
               version: $version,
@@ -138,7 +148,14 @@ jobs:
               target_ref: $target_ref,
               target_sha: $target_sha,
               generated_at: $generated_at,
-              workflow_run_id: $workflow_run_id
+              workflow_run_id: $workflow_run_id,
+              diagnostics: {
+                workflow_run_attempt: $workflow_run_attempt,
+                event_name: $event_name,
+                actor: $actor,
+                repository: $repository,
+                workflow: $workflow
+              }
             }' > release-candidate/metadata.json
 
       - name: Upload candidate artifact
