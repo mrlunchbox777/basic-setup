@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Hardened `.github/workflows/release.yml` to avoid `inputs.*` evaluation on non-dispatch events and generate `release-candidate/metadata.json` via `jq` with correct JSON escaping and boolean typing.
 - Updated `.agents/scripts/update-work-snapshot.sh` to fetch PR metadata in a single `gh pr view` call and fail clearly when `python3` is unavailable.
 - Updated `docs/agent-skills-and-release-plan.md` and parent tracker #295 to add follow-up issue #319 for CI-based issue/PR label-family synchronization validation as separate scope from #307.
+- Added validation in `.github/workflows/release.yml` to fail candidate generation when the resolved version is empty or `null`.
+- Enforced single-line `--goal` and `--context` values in `.agents/scripts/update-work-snapshot.sh` to preserve snapshot field parsing.
 
 ---
 ## [0.1.18] - 2026-04-03

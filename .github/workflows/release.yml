@@ -61,6 +61,11 @@ jobs:
             version="$(yq '.BasicSetupCliVersion' bsctl/static/resources/constants.yaml | tr -d '"')"
           fi
 
+          if [ -z "$version" ] || [ "$version" = "null" ]; then
+            echo "Failed to determine candidate version from dispatch input or bsctl/static/resources/constants.yaml" >&2
+            exit 1
+          fi
+
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             target_ref="$DISPATCH_TARGET_COMMITISH"
             if [ -z "$target_ref" ]; then

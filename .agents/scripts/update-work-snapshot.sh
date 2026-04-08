@@ -60,6 +60,16 @@ fi
 goal="${goal_override:-$existing_goal}"
 context_line="${context_override:-$existing_context}"
 
+if [[ "${goal}" == *$'\n'* ]] || [[ "${goal}" == *$'\r'* ]]; then
+    echo "Error: --goal must be a single line" >&2
+    exit 1
+fi
+
+if [[ "${context_line}" == *$'\n'* ]] || [[ "${context_line}" == *$'\r'* ]]; then
+    echo "Error: --context must be a single line" >&2
+    exit 1
+fi
+
 if [ -z "${goal}" ]; then
     goal="Set this with --goal \"...\"."
 fi
