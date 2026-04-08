@@ -30,7 +30,7 @@ Keep the BasicSetup CLI version and changelog in sync for releases.
 ## Steps
 1. Set the new version: `yq -i '.BasicSetupCliVersion = "X.Y.Z"' bsctl/static/resources/constants.yaml`.
 2. Create a new top `CHANGELOG.md` entry for `X.Y.Z` with today’s date (`YYYY-MM-DD`) and Keep a Changelog section headers (`### Added`, `### Changed`, `### Fixed`).
-3. Immediately run [Update Changelog Skill](../update-changelog/SKILL.md) to populate/refine the entry from staged/working-tree changes and recent commits.
+3. Immediately run [Update Changelog Skill](../update-changelog/SKILL.md) to populate/refine and consolidate the entry from staged/working-tree changes and recent commits.
 4. Verify alignment: top changelog version matches `.BasicSetupCliVersion`; date is valid for CI validation (UTC +/- 1 day).
 5. Validate changes: at minimum `git diff`; run `make test` if code changed.
 

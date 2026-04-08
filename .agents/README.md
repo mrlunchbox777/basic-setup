@@ -1,5 +1,5 @@
 # Agents Instructions
-Last updated: 2026-03-28
+Last updated: 2026-04-08
 
 ## Scope
 - Source of truth for agent guidance and skill locations in this repository.
@@ -17,10 +17,19 @@ Last updated: 2026-03-28
 - Skills must reside under `.agents/skills/<name>/SKILL.md`.
 - Additional instruction files should live under `.agents/` when needed.
 
+## Work snapshot guidance
+- Local handoff file: `.agents/work-snapshot.local.md`.
+- Read it at session start when present to recover intent/next steps.
+- Treat `updated_at` as advisory; validate with current git/PR state before acting.
+- Prefer git/GitHub state as source-of-truth, and use snapshot mostly for context.
+- Refresh it after major milestones and before ending a session.
+
 ## Skills index
 - Version Bump: `.agents/skills/version-bump/SKILL.md`
 - Update Changelog: `.agents/skills/update-changelog/SKILL.md`
 - Sync Labels: `.agents/skills/sync-labels/SKILL.md`
+- WIP PR Setup: `.agents/skills/wip-pr-setup/SKILL.md`
+- Work Snapshot: `.agents/skills/work-snapshot/SKILL.md`
 - Manifest: `.agents/skills/manifest.md`
 
 ## Expectations for SKILL.md

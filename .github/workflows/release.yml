@@ -1,0 +1,179 @@
+name: Release Candidate
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - CHANGELOG.md
+      - bsctl/static/resources/constants.yaml
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Candidate version override (optional)"
+        required: false
+        type: string
+      prerelease:
+        description: "Mark candidate as prerelease"
+        required: true
+        default: false
+        type: boolean
+      target_commitish:
+        description: "Commit SHA/branch to evaluate"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: release-candidate-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      prerelease: ${{ steps.meta.outputs.prerelease }}
+      target_sha: ${{ steps.meta.outputs.target_sha }}
+      target_ref: ${{ steps.meta.outputs.target_ref }}
+      generated_at: ${{ steps.meta.outputs.generated_at }}
+    steps:
+      - name: Checkout target
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.target_commitish != '' && inputs.target_commitish || github.sha) || github.sha }}
+
+      - name: Install yq
+        uses: mikefarah/yq@v4
+
+      - name: Build candidate metadata
+        id: meta
+        env:
+          DISPATCH_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '' }}
+          DISPATCH_TARGET_COMMITISH: ${{ github.event_name == 'workflow_dispatch' && inputs.target_commitish || '' }}
+          DISPATCH_PRERELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs.prerelease || false }}
+        run: |
+          write_output() {
+            key="$1"
+            value="$2"
+
+            if [[ "$value" == *$'\n'* ]] || [[ "$value" == *$'\r'* ]]; then
+              echo "Invalid multi-line value for output '$key'" >&2
+              exit 1
+            fi
+
+            printf '%s=%s\n' "$key" "$value" >> "$GITHUB_OUTPUT"
+          }
+
+          version="$DISPATCH_VERSION"
+          if [ -z "$version" ]; then
+            version="$(yq '.BasicSetupCliVersion' bsctl/static/resources/constants.yaml | tr -d '"')"
+          fi
+
+          if [ -z "$version" ] || [ "$version" = "null" ]; then
+            echo "Failed to determine candidate version from dispatch input or bsctl/static/resources/constants.yaml" >&2
+            exit 1
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            target_ref="$DISPATCH_TARGET_COMMITISH"
+            if [ -z "$target_ref" ]; then
+              target_ref="${{ github.ref_name }}"
+            fi
+          else
+            target_ref="${{ github.ref_name }}"
+          fi
+
+          target_sha="$(git rev-parse HEAD)"
+          generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          write_output "version" "$version"
+          write_output "prerelease" "$DISPATCH_PRERELEASE"
+          write_output "target_sha" "$target_sha"
+          write_output "target_ref" "$target_ref"
+          write_output "generated_at" "$generated_at"
+
+  candidate:
+    runs-on: ubuntu-latest
+    needs: preflight
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout candidate commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.preflight.outputs.target_sha }}
+
+      - name: Write candidate artifact payload
+        run: |
+          mkdir -p release-candidate
+          version='${{ needs.preflight.outputs.version }}'
+          prerelease='${{ needs.preflight.outputs.prerelease }}'
+          target_ref='${{ needs.preflight.outputs.target_ref }}'
+          target_sha='${{ needs.preflight.outputs.target_sha }}'
+          generated_at='${{ needs.preflight.outputs.generated_at }}'
+          workflow_run_id='${{ github.run_id }}'
+          workflow_run_attempt='${{ github.run_attempt }}'
+          event_name='${{ github.event_name }}'
+          actor='${{ github.actor }}'
+          repository='${{ github.repository }}'
+          workflow='${{ github.workflow }}'
+
+          if [ "$prerelease" = "true" ]; then
+            prerelease_bool=true
+          else
+            prerelease_bool=false
+          fi
+
+          jq -n \
+            --arg version "$version" \
+            --arg target_ref "$target_ref" \
+            --arg target_sha "$target_sha" \
+            --arg generated_at "$generated_at" \
+            --arg workflow_run_id "$workflow_run_id" \
+            --arg workflow_run_attempt "$workflow_run_attempt" \
+            --arg event_name "$event_name" \
+            --arg actor "$actor" \
+            --arg repository "$repository" \
+            --arg workflow "$workflow" \
+            --argjson prerelease "$prerelease_bool" \
+            '{
+              version: $version,
+              prerelease: $prerelease,
+              target_ref: $target_ref,
+              target_sha: $target_sha,
+              generated_at: $generated_at,
+              workflow_run_id: $workflow_run_id,
+              diagnostics: {
+                workflow_run_attempt: $workflow_run_attempt,
+                event_name: $event_name,
+                actor: $actor,
+                repository: $repository,
+                workflow: $workflow
+              }
+            }' > release-candidate/metadata.json
+
+      - name: Upload candidate artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-candidate-${{ needs.preflight.outputs.version }}-${{ github.run_id }}
+          path: release-candidate/metadata.json
+
+      - name: Candidate summary
+        run: |
+          {
+            echo "## Release Candidate"
+            echo "- Version: ${{ needs.preflight.outputs.version }}"
+            echo "- Prerelease: ${{ needs.preflight.outputs.prerelease }}"
+            echo "- Target ref: ${{ needs.preflight.outputs.target_ref }}"
+            echo "- Target SHA: ${{ needs.preflight.outputs.target_sha }}"
+            echo "- Generated: ${{ needs.preflight.outputs.generated_at }}"
+            echo ""
+            echo "This workflow only generates candidate metadata."
+            echo "Tag/release publish remains gated by promotion issues (#304, #306, #310)."
+          } >> "$GITHUB_STEP_SUMMARY"

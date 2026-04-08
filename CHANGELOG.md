@@ -2,10 +2,31 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+---
+## [0.1.19] - 2026-04-08
+
+### Added
+
+- Added `.github/workflows/release.yml` scaffold for release-candidate generation on eligible `main` merges with immutable candidate metadata artifacts and no direct publish path.
+- Added local work snapshot support via `make snapshot` and `.agents/scripts/update-work-snapshot.sh`, which create/update the git-ignored local file `.agents/work-snapshot.local.md` to speed up context handoffs between sessions.
+- Added `wip-pr-setup` and `work-snapshot` skills for standardized WIP PR setup and local handoff snapshot maintenance.
+
+### Changed
+
+- Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with snapshot usage/staleness guidance, the `Scope Control` policy, and skill index updates for new skills.
+- Hardened `.github/workflows/release.yml` to safely handle non-dispatch inputs, validate resolved versions, generate correctly typed/escaped metadata JSON via `jq`, and safely write outputs to `$GITHUB_OUTPUT`.
+- Improved `.agents/scripts/update-work-snapshot.sh` by consolidating PR metadata reads, initializing optional fields for `set -u` safety, enforcing single-line `--goal/--context`, preserving preamble content around managed-block replacement, and documenting/failing clearly on missing `python3`.
+- Updated release planning docs and linked trackers to add follow-up issue #319, prioritize #320 ahead of #319, and require code-based yank handling (artifact removal plus `-bad` tag rename) in issue #314 guidance.
+
 ---
 ## [0.1.17] - 2026-04-03
+
 ### Changed
+
 - Bump github.com/go-playground/validator/v10 from 10.30.1 to 10.30.2
+
+---
 
 ## [0.1.16] - 2026-03-30
 ### Changed

@@ -1,4 +1,4 @@
-.PHONY: default all build clean coverage fmt format golint install lint run test vet
+.PHONY: default all build clean coverage fmt format golint install lint run snapshot test vet
 
 # If the first argument is "run"...
 ifeq (run,$(firstword $(MAKECMDGOALS)))
@@ -36,6 +36,9 @@ lint: vet golint
 
 run:
 	cd ./bsctl; make run $(RUN_ARGS)
+
+snapshot:
+	./.agents/scripts/update-work-snapshot.sh $(if $(SNAPSHOT_GOAL),--goal "$(SNAPSHOT_GOAL)",) $(if $(SNAPSHOT_CONTEXT),--context "$(SNAPSHOT_CONTEXT)",)
 
 test:
 	cd ./bsctl; make test

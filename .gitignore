@@ -18,3 +18,9 @@ install/minikube*
 bin/
 coverage.txt
 coverage.out
+
+# Local agent handoff/checkpoint notes
+/.agents/work-snapshot.local.md
+
+# Log files
+*.log

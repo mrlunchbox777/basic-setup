@@ -62,6 +62,8 @@ Acceptance criteria:
 
 - #303 `skill: ws-status-sync` (sync tracker issue status from docs).
 - #301 `skill: release-notes-draft` (summarize merged changes since last tag).
+- #320 `pivot: decommission bsctl Go CLI and retire CodeQL` (plan and execute phased removal of remaining `bsctl` Go surface and CodeQL after replacement paths are in place).
+- #319 `workflow: validate issue/PR label sync in CI` (add a PR check that enforces managed `kind/*`, `priority/*`, `status/*`, and `changes/*` label-family alignment while excluding CI-managed `size/*`).
 
 ## Workstream B: Release Candidate And Promotion Pipeline
 
@@ -76,7 +78,7 @@ Acceptance criteria:
 - Validate version/changelog consistency at candidate time.
 - Promote approved candidates to annotated tags and GitHub releases.
 - Keep changelog parsing mandatory for release publish.
-- Include a code-based yank path for broken/compromised releases.
+- Include a code-based yank path for broken/compromised releases, including artifact removal and retagging to `-bad` suffix while preserving history for research.
 
 ### Child Issues
 
@@ -126,7 +128,7 @@ Acceptance criteria:
 - #310 require promotion approval and required checks before release publish.
 - #309 attach build artifacts.
 - #311 improve strict changelog parsing diagnostics while preserving hard-fail behavior.
-- #314 harden the release yank and rollback workflow (additional safeguards, stronger audit trail, standardized operations).
+- #314 harden the release yank and rollback workflow (artifact removal, `-bad` tag rename flow, additional safeguards, stronger audit trail, standardized operations).
 
 ## Issue Creation Sequence
 
@@ -134,7 +136,7 @@ Acceptance criteria:
 2. Child issues created and linked in issue bodies to their parent tracker.
 3. Labels applied using repository issue templates (`kind/feature`, `kind/chore`, + `status/triage`).
 4. Execute in this order:
-   - Agent skills: manage-issues -> review-response -> PR hygiene -> triage -> docs.
+   - Agent skills: manage-issues -> review-response -> PR hygiene -> bsctl/codeql decommission planning -> label-sync CI validation -> triage -> docs.
    - Release pipeline: candidate scaffold -> candidate validation -> promotion tag/release -> runbook -> yank flow.
 
 ## Suggested Labels
