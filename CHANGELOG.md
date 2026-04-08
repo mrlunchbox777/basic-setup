@@ -10,25 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Added `.github/workflows/release.yml` scaffold for release-candidate generation on eligible `main` merges with immutable candidate metadata artifacts and no direct publish path.
 - Added local work snapshot support with `.agents/work-snapshot.local.md`, `make snapshot`, and `.agents/scripts/update-work-snapshot.sh` to speed up context handoffs between sessions.
-- Added `wip-pr-setup` skill at `.agents/skills/wip-pr-setup/SKILL.md` for standardized branch/PR setup, docs bump flow, and doing-state label sync.
-- Added a `work-snapshot` skill at `.agents/skills/work-snapshot/SKILL.md` for maintaining the local handoff file after major milestones.
+- Added `wip-pr-setup` and `work-snapshot` skills for standardized WIP PR setup and local handoff snapshot maintenance.
 
 ### Changed
 
-- Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with guidance on reading snapshot state at session start and checking staleness before execution.
-- Updated agent skill indexes in `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` to include `wip-pr-setup`.
-- Added a `Scope Control` section to `AGENTS.md` so agents pause on scope creep, ask whether to expand or defer, and when deferred, track follow-up work in a linked issue.
-- Hardened `.github/workflows/release.yml` to avoid `inputs.*` evaluation on non-dispatch events and generate `release-candidate/metadata.json` via `jq` with correct JSON escaping and boolean typing.
-- Updated `.agents/scripts/update-work-snapshot.sh` to fetch PR metadata in a single `gh pr view` call and fail clearly when `python3` is unavailable.
-- Updated `docs/agent-skills-and-release-plan.md` and parent tracker #295 to add follow-up issue #319 for CI-based issue/PR label-family synchronization validation, and prioritized new issue #320 (bsctl/CodeQL decommission planning) ahead of #319 in execution order.
-- Updated `docs/agent-skills-and-release-plan.md` and issue #314 to require code-based yank handling with artifact removal and `-bad` tag rename while preserving research history.
-- Added validation in `.github/workflows/release.yml` to fail candidate generation when the resolved version is empty or `null`.
-- Enforced single-line `--goal` and `--context` values in `.agents/scripts/update-work-snapshot.sh` to preserve snapshot field parsing.
-- Updated release candidate metadata defaults so manual dispatch without `target_commitish` records `target_ref` as the branch/ref name instead of duplicating the commit SHA.
-- Updated `.agents/skills/work-snapshot/SKILL.md` prerequisites to document the `python3` requirement used by the updater script.
-- Initialized optional PR metadata variables in `.agents/scripts/update-work-snapshot.sh` to avoid `set -u` unbound-variable failures when `gh pr view` returns no PR data.
-- Hardened release workflow output writes to `$GITHUB_OUTPUT` by rejecting multiline values and using safe formatted output emission.
-- Updated snapshot managed-block replacement to preserve any file preamble before `<!-- managed:start -->` instead of dropping leading content.
+- Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with snapshot usage/staleness guidance, the `Scope Control` policy, and skill index updates for new skills.
+- Hardened `.github/workflows/release.yml` to safely handle non-dispatch inputs, validate resolved versions, generate correctly typed/escaped metadata JSON via `jq`, and safely write outputs to `$GITHUB_OUTPUT`.
+- Improved `.agents/scripts/update-work-snapshot.sh` by consolidating PR metadata reads, initializing optional fields for `set -u` safety, enforcing single-line `--goal/--context`, preserving preamble content around managed-block replacement, and documenting/failing clearly on missing `python3`.
+- Updated release planning docs and linked trackers to add follow-up issue #319, prioritize #320 ahead of #319, and require code-based yank handling (artifact removal plus `-bad` tag rename) in issue #314 guidance.
 
 ---
 ## [0.1.17] - 2026-04-03
