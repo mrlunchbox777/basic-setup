@@ -69,7 +69,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             target_ref="$DISPATCH_TARGET_COMMITISH"
             if [ -z "$target_ref" ]; then
-              target_ref="${{ github.sha }}"
+              target_ref="${{ github.ref_name }}"
             fi
           else
             target_ref="${{ github.ref_name }}"

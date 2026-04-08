@@ -18,6 +18,7 @@ Keep a small, durable, local-only handoff note so work can resume quickly withou
 
 ## Prerequisites
 - `git` is available.
+- `python3` is available (required when updating an existing snapshot file).
 - Optional: `gh` authenticated to include PR state fields.
 
 ## Inputs
