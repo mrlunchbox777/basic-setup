@@ -4,6 +4,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.19] - 2026-04-08
+
+### Added
+
+- Added local work snapshot support with `.agents/work-snapshot.local.md`, `make snapshot`, and `.agents/scripts/update-work-snapshot.sh` to speed up context handoffs between sessions.
+- Added a `work-snapshot` skill at `.agents/skills/work-snapshot/SKILL.md` for maintaining the local handoff file after major milestones.
+
+### Changed
+
+- Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with guidance on reading snapshot state at session start and checking staleness before execution.
+
+---
 ## [0.1.18] - 2026-04-03
 
 ### Added
