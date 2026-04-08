@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` with guidance on reading snapshot state at session start and checking staleness before execution.
+- Hardened `.github/workflows/release.yml` to avoid `inputs.*` evaluation on non-dispatch events and generate `release-candidate/metadata.json` via `jq` with correct JSON escaping and boolean typing.
 
 ---
 ## [0.1.18] - 2026-04-03
