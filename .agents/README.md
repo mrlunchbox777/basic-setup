@@ -1,5 +1,5 @@
 # Agents Instructions
-Last updated: 2026-04-03
+Last updated: 2026-04-08
 
 ## Scope
 - Source of truth for agent guidance and skill locations in this repository.

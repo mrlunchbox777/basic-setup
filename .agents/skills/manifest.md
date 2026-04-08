@@ -1,5 +1,5 @@
 # Skills Manifest
-Last updated: 2026-04-03
+Last updated: 2026-04-08
 
 - **version-bump**
   - Path: `.agents/skills/version-bump/SKILL.md`

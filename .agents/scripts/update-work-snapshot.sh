@@ -79,11 +79,12 @@ pr_mergeable="n/a"
 pr_review="n/a"
 
 if command -v gh >/dev/null 2>&1; then
-    pr_number="$(gh pr view --json number --jq '.number' 2>/dev/null || true)"
-    pr_url="$(gh pr view --json url --jq '.url' 2>/dev/null || true)"
-    pr_state="$(gh pr view --json state --jq '.state' 2>/dev/null || true)"
-    pr_mergeable="$(gh pr view --json mergeable --jq '.mergeable' 2>/dev/null || true)"
-    pr_review="$(gh pr view --json reviewDecision --jq '.reviewDecision' 2>/dev/null || true)"
+    pr_data="$(gh pr view --json number,url,state,mergeable,reviewDecision --template '{{if .number}}{{.number}}{{"\t"}}{{.url}}{{"\t"}}{{.state}}{{"\t"}}{{.mergeable}}{{"\t"}}{{.reviewDecision}}{{end}}' 2>/dev/null || true)"
+    if [ -n "${pr_data}" ]; then
+        IFS=$'\t' read -r pr_number pr_url pr_state pr_mergeable pr_review <<EOF
+${pr_data}
+EOF
+    fi
 
     if [ -n "${pr_number}" ] && [ "${pr_number}" != "null" ]; then
         pr="#${pr_number}"
@@ -126,6 +127,11 @@ if [ ! -f "${snapshot_file}" ]; then
     printf '%s\n%s\n' "${managed_block}" "${manual_block}" >"${snapshot_file}"
     echo "Created ${snapshot_file}"
     exit 0
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "Error: python3 is required to update ${snapshot_file}" >&2
+    exit 1
 fi
 
 python3 - "${snapshot_file}" "${managed_block}" "${manual_block}" <<'PY'
