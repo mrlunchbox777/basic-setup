@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added a `Scope Control` section to `AGENTS.md` so agents pause on scope creep, ask whether to expand or defer, and when deferred, track follow-up work in a linked issue.
 - Hardened `.github/workflows/release.yml` to avoid `inputs.*` evaluation on non-dispatch events and generate `release-candidate/metadata.json` via `jq` with correct JSON escaping and boolean typing.
 - Updated `.agents/scripts/update-work-snapshot.sh` to fetch PR metadata in a single `gh pr view` call and fail clearly when `python3` is unavailable.
-- Updated `docs/agent-skills-and-release-plan.md` and parent tracker #295 to add follow-up issue #319 for CI-based issue/PR label-family synchronization validation as separate scope from #307.
+- Updated `docs/agent-skills-and-release-plan.md` and parent tracker #295 to add follow-up issue #319 for CI-based issue/PR label-family synchronization validation, and prioritized new issue #320 (bsctl/CodeQL decommission planning) ahead of #319 in execution order.
 - Added validation in `.github/workflows/release.yml` to fail candidate generation when the resolved version is empty or `null`.
 - Enforced single-line `--goal` and `--context` values in `.agents/scripts/update-work-snapshot.sh` to preserve snapshot field parsing.
 - Updated release candidate metadata defaults so manual dispatch without `target_commitish` records `target_ref` as the branch/ref name instead of duplicating the commit SHA.
