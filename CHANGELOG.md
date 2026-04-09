@@ -4,14 +4,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
-## [0.1.24] - 2026-04-09
-
-### Changed
-
-- Added a `Response Option Framing` standard in `AGENTS.md` requiring agents that present a minimal path to also offer `recommended` and `full` options with explicit scope/tradeoff framing.
-- Updated `.agents/README.md` to reference the new response-framing policy and refreshed instruction metadata date.
-
----
 ## [0.1.23] - 2026-04-09
 
 ### Added
@@ -22,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Updated `docs/plans/bsctl-codeql-decommission-plan.md` with Phase C status and immediate next steps for static-check validation before CodeQL re-scope/removal.
 - Refined static-check workflow behavior so `shellcheck`/`shfmt -d` run on `*.sh`/`*.bash` and zsh files are validated separately with `zsh -n`.
+- Added a `Response Option Framing` standard in `AGENTS.md` requiring agents that present a minimal path to also offer `recommended` and `full` options with explicit scope/tradeoff framing.
+- Updated `.agents/README.md` to reference the new response-framing policy and refreshed instruction metadata date.
+- Clarified versioning policy across `AGENTS.md` and changelog/version skills to default to one bump per PR and reuse the current-version entry for follow-up commits unless explicitly requested to bump again.
+- Added docs-bump cadence guidance across agent docs/skills: when a branch already has a docs bump, rerun docs-bump checks after each meaningful change.
 
 ---
 ## [0.1.22] - 2026-04-09

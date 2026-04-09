@@ -21,6 +21,9 @@ Last updated: 2026-04-09
 - Follow the response option framing in `AGENTS.md`.
 - When presenting a minimal implementation path, also offer to provide `recommended` and `full` options with clear scope and tradeoffs.
 
+## Docs bump cadence
+- If the current branch already includes a docs bump/version entry, rerun docs-bump checks after each meaningful change to avoid missing version/changelog drift.
+
 ## Work snapshot guidance
 - Local handoff file: `.agents/work-snapshot.local.md`.
 - Read it at session start when present to recover intent/next steps.
