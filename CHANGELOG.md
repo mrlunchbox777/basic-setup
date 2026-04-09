@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.24] - 2026-04-09
+
+### Changed
+
+- Added a `Response Option Framing` standard in `AGENTS.md` requiring agents that present a minimal path to also offer `recommended` and `full` options with explicit scope/tradeoff framing.
+- Updated `.agents/README.md` to reference the new response-framing policy and refreshed instruction metadata date.
+
+---
 ## [0.1.23] - 2026-04-09
 
 ### Added
