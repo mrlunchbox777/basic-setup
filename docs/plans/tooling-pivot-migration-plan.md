@@ -30,7 +30,7 @@ Current implementation tracks created from this plan:
 
 WS2 execution artifacts:
 
-- Script inventory and rubric: `docs/tooling-pivot-script-inventory.md`
+- Script inventory and rubric: `docs/plans/tooling-pivot-script-inventory.md`
 - WS2 child issues completed/closed: #287, #288, #289, #290, #291
 
 ## Decision
@@ -87,7 +87,7 @@ Exit criteria:
 
 ### WS2: Script Inventory And Classification
 
-Working inventory document: `docs/tooling-pivot-script-inventory.md`
+Working inventory document: `docs/plans/tooling-pivot-script-inventory.md`
 
 Classify scripts in `shared-scripts/` into:
 
@@ -135,7 +135,7 @@ Exit criteria:
 ### WS6: Post-Migration Cleanup
 
 - Remove obsolete workflows, docs, and scripts that only supported the old broad-wrapper model.
-- Remove or archive `docs/bsctl-migration/` once pivot work is complete, since it reflects the superseded "migrate to bsctl" strategy.
+- Remove or archive `docs/plans/bsctl-migration/` once pivot work is complete, since it reflects the superseded "migrate to bsctl" strategy.
 - Remove stale issue templates, labels, and automation/CI pipeline paths that no longer apply.
 - Update contributor docs (including AGENTS/skills guidance) to reflect the steady-state architecture.
 - Validate that references to removed legacy paths are gone from README/docs/workflows.
@@ -143,7 +143,7 @@ Exit criteria:
 Exit criteria:
 
 - Legacy-only workflows/docs/scripts are removed or archived with explicit rationale.
-- `docs/bsctl-migration/` is removed or clearly archived, and all references to it are cleaned up.
+- `docs/plans/bsctl-migration/` is removed or clearly archived, and all references to it are cleaned up.
 - CI/workflow pipeline paths are aligned to the supported post-pivot architecture with obsolete jobs removed.
 - Agent instructions and skill docs are aligned with the post-pivot architecture.
 - Repository docs and automation reflect only the supported post-pivot model.
@@ -184,7 +184,7 @@ Rule of thumb:
 
 ```markdown
 ## Context
-Part of tooling pivot migration plan: docs/tooling-pivot-migration-plan.md
+Part of tooling pivot migration plan: docs/plans/tooling-pivot-migration-plan.md
 
 ## Problem
 <what hurts today>

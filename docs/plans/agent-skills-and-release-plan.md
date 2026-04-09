@@ -62,7 +62,7 @@ Acceptance criteria:
 
 - #303 `skill: ws-status-sync` (sync tracker issue status from docs).
 - #301 `skill: release-notes-draft` (summarize merged changes since last tag).
-- #320 `pivot: decommission bsctl Go CLI and retire CodeQL` (plan and execute phased removal of remaining `bsctl` Go surface and CodeQL after replacement paths are in place).
+- #320 `pivot: decommission bsctl Go CLI and retire CodeQL` (plan and execute phased removal of remaining `bsctl` Go surface and CodeQL after replacement paths are in place; planning doc: `docs/plans/bsctl-codeql-decommission-plan.md`).
 - #319 `workflow: validate issue/PR label sync in CI` (add a PR check that enforces managed `kind/*`, `priority/*`, `status/*`, and `changes/*` label-family alignment while excluding CI-managed `size/*`).
 
 ## Workstream B: Release Candidate And Promotion Pipeline
@@ -136,8 +136,9 @@ Acceptance criteria:
 2. Child issues created and linked in issue bodies to their parent tracker.
 3. Labels applied using repository issue templates (`kind/feature`, `kind/chore`, + `status/triage`).
 4. Execute in this order:
-   - Agent skills: manage-issues -> review-response -> PR hygiene -> bsctl/codeql decommission planning -> label-sync CI validation -> triage -> docs.
-   - Release pipeline: candidate scaffold -> candidate validation -> promotion tag/release -> runbook -> yank flow.
+   - Current cross-stream priority: candidate scaffold (#307) -> bsctl/codeql decommission planning (#320) -> label-sync CI validation (#319) -> candidate validation (#305).
+   - Agent skills remainder: manage-issues -> review-response -> PR hygiene -> triage -> docs.
+   - Release pipeline remainder after #305: promotion tag/release (#304/#306) -> runbook (#308) -> yank flow (#314).
 
 ## Suggested Labels
 

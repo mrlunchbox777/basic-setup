@@ -4,6 +4,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.20] - 2026-04-09
+
+### Added
+
+- Added `docs/plans/bsctl-codeql-decommission-plan.md` to kick off issue #320 with dependency inventory, replacement targets, phased execution, and removal gates for `bsctl` and CodeQL decommissioning.
+
+### Changed
+
+- Updated `docs/plans/agent-skills-and-release-plan.md` execution sequencing to prioritize `#307 -> #320 -> #319 -> #305` and linked the #320 planning document.
+- Reorganized planning and WIP content into `docs/plans/` (including `docs/plans/bsctl-migration/`) and updated cross-document references from top-level docs to the new structure.
+- Updated `README.md` goal-direction note to align with the current tooling pivot (`chezmoi`/`mise`) and #320 decommission scope instead of stating a primary move to Go.
+
+---
 ## [0.1.19] - 2026-04-08
 
 ### Added
@@ -36,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Updated `docs/agent-skills-and-release-plan.md` to use a release-candidate plus manual-promotion model, including explicit code-based yank/rollback coverage.
+- Updated `docs/plans/agent-skills-and-release-plan.md` to use a release-candidate plus manual-promotion model, including explicit code-based yank/rollback coverage.
 
 ---
 
@@ -49,7 +62,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated skills indexes in `AGENTS.md`, `.agents/README.md`, and `.agents/skills/manifest.md` to include the new sync-labels skill.
-- Added `docs/agent-skills-and-release-plan.md` and mapped it to created tracker issues (#295-#311), including strict changelog-parse failure requirements for release creation.
+- Added `docs/plans/agent-skills-and-release-plan.md` and mapped it to created tracker issues (#295-#311), including strict changelog-parse failure requirements for release creation.
 - Clarified `sync-labels` kind precedence for issue-template labels (including `kind/support`) and aligned size-label documentation to CI-managed PR-only behavior.
 
 ---
@@ -59,12 +72,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Added tooling pivot migration planning docs and execution tracking for WS1-WS6, including active issue links and script classification inventory.
-- Updated WS6 cleanup scope to remove or archive `docs/bsctl-migration/`, clean stale references, and align CI/workflow pipeline paths to the post-pivot architecture.
+- Updated WS6 cleanup scope to remove or archive `docs/plans/bsctl-migration/`, clean stale references, and align CI/workflow pipeline paths to the post-pivot architecture.
 - Added explicit WS6 cleanup guidance for contributor docs, `AGENTS.md`, and `.agents/skills/*` instructions.
 - Addressed PR review feedback by correcting `shared-scripts/bin/*` inventory coverage, linking Big Bang migration to dedicated tracker #294, and making execution-tracking issue references auto-linkable.
 - Standardized remaining issue references in pivot WIP/inventory docs to plain `#...` for GitHub auto-linking and clarified the `/tmp/ws*.md` prerequisite for issue-creation commands.
-- Converted remaining triage/execution issue references in `docs/tooling-pivot-wip.md` from backticked/ranged forms to explicit plain `#...` links for better navigability.
-- Expanded remaining issue ranges in `docs/tooling-pivot-wip.md` and `docs/tooling-pivot-migration-plan.md` into explicit issue lists so each tracker is individually clickable.
+- Converted remaining triage/execution issue references in `docs/plans/tooling-pivot-wip.md` from backticked/ranged forms to explicit plain `#...` links for better navigability.
+- Expanded remaining issue ranges in `docs/plans/tooling-pivot-wip.md` and `docs/plans/tooling-pivot-migration-plan.md` into explicit issue lists so each tracker is individually clickable.
 
 ---
 

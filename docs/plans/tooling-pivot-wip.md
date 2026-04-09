@@ -1,6 +1,6 @@
 # Tooling Pivot WIP: Labels, Epics, and Issue Triage
 
-This WIP document is the execution companion for [`docs/tooling-pivot-migration-plan.md`](tooling-pivot-migration-plan.md).
+This WIP document is the execution companion for [`docs/plans/tooling-pivot-migration-plan.md`](tooling-pivot-migration-plan.md).
 
 It currently contains:
 
@@ -24,7 +24,7 @@ It currently contains:
 ## Logged Next Steps
 
 1. **WS2 execution kickoff** (Completed)
-   - Completed #287 rubric/table output and batch classifications #288, #289, #290, #291 in `docs/tooling-pivot-script-inventory.md`.
+   - Completed #287 rubric/table output and batch classifications #288, #289, #290, #291 in `docs/plans/tooling-pivot-script-inventory.md`.
    - WS2 parent #275 is closed.
 2. **WS3 pilot implementation kickoff**
    - Execute wave-1 pilot issues in this order: #168, #167, #163, #164, #165, #166.
@@ -98,7 +98,7 @@ Body:
 Stand up the baseline architecture for the tooling pivot: dotfiles via chezmoi and runtime management via mise.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS1)
+`docs/plans/tooling-pivot-migration-plan.md` (WS1)
 
 ## Scope
 - Pick/create canonical dotfiles repo
@@ -137,7 +137,7 @@ Body:
 Classify all scripts in `shared-scripts/` into migration target layers and create child issues.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS2)
+`docs/plans/tooling-pivot-migration-plan.md` (WS2)
 
 ## Scope
 - Inventory scripts
@@ -172,7 +172,7 @@ Body:
 Migrate 5-10 high-usage workflows and validate the new model in real usage.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS3)
+`docs/plans/tooling-pivot-migration-plan.md` (WS3)
 
 ## Scope
 - Select pilot workflows
@@ -209,7 +209,7 @@ Body:
 Execute migration in batches and align backlog/issues to the new architecture.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS4)
+`docs/plans/tooling-pivot-migration-plan.md` (WS4)
 
 ## Scope
 - Batch migrations by category
@@ -244,7 +244,7 @@ Body:
 Finalize deprecation policy for broad-wrapper behavior and narrow legacy scope.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS5)
+`docs/plans/tooling-pivot-migration-plan.md` (WS5)
 
 ## Scope
 - Freeze broad-wrapper expansion
@@ -278,7 +278,7 @@ Body:
 Remove or archive legacy-only workflows/docs/scripts after migration and deprecation milestones are complete.
 
 ## Plan Reference
-`docs/tooling-pivot-migration-plan.md` (WS6)
+`docs/plans/tooling-pivot-migration-plan.md` (WS6)
 
 ## Scope
 - Remove obsolete workflows and automation from broad-wrapper era
@@ -377,7 +377,7 @@ Use this when superseding:
 ```markdown
 Thanks for opening this. This issue is being superseded by the tooling pivot plan to `chezmoi` + `mise` (+ optional `devbox`).
 
-Plan: `docs/tooling-pivot-migration-plan.md`
+Plan: `docs/plans/tooling-pivot-migration-plan.md`
 Replacement issue: #<new-id>
 
 Closing this issue as superseded so planning and implementation stay consolidated.
@@ -386,7 +386,7 @@ Closing this issue as superseded so planning and implementation stay consolidate
 Use this when retargeting:
 
 ```markdown
-Retargeting this issue to the tooling pivot plan (`docs/tooling-pivot-migration-plan.md`).
+Retargeting this issue to the tooling pivot plan (`docs/plans/tooling-pivot-migration-plan.md`).
 
 This remains valuable and will be implemented in the `<layer>` migration track with updated acceptance criteria.
 ```
