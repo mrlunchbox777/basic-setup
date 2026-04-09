@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated `docs/plans/bsctl-codeql-decommission-plan.md` with Phase C status and immediate next steps for static-check validation before CodeQL re-scope/removal.
+- Refined static-check workflow behavior so `shellcheck`/`shfmt -d` run on `*.sh`/`*.bash` and zsh files are validated separately with `zsh -n`.
 
 ---
 ## [0.1.22] - 2026-04-09
