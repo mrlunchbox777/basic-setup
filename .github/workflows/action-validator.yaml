@@ -30,4 +30,4 @@ jobs:
             action-validator 0.5.1
 
       - name: Lint Actions
-        run: ./bsctl/scripts/workflows/action-validator_check-actions_lint-actions.sh
+        run: ./scripts/workflows/action-validator_check-actions_lint-actions.sh
