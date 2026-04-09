@@ -376,7 +376,7 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
    - Dependency updates (Dependabot) → PATCH bump
 
 2. **Update Files**
-   - Update version in `bsctl/static/resources/constants.yaml`
+   - Update version in `resources/version.yaml` (and mirror `bsctl/static/resources/constants.yaml` during transition)
    - Add CHANGELOG entry with date and changes
    - Follow the CHANGELOG format
 

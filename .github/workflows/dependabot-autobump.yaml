@@ -9,7 +9,7 @@ name: Dependabot Auto-Bump
 #
 # HOW IT WORKS:
 # 1. Triggers only on Dependabot PRs when they are first opened
-# 2. Bumps the patch version in bsctl/static/resources/constants.yaml
+# 2. Bumps the patch version in resources/version.yaml (and mirrors legacy constants file during transition)
 # 3. Adds a new entry to CHANGELOG.md with the dependency update details
 # 4. Commits these changes back to the Dependabot PR branch
 
@@ -76,6 +76,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add bsctl/static/resources/constants.yaml CHANGELOG.md
+          git add resources/version.yaml bsctl/static/resources/constants.yaml CHANGELOG.md
           git commit -m "chore: auto-bump version and update CHANGELOG for Dependabot PR"
           git push

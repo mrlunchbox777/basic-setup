@@ -8,7 +8,14 @@ fi
 
 branchLatestLog=$(cat CHANGELOG.md | sed -n '/---/,$p' | sed '/---/d' | grep -m1 "$line_regex")
 mainLatestLog=$(curl -L https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/CHANGELOG.md 2>/dev/null | sed -n '/---/,$p' | sed '/---/d' | grep -m1 "$line_regex")
-constantVersion=$(yq .BasicSetupCliVersion ./bsctl/static/resources/constants.yaml)
+versionFile="./resources/version.yaml"
+legacyVersionFile="./bsctl/static/resources/constants.yaml"
+
+if [ -f "$versionFile" ]; then
+	constantVersion=$(yq .BasicSetupCliVersion "$versionFile" | tr -d '"')
+else
+	constantVersion=$(yq .BasicSetupCliVersion "$legacyVersionFile" | tr -d '"')
+fi
 
 if [ -z "$mainLatestLog" ]; then
 	echo "Failed to get latest log from github"

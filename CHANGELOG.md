@@ -4,6 +4,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.21] - 2026-04-09
+
+### Added
+
+- Added `resources/version.yaml` as the primary version source for release and docs-bump automation during #320 Phase A.
+
+### Changed
+
+- Updated release/docs-bump/dependabot workflows and helper scripts to read `resources/version.yaml` first with `bsctl/static/resources/constants.yaml` fallback during the transition.
+- Updated version-related agent guidance and planning docs to treat `resources/version.yaml` as the source of truth while legacy mirroring remains in place.
+
+---
 ## [0.1.20] - 2026-04-09
 
 ### Added

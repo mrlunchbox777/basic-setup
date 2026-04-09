@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - CHANGELOG.md
+      - resources/version.yaml
       - bsctl/static/resources/constants.yaml
   workflow_dispatch:
     inputs:
@@ -70,11 +71,19 @@ jobs:
 
           version="$DISPATCH_VERSION"
           if [ -z "$version" ]; then
-            version="$(yq '.BasicSetupCliVersion' bsctl/static/resources/constants.yaml | tr -d '"')"
+            if [ -f resources/version.yaml ]; then
+              version="$(yq '.BasicSetupCliVersion' resources/version.yaml | tr -d '"')"
+            fi
           fi
 
           if [ -z "$version" ] || [ "$version" = "null" ]; then
-            echo "Failed to determine candidate version from dispatch input or bsctl/static/resources/constants.yaml" >&2
+            if [ -f bsctl/static/resources/constants.yaml ]; then
+              version="$(yq '.BasicSetupCliVersion' bsctl/static/resources/constants.yaml | tr -d '"')"
+            fi
+          fi
+
+          if [ -z "$version" ] || [ "$version" = "null" ]; then
+            echo "Failed to determine candidate version from dispatch input, resources/version.yaml, or bsctl/static/resources/constants.yaml" >&2
             exit 1
           fi
 

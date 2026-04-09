@@ -29,7 +29,7 @@ Standardize the setup flow for starting implementation work with branch manageme
 - Whether to create a minimal bootstrap commit (for example, whitespace-only `CHANGELOG.md`) when PR creation is blocked by zero diff.
 
 ## Required context
-- Repository docs/version bump requirements (`bsctl/static/resources/constants.yaml`, `CHANGELOG.md`).
+- Repository docs/version bump requirements (`resources/version.yaml` and legacy `bsctl/static/resources/constants.yaml` during transition, plus `CHANGELOG.md`).
 - Label conventions and sync rules from `sync-labels` skill.
 - Whether GitHub can create a PR for the branch yet (must have commits ahead of base).
 
