@@ -8,7 +8,8 @@ on:
       - "**/*.sh"
       - "**/*.bash"
       - "**/*.zsh"
-      - ".github/workflows/**"
+      - ".github/workflows/*.yml"
+      - ".github/workflows/*.yaml"
       - ".github/workflows/static-checks.yaml"
   push:
     branches:
@@ -17,7 +18,8 @@ on:
       - "**/*.sh"
       - "**/*.bash"
       - "**/*.zsh"
-      - ".github/workflows/**"
+      - ".github/workflows/*.yml"
+      - ".github/workflows/*.yaml"
       - ".github/workflows/static-checks.yaml"
 
 defaults:
