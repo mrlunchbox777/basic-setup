@@ -62,7 +62,7 @@ Acceptance criteria:
 
 - #303 `skill: ws-status-sync` (sync tracker issue status from docs).
 - #301 `skill: release-notes-draft` (summarize merged changes since last tag).
-- #320 `pivot: decommission bsctl Go CLI and retire CodeQL` (plan and execute phased removal of remaining `bsctl` Go surface and CodeQL after replacement paths are in place; planning doc: `docs/bsctl-codeql-decommission-plan.md`).
+- #320 `pivot: decommission bsctl Go CLI and retire CodeQL` (plan and execute phased removal of remaining `bsctl` Go surface and CodeQL after replacement paths are in place; planning doc: `docs/plans/bsctl-codeql-decommission-plan.md`).
 - #319 `workflow: validate issue/PR label sync in CI` (add a PR check that enforces managed `kind/*`, `priority/*`, `status/*`, and `changes/*` label-family alignment while excluding CI-managed `size/*`).
 
 ## Workstream B: Release Candidate And Promotion Pipeline

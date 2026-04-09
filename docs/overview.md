@@ -14,7 +14,7 @@ curl -1fLsq https://raw.githubusercontent.com/mrlunchbox777/basic-setup/main/bas
 
 ## General
 
-For migration planning toward `chezmoi` + `mise` (+ optional `devbox`), see [`docs/tooling-pivot-migration-plan.md`](tooling-pivot-migration-plan.md).
+For migration planning toward `chezmoi` + `mise` (+ optional `devbox`), see [`docs/plans/tooling-pivot-migration-plan.md`](plans/tooling-pivot-migration-plan.md).
 
 Most scripts have a `-h` option to offer help.
 
