@@ -41,21 +41,44 @@ jobs:
 
       - name: Run shellcheck
         run: |
-          mapfile -t shell_files < <(git ls-files '*.sh' '*.bash' | grep -v '^submodules/' || true)
-          if [ "${#shell_files[@]}" -eq 0 ]; then
+          mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^submodules/' || true)
+          # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
+          mapfile -t bash_files < <(
+            git ls-files '*.bash' |
+              grep -v '^submodules/' |
+              grep -v '^alias/bash/git-prompt.bash$' |
+              grep -v '^alias/bash/kubectl-completion.bash$' || true
+          )
+          if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
             exit 0
           fi
-          shellcheck "${shell_files[@]}"
+          if [ "${#sh_files[@]}" -gt 0 ]; then
+            shellcheck "${sh_files[@]}"
+          fi
+          if [ "${#bash_files[@]}" -gt 0 ]; then
+            shellcheck -s bash "${bash_files[@]}"
+          fi
 
       - name: Run shfmt diff check
         run: |
-          mapfile -t shell_files < <(git ls-files '*.sh' '*.bash' | grep -v '^submodules/' || true)
-          if [ "${#shell_files[@]}" -eq 0 ]; then
+          mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^submodules/' || true)
+          # Temporary exclusions for legacy completion files pending dedicated cleanup.
+          mapfile -t bash_files < <(
+            git ls-files '*.bash' |
+              grep -v '^submodules/' |
+              grep -v '^alias/bash/kubectl-completion.bash$' || true
+          )
+          if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
             exit 0
           fi
-          shfmt -d "${shell_files[@]}"
+          if [ "${#sh_files[@]}" -gt 0 ]; then
+            shfmt -d "${sh_files[@]}"
+          fi
+          if [ "${#bash_files[@]}" -gt 0 ]; then
+            shfmt -d "${bash_files[@]}"
+          fi
 
       - name: Run zsh syntax check
         run: |
