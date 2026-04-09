@@ -1,5 +1,5 @@
 # Agents Instructions
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Scope
 - Source of truth for agent guidance and skill locations in this repository.
@@ -16,6 +16,13 @@ Last updated: 2026-04-08
 - Follow repository standards in `AGENTS.md` (Go, Bash, testing, documentation, versioning, linting).
 - Skills must reside under `.agents/skills/<name>/SKILL.md`.
 - Additional instruction files should live under `.agents/` when needed.
+
+## Response framing
+- Follow the response option framing in `AGENTS.md`.
+- When presenting a minimal implementation path, also offer to provide `recommended` and `full` options with clear scope and tradeoffs.
+
+## Docs bump cadence
+- If the current branch already includes a docs bump/version entry, rerun docs-bump checks after each meaningful change to avoid missing version/changelog drift.
 
 ## Work snapshot guidance
 - Local handoff file: `.agents/work-snapshot.local.md`.

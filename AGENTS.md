@@ -7,6 +7,7 @@ This document outlines the coding standards and best practices for AI agents and
 - [Skills](#skills)
 - [Work Snapshot Usage](#work-snapshot-usage)
 - [Scope Control](#scope-control)
+- [Response Option Framing](#response-option-framing)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
@@ -79,6 +80,28 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
    - Continue implementing only the scoped work in the current branch/PR unless user approves expansion.
    - Add a short PR comment and/or PR body note stating what was deferred and where it will be tracked.
    - Update planning docs when they maintain ordered execution lists.
+
+---
+
+## Response Option Framing
+
+When presenting implementation options, make tradeoffs explicit and easy to choose.
+
+1. **When a minimal path is offered, expose deeper options**
+   - If you present a "minimal" approach, also offer to provide "recommended" and "full" variants.
+   - Keep minimal scoped to acceptance criteria and immediate unblock.
+
+2. **Use a consistent option ladder**
+   - `minimal`: least change to satisfy requirements safely.
+   - `recommended`: balanced durability/maintainability with moderate scope.
+   - `full`: comprehensive hardening/completeness with larger scope.
+
+3. **State scope and impact per option**
+   - Include what changes, expected risk/noise, and validation depth.
+   - Call out when recommended/full would be scope expansion and require explicit user approval.
+
+4. **Respect explicit user direction**
+   - If the user picks minimal/recommended/full (or explicitly approves scope expansion), follow that direction as authoritative.
 
 ---
 
@@ -403,8 +426,11 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
 4. **Automated Bumping**
    - Dependabot PRs are automatically bumped via workflow
    - Manual PRs require manual version bump
-   - Every MR/PR/changeset should include a version bump and matching CHANGELOG entry unless explicitly exempted
-   - Always bump version before merging
+   - Every MR/PR should include at least one version bump and matching CHANGELOG entry unless explicitly exempted
+   - Default to one bump per PR branch; follow-up commits should update the existing current-version entry rather than creating another version
+   - Only bump again on the same PR when explicitly requested by the user or required by release policy
+   - If a docs bump is already present on the branch, rerun docs-bump checks after each meaningful change to reduce missed changelog/version drift
+   - Always ensure the branch is bumped before merging
 
 ### Example CHANGELOG Entry
 
