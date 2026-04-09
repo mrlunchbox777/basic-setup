@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Migrated workflow helper scripts from `bsctl/scripts/workflows/` to `scripts/workflows/` and updated workflow call sites (`docs-bump`, `dependabot-autobump`, `action-validator`, and `agents-validate`).
 - Updated #320 decommission planning docs to reflect completed script-path migration and the new neutral script location.
+- Expanded #320 Phase C planning to replace Go-focused CodeQL with shell/workflow static checks (`shellcheck`, `shfmt -d`, and `actionlint` alongside existing action-validator; optional targeted `semgrep`).
 
 ---
 ## [0.1.21] - 2026-04-09
