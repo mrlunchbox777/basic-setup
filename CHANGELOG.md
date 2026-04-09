@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Updated `docs/plans/agent-skills-and-release-plan.md` execution sequencing to prioritize `#307 -> #320 -> #319 -> #305` and linked the #320 planning document.
 - Reorganized planning and WIP content into `docs/plans/` (including `docs/plans/bsctl-migration/`) and updated cross-document references from top-level docs to the new structure.
+- Updated `README.md` goal-direction note to align with the current tooling pivot (`chezmoi`/`mise`) and #320 decommission scope instead of stating a primary move to Go.
 
 ---
 ## [0.1.19] - 2026-04-08

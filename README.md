@@ -8,7 +8,7 @@ Basic box setup, it's fairly customizable using bash and will work on gui-based 
 
 ## Goal
 
-NOTE: This package will be moving to primarily [golang](https://go.dev/) instead of [bash](https://www.gnu.org/software/bash/) in the near future. This is primarily for portability, extensibility, and reusability.
+NOTE: Project direction is currently focused on the tooling pivot to `chezmoi` + `mise` (+ optional `devbox`) and phased retirement of legacy `bsctl`/Go-specific surfaces where replacements are ready.
 
 This will create a good basic setup for development workstations on Linux/Mac/WSL, given a label (as used in ./resources/install/index.json '.packages[].labels').
 
