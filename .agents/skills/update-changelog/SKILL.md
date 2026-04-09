@@ -27,15 +27,15 @@ Update the current version changelog entry without changing the version.
 - Permissions to push branch changes.
 
 ## Inputs
-- Current version from `bsctl/static/resources/constants.yaml`.
+- Current version from `resources/version.yaml` (fallback to `bsctl/static/resources/constants.yaml` during transition).
 - Summary of new work to capture (staged/unstaged changes and recent commits).
 
 ## Required context
-- Current version in `bsctl/static/resources/constants.yaml`.
+- Current version in `resources/version.yaml` (fallback to `bsctl/static/resources/constants.yaml` during transition).
 - Whether `main` already contains that version entry (use `git show origin/main:CHANGELOG.md` or GitHub UI/API).
 
 ## Steps
-1. Read the current version from `bsctl/static/resources/constants.yaml`.
+1. Read the current version from `resources/version.yaml` (fallback to `bsctl/static/resources/constants.yaml` during transition).
 2. Find the entry for that version in branch `CHANGELOG.md`.
 3. If the version exists in branch changelog (including when it is not yet merged to `main`), update that same entry in place.
 4. If branch entry is missing but `main` already has that version entry, cherry-pick/recreate that entry at the top and then update it.

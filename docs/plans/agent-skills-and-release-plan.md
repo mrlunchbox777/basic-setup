@@ -95,7 +95,7 @@ Acceptance criteria:
 Acceptance criteria:
 
 - Validates semantic version format.
-- Validates current version source (`bsctl/static/resources/constants.yaml`) matches candidate version.
+- Validates current version source (`resources/version.yaml`, with legacy fallback during transition) matches candidate version.
 - Validates top `CHANGELOG.md` entry matches candidate version.
 - Fails candidate generation on mismatch.
 
