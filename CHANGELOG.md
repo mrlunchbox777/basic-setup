@@ -4,6 +4,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.23] - 2026-04-09
+
+### Added
+
+- Added `.github/workflows/static-checks.yaml` to introduce Phase C CI scaffolding for `shellcheck`, `shfmt -d`, and `actionlint` as part of #320 code-scanning transition.
+
+### Changed
+
+- Updated `docs/plans/bsctl-codeql-decommission-plan.md` with Phase C status and immediate next steps for static-check validation before CodeQL re-scope/removal.
+
+---
 ## [0.1.22] - 2026-04-09
 
 ### Changed

@@ -1,0 +1,66 @@
+name: Static Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.sh"
+      - "**/*.bash"
+      - "**/*.zsh"
+      - ".github/workflows/**"
+      - ".github/workflows/static-checks.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.sh"
+      - "**/*.bash"
+      - "**/*.zsh"
+      - ".github/workflows/**"
+      - ".github/workflows/static-checks.yaml"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  shell-static:
+    name: ShellCheck and shfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install shellcheck and shfmt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck shfmt
+
+      - name: Run shellcheck
+        run: |
+          mapfile -t shell_files < <(git ls-files '*.sh' '*.bash' '*.zsh' | grep -v '^submodules/' || true)
+          if [ "${#shell_files[@]}" -eq 0 ]; then
+            echo "No shell files found"
+            exit 0
+          fi
+          shellcheck "${shell_files[@]}"
+
+      - name: Run shfmt diff check
+        run: |
+          mapfile -t shell_files < <(git ls-files '*.sh' '*.bash' '*.zsh' | grep -v '^submodules/' || true)
+          if [ "${#shell_files[@]}" -eq 0 ]; then
+            echo "No shell files found"
+            exit 0
+          fi
+          shfmt -d "${shell_files[@]}"
+
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run actionlint
+        uses: rhysd/actionlint@v1

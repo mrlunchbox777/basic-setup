@@ -46,6 +46,10 @@ Retire remaining `bsctl` Go CLI and CodeQL dependencies without breaking release
 - Re-scope or remove `.github/workflows/codeql.yaml` only after replacement checks are enforced in CI.
 - Document rationale and replacement security posture.
 
+Current status:
+
+- Added `.github/workflows/static-checks.yaml` scaffolding for `shellcheck`, `shfmt -d`, and `actionlint`.
+
 ### Phase D: `bsctl/` retirement
 
 - Remove remaining `bsctl/` tree once dependencies and references are eliminated.
@@ -61,6 +65,6 @@ Retire remaining `bsctl` Go CLI and CodeQL dependencies without breaking release
 
 ## Immediate Next Steps
 
-1. Complete Phase B PR merge and verify workflow parity on `main`.
-2. Start Phase C by adding shell/workflow static checks (`shellcheck`, `shfmt -d`, `actionlint`) in CI.
-3. Reassess CodeQL scope and retire/re-scope `.github/workflows/codeql.yaml` once replacement checks are stable.
+1. Validate `.github/workflows/static-checks.yaml` in CI and tune file targeting/exclusions for stable signal.
+2. Reassess CodeQL scope and retire/re-scope `.github/workflows/codeql.yaml` once replacement checks are stable.
+3. Update issue #320 acceptance checkboxes as Phase C milestones complete.
