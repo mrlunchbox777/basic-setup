@@ -426,8 +426,11 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
 4. **Automated Bumping**
    - Dependabot PRs are automatically bumped via workflow
    - Manual PRs require manual version bump
-   - Every MR/PR/changeset should include a version bump and matching CHANGELOG entry unless explicitly exempted
-   - Always bump version before merging
+   - Every MR/PR should include at least one version bump and matching CHANGELOG entry unless explicitly exempted
+   - Default to one bump per PR branch; follow-up commits should update the existing current-version entry rather than creating another version
+   - Only bump again on the same PR when explicitly requested by the user or required by release policy
+   - If a docs bump is already present on the branch, rerun docs-bump checks after each meaningful change to reduce missed changelog/version drift
+   - Always ensure the branch is bumped before merging
 
 ### Example CHANGELOG Entry
 
