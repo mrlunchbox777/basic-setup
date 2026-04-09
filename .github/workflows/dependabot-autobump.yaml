@@ -53,13 +53,13 @@ jobs:
 
       - name: Bump version
         if: steps.check_autobump.outputs.already_bumped == 'false'
-        run: ./bsctl/scripts/workflows/dependabot-autobump_bump-version.sh
+        run: ./scripts/workflows/dependabot-autobump_bump-version.sh
 
       - name: Update CHANGELOG
         if: steps.check_autobump.outputs.already_bumped == 'false'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: ./bsctl/scripts/workflows/dependabot-autobump_update-changelog.sh
+        run: ./scripts/workflows/dependabot-autobump_update-changelog.sh
 
       - name: Check for changes
         if: steps.check_autobump.outputs.already_bumped == 'false'

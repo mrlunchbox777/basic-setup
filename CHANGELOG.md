@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.22] - 2026-04-09
+
+### Changed
+
+- Migrated workflow helper scripts from `bsctl/scripts/workflows/` to `scripts/workflows/` and updated workflow call sites (`docs-bump`, `dependabot-autobump`, `action-validator`, and `agents-validate`).
+- Updated #320 decommission planning docs to reflect completed script-path migration and the new neutral script location.
+
+---
 ## [0.1.21] - 2026-04-09
 
 ### Added
