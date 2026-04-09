@@ -52,9 +52,15 @@ Use `.agents/work-snapshot.local.md` as a local handoff aid, not as source-of-tr
 
 When implementing work tied to an issue/PR, proactively detect scope creep and preserve reviewable units.
 
+### Git action guardrail
+
+- Never create commits or push branch updates unless the user explicitly asks for a commit/push in the current session.
+- Staging and local validation are allowed as preparation, but commit/push is opt-in only.
+
 1. **Detect scope creep early**
    - Treat newly identified, non-blocking improvements as potential follow-up scope, not automatic additions.
    - Examples: adjacent hardening, separate automation, or unrelated workflow polish.
+   - Use an aggressive default: if a discovered change is not required for current acceptance criteria or to fix a blocking defect, classify it as out-of-scope.
 
 2. **Pause and classify discovered work**
    - If work is required to complete the current acceptance criteria or fix a blocking defect, keep it in scope.
@@ -63,6 +69,7 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
 3. **Ask before expanding scope**
    - Present out-of-scope work to the user and ask whether to expand current scope or defer.
    - Default recommendation: keep the current PR focused and defer non-blocking work.
+   - If the user explicitly approves scope expansion, treat that approval as authoritative and proceed with the accepted expansion.
 
 4. **If deferring, open a follow-up issue**
    - Create a new issue with clear summary, rationale, and acceptance criteria.
