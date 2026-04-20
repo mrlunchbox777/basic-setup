@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install yq
-        uses: mikefarah/yq@v4
+        uses: mikefarah/yq@v4.52.5
 
       - name: Version Bump
         run: ./scripts/workflows/docs-bump_docs-bump_version-bump.sh
