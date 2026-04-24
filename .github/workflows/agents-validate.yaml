@@ -33,7 +33,7 @@ jobs:
           submodules: true
 
       - name: Install yq
-        uses: mikefarah/yq@v4.52.5
+        uses: mikefarah/yq@v4.53.2
 
       - name: Validate agent instructions and skills
         run: ./scripts/workflows/agents-validate_agents-instructions-check.sh

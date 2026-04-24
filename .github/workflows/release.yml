@@ -48,7 +48,7 @@ jobs:
           ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.target_commitish != '' && inputs.target_commitish || github.sha) || github.sha }}
 
       - name: Install yq
-        uses: mikefarah/yq@v4.52.5
+        uses: mikefarah/yq@v4.53.2
 
       - name: Build candidate metadata
         id: meta
