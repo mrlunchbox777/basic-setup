@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.25] - 2026-04-30
+### Changed
+- Bump k8s.io/kubectl from 0.35.4 to 0.36.0
+
 ## [0.1.24] - 2026-04-23
 ### Changed
 - gomod update(deps): bump the version-updates group
