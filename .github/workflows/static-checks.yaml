@@ -40,9 +40,9 @@ jobs:
       - name: Collect shell file lists
         id: shell-files
         run: |
-          mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^submodules/' || true)
-          mapfile -t bash_all < <(git ls-files '*.bash' | grep -v '^submodules/' || true)
-          mapfile -t zsh_files < <(git ls-files '*.zsh' | grep -v '^submodules/' || true)
+          mapfile -t sh_files < <(git ls-files '*.sh' || true)
+          mapfile -t bash_all < <(git ls-files '*.bash' || true)
+          mapfile -t zsh_files < <(git ls-files '*.zsh' || true)
 
           # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
           mapfile -t shellcheck_bash_files < <(
@@ -52,11 +52,7 @@ jobs:
           )
 
           # Keep shfmt exclusions aligned with shellcheck for consistency.
-          mapfile -t shfmt_bash_files < <(
-            printf '%s\n' "${bash_all[@]}" |
-              grep -v '^alias/bash/git-prompt.bash$' |
-              grep -v '^alias/bash/kubectl-completion.bash$' || true
-          )
+          mapfile -t shfmt_bash_files < <(printf '%s\n' "${shellcheck_bash_files[@]}" || true)
 
           {
             echo "sh_files<<EOF"
