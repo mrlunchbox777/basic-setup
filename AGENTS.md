@@ -7,6 +7,8 @@ This document outlines the coding standards and best practices for AI agents and
 - [Skills](#skills)
 - [Work Snapshot Usage](#work-snapshot-usage)
 - [Scope Control](#scope-control)
+- [Merge Conflict Resolution](#merge-conflict-resolution)
+- [Response Option Framing](#response-option-framing)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
 - [Documentation Standards](#documentation-standards)
@@ -56,6 +58,8 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
 
 - Never create commits or push branch updates unless the user explicitly asks for a commit/push in the current session.
 - Staging and local validation are allowed as preparation, but commit/push is opt-in only.
+- If a user states they always handle commit/push themselves, treat that as standing preference and never commit/push unless explicitly asked in that session.
+- Default behavior: do not commit or push unless asked; when work appears ready to commit, proactively propose a commit message draft for the user.
 
 1. **Detect scope creep early**
    - Treat newly identified, non-blocking improvements as potential follow-up scope, not automatic additions.
@@ -79,6 +83,53 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
    - Continue implementing only the scoped work in the current branch/PR unless user approves expansion.
    - Add a short PR comment and/or PR body note stating what was deferred and where it will be tracked.
    - Update planning docs when they maintain ordered execution lists.
+
+---
+
+## Merge Conflict Resolution
+
+When rebasing/merging long-lived branches, preserve mainline freshness and avoid silent regressions.
+
+1. **Never resolve by downgrading**
+   - Prefer newer dependency/tool versions from `main` unless a documented compatibility, security, compliance, or operational-support issue requires pinning lower.
+   - Treat version decreases (actions, language/toolchain, module/dependency, CLI semver) as regressions by default.
+
+2. **Keep and extend changelog history**
+   - Never delete existing `main` changelog entries during conflict resolution.
+   - Keep all existing released entries intact and add branch-relevant changes to the current branch/version entry per project bump policy.
+
+3. **Protect release/version files**
+   - Resolve `resources/version.yaml` and `bsctl/static/resources/constants.yaml` to at least the latest upstream version; when conflicts occur, bump forward from upstream as needed instead of reverting to an older value.
+   - Do not reduce version values during conflict resolution.
+
+4. **Verify semantic parity after conflict resolution**
+   - Compare rebased branch vs `origin/main` and verify there are no unintended reversions in pinned versions, toolchain levels, or workflow actions.
+   - Run targeted checks affected by conflicts (for example docs/version checks when `CHANGELOG.md` or version files conflict).
+
+5. **Document any intentional downgrade**
+   - If a lower version is intentionally kept for compatibility, record the reason in the PR and changelog entry so reviewers can validate the tradeoff.
+
+---
+
+## Response Option Framing
+
+When presenting implementation options, make tradeoffs explicit and easy to choose.
+
+1. **When a minimal path is offered, expose deeper options**
+   - If you present a "minimal" approach, also offer to provide "recommended" and "full" variants.
+   - Keep minimal scoped to acceptance criteria and immediate unblock.
+
+2. **Use a consistent option ladder**
+   - `minimal`: least change to satisfy requirements safely.
+   - `recommended`: balanced durability/maintainability with moderate scope.
+   - `full`: comprehensive hardening/completeness with larger scope.
+
+3. **State scope and impact per option**
+   - Include what changes, expected risk/noise, and validation depth.
+   - Call out when recommended/full would be scope expansion and require explicit user approval.
+
+4. **Respect explicit user direction**
+   - If the user picks minimal/recommended/full (or explicitly approves scope expansion), follow that direction as authoritative.
 
 ---
 
@@ -403,8 +454,11 @@ Follow [Semantic Versioning 2.0.0](https://semver.org/):
 4. **Automated Bumping**
    - Dependabot PRs are automatically bumped via workflow
    - Manual PRs require manual version bump
-   - Every MR/PR/changeset should include a version bump and matching CHANGELOG entry unless explicitly exempted
-   - Always bump version before merging
+   - Every MR/PR should include at least one version bump and matching CHANGELOG entry unless explicitly exempted
+   - Default to one bump per PR branch; follow-up commits should update the existing current-version entry rather than creating another version
+   - Only bump again on the same PR when explicitly requested by the user or required by release policy
+   - If a docs bump is already present on the branch, rerun docs-bump checks after each meaningful change to reduce missed changelog/version drift
+   - Always ensure the branch is bumped before merging
 
 ### Example CHANGELOG Entry
 

@@ -4,6 +4,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.26] - 2026-05-02
+### Added
+- Added `.github/workflows/static-checks.yaml` for Phase C static analysis (`shellcheck`, `shfmt -d`, `actionlint`) in support of #320.
+
+### Changed
+- Updated `docs/plans/bsctl-codeql-decommission-plan.md` with Phase C status and next steps for static-check stabilization before CodeQL retirement/re-scope.
+- Refined static-check workflow behavior by splitting zsh syntax checks (`zsh -n`) from `shellcheck`/`shfmt` and tuning temporary bash-file exclusions for stable CI signal.
+- Added merge-conflict and response-framing policy clarifications in agent guidance and skills (`AGENTS.md`, `.agents/README.md`, `.agents/skills/update-changelog/SKILL.md`, `.agents/skills/version-bump/SKILL.md`).
+
 ## [0.1.25] - 2026-04-30
 ### Changed
 - Bump k8s.io/kubectl from 0.35.4 to 0.36.0

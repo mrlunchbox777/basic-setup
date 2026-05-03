@@ -40,11 +40,13 @@ Update the current version changelog entry without changing the version.
 3. If the version exists in branch changelog (including when it is not yet merged to `main`), update that same entry in place.
 4. If branch entry is missing but `main` already has that version entry, cherry-pick/recreate that entry at the top and then update it.
 5. If branch and `main` both lack that version entry, stop and run [Version Bump Skill](../version-bump/SKILL.md).
-6. Consolidate the entry before finalizing: merge overlapping bullets, collapse low-level implementation-only bullets into higher-level outcomes, and remove duplicates.
-7. Update Added/Changed/Fixed bullets with concise, user-visible or contributor-impacting changes; keep style and tense consistent.
-8. When updating an existing entry, keep the version unchanged and set the entry date to today's date (`YYYY-MM-DD`, UTC).
-9. If adding more changes later without bumping a new version, update that same entry again (rewrite/refine, not append-only) and refresh the date to today's date.
-10. Validate with `git diff`; run tests if code changed.
+6. If this PR branch already contains one bump, keep reusing that entry for subsequent commits; do not create another version header unless explicitly requested.
+7. Consolidate the entry before finalizing: merge overlapping bullets, collapse low-level implementation-only bullets into higher-level outcomes, and remove duplicates.
+8. Update Added/Changed/Fixed bullets with concise, user-visible or contributor-impacting changes; keep style and tense consistent.
+9. When updating an existing entry, keep the version unchanged and set the entry date to today's date (`YYYY-MM-DD`, UTC).
+10. If adding more changes later without bumping a new version, update that same entry again (rewrite/refine, not append-only) and refresh the date to today's date.
+11. Validate with `git diff`; run tests if code changed.
+12. If this branch already has a docs bump/current-version entry, rerun docs-bump checks after each meaningful change to catch version/changelog drift early.
 
 ## Outputs
 - Updated `CHANGELOG.md` entry for the current version reflecting all new work.
