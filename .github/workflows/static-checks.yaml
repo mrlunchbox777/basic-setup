@@ -41,6 +41,7 @@ jobs:
         id: shell-files
         run: |
           # Temporary exclusion: basic-setup.sh declares sh shebang but uses bash-specific syntax.
+          # TODO: Align basic-setup.sh with its shebang (or switch it to bash) and remove this exclusion so it is covered by shell checks again.
           mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^basic-setup\.sh$' || true)
           mapfile -t bash_all < <(git ls-files '*.bash' || true)
           mapfile -t zsh_files < <(git ls-files '*.zsh' || true)
