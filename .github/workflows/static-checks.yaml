@@ -39,51 +39,75 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y shellcheck shfmt zsh
 
-      - name: Run shellcheck
+      - name: Collect shell file lists
+        id: shell-files
         run: |
           mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^submodules/' || true)
+          mapfile -t bash_all < <(git ls-files '*.bash' | grep -v '^submodules/' || true)
+          mapfile -t zsh_files < <(git ls-files '*.zsh' | grep -v '^submodules/' || true)
+
           # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
-          mapfile -t bash_files < <(
-            git ls-files '*.bash' |
-              grep -v '^submodules/' |
+          mapfile -t shellcheck_bash_files < <(
+            printf '%s\n' "${bash_all[@]}" |
               grep -v '^alias/bash/git-prompt.bash$' |
               grep -v '^alias/bash/kubectl-completion.bash$' || true
           )
+
+          # shfmt exclusion intentionally differs from shellcheck for now.
+          mapfile -t shfmt_bash_files < <(
+            printf '%s\n' "${bash_all[@]}" |
+              grep -v '^alias/bash/kubectl-completion.bash$' || true
+          )
+
+          {
+            echo "sh_files<<EOF"
+            printf '%s\n' "${sh_files[@]}"
+            echo "EOF"
+            echo "shellcheck_bash_files<<EOF"
+            printf '%s\n' "${shellcheck_bash_files[@]}"
+            echo "EOF"
+            echo "shfmt_bash_files<<EOF"
+            printf '%s\n' "${shfmt_bash_files[@]}"
+            echo "EOF"
+            echo "zsh_files<<EOF"
+            printf '%s\n' "${zsh_files[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run shellcheck
+        run: |
+          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
+          mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shellcheck_bash_files }}"
           if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
             exit 0
           fi
-          if [ "${#sh_files[@]}" -gt 0 ]; then
+          if [ "${#sh_files[@]}" -gt 0 ] && [ -n "${sh_files[0]}" ]; then
             shellcheck "${sh_files[@]}"
           fi
-          if [ "${#bash_files[@]}" -gt 0 ]; then
+          if [ "${#bash_files[@]}" -gt 0 ] && [ -n "${bash_files[0]}" ]; then
             shellcheck -s bash "${bash_files[@]}"
           fi
 
       - name: Run shfmt diff check
         run: |
-          mapfile -t sh_files < <(git ls-files '*.sh' | grep -v '^submodules/' || true)
-          # Temporary exclusions for legacy completion files pending dedicated cleanup.
-          mapfile -t bash_files < <(
-            git ls-files '*.bash' |
-              grep -v '^submodules/' |
-              grep -v '^alias/bash/kubectl-completion.bash$' || true
-          )
+          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
+          mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shfmt_bash_files }}"
           if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
             exit 0
           fi
-          if [ "${#sh_files[@]}" -gt 0 ]; then
+          if [ "${#sh_files[@]}" -gt 0 ] && [ -n "${sh_files[0]}" ]; then
             shfmt -d "${sh_files[@]}"
           fi
-          if [ "${#bash_files[@]}" -gt 0 ]; then
+          if [ "${#bash_files[@]}" -gt 0 ] && [ -n "${bash_files[0]}" ]; then
             shfmt -d "${bash_files[@]}"
           fi
 
       - name: Run zsh syntax check
         run: |
-          mapfile -t zsh_files < <(git ls-files '*.zsh' | grep -v '^submodules/' || true)
-          if [ "${#zsh_files[@]}" -eq 0 ]; then
+          mapfile -t zsh_files <<< "${{ steps.shell-files.outputs.zsh_files }}"
+          if [ "${#zsh_files[@]}" -eq 0 ] || [ -z "${zsh_files[0]}" ]; then
             echo "No zsh files found"
             exit 0
           fi
