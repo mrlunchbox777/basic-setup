@@ -7,6 +7,7 @@ This document outlines the coding standards and best practices for AI agents and
 - [Skills](#skills)
 - [Work Snapshot Usage](#work-snapshot-usage)
 - [Scope Control](#scope-control)
+- [Merge Conflict Resolution](#merge-conflict-resolution)
 - [Response Option Framing](#response-option-framing)
 - [Go Standards](#go-standards)
 - [Bash Standards](#bash-standards)
@@ -57,6 +58,8 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
 
 - Never create commits or push branch updates unless the user explicitly asks for a commit/push in the current session.
 - Staging and local validation are allowed as preparation, but commit/push is opt-in only.
+- If a user states they always handle commit/push themselves, treat that as standing preference and never commit/push unless explicitly asked in that session.
+- Default behavior: do not commit or push unless asked; when work appears ready to commit, proactively propose a commit message draft for the user.
 
 1. **Detect scope creep early**
    - Treat newly identified, non-blocking improvements as potential follow-up scope, not automatic additions.
@@ -80,6 +83,31 @@ When implementing work tied to an issue/PR, proactively detect scope creep and p
    - Continue implementing only the scoped work in the current branch/PR unless user approves expansion.
    - Add a short PR comment and/or PR body note stating what was deferred and where it will be tracked.
    - Update planning docs when they maintain ordered execution lists.
+
+---
+
+## Merge Conflict Resolution
+
+When rebasing/merging long-lived branches, preserve mainline freshness and avoid silent regressions.
+
+1. **Never resolve by downgrading**
+   - Prefer newer dependency/tool versions from `main` unless a documented compatibility, security, compliance, or operational-support issue requires pinning lower.
+   - Treat version decreases (actions, language/toolchain, module/dependency, CLI semver) as regressions by default.
+
+2. **Keep and extend changelog history**
+   - Never delete existing `main` changelog entries during conflict resolution.
+   - Keep all existing released entries intact and add branch-relevant changes to the current branch/version entry per project bump policy.
+
+3. **Protect release/version files**
+   - Resolve `resources/version.yaml` and `bsctl/static/resources/constants.yaml` to at least the latest upstream version; when conflicts occur, bump forward from upstream as needed instead of reverting to an older value.
+   - Do not reduce version values during conflict resolution.
+
+4. **Verify semantic parity after conflict resolution**
+   - Compare rebased branch vs `origin/main` and verify there are no unintended reversions in pinned versions, toolchain levels, or workflow actions.
+   - Run targeted checks affected by conflicts (for example docs/version checks when `CHANGELOG.md` or version files conflict).
+
+5. **Document any intentional downgrade**
+   - If a lower version is intentionally kept for compatibility, record the reason in the PR and changelog entry so reviewers can validate the tradeoff.
 
 ---
 
