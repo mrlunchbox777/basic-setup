@@ -10,7 +10,6 @@ on:
       - "**/*.zsh"
       - ".github/workflows/*.yml"
       - ".github/workflows/*.yaml"
-      - ".github/workflows/static-checks.yaml"
   push:
     branches:
       - main
@@ -20,7 +19,6 @@ on:
       - "**/*.zsh"
       - ".github/workflows/*.yml"
       - ".github/workflows/*.yaml"
-      - ".github/workflows/static-checks.yaml"
 
 defaults:
   run:
@@ -53,9 +51,10 @@ jobs:
               grep -v '^alias/bash/kubectl-completion.bash$' || true
           )
 
-          # shfmt exclusion intentionally differs from shellcheck for now.
+          # Keep shfmt exclusions aligned with shellcheck for consistency.
           mapfile -t shfmt_bash_files < <(
             printf '%s\n' "${bash_all[@]}" |
+              grep -v '^alias/bash/git-prompt.bash$' |
               grep -v '^alias/bash/kubectl-completion.bash$' || true
           )
 
