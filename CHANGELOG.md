@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.27] - 2026-05-06
+### Changed
+- Bump actions/labeler from 6 to 6.0.1
+
 ## [0.1.26] - 2026-05-02
 ### Added
 - Added `.github/workflows/static-checks.yaml` for Phase C static analysis (`shellcheck`, `shfmt -d`, `actionlint`) in support of #320.
