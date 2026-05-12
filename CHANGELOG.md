@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.29] - 2026-05-12
+### Changed
+- Bump actions/labeler from 6.0.1 to 6.1.0
+
 ## [0.1.28] - 2026-05-08
 ### Changed
 - Bump github/codeql-action from 4.35.2 to 4.35.3
