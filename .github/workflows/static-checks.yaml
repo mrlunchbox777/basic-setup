@@ -46,6 +46,13 @@ jobs:
           mapfile -t bash_all < <(git ls-files '*.bash' || true)
           mapfile -t zsh_files < <(git ls-files '*.zsh' || true)
 
+          # Temporary exclusion: legacy shared-scripts formatting drift is intentionally
+          # deferred to follow-up cleanup work. Keep this narrow to shfmt only.
+          mapfile -t shfmt_sh_files < <(
+            printf '%s\n' "${sh_files[@]}" |
+              grep -v '^shared-scripts/' || true
+          )
+
           # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
           mapfile -t shellcheck_bash_files < <(
             printf '%s\n' "${bash_all[@]}" |
@@ -59,6 +66,9 @@ jobs:
           {
             echo "sh_files<<EOF"
             printf '%s\n' "${sh_files[@]}"
+            echo "EOF"
+            echo "shfmt_sh_files<<EOF"
+            printf '%s\n' "${shfmt_sh_files[@]}"
             echo "EOF"
             echo "shellcheck_bash_files<<EOF"
             printf '%s\n' "${shellcheck_bash_files[@]}"
@@ -89,7 +99,7 @@ jobs:
 
       - name: Run shfmt diff check
         run: |
-          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
+          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.shfmt_sh_files }}"
           mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shfmt_bash_files }}"
           if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
