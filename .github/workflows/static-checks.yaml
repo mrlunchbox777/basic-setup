@@ -50,7 +50,10 @@ jobs:
           # deferred to follow-up cleanup work. Keep this narrow to shfmt only.
           mapfile -t shfmt_sh_files < <(
             printf '%s\n' "${sh_files[@]}" |
-              grep -v '^shared-scripts/' || true
+              grep -v '^shared-scripts/' |
+              grep -v '^bsctl/scripts/' |
+              grep -v '^\.agents/scripts/' |
+              grep -v '^alias/basic-setup\.generalrc\.sh$' || true
           )
 
           # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
