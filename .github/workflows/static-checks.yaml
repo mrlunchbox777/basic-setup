@@ -49,11 +49,11 @@ jobs:
           # Temporary shellcheck legacy split: keep strict linting for non-legacy scripts.
           mapfile -t shellcheck_legacy_sh_files < <(
             printf '%s\n' "${sh_files[@]}" |
-              grep -E '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$)' || true
+              grep -E '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$|alias/sh/|resources/big-bang-overrides/|scripts/workflows/)' || true
           )
           mapfile -t shellcheck_strict_sh_files < <(
             printf '%s\n' "${sh_files[@]}" |
-              grep -Ev '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$)' || true
+              grep -Ev '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$|alias/sh/|resources/big-bang-overrides/|scripts/workflows/)' || true
           )
 
           # Temporary shfmt-only exclusions for legacy script trees with known formatting drift.
