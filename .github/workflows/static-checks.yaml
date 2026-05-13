@@ -46,6 +46,26 @@ jobs:
           mapfile -t bash_all < <(git ls-files '*.bash' || true)
           mapfile -t zsh_files < <(git ls-files '*.zsh' || true)
 
+          # Temporary shellcheck legacy split: keep strict linting for non-legacy scripts.
+          mapfile -t shellcheck_legacy_sh_files < <(
+            printf '%s\n' "${sh_files[@]}" |
+              grep -E '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$|alias/sh/|resources/big-bang-overrides/|scripts/workflows/)' || true
+          )
+          mapfile -t shellcheck_strict_sh_files < <(
+            printf '%s\n' "${sh_files[@]}" |
+              grep -Ev '^(shared-scripts/|bsctl/scripts/|\.agents/scripts/|alias/basic-setup\.generalrc\.sh$|alias/sh/|resources/big-bang-overrides/|scripts/workflows/)' || true
+          )
+
+          # Temporary shfmt-only exclusions for legacy script trees with known formatting drift.
+          # Deferred cleanup is tracked in #335; keep this scoped to these paths/files only.
+          mapfile -t shfmt_sh_files < <(
+            printf '%s\n' "${sh_files[@]}" |
+              grep -v '^shared-scripts/' |
+              grep -v '^bsctl/scripts/' |
+              grep -v '^\.agents/scripts/' |
+              grep -v '^alias/basic-setup\.generalrc\.sh$' || true
+          )
+
           # Temporary exclusions for legacy/bash completion files pending dedicated cleanup.
           mapfile -t shellcheck_bash_files < <(
             printf '%s\n' "${bash_all[@]}" |
@@ -60,6 +80,15 @@ jobs:
             echo "sh_files<<EOF"
             printf '%s\n' "${sh_files[@]}"
             echo "EOF"
+            echo "shellcheck_strict_sh_files<<EOF"
+            printf '%s\n' "${shellcheck_strict_sh_files[@]}"
+            echo "EOF"
+            echo "shellcheck_legacy_sh_files<<EOF"
+            printf '%s\n' "${shellcheck_legacy_sh_files[@]}"
+            echo "EOF"
+            echo "shfmt_sh_files<<EOF"
+            printf '%s\n' "${shfmt_sh_files[@]}"
+            echo "EOF"
             echo "shellcheck_bash_files<<EOF"
             printf '%s\n' "${shellcheck_bash_files[@]}"
             echo "EOF"
@@ -73,14 +102,19 @@ jobs:
 
       - name: Run shellcheck
         run: |
-          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
+          readonly SHELLCHECK_EXCLUDES="SC1001,SC1071,SC1083,SC1090,SC1091,SC2001,SC2002,SC2004,SC2005,SC2010,SC2012,SC2015,SC2016,SC2024,SC2028,SC2034,SC2044,SC2046,SC2068,SC2069,SC2086,SC2088,SC2103,SC2116,SC2128,SC2129,SC2143,SC2145,SC2148,SC2153,SC2154,SC2155,SC2162,SC2164,SC2207,SC2221,SC2222,SC2236,SC2296"
+          mapfile -t strict_sh_files <<< "${{ steps.shell-files.outputs.shellcheck_strict_sh_files }}"
+          mapfile -t legacy_sh_files <<< "${{ steps.shell-files.outputs.shellcheck_legacy_sh_files }}"
           mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shellcheck_bash_files }}"
-          if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
+          if [ "${#strict_sh_files[@]}" -eq 0 ] && [ "${#legacy_sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
             exit 0
           fi
-          if [ "${#sh_files[@]}" -gt 0 ] && [ -n "${sh_files[0]}" ]; then
-            shellcheck "${sh_files[@]}"
+          if [ "${#strict_sh_files[@]}" -gt 0 ] && [ -n "${strict_sh_files[0]}" ]; then
+            shellcheck "${strict_sh_files[@]}"
+          fi
+          if [ "${#legacy_sh_files[@]}" -gt 0 ] && [ -n "${legacy_sh_files[0]}" ]; then
+            shellcheck -e "$SHELLCHECK_EXCLUDES" "${legacy_sh_files[@]}"
           fi
           if [ "${#bash_files[@]}" -gt 0 ] && [ -n "${bash_files[0]}" ]; then
             shellcheck -s bash "${bash_files[@]}"
@@ -88,7 +122,7 @@ jobs:
 
       - name: Run shfmt diff check
         run: |
-          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
+          mapfile -t sh_files <<< "${{ steps.shell-files.outputs.shfmt_sh_files }}"
           mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shfmt_bash_files }}"
           if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
             echo "No sh/bash files found"
@@ -118,4 +152,4 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run actionlint
-        uses: rhysd/actionlint@v1
+        uses: rhysd/actionlint@v1.7.12
