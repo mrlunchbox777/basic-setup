@@ -46,8 +46,8 @@ jobs:
           mapfile -t bash_all < <(git ls-files '*.bash' || true)
           mapfile -t zsh_files < <(git ls-files '*.zsh' || true)
 
-          # Temporary exclusion: legacy shared-scripts formatting drift is intentionally
-          # deferred to follow-up cleanup work. Keep this narrow to shfmt only.
+          # Temporary shfmt-only exclusions for legacy script trees with known formatting drift.
+          # Deferred cleanup is tracked in #335; keep this scoped to these paths/files only.
           mapfile -t shfmt_sh_files < <(
             printf '%s\n' "${sh_files[@]}" |
               grep -v '^shared-scripts/' |
