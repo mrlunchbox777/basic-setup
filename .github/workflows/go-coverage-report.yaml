@@ -45,7 +45,7 @@ jobs:
         run: |
           cd bsctl
           go build -v -o bsctl
-          echo "$PWD" >> $GITHUB_PATH
+          echo "$PWD" >> "$GITHUB_PATH"
 
       - name: pwd
         run: pwd && ls -laf
