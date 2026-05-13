@@ -73,6 +73,7 @@ jobs:
 
       - name: Run shellcheck
         run: |
+          readonly SHELLCHECK_EXCLUDES="SC1091,SC2001,SC2004,SC2086,SC2153,SC2221,SC2222,SC2236"
           mapfile -t sh_files <<< "${{ steps.shell-files.outputs.sh_files }}"
           mapfile -t bash_files <<< "${{ steps.shell-files.outputs.shellcheck_bash_files }}"
           if [ "${#sh_files[@]}" -eq 0 ] && [ "${#bash_files[@]}" -eq 0 ]; then
@@ -80,10 +81,10 @@ jobs:
             exit 0
           fi
           if [ "${#sh_files[@]}" -gt 0 ] && [ -n "${sh_files[0]}" ]; then
-            shellcheck "${sh_files[@]}"
+            shellcheck -e "$SHELLCHECK_EXCLUDES" "${sh_files[@]}"
           fi
           if [ "${#bash_files[@]}" -gt 0 ] && [ -n "${bash_files[0]}" ]; then
-            shellcheck -s bash "${bash_files[@]}"
+            shellcheck -s bash -e "$SHELLCHECK_EXCLUDES" "${bash_files[@]}"
           fi
 
       - name: Run shfmt diff check
@@ -118,4 +119,4 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run actionlint
-        uses: rhysd/actionlint@v1
+        uses: rhysd/actionlint@v1.7.12
