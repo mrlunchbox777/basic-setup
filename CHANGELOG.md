@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.31] - 2026-05-14
+### Changed
+- Bump github/codeql-action from 4.35.3 to 4.35.4
+
 ## [0.1.30] - 2026-05-13
 ### Changed
 - Pinned `rhysd/actionlint` to `v1.7.12` in static checks and updated workflow shell quoting in Go coverage CI for actionlint compatibility.
