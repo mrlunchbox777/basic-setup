@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.36] - 2026-06-08
+### Changed
+- Bump github.com/go-playground/validator/v10 from 10.30.2 to 10.30.3
+
 ## [0.1.35] - 2026-06-03
 ### Changed
 - Bump actions/checkout from 6 to 6.0.2
