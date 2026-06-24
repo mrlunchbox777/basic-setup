@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.40] - 2026-06-24
+### Changed
+- github actions update(deps): bump the version-updates group
+
 ## [0.1.39] - 2026-06-22
 ### Changed
 - gomod update(deps): bump the version-updates group
