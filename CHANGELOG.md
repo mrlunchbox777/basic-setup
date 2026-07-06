@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.42] - 2026-07-06
+### Changed
+- Bump golang.org/x/net from 0.54.0 to 0.55.0
+
 ## [0.1.41] - 2026-06-30
 ### Changed
 - Bump actions/setup-go from 6.4.0 to 6.5.0
