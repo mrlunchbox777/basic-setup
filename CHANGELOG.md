@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.43] - 2026-07-09
+### Changed
+- Bump github/codeql-action from 4.36.2 to 4.36.3
+
 ## [0.1.42] - 2026-07-06
 ### Changed
 - Bump golang.org/x/net from 0.54.0 to 0.55.0
