@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.46] - 2026-07-22
+### Changed
+- Bump actions/setup-go from 6.5.0 to 7.0.0
+
 ## [0.1.45] - 2026-07-15
 ### Changed
 - Bump github/codeql-action from 4.36.3 to 4.37.0
