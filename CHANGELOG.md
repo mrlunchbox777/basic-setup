@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.47] - 2026-07-23
+### Changed
+- github actions update(deps): bump the version-updates group
+
 ## [0.1.46] - 2026-07-22
 ### Changed
 - Bump actions/setup-go from 6.5.0 to 7.0.0
