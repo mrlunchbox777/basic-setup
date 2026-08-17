@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.54] - 2026-08-17
+### Changed
+- Bump github.com/stretchr/testify from 1.11.1 to 1.12.0
+
 ## [0.1.53] - 2026-08-11
 ### Changed
 - Bump github/codeql-action from 4.37.5 to 4.37.6
