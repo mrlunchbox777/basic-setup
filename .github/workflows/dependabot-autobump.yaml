@@ -38,7 +38,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install yq
-        uses: mikefarah/yq@v4.53.4
+        uses: mikefarah/yq@v4.53.6
 
       - name: Check if auto-bump already applied
         id: check_autobump
