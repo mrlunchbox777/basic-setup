@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.57] - 2026-08-28
+### Changed
+- gomod update(deps): bump the version-updates group
+
 ## [0.1.56] - 2026-08-24
 ### Changed
 - Bump github.com/stretchr/testify from 1.12.0 to 1.12.1
