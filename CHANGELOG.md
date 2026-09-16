@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.62] - 2026-09-16
+### Changed
+- Bump github/codeql-action from 4.37.9 to 4.38.0
+
 ## [0.1.61] - 2026-09-11
 ### Changed
 - Bump github.com/go-playground/validator/v10 from 10.30.3 to 10.30.4
