@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
 ---
+## [0.1.66] - 2026-10-02
+### Changed
+- Bump github/codeql-action from 4.38.1 to 4.38.2
+
 ## [0.1.65] - 2026-10-01
 ### Changed
 - gomod update(deps): bump the version-updates group
